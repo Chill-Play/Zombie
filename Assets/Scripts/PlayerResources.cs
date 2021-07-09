@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerResources : MonoBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] UnitMovement unitMovement;
     [SerializeField] float useSpotRadius = 2f;
     [SerializeField] float useRate = 0.5f;
     [SerializeField] LayerMask resourceSpotsMask;
@@ -24,7 +24,7 @@ public class PlayerResources : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (player.InputActive || !CanDigResources)
+        if (unitMovement.InputActive || !CanDigResources)
         {
             if (interacting)
             {

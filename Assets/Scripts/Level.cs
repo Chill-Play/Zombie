@@ -44,7 +44,7 @@ public class Level : SingletonMono<Level>
 
     void Start()
     {
-        GameplayController.Instance.playerInstance.OnDead += PlayerInstance_OnDead;
+        //GameplayController.Instance.playerInstance.GetComponent<UnitHealth>().OnDead += PlayerInstance_OnDead;
     }
 
     private void PlayerInstance_OnDead()
@@ -66,7 +66,6 @@ public class Level : SingletonMono<Level>
             {
 
                 SpawnHorde(hordeSize, bigZombiesCount, 0);
-                GameplayController.Instance.playerInstance.ToFightMode();
                 comingTimerActive = false;
             }
         }
@@ -133,9 +132,9 @@ public class Level : SingletonMono<Level>
     public void EndLevel()
     {
         StopCoroutine(spawnWavesCoroutine);
-        GameplayController.Instance.playerInstance.GetComponent<PlayerBackpack>().MoveToSavedData();
-        GameplayController.Instance.playerInstance.enabled = false;
-        UIController.Instance.ShowFinishScreen(GameplayController.Instance.playerInstance.GetComponent<PlayerBackpack>().Resources);
+        //GameplayController.Instance.playerInstance.GetComponent<PlayerBackpack>().MoveToSavedData();
+        //GameplayController.Instance.playerInstance.enabled = false;
+        //UIController.Instance.ShowFinishScreen(GameplayController.Instance.playerInstance.GetComponent<PlayerBackpack>().Resources);
         for(int i = 0; i < enemies.Count; i++)
         {
             enemies[i].Stop();

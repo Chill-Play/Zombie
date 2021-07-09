@@ -9,7 +9,7 @@ public class BaseIndicatorUI : MonoBehaviour
     [SerializeField] GameObject group;
     
     SpawnPoint spawnPoint;
-    Player player;
+    GameObject player;
 
     Canvas canvas;
     RectTransform canvasRect;
@@ -17,7 +17,7 @@ public class BaseIndicatorUI : MonoBehaviour
     private void Start()
     {
         spawnPoint = FindObjectOfType<SpawnPoint>();
-        player = GameplayController.Instance.playerInstance;
+        //player = GameplayController.Instance.playerInstance;
         canvas = GetComponentInParent<Canvas>();
         canvasRect = canvas.GetComponent<RectTransform>();
     }
@@ -30,6 +30,7 @@ public class BaseIndicatorUI : MonoBehaviour
 
     public void UpdateIndicator()
     {
+        return;
         Vector3 spawnPointScreenPosition = CameraController.Instance.Camera.WorldToScreenPoint(spawnPoint.transform.position);
         bool insideCanvas = RectTransformUtility.RectangleContainsScreenPoint(canvasRect, spawnPointScreenPosition);
 

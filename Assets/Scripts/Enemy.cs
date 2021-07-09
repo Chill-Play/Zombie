@@ -6,10 +6,10 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour, IDamagable
 {
     public event System.Action<Enemy> OnDead;
+    public event System.Action<DamageInfo> OnDamage;
 
     [SerializeField] float basehealth;
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] Player player;
     [SerializeField] ParticleSystem bloodVfx;
     [SerializeField] float bloodVfxScale = 0.2f;
 
@@ -20,11 +20,15 @@ public class Enemy : MonoBehaviour, IDamagable
     [SerializeField] float baseSpeed = 3f;
     [SerializeField] float healthPerLevel = 20f;
     [SerializeField] float speedPerLevel = 1f;
+    [SerializeField] LayerMask attackMask;
 
+
+    Squad squad;
     float currentHealth;
     float nextAttack;
     bool attackStarted;
-    int level;
+    int level = -1;
+    Collider[] attackColliders = new Collider[5];
 
 
 
@@ -38,6 +42,7 @@ public class Enemy : MonoBehaviour, IDamagable
             OnDead?.Invoke(this);
             Destroy(gameObject);
         }
+        OnDamage?.Invoke(info);
     }
 
 
@@ -51,24 +56,45 @@ public class Enemy : MonoBehaviour, IDamagable
 
     void Start()
     {
-        
+        if(level == -1)
+        {
+            SetLevel(1);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        player = GameplayController.Instance.playerInstance;
-        if (player != null && agent.enabled)
+        squad = GameplayController.Instance.SquadInstance;
+        if (squad != null && agent.enabled)
         {
-            agent.SetDestination(player.transform.position);
-        }
-        if (nextAttack < Time.time)
-        {
-            float distance = Vector3.Distance(player.transform.position, transform.position);
-            if (distance < attackRadius)
+            Transform target = null;
+            float closestDistance = 0f;
+            for(int i = 0; i < squad.Units.Count; i++)
             {
-                nextAttack = Time.time + attackRate;
-                StartCoroutine(AttackCoroutine());
+                float distance = Vector3.Distance(transform.position, squad.Units[i].transform.position);
+                if(closestDistance < distance)
+                {
+                    target = squad.Units[i].transform;
+                }
+            }
+
+            if(target == null)
+            {
+                return;
+            }
+            if (!agent.isStopped)
+            {
+                agent.SetDestination(squad.transform.position);
+            }
+            if (nextAttack < Time.time)
+            {
+                int count = Physics.OverlapSphereNonAlloc(transform.position, attackRadius, attackColliders, attackMask);
+                if (count > 0)
+                {
+                    nextAttack = Time.time + attackRate;
+                    StartCoroutine(AttackCoroutine(attackColliders, count));
+                }
             }
         }
     }
@@ -81,14 +107,18 @@ public class Enemy : MonoBehaviour, IDamagable
     }
 
 
-    private IEnumerator AttackCoroutine()
+    private IEnumerator AttackCoroutine(Collider[] colliders, int count)
     {
         agent.isStopped = true;
+        agent.SetDestination(transform.position);
         yield return new WaitForSeconds(attackTime);
-        float distance = Vector3.Distance(player.transform.position, transform.position);
-        if (distance < attackRadius)
+        for(int i = 0; i < count; i++)
         {
-            player.TakeDamage(attackDamage);
+            IDamagable damagable = colliders[i].GetComponent<IDamagable>();
+            if(damagable != null)
+            {
+                damagable.Damage(new DamageInfo { damage = attackDamage });
+            }
         }
         agent.isStopped = false;
     }

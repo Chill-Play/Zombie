@@ -16,11 +16,11 @@ public class PlayerHealthBar : MonoBehaviour
 
     void Start()
     {
-        GameplayController.Instance.playerInstance.OnTakeDamage += PlayerInstance_OnTakeDamage;
+        //GameplayController.Instance.playerInstance.GetComponent<UnitHealth>().OnTakeDamage += PlayerInstance_OnTakeDamage;
         barFill.fillAmount = 1f;
     }
 
-    private void PlayerInstance_OnTakeDamage(PlayerDamageInfo info)
+    private void PlayerInstance_OnTakeDamage(UnitDamageEventInfo info)
     {
         barFill.fillAmount = info.currentHealth / info.maxHealth;
         barTransform.DOShakePosition(0.2f, 30f, 50);
@@ -28,10 +28,10 @@ public class PlayerHealthBar : MonoBehaviour
 
     void Update()
     {
-        Vector3 playerWorldPosition = GameplayController.Instance.playerInstance.transform.position;
-        playerWorldPosition += Vector3.up * 1.2f;
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(playerWorldPosition);
-        barPivot.transform.position = screenPosition;
-        barBackFill.fillAmount = Mathf.SmoothDamp(barBackFill.fillAmount, barFill.fillAmount, ref backFillVelocity, 0.3f);
+        //Vector3 playerWorldPosition = GameplayController.Instance.playerInstance.transform.position;
+        //playerWorldPosition += Vector3.up * 1.2f;
+        //Vector3 screenPosition = Camera.main.WorldToScreenPoint(playerWorldPosition);
+        //barPivot.transform.position = screenPosition;
+        //barBackFill.fillAmount = Mathf.SmoothDamp(barBackFill.fillAmount, barFill.fillAmount, ref backFillVelocity, 0.3f);
     }
 }

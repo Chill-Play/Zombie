@@ -32,6 +32,10 @@ public class InputJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
     void Update()
     {
+        if(InputReceiver == null)
+        {
+            return;
+        }
         if (_isMoving)
         {
             var delta = Vector2.ClampMagnitude(_currentPosition - _startPosition, padRadius) / padRadius * transform.localScale.y;

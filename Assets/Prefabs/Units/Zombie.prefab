@@ -158,6 +158,7 @@ GameObject:
   - component: {fileID: 1164081594210304754}
   - component: {fileID: 6534483266655531792}
   - component: {fileID: 4917011792435461976}
+  - component: {fileID: 5596092676802040938}
   m_Layer: 6
   m_Name: Zombie
   m_TagString: Untagged
@@ -192,7 +193,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4592489489785157106}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.2
+  m_Radius: 0.68
   m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
@@ -216,9 +217,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &6534483266655531792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,16 +234,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basehealth: 25
   agent: {fileID: 4592489489785157102}
-  player: {fileID: 0}
   bloodVfx: {fileID: 4787146697146794704, guid: e9050f838eb01db44b8958e4d8266866, type: 3}
   bloodVfxScale: 0.15
-  attackDamage: 3
+  attackDamage: 25
   attackRate: 1.5
   attackRadius: 1
   attackTime: 0.25
   baseSpeed: 3
   healthPerLevel: 20
   speedPerLevel: 0.25
+  attackMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &4917011792435461976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +260,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 4592489488252643577}
   agent: {fileID: 4592489489785157102}
+--- !u!114 &5596092676802040938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592489489785157106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1fe6b75f0099e4fa8c2ad30f8273f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upOffset: 1.5
+  randomAngle: 15
+  randomOffset: 15
+  enemy: {fileID: 6534483266655531792}
 --- !u!1001 &4592489488802568919
 PrefabInstance:
   m_ObjectHideFlags: 0

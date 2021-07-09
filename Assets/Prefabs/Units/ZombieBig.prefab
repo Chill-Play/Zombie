@@ -233,7 +233,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basehealth: 200
   agent: {fileID: 4592489489785157102}
-  player: {fileID: 0}
   bloodVfx: {fileID: 4787146697146794704, guid: e9050f838eb01db44b8958e4d8266866, type: 3}
   bloodVfxScale: 0.15
   attackDamage: 10
@@ -243,6 +242,9 @@ MonoBehaviour:
   baseSpeed: 3
   healthPerLevel: 20
   speedPerLevel: 0.25
+  attackMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &4917011792435461976
 MonoBehaviour:
   m_ObjectHideFlags: 0

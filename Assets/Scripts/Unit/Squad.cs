@@ -1,0 +1,67 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class Squad : MonoBehaviour, IInputReceiver
+{
+    [SerializeField] List<UnitMovement> units;
+
+    public List<UnitMovement> Units => units;
+    // Start is called before the first frame update
+    void Start()
+    {
+        //units = GetComponentsInChildren<UnitMovement>().ToList();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        for(int i = 1; i < units.Count; i++)
+        {
+            Vector3 targetPos = units[0].transform.position + GetPosition(i, 1f);
+            Vector3 direction = targetPos - units[i].transform.position;
+            direction = Vector3.ClampMagnitude(direction * 2f, 1f);
+            units[i].Input = new Vector2(direction.x, direction.z);
+        }
+        transform.position = units[0].transform.position;
+    }
+
+
+    public void SetInput(Vector2 input)
+    {
+        units[0].Input = input;
+    }
+
+
+    Vector3 GetPosition(int index, float unitRadius)
+    {
+        int ring = 0;
+        int circlesInRing = 1;
+        int i = index;
+
+        int safety = 0;
+
+        while (i >= 0)
+        {
+            safety++;
+            if (safety > 1000)
+            {
+                Debug.Log("Loop");
+                return Vector3.zero;
+            }
+            ring++;
+            circlesInRing = 6 * ring;
+            if (ring == 0)
+            {
+                circlesInRing = 1;
+            }
+            i -= circlesInRing;
+        }
+        float angle = ((float)i / circlesInRing) * 360f;
+        angle *= Mathf.Deg2Rad;
+        Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+        pos *= unitRadius * ring * 2f;
+        return pos;
+    }
+}

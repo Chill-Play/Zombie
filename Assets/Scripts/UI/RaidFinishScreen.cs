@@ -55,7 +55,7 @@ public class RaidFinishScreen : MonoBehaviour
 
     public void DoubleClicked()
     {
-        GameplayController.Instance.playerInstance.GetComponent<PlayerBackpack>().MoveToSavedData();
+        //GameplayController.Instance.playerInstance.GetComponent<PlayerBackpack>().MoveToSavedData();
         LevelController.Instance.ToBase();
     }
 

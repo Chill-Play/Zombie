@@ -5,10 +5,11 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] float speed;
-    [SerializeField] float damage;
     [SerializeField] LayerMask collisionMask;
     [SerializeField] float timeToDestroy = 10f;
     Vector3 lastPosition;
+
+    public float Damage { get; set; }
     
     // Start is called before the first frame update
     void Start()
@@ -34,7 +35,7 @@ public class Bullet : MonoBehaviour
         {
             DamageInfo damageInfo = new DamageInfo()
             {
-                damage = damage,
+                damage = Damage,
             };
             damagable.Damage(damageInfo);
         }
