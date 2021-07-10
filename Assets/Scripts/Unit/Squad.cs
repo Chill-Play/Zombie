@@ -12,6 +12,10 @@ public class Squad : MonoBehaviour, IInputReceiver
     void Start()
     {
         //units = GetComponentsInChildren<UnitMovement>().ToList();
+        foreach(UnitMovement unit in units)
+        {
+            unit.GetComponent<UnitHealth>().OnDead += () => units.Remove(unit.GetComponent<UnitMovement>());
+        }
     }
 
     // Update is called once per frame
@@ -34,9 +38,15 @@ public class Squad : MonoBehaviour, IInputReceiver
     }
 
 
+    public void AddUnit(Unit unit)
+    {
+        unit.GetComponent<UnitHealth>().OnDead += () => units.Remove(unit.GetComponent<UnitMovement>());
+        units.Add(unit.GetComponent<UnitMovement>());
+    }
+
     Vector3 GetPosition(int index, float unitRadius)
     {
-        int ring = 0;
+        int ring = -1;
         int circlesInRing = 1;
         int i = index;
 

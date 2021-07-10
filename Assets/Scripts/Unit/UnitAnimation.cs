@@ -25,7 +25,6 @@ public class UnitAnimation : MonoBehaviour
 
     private void Shooting_OnShoot()
     {
-        Debug.Log("Test");
         animator.Play("Shoot", 2, 0f);
         
     }

@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public struct DamageTakenInfo
+{
+    public float damage;
+    public float currentHealth;
+    public float maxHealth;
+}
+
+
+
 public class Enemy : MonoBehaviour, IDamagable
 {
     public event System.Action<Enemy> OnDead;
-    public event System.Action<DamageInfo> OnDamage;
+    public event System.Action<DamageTakenInfo> OnDamage;
 
     [SerializeField] float basehealth;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] ParticleSystem bloodVfx;
     [SerializeField] float bloodVfxScale = 0.2f;
+    [SerializeField] bool healthBar;
 
     [SerializeField] float attackDamage = 1f;
     [SerializeField] float attackRate = 1.5f;
@@ -24,6 +34,7 @@ public class Enemy : MonoBehaviour, IDamagable
 
 
     Squad squad;
+    float maxHealth;
     float currentHealth;
     float nextAttack;
     bool attackStarted;
@@ -34,28 +45,45 @@ public class Enemy : MonoBehaviour, IDamagable
 
     public void Damage(DamageInfo info)
     {
+        if(currentHealth <= 0f)
+        {
+            return;
+        }
         currentHealth -= info.damage;
         ParticleSystem vfx = Instantiate(bloodVfx, transform.position + Vector3.up * 0.5f, Quaternion.identity);
         vfx.transform.localScale = Vector3.one * bloodVfxScale;
         if(currentHealth <= 0f)
         {
             OnDead?.Invoke(this);
+            if (healthBar)
+            {
+                FindObjectOfType<UIEnemyHealthBars>().RemoveHealthBar(this);
+            }
             Destroy(gameObject);
         }
-        OnDamage?.Invoke(info);
+        DamageTakenInfo damageTakenInfo = new DamageTakenInfo();
+        damageTakenInfo.damage = info.damage;
+        damageTakenInfo.currentHealth = currentHealth;
+        damageTakenInfo.maxHealth = maxHealth;
+        OnDamage?.Invoke(damageTakenInfo);
     }
 
 
     public void SetLevel(int level)
     {
         agent.speed = baseSpeed + (speedPerLevel * level);
-        currentHealth = basehealth + (healthPerLevel * level);
+        maxHealth = basehealth + (healthPerLevel * level);
+        currentHealth = maxHealth;
         this.level = level;
     }
 
 
     void Start()
     {
+        if(healthBar)
+        {
+            FindObjectOfType<UIEnemyHealthBars>().CreateHealthBar(this);
+        }
         if(level == -1)
         {
             SetLevel(1);

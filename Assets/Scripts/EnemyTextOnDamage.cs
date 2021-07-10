@@ -21,7 +21,7 @@ public class EnemyTextOnDamage : MonoBehaviour
     }
 
 
-    private void Enemy_OnDamage(DamageInfo obj)
+    private void Enemy_OnDamage(DamageTakenInfo obj)
     {
         FindObjectOfType<UINumbers>().SpawnNumber(transform.position + Vector3.up * upOffset, "-" + obj.damage, Vector2.zero, randomAngle, randomOffset);
     }

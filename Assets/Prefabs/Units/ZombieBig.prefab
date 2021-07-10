@@ -158,6 +158,7 @@ GameObject:
   - component: {fileID: 1164081594210304754}
   - component: {fileID: 6534483266655531792}
   - component: {fileID: 4917011792435461976}
+  - component: {fileID: 5532648289227484472}
   m_Layer: 6
   m_Name: ZombieBig
   m_TagString: Untagged
@@ -174,7 +175,7 @@ Transform:
   m_GameObject: {fileID: 4592489489785157106}
   m_LocalRotation: {x: 0, y: -0.9119984, z: 0, w: 0.4101937}
   m_LocalPosition: {x: 9.2, y: 0, z: 9.56}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4592489488698611908}
   - {fileID: 4592489488420911810}
@@ -235,6 +236,7 @@ MonoBehaviour:
   agent: {fileID: 4592489489785157102}
   bloodVfx: {fileID: 4787146697146794704, guid: e9050f838eb01db44b8958e4d8266866, type: 3}
   bloodVfxScale: 0.15
+  healthBar: 1
   attackDamage: 10
   attackRate: 1.5
   attackRadius: 1.5
@@ -259,6 +261,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 2610092605638106152}
   agent: {fileID: 4592489489785157102}
+--- !u!114 &5532648289227484472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592489489785157106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1fe6b75f0099e4fa8c2ad30f8273f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upOffset: 3
+  randomAngle: 15
+  randomOffset: 50
+  enemy: {fileID: 6534483266655531792}
 --- !u!1001 &2484977230444067267
 PrefabInstance:
   m_ObjectHideFlags: 0

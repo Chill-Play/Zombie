@@ -11,14 +11,14 @@ public class PlayerResources : MonoBehaviour
     Collider[] resourceSpots = new Collider[1];
     float nextUse;
     bool interacting;
-    PlayerAnimation animation;
+    //PlayerAnimation animation;
 
-    public bool CanDigResources { get; set; }
+    public bool CanDigResources { get; set; } = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        animation = GetComponent<PlayerAnimation>();
+        //animation = GetComponent<PlayerAnimation>();
     }
 
     // Update is called once per frame
@@ -29,7 +29,7 @@ public class PlayerResources : MonoBehaviour
             if (interacting)
             {
                 interacting = false;
-                animation.ResetInteraction();
+                //animation.ResetInteraction();
             }
             return;
         }
@@ -38,10 +38,10 @@ public class PlayerResources : MonoBehaviour
         {
             interacting = true;
             ResourceSpot spot = resourceSpots[0].GetComponent<ResourceSpot>();
-            animation.SetInteraction(spot.InteractionType, true);
+            //animation.SetInteraction(spot.InteractionType, true);
             if (nextUse < Time.time)
             {
-                spot.UseSpot();
+                spot.UseSpot(gameObject);
                 nextUse = Time.time + useRate;
             }
         }
@@ -50,7 +50,7 @@ public class PlayerResources : MonoBehaviour
             if (interacting)
             {
                 interacting = false;
-                animation.ResetInteraction();
+                //animation.ResetInteraction();
             }
         }
     }

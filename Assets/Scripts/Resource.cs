@@ -6,7 +6,7 @@ public class Resource : MonoBehaviour
 {
     [SerializeField] int count = 1;
     [SerializeField] ResourceType type;
-    
+    public Transform Picker { get; set; }
 
 
     void Start()
@@ -24,17 +24,17 @@ public class Resource : MonoBehaviour
     IEnumerator PickUp()
     {
         yield return new WaitForSeconds(1f);
-        //GetComponent<Rigidbody>().isKinematic = true;
-        //Vector3 startPos = transform.position;
-        //GameObject player = GameplayController.Instance.playerInstance;
-        //float t = 0;
-        //while(t < 1f)
-        //{
-        //    t += Time.deltaTime * 5f;
-        //    transform.position = Vector3.Lerp(startPos, player.transform.position, t);
-        //    yield return new WaitForEndOfFrame();
-        //}
-        //player.GetComponent<PlayerBackpack>().PickUp(type, count);
-        //Destroy(gameObject);
+        GetComponent<Rigidbody>().isKinematic = true;
+        Vector3 startPos = transform.position;
+        Transform picker = Picker;
+        float t = 0;
+        while (t < 1f)
+        {
+            t += Time.deltaTime * 5f;
+            transform.position = Vector3.Lerp(startPos, picker.transform.position, t);
+            yield return new WaitForEndOfFrame();
+        }
+        picker.GetComponent<PlayerBackpack>().PickUp(type, count);
+        Destroy(gameObject);
     }
 }

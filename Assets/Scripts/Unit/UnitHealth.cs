@@ -40,7 +40,7 @@ public class UnitHealth : MonoBehaviour, IDamagable
         if (currentHealth <= 0f)
         {
             OnDead?.Invoke();
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 

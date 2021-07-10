@@ -17,6 +17,9 @@ GameObject:
   - component: {fileID: 1555253045}
   - component: {fileID: 1555253044}
   - component: {fileID: 1555253046}
+  - component: {fileID: 3412838976713829729}
+  - component: {fileID: 3225008838242985669}
+  - component: {fileID: 5912361285102528020}
   m_Layer: 7
   m_Name: Survivor
   m_TagString: Untagged
@@ -98,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc4d71aad5315d499d2d4a1b119678e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 100
+  radius: 10
   weapons:
   - {fileID: 4876478363460799326}
 --- !u!114 &6724815731642420077
@@ -162,6 +165,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+--- !u!54 &3412838976713829729
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3346936833982169915}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &3225008838242985669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3346936833982169915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06fa7aa98e38e994e8e63748c2e0657c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitMovement: {fileID: 6724815731642420074}
+  useSpotRadius: 2
+  useRate: 0.5
+  resourceSpotsMask:
+    serializedVersion: 2
+    m_Bits: 512
+--- !u!114 &5912361285102528020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3346936833982169915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dfb9979ad89b9a4a9e6be91df49a96e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6724815732587931374
 GameObject:
   m_ObjectHideFlags: 0
