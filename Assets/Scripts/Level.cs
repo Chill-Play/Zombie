@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -128,14 +129,32 @@ public class Level : SingletonMono<Level>
         }
     }
 
-
+    bool levelEnded;
     public void EndLevel()
     {
+        if(levelEnded)
+        {
+            return;
+        }
+        levelEnded = true;
         StopCoroutine(spawnWavesCoroutine);
-        //GameplayController.Instance.playerInstance.GetComponent<PlayerBackpack>().MoveToSavedData();
-        //GameplayController.Instance.playerInstance.enabled = false;
-        //UIController.Instance.ShowFinishScreen(GameplayController.Instance.playerInstance.GetComponent<PlayerBackpack>().Resources);
-        for(int i = 0; i < enemies.Count; i++)
+        Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
+        foreach(PlayerBackpack backpack in FindObjectsOfType<PlayerBackpack>())
+        {
+            foreach(var pair in backpack.Resources)
+            {
+                if(resources.ContainsKey(pair.Key))
+                {
+                    resources[pair.Key] += pair.Value;
+                }
+                else
+                {
+                    resources.Add(pair.Key, pair.Value);
+                }
+            }
+        }
+        UIController.Instance.ShowFinishScreen(resources);
+        for (int i = 0; i < enemies.Count; i++)
         {
             enemies[i].Stop();
         }

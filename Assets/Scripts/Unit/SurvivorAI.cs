@@ -10,6 +10,7 @@ public class SurvivorAI : MonoBehaviour
     [SerializeField] NavMeshAgent navMeshAgent;
     [SerializeField] UnitMovement unitMovement;
     [SerializeField] UnitShooting unitShooting;
+    [SerializeField] PlayerResources resources;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class SurvivorAI : MonoBehaviour
     {
         if(unitShooting.Target != null)
         {
+            resources.CanDigResources = false;
             Vector3 direction = unitShooting.Target.transform.position - modelPivot.position;
             direction.y = 0;
             direction.Normalize();
@@ -31,6 +33,7 @@ public class SurvivorAI : MonoBehaviour
         }
         else
         {
+            resources.CanDigResources = true;
             if (unitShooting.AllowShooting)
             {
                 unitShooting.AllowShooting = false;

@@ -9,7 +9,7 @@ public class BaseIndicatorUI : MonoBehaviour
     [SerializeField] GameObject group;
     
     SpawnPoint spawnPoint;
-    GameObject player;
+    GameObject squad;
 
     Canvas canvas;
     RectTransform canvasRect;
@@ -17,7 +17,7 @@ public class BaseIndicatorUI : MonoBehaviour
     private void Start()
     {
         spawnPoint = FindObjectOfType<SpawnPoint>();
-        //player = GameplayController.Instance.playerInstance;
+        squad = FindObjectOfType<Squad>().gameObject;
         canvas = GetComponentInParent<Canvas>();
         canvasRect = canvas.GetComponent<RectTransform>();
     }
@@ -30,7 +30,6 @@ public class BaseIndicatorUI : MonoBehaviour
 
     public void UpdateIndicator()
     {
-        return;
         Vector3 spawnPointScreenPosition = CameraController.Instance.Camera.WorldToScreenPoint(spawnPoint.transform.position);
         bool insideCanvas = RectTransformUtility.RectangleContainsScreenPoint(canvasRect, spawnPointScreenPosition);
 
@@ -45,7 +44,7 @@ public class BaseIndicatorUI : MonoBehaviour
                 group.SetActive(false);
         }
 
-        Vector3 direction = spawnPoint.transform.position - player.transform.position;
+        Vector3 direction = spawnPoint.transform.position - squad.transform.position;
         direction.Normalize();
         Vector3 screenDirection = new Vector3(direction.x, direction.z, 0f);
         transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0) + screenDirection * (radius * canvas.scaleFactor);

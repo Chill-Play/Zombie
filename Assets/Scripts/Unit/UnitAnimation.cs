@@ -41,7 +41,33 @@ public class UnitAnimation : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector3 aimAngle = modelPivot.transform.eulerAngles + spineAngleOffset;
-        aimSpineBone.eulerAngles = aimAngle;
+        if (shooting.Target != null)
+        {
+            Vector3 aimAngle = modelPivot.transform.eulerAngles + spineAngleOffset;
+            aimSpineBone.eulerAngles = aimAngle;
+        }
+    }
+
+
+    public void SetInteraction(ResourceInteractionType type, bool play)
+    {
+        switch (type)
+        {
+            case ResourceInteractionType.Crouching:
+                animator.SetBool("Crouching", play);
+                break;
+            case ResourceInteractionType.Swinging:
+                animator.SetBool("Swinging", play);
+                break;
+        }
+        animator.SetLayerWeight(1, 0f);
+    }
+
+
+    public void ResetInteraction()
+    {
+        animator.SetBool("Crouching", false);
+        animator.SetBool("Swinging", false);
+        animator.SetLayerWeight(1, 1f);
     }
 }
