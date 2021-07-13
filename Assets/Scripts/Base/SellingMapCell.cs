@@ -1,9 +1,11 @@
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+using SimpleJSON;
 
-public class Building : MonoBehaviour, IBuilding
+
+public class SellingMapCell : MapCell, IBuilding
 {
     [System.Serializable]
     public struct CostInfo
@@ -11,53 +13,39 @@ public class Building : MonoBehaviour, IBuilding
         public ResourceType type;
         public int count;
     }
-    [SerializeField] string buildingId;
-    [SerializeField] List<CostInfo> cost = new List<CostInfo>();
+
     [SerializeField] Transform resourcesLayout;
     [SerializeField] ResourceBar resourceBarPrefab;
-    [SerializeField] GameObject unfinishedPrefab;
-    [SerializeField] GameObject finishedPrefab;
 
+    [SerializeField] List<CostInfo> cost = new List<CostInfo>();
+    [SerializeField] Transform sellingCellContent;
+    [SerializeField] MapCell buyingContent;
 
     Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
     Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-       for(int i = 0; i < cost.Count; i++)
-       {
+    public override void InitCell()
+    {        
+        for (int i = 0; i < cost.Count; i++)
+        {
             int costCount = cost[i].count;
-            string pref = GetResourcePrefId(cost[i].type);
-            if (PlayerPrefs.HasKey(pref))
-            {
-                costCount = PlayerPrefs.GetInt(pref);
-            }
-            resources.Add(cost[i].type, costCount);
+
             ResourceBar bar = Instantiate(resourceBarPrefab, resourcesLayout);
-            bar.Setup(cost[i].type, cost[i].count);
+            if (!resources.ContainsKey(cost[i].type))
+            {
+                resources.Add(cost[i].type, costCount);
+            }
+            bar.Setup(cost[i].type, resources[cost[i].type]);
             resourceBars.Add(cost[i].type, bar);
-       }
-
-       UpdateBuilding();
+        }        
+        base.InitCell();
     }
 
-    private string GetResourcePrefId(ResourceType type)
-    {
-        return buildingId + "_" + type.saveId;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
+     
     public BuildingReport TryUseResources(List<ResourceType> playerResources, int count)
     {
         BuildingReport result = new BuildingReport();
-        for(int i = 0; i < playerResources.Count; i++ )
+        for (int i = 0; i < playerResources.Count; i++)
         {
             if (resources.TryGetValue(playerResources[i], out int needCount))
             {
@@ -80,35 +68,24 @@ public class Building : MonoBehaviour, IBuilding
         if (result.resourcesUsed)
         {
             ResourcesController.Instance.UpdateResources();
-            SaveBuilding();
+            Save();
         }
         result.buildingFinished = UpdateBuilding();
         return result;
     }
 
-
     void CreateResourceAnimation(ResourceType type, int i)
     {
         Player player = GameplayController.Instance.playerInstance;
-        Resource instance = Instantiate(type.defaultPrefab, player.transform.position, Quaternion.LookRotation(Random.insideUnitSphere));
+        Resource instance = Instantiate(type.defaultPrefab, player.transform.position, Quaternion.LookRotation(UnityEngine.Random.insideUnitSphere));
         instance.GetComponent<Rigidbody>().isKinematic = true;
         instance.transform.DOJump(transform.position, 1f, 1, 0.3f).OnComplete(() => Destroy(instance)).SetDelay((float)i * 0.1f);
     }
 
-
-    void SaveBuilding()
-    {
-        foreach (var pair in resources)
-        {
-            string pref = GetResourcePrefId(pair.Key);
-            PlayerPrefs.SetInt(pref, pair.Value); 
-        }
-    }
-
-
     bool UpdateBuilding()
     {
         bool result = false;
+
         int finishedResources = 0;
         foreach (var pair in resources)
         {
@@ -119,25 +96,59 @@ public class Building : MonoBehaviour, IBuilding
                 finishedResources++;
             }
         }
-        if(finishedResources == resources.Count)
+        if (finishedResources == resources.Count)
         {
             result = true;
+            Save();
             FinishBuilding();
         }
         return result;
     }
 
     void FinishBuilding()
-    {        
-        unfinishedPrefab.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InCirc).OnComplete(CreateBuilding);        
+    {
+        sellingCellContent.DOScale(Vector3.zero,0.3f).SetEase(Ease.InCirc).OnComplete(CreateNewCell);
+        UIBuyingPopUpText.Instance.SpawnText(transform.position + 0.5f * Vector3.up);
     }
 
-    void CreateBuilding()
+    void CreateNewCell()
     {
-        unfinishedPrefab.gameObject.SetActive(false);
-        finishedPrefab.gameObject.SetActive(true);
-        finishedPrefab.transform.localScale = Vector3.zero;
-        finishedPrefab.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);
-        finishedPrefab.transform.DOPunchPosition(Vector3.up * 0.8f, 0.5f, 3);
+        sellingCellContent.gameObject.SetActive(false);
+        buyingContent.gameObject.SetActive(true);
+        buyingContent.Build((x) => MapController.Instance.ReplaceMapCell(GridId, x));         
     }
+
+   
+
+    public override JSONObject GetSaveData()
+    {
+        JSONObject jsonObject = base.GetSaveData();        
+        jsonObject.Add("selling_cell", "yes");
+        for (int i = 0; i < cost.Count; i++)
+        {
+            jsonObject.Add(cost[i].type.ToString(), resources[cost[i].type]);
+        }
+        return jsonObject;
+    }
+
+    public override void Load(string loadData)
+    {
+        base.Load(loadData);
+        JSONNode jsonNode = JSON.Parse(loadData);
+        if (jsonNode.HasKey("selling_cell"))
+        {
+            sellingCellContent.gameObject.SetActive(true);
+            for (int i = 0; i < cost.Count; i++)
+            {
+                resources[cost[i].type] = jsonNode[cost[i].type.ToString()];
+            }
+        }
+        else
+        {
+            sellingCellContent.gameObject.SetActive(false);
+            buyingContent.gameObject.SetActive(true);
+            buyingContent.Load(loadData);
+            MapController.Instance.ReplaceMapCell(GridId, buyingContent);
+        }
+    }  
 }

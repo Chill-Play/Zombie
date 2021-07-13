@@ -16,8 +16,9 @@ public class ResourcesController : SingletonMono<ResourcesController>
     void Start()
     {
         for (int i = 0; i < resourceTypes.Count; i++)
-        {
-            resourceTypes[i].UpdateCount();
+        {           
+           resourceTypes[i].UpdateCount();
+           resourceTypes[i].Count = 999; ////////////////////////////
         }
     }
 

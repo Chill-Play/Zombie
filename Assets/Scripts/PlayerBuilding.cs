@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerBuilding : MonoBehaviour
 {
     [SerializeField] LayerMask buildingsMask;
+    [SerializeField] LayerMask cellMask;
     [SerializeField] float radius;
     [SerializeField] Player player;
     [SerializeField] int countPerUse = 10;
@@ -13,6 +14,7 @@ public class PlayerBuilding : MonoBehaviour
 
 
     Collider[] buildings = new Collider[1];
+    Collider[] cells = new Collider[1];
     float nextUse;
     int uses;
 
@@ -22,13 +24,16 @@ public class PlayerBuilding : MonoBehaviour
         {
             return;
         }
-        int count = Physics.OverlapSphereNonAlloc(transform.position, radius, buildings, buildingsMask);
+        //int count = Physics.OverlapSphereNonAlloc(transform.position, radius, buildings, buildingsMask);
+        int count = Physics.OverlapSphereNonAlloc(transform.position, radius, cells, cellMask);
         if (count > 0)
         {
             if (nextUse < Time.time)
             {
-                Building building = buildings[0].GetComponent<Building>();
-                bool used = building.TryUseResources(ResourcesController.Instance.Resources, countPerUse);
+                //Building building = buildings[0].GetComponent<Building>();
+                //bool used = building.TryUseResources(ResourcesController.Instance.Resources, countPerUse);
+                SellingMapCell mapCell = cells[0].GetComponent<SellingMapCell>();
+               /* bool used = mapCell.TryUseResources(ResourcesController.Instance.Resources, countPerUse);
                 if (used)
                 {
                     uses++;
@@ -37,7 +42,7 @@ public class PlayerBuilding : MonoBehaviour
                 else
                 {
                     uses = 0;
-                }
+                }*/
             }
         }
         else
