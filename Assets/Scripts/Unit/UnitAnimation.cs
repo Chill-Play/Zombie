@@ -11,6 +11,8 @@ public class UnitAnimation : MonoBehaviour
     [SerializeField] Transform modelPivot;
     [SerializeField] UnitShooting shooting;
     [SerializeField] Vector3 spineAngleOffset;
+
+
     // Start is called before the first frame update
     void OnEnable()
     {

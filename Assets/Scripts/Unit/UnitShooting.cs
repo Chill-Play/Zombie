@@ -8,6 +8,7 @@ public class UnitShooting : MonoBehaviour
     [SerializeField] float radius;
     [SerializeField] Weapon[] weapons;
     Transform target;
+
     public bool AllowShooting { get; set; } = true;
     public Transform Target => target;
 

@@ -50,16 +50,8 @@ public class Squad : MonoBehaviour, IInputReceiver
         int circlesInRing = 1;
         int i = index;
 
-        int safety = 0;
-
         while (i >= 0)
         {
-            safety++;
-            if (safety > 1000)
-            {
-                Debug.Log("Loop");
-                return Vector3.zero;
-            }
             ring++;
             circlesInRing = 6 * ring;
             if (ring == 0)

@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyTextOnDamage : MonoBehaviour
+public class TextOnDamage : MonoBehaviour
 {
     [SerializeField] float upOffset = 2f;
     [SerializeField] float randomAngle = 15f;
     [SerializeField] float randomOffset = 10f;
-    [SerializeField] Enemy enemy;
+    IDamagable damagable;
     // Start is called before the first frame update
     void OnEnable()
     {
-        enemy.OnDamage += Enemy_OnDamage;
+        damagable = GetComponent<IDamagable>();
+        damagable.OnDamage += Enemy_OnDamage;
     }
 
 
     void OnDisable()
     {
-        enemy.OnDamage -= Enemy_OnDamage;
+        damagable.OnDamage -= Enemy_OnDamage;
     }
 
 

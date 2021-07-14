@@ -18,11 +18,10 @@ public class EnemyHealthBar : MonoBehaviour
 
     void Start()
     {
-        //GameplayController.Instance.playerInstance.GetComponent<UnitHealth>().OnTakeDamage += PlayerInstance_OnTakeDamage;
         barFill.fillAmount = 1f;
     }
 
-    private void PlayerInstance_OnTakeDamage(UnitDamageEventInfo info)
+    private void PlayerInstance_OnTakeDamage(DamageTakenInfo info)
     {
         barFill.fillAmount = info.currentHealth / info.maxHealth;
         barTransform.DOShakePosition(0.2f, 30f, 50);
@@ -46,7 +45,7 @@ public class EnemyHealthBar : MonoBehaviour
     {
         this.enemy = enemy;
         this.upOffset = upOffset;
-        enemy.OnDamage += Enemy_OnDamage;
+        enemy.GetComponent<IDamagable>().OnDamage += Enemy_OnDamage;
         barFill.fillAmount = 1f;
     }
 
@@ -60,6 +59,7 @@ public class EnemyHealthBar : MonoBehaviour
 
     public void Remove()
     {
+        enemy.GetComponent<IDamagable>().OnDamage -= Enemy_OnDamage;
         enemy = null;
         barTransform.DOScale(0f, 0.3f).SetEase(Ease.InCirc).OnComplete(() => Destroy(gameObject));
     }

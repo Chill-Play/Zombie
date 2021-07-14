@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IDamagable
 {
+    public event System.Action<DamageTakenInfo> OnDamage;
     void Damage(DamageInfo info);
 }

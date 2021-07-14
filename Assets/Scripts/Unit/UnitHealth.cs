@@ -3,16 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public struct UnitDamageEventInfo
-{
-    public float damage;
-    public float currentHealth;
-    public float maxHealth;
-}
-
 public class UnitHealth : MonoBehaviour, IDamagable
 {
-    public event System.Action<UnitDamageEventInfo> OnTakeDamage;
+    public event System.Action<DamageTakenInfo> OnDamage;
     public event System.Action OnDead;
 
     [SerializeField] float health = 100;
@@ -29,14 +22,14 @@ public class UnitHealth : MonoBehaviour, IDamagable
     {
         currentHealth -= damage;
 
-        UnitDamageEventInfo info = new UnitDamageEventInfo()
+        DamageTakenInfo info = new DamageTakenInfo()
         {
             damage = damage,
             maxHealth = health,
             currentHealth = currentHealth,
         };
 
-        OnTakeDamage?.Invoke(info);
+        OnDamage?.Invoke(info);
         if (currentHealth <= 0f)
         {
             OnDead?.Invoke();

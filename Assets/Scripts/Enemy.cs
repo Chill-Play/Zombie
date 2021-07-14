@@ -12,30 +12,22 @@ public struct DamageTakenInfo
 
 
 
-public class Enemy : MonoBehaviour, IDamagable
+public class Enemy : MonoBehaviour
 {
-    public event System.Action<Enemy> OnDead;
-    public event System.Action<DamageTakenInfo> OnDamage;
-
-    [SerializeField] float basehealth;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] ParticleSystem bloodVfx;
     [SerializeField] float bloodVfxScale = 0.2f;
-    [SerializeField] bool healthBar;
 
     [SerializeField] float attackDamage = 1f;
     [SerializeField] float attackRate = 1.5f;
     [SerializeField] float attackRadius = 1f;
     [SerializeField] float attackTime = 0.5f;
     [SerializeField] float baseSpeed = 3f;
-    [SerializeField] float healthPerLevel = 20f;
     [SerializeField] float speedPerLevel = 1f;
     [SerializeField] LayerMask attackMask;
 
 
     Squad squad;
-    float maxHealth;
-    float currentHealth;
     float nextAttack;
     bool attackStarted;
     int level = -1;
@@ -45,44 +37,28 @@ public class Enemy : MonoBehaviour, IDamagable
 
     public void Damage(DamageInfo info)
     {
-        if(currentHealth <= 0f)
-        {
-            return;
-        }
-        currentHealth -= info.damage;
+
         ParticleSystem vfx = Instantiate(bloodVfx, transform.position + Vector3.up * 0.5f, Quaternion.identity);
         vfx.transform.localScale = Vector3.one * bloodVfxScale;
-        if(currentHealth <= 0f)
+        //if (healthBar)
         {
-            OnDead?.Invoke(this);
-            if (healthBar)
-            {
-                FindObjectOfType<UIEnemyHealthBars>().RemoveHealthBar(this);
-            }
-            Destroy(gameObject);
+            //FindObjectOfType<UIEnemyHealthBars>().RemoveHealthBar(this);
         }
-        DamageTakenInfo damageTakenInfo = new DamageTakenInfo();
-        damageTakenInfo.damage = info.damage;
-        damageTakenInfo.currentHealth = currentHealth;
-        damageTakenInfo.maxHealth = maxHealth;
-        OnDamage?.Invoke(damageTakenInfo);
     }
 
 
     public void SetLevel(int level)
     {
         agent.speed = baseSpeed + (speedPerLevel * level);
-        maxHealth = basehealth + (healthPerLevel * level);
-        currentHealth = maxHealth;
         this.level = level;
     }
 
 
     void Start()
     {
-        if(healthBar)
+        //if(healthBar)
         {
-            FindObjectOfType<UIEnemyHealthBars>().CreateHealthBar(this);
+            //FindObjectOfType<UIEnemyHealthBars>().CreateHealthBar(this);
         }
         if(level == -1)
         {

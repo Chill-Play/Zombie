@@ -88,7 +88,7 @@ public class Level : SingletonMono<Level>
             Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
             enemy.SetLevel(level);
             enemies.Add(enemy);
-            enemy.OnDead += Enemy_OnDead;
+            enemy.GetComponent<IDamagable>().OnDead() += Enemy_OnDead;
         }
 
 
