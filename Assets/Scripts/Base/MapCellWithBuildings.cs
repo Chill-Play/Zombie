@@ -10,12 +10,13 @@ public class MapCellWithBuildings : MapCell
 
     public override void Build(Action<MapCell> OnBuildingComplete)
     {
-        transform.localScale = Vector3.zero;
+        /*transform.localScale = Vector3.zero;
         for (int i = 0; i < buildings.Count; i++)
         {
             buildings[i].transform.localScale = Vector3.zero;
         }
-        transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc).OnComplete(() => BuildBuildings(OnBuildingComplete));
+        transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc).OnComplete(() => BuildBuildings(OnBuildingComplete));*/
+        BuildBuildings(OnBuildingComplete);
     }
 
 

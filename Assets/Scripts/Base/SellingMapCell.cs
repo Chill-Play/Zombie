@@ -115,7 +115,7 @@ public class SellingMapCell : MapCell, IBuilding
     {
         sellingCellContent.gameObject.SetActive(false);
         buyingContent.gameObject.SetActive(true);
-        buyingContent.Build((x) => MapController.Instance.ReplaceMapCell(GridId, x));         
+        buyingContent.Build((x) => MapController.Instance.ReplaceMapCell(GridIndex, x, true));         
     }
 
    
@@ -148,7 +148,7 @@ public class SellingMapCell : MapCell, IBuilding
             sellingCellContent.gameObject.SetActive(false);
             buyingContent.gameObject.SetActive(true);
             buyingContent.Load(loadData);
-            MapController.Instance.ReplaceMapCell(GridId, buyingContent);
+            MapController.Instance.ReplaceMapCell(GridIndex, buyingContent);
         }
     }  
 }

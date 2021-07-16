@@ -7,8 +7,9 @@ using DG.Tweening;
 public class MapCell : MonoBehaviour
 {
     [SerializeField] string id;
-    int gridId = -1;
-    public int GridId { get => gridId; set { gridId = value; } }
+    string gridId;
+    public string GridId { get => gridId; set { gridId = value; } }
+    public int GridIndex { get; set; }
 
     public string Id => id;
 
@@ -19,7 +20,7 @@ public class MapCell : MonoBehaviour
 
     public void Save()
     {       
-        string key = "map_cell_" + GridId.ToString();
+        string key = "map_cell_" + GridId;
         string saveInfo = GetSaveData().ToString();       
         PlayerPrefs.SetString(key, saveInfo);       
     }

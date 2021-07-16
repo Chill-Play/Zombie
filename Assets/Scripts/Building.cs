@@ -47,13 +47,6 @@ public class Building : MonoBehaviour, IBuilding
         return buildingId + "_" + type.saveId;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
     public BuildingReport TryUseResources(List<ResourceType> playerResources, int count)
     {
         BuildingReport result = new BuildingReport();

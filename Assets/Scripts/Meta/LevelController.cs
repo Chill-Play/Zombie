@@ -10,6 +10,7 @@ public class LevelController : SingletonMono<LevelController>
     const string PREF_CURRENT_PACK = "G_CurrentPack";
 
     [SerializeField] SceneReference baseLevel;
+    [SerializeField] SceneReference gloabalMap;
     [SerializeField] LevelCollection collection;
 
     int currentPack;
@@ -40,6 +41,11 @@ public class LevelController : SingletonMono<LevelController>
     public void ToBase()
     {
         SceneManager.LoadScene(baseLevel);
+    }
+
+    public void ToGlobalMap()
+    {
+        SceneManager.LoadScene(gloabalMap);
     }
 
 

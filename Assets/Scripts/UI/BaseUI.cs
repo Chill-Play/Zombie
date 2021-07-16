@@ -7,17 +7,29 @@ using UnityEngine.UI;
 public class BaseUI : MonoBehaviour
 {
     [SerializeField] Button raidButton;
+    [SerializeField] Button globalMapButton;
     [SerializeField] LevelPackProgressBar levelBar;
     [SerializeField] ResourcesInfoUIPanel resourcesInfo;
+
+
+    private void OnEnable()
+    {
+       globalMapButton.gameObject.SetActive(false);
+       GlobalMapArea.OnGlobalMapAreaEnter += GlobalMapArea_OnGlobalMapAreaEnter;
+       GlobalMapArea.OnGlobalMapAreaExit += GlobalMapArea_OnGlobalMapAreaExit;
+    }
 
 
     void Start()
     {
         raidButton.gameObject.SetActive(false);
+     
         levelBar.Setup(LevelController.Instance.CurrentLevel, LevelController.Instance.TotalLevelsInPack);
 
 
         raidButton.onClick.AddListener(() => RaidButton_OnClick());
+        globalMapButton.onClick.AddListener(() => GlobalMap_OnClick());
+
         RaidZone zone = FindObjectOfType<RaidZone>();
         zone.OnEnterZone += Zone_OnEnterZone;
         zone.OnExitZone += Zone_OnExitZone;
@@ -28,6 +40,22 @@ public class BaseUI : MonoBehaviour
         {
             resourcesInfo.UpdateBar(type, type.Count);
         }
+    }
+
+    private void OnDisable()
+    {
+        GlobalMapArea.OnGlobalMapAreaEnter -= GlobalMapArea_OnGlobalMapAreaEnter;
+        GlobalMapArea.OnGlobalMapAreaExit -= GlobalMapArea_OnGlobalMapAreaExit;
+    }
+
+    private void GlobalMapArea_OnGlobalMapAreaExit()
+    {
+        globalMapButton.gameObject.SetActive(false);
+    }
+
+    private void GlobalMapArea_OnGlobalMapAreaEnter()
+    {
+        globalMapButton.gameObject.SetActive(true);
     }
 
     private void ResourcesController_OnResourcesUpdated()
@@ -61,5 +89,10 @@ public class BaseUI : MonoBehaviour
     void RaidButton_OnClick()
     {
         Game.Instance.RunRaid();
+    }
+
+    void GlobalMap_OnClick()
+    {
+        Game.Instance.ToGlobalMap();
     }
 }
