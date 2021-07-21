@@ -7,8 +7,6 @@ public class StateArea : MonoBehaviour
 {
     [SerializeField] SceneReference stateBase;
 
-    public void LoadStateBase()
-    {
-        StatesLoader.Instance.LoadState(stateBase);
-    }
+    public SceneReference StateBase => stateBase;
+
 }

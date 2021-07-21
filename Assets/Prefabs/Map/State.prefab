@@ -170,7 +170,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.66}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3964397938656624505
@@ -260,7 +260,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3964397938861765756}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 2, y: 1, z: 2}
   m_Children: []
   m_Father: {fileID: 3964397938991251509}
@@ -361,7 +361,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2, y: 1, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!114 &3964397938991251498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,4 +376,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateBase:
     sceneAsset: {fileID: 102900000, guid: f67b6e2cb21553941896c0a742dc3c4a, type: 3}
-    scenePath: Assets/Scenes/TestBase.unity
+    scenePath: Assets/Scenes/Utah.unity

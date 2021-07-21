@@ -25,7 +25,7 @@ public class SellingMapCell : MapCell, IBuilding
     Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();
 
     public override void InitCell()
-    {        
+    {
         for (int i = 0; i < cost.Count; i++)
         {
             int costCount = cost[i].count;
@@ -68,9 +68,9 @@ public class SellingMapCell : MapCell, IBuilding
         if (result.resourcesUsed)
         {
             ResourcesController.Instance.UpdateResources();
+            result.buildingFinished = UpdateBuilding();
             Save();
-        }
-        result.buildingFinished = UpdateBuilding();
+        }       
         return result;
     }
 

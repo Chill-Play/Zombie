@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CameraController : SingletonMono<CameraController>
 {
@@ -29,5 +30,10 @@ public class CameraController : SingletonMono<CameraController>
     {
         this.target = target;
         transform.position = target.position;
+    }
+
+    public void Zoom(float newZoomValue, float duration, System.Action OnZoomEndCallback = null)
+    {
+        camera.transform.DOLocalMoveZ(newZoomValue,duration).OnComplete(()=> OnZoomEndCallback());
     }
 }

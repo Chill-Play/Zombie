@@ -10,6 +10,7 @@ public class BaseUI : MonoBehaviour
     [SerializeField] Button globalMapButton;
     [SerializeField] LevelPackProgressBar levelBar;
     [SerializeField] ResourcesInfoUIPanel resourcesInfo;
+    [SerializeField] Bar completionProgressBar;
 
 
     private void OnEnable()
@@ -17,8 +18,8 @@ public class BaseUI : MonoBehaviour
        globalMapButton.gameObject.SetActive(false);
        GlobalMapArea.OnGlobalMapAreaEnter += GlobalMapArea_OnGlobalMapAreaEnter;
        GlobalMapArea.OnGlobalMapAreaExit += GlobalMapArea_OnGlobalMapAreaExit;
+        MapController.Instance.OnCompletionProgressUpdate += MapController_OnCompletionProgressUpdate;
     }
-
 
     void Start()
     {
@@ -45,7 +46,12 @@ public class BaseUI : MonoBehaviour
     private void OnDisable()
     {
         GlobalMapArea.OnGlobalMapAreaEnter -= GlobalMapArea_OnGlobalMapAreaEnter;
-        GlobalMapArea.OnGlobalMapAreaExit -= GlobalMapArea_OnGlobalMapAreaExit;
+        GlobalMapArea.OnGlobalMapAreaExit -= GlobalMapArea_OnGlobalMapAreaExit;       
+    }
+
+    private void MapController_OnCompletionProgressUpdate(float value)
+    {
+        completionProgressBar.SetValue(value);
     }
 
     private void GlobalMapArea_OnGlobalMapAreaExit()

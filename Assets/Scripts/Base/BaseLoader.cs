@@ -6,24 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class BaseLoader : MonoBehaviour
 {
-    [SerializeField] List<SceneReference> statesScenes = new List<SceneReference>();
+    [SerializeField] LevelSequence levelSequence;
 
-    private void Awake()
+    void Start()
     {
-        if (PlayerPrefs.HasKey("active_scene"))
-        {
-            string scenePath = PlayerPrefs.GetString("active_scene");
-            for (int i = 0; i < statesScenes.Count; i++)
-            {
-                if (statesScenes[i].ScenePath == scenePath)
-                {
-                    SceneManager.LoadScene(statesScenes[i]);
-                }
-            }
-        }
-        else
-        {
-            SceneManager.LoadScene(statesScenes[0]);
-        }
+        int levelNumber = PlayerPrefs.GetInt(LevelController.LEVEL_NUMBER_PREFS, 0);
+        SceneReference scene = levelSequence.GetScene(levelNumber);
+        SceneManager.LoadScene(scene);
     }
 }

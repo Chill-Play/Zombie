@@ -73,9 +73,10 @@ public class Building : MonoBehaviour, IBuilding
         if (result.resourcesUsed)
         {
             ResourcesController.Instance.UpdateResources();
-            SaveBuilding();
+            result.buildingFinished = UpdateBuilding();
+            SaveBuilding();          
         }
-        result.buildingFinished = UpdateBuilding();
+        
         return result;
     }
 
@@ -117,6 +118,7 @@ public class Building : MonoBehaviour, IBuilding
             result = true;
             FinishBuilding();
         }
+        MapController.Instance.UpdateCompletionProgress();
         return result;
     }
 
@@ -132,5 +134,24 @@ public class Building : MonoBehaviour, IBuilding
         finishedPrefab.transform.localScale = Vector3.zero;
         finishedPrefab.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);
         finishedPrefab.transform.DOPunchPosition(Vector3.up * 0.8f, 0.5f, 3);
+    }
+
+    public float GetCompletionProgress()
+    {
+        float result = 0f;
+        
+        foreach (var pair in resources)
+        {
+            for (int i = 0; i < cost.Count; i++)
+            {
+                if (cost[i].type == pair.Key)
+                {
+                    result += (1f - (float)pair.Value / (float)cost[i].count);                   
+                    break;
+                }
+            }          
+        }
+        result /= (float)cost.Count;        
+        return result;
     }
 }

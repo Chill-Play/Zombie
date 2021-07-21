@@ -5,13 +5,15 @@ using SimpleJSON;
 using DG.Tweening;
 
 public class MapCell : MonoBehaviour
-{
-    [SerializeField] string id;
+{   
     string gridId;
+   
+
     public string GridId { get => gridId; set { gridId = value; } }
     public int GridIndex { get; set; }
 
-    public string Id => id;
+   
+
 
     public virtual void InitCell()
     {

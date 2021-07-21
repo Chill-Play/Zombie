@@ -21,7 +21,10 @@ public class MapController : SingletonMono<MapController>
             this.y = y;
         }
     }
-       
+
+    public event System.Action<float> OnCompletionProgressUpdate;
+    public event System.Action OnMapComplited;
+
 
     [SerializeField] Vector2 mapExtends;
     [SerializeField] Vector2 cellSize;
@@ -32,18 +35,27 @@ public class MapController : SingletonMono<MapController>
     Vector3 BoundsSize = new Vector3(512f, 4000f, 512f);
 
     [SerializeField, HideInInspector] List<MapCell> mapCells = new List<MapCell>();
+    [SerializeField, HideInInspector] List<Building> buildings = new List<Building>();
 
     [SerializeField, HideInInspector] string sceneName;
     [SerializeField, HideInInspector] string scenePath;
 
+    float mapProgress = 0;
+
     public void ApplyMapChanges()
     {
         MapCell[] sceneMapCells = FindObjectsOfType<MapCell>();
+        Building[] sceneBuildings = FindObjectsOfType<Building>(true);
 
         mapCells = new List<MapCell>();
+        buildings = new List<Building>();
         for (int i = 0; i < sceneMapCells.Length; i++)
         {
             mapCells.Add(sceneMapCells[i]);
+        }
+        for (int i = 0; i < sceneBuildings.Length; i++)
+        {
+            buildings.Add(sceneBuildings[i]);
         }
 
         Scene scene = SceneManager.GetActiveScene();
@@ -53,8 +65,7 @@ public class MapController : SingletonMono<MapController>
     }
 
     private void Awake()
-    {      
-        PlayerPrefs.SetString("active_scene", scenePath);
+    {             
         Load();
         for (int i = 0; i < mapCells.Count; i++)
         {
@@ -68,6 +79,10 @@ public class MapController : SingletonMono<MapController>
         UpdateNavMesh();
     }
 
+    private void Start()
+    {
+        UpdateCompletionProgress();
+    }
 
     public void ReplaceMapCell(int gridId, MapCell mapCell, bool needToUpdateNavMesh = false)
     {   
@@ -119,6 +134,21 @@ public class MapController : SingletonMono<MapController>
                 mapCells[i].GridIndex = i;
                 mapCells[i].Load(loadInfo);
             }
+        }
+    }
+
+    public void UpdateCompletionProgress()
+    {
+        float progress = 0;
+        for (int i = 0; i < buildings.Count; i++)
+        {
+            progress += buildings[i].GetCompletionProgress();           
+        }
+        progress /= (float)buildings.Count;        
+        OnCompletionProgressUpdate?.Invoke(progress);
+        if (progress >= 1f)
+        {
+            OnMapComplited?.Invoke();
         }
     }
 }
