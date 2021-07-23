@@ -4,18 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class MapCellWithBuildings : MapCell
+public class MapCellWithBuildings : OpendMapCell
 {
    [SerializeField] List<GameObject> buildings = new List<GameObject>();
 
+
     public override void Build(Action<MapCell> OnBuildingComplete)
     {
-        /*transform.localScale = Vector3.zero;
-        for (int i = 0; i < buildings.Count; i++)
-        {
-            buildings[i].transform.localScale = Vector3.zero;
-        }
-        transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc).OnComplete(() => BuildBuildings(OnBuildingComplete));*/
         BuildBuildings(OnBuildingComplete);
     }
 
@@ -27,7 +22,7 @@ public class MapCellWithBuildings : MapCell
         {
             sequence.Join(buildings[i].transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc));
             sequence.Join(buildings[i].transform.DOPunchPosition(Vector3.up * 0.8f, 0.5f,1));
-        }
+        }       
         sequence.AppendCallback(() => OnBuildingComplete(this));
     }
 }
