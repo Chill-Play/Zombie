@@ -120,6 +120,7 @@
                 float specularIntensity = pow(NdotH, 10000 * _SpecularShininess);
                 float specularIntensitySmooth = smoothstep(0.005, _SpecularSoftness, specularIntensity);
                 float4 specular = (_SpecularColor * specularIntensitySmooth) * _SpecularColor.a;
+                specular *= lightIntensity;
                 finalColor += specular;
                 #endif
 

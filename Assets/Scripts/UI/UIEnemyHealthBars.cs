@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class UIEnemyHealthBars : MonoBehaviour
 {
-    [SerializeField] EnemyHealthBar healthBarPrefab;
-    Dictionary<Enemy, EnemyHealthBar> healthBars = new Dictionary<Enemy, EnemyHealthBar>();
+    [SerializeField] UIEnemyHealthBar healthBarPrefab;
+    Dictionary<EnemyHealthBar, UIEnemyHealthBar> healthBars = new Dictionary<EnemyHealthBar, UIEnemyHealthBar>();
 
 
-    public void CreateHealthBar(Enemy enemy)
+    public void CreateHealthBar(EnemyHealthBar enemy)
     {
-        EnemyHealthBar instance = Instantiate(healthBarPrefab, transform);
-        instance.Appear(enemy, 3.5f);
+        UIEnemyHealthBar instance = Instantiate(healthBarPrefab, transform);
+        instance.Setup(enemy, 3.5f);
         healthBars.Add(enemy, instance);
     }
 
 
-    public void RemoveHealthBar(Enemy enemy)
+    public void RemoveHealthBar(EnemyHealthBar enemy)
     {
         healthBars[enemy].Remove();
         healthBars.Remove(enemy);

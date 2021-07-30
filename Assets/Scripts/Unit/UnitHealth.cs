@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,14 @@ using UnityEngine;
 public class UnitHealth : MonoBehaviour, IDamagable
 {
     public event System.Action<DamageTakenInfo> OnDamage;
-    public event System.Action OnDead;
+    public event System.Action<EventMessage<Empty>> OnDead;
 
     [SerializeField] float health = 100;
-    float currentHealth = 0f;
 
+    [SerializeField] ParticleSystem bloodVfx;
+    [SerializeField] float bloodVfxScale = 0.2f;
+
+    float currentHealth = 0f;
 
     private void Start()
     {
@@ -22,6 +26,11 @@ public class UnitHealth : MonoBehaviour, IDamagable
     {
         currentHealth -= damage;
 
+        if (bloodVfx != null)
+        {
+            ParticleSystem vfx = Instantiate(bloodVfx, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+            vfx.transform.localScale = Vector3.one * bloodVfxScale;
+        }
         DamageTakenInfo info = new DamageTakenInfo()
         {
             damage = damage,
@@ -32,7 +41,7 @@ public class UnitHealth : MonoBehaviour, IDamagable
         OnDamage?.Invoke(info);
         if (currentHealth <= 0f)
         {
-            OnDead?.Invoke();
+            OnDead?.Invoke(new EventMessage<Empty>(new Empty(), this));
             Destroy(gameObject);
         }
     }

@@ -140,6 +140,9 @@ GameObject:
   - component: {fileID: 6534483266655531792}
   - component: {fileID: 4917011792435461976}
   - component: {fileID: 5596092676802040938}
+  - component: {fileID: 4129783684981828596}
+  - component: {fileID: 2592838148980239989}
+  - component: {fileID: 6342855175057284562}
   m_Layer: 6
   m_Name: Zombie
   m_TagString: Untagged
@@ -213,21 +216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0f46f8b4cc8740a1f902631037806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basehealth: 25
-  agent: {fileID: 4592489489785157102}
-  bloodVfx: {fileID: 4787146697146794704, guid: e9050f838eb01db44b8958e4d8266866, type: 3}
-  bloodVfxScale: 0.15
-  healthBar: 0
-  attackDamage: 25
-  attackRate: 1.5
-  attackRadius: 1
-  attackTime: 0.25
   baseSpeed: 3
-  healthPerLevel: 20
   speedPerLevel: 0.25
-  attackMask:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!114 &4917011792435461976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +247,55 @@ MonoBehaviour:
   upOffset: 1.5
   randomAngle: 15
   randomOffset: 15
-  enemy: {fileID: 6534483266655531792}
+--- !u!114 &4129783684981828596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592489489785157106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61e27f5fdc648245b3c5e9a2894e2d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 4592489489785157102}
+  attackDamage: 1
+  attackRate: 1.5
+  attackRadius: 1
+  attackTime: 0.5
+  attackMask:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!114 &2592838148980239989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592489489785157106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5ea5b7e8c2203f4b9c0fd66a8c6ffbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 4592489489785157102}
+  goToDestination: 0
+--- !u!114 &6342855175057284562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592489489785157106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18923db9141a9bc43894ed51ae93dc20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  bloodVfx: {fileID: 0}
+  bloodVfxScale: 0.2
 --- !u!1001 &1329312056214452157
 PrefabInstance:
   m_ObjectHideFlags: 0

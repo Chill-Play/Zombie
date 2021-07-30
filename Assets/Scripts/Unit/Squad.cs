@@ -14,7 +14,7 @@ public class Squad : MonoBehaviour, IInputReceiver
         //units = GetComponentsInChildren<UnitMovement>().ToList();
         foreach(UnitMovement unit in units)
         {
-            unit.GetComponent<UnitHealth>().OnDead += () => units.Remove(unit.GetComponent<UnitMovement>());
+            unit.GetComponent<UnitHealth>().OnDead += (x) => units.Remove(unit.GetComponent<UnitMovement>());
         }
     }
 
@@ -40,7 +40,7 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     public void AddUnit(Unit unit)
     {
-        unit.GetComponent<UnitHealth>().OnDead += () => units.Remove(unit.GetComponent<UnitMovement>());
+        unit.GetComponent<UnitHealth>().OnDead += (x) => units.Remove(unit.GetComponent<UnitMovement>());
         units.Add(unit.GetComponent<UnitMovement>());
     }
 

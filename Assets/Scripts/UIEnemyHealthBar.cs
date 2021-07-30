@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealthBar : MonoBehaviour
+public class UIEnemyHealthBar : MonoBehaviour
 {
     [SerializeField] Transform barTransform;
     [SerializeField] Transform barPivot;
@@ -12,7 +12,7 @@ public class EnemyHealthBar : MonoBehaviour
     [SerializeField] Image barBackFill;
 
     float backFillVelocity;
-    Enemy enemy;
+    EnemyHealthBar enemy;
     float upOffset;
 
 
@@ -40,18 +40,29 @@ public class EnemyHealthBar : MonoBehaviour
 
     }
 
-
-    public void Appear(Enemy enemy, float upOffset)
+    
+    public void Setup(EnemyHealthBar enemy, float upOffset)
     {
         this.enemy = enemy;
-        this.upOffset = upOffset;
         enemy.GetComponent<IDamagable>().OnDamage += Enemy_OnDamage;
+        this.upOffset = upOffset;
         barFill.fillAmount = 1f;
+        barTransform.gameObject.SetActive(false);
+    }
+
+
+    public void Appear()
+    {
+        barTransform.gameObject.SetActive(true);
     }
 
 
     private void Enemy_OnDamage(DamageTakenInfo obj)
     {
+        if(!barTransform.gameObject.activeSelf)
+        {
+            Appear();
+        }
         barFill.fillAmount = obj.currentHealth / obj.maxHealth;
         barTransform.DOShakePosition(0.2f, 1f * obj.damage, 50);
     }

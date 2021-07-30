@@ -9,6 +9,7 @@ public class UnitMovement : MonoBehaviour
 
     public Vector2 Input { get; set; }
     public bool InputActive => Input.magnitude > 0.05f;
+    public bool goToDestination;
 
     void Update()
     {
@@ -16,7 +17,7 @@ public class UnitMovement : MonoBehaviour
         {
             agent.velocity = new Vector3(Input.x, 0f, Input.y) * agent.speed;
         }
-        else
+        else if(!goToDestination)
         {
             agent.velocity = Vector3.zero;
         }
@@ -25,6 +26,7 @@ public class UnitMovement : MonoBehaviour
 
     public void MoveTo(Vector3 target)
     {
+        goToDestination = true;
         Input = Vector2.zero;
         agent.SetDestination(target);
     }

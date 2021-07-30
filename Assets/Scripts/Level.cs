@@ -88,7 +88,7 @@ public class Level : SingletonMono<Level>
             Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
             enemy.SetLevel(level);
             enemies.Add(enemy);
-            enemy.GetComponent<IDamagable>().OnDead() += Enemy_OnDead;
+            //enemy.GetComponent<IDamagable>().OnDead() += Enemy_OnDead;
         }
 
 
@@ -99,16 +99,17 @@ public class Level : SingletonMono<Level>
             Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
             enemy.SetLevel(level);
             enemies.Add(enemy);
-            enemy.OnDead += Enemy_OnDead;
+            //enemy.OnDead += Enemy_OnDead;
         }
     }
 
-    private void Enemy_OnDead(Enemy obj)
+    private void Enemy_OnDead(EventMessage<Empty> message)
     {
-        obj.OnDead -= Enemy_OnDead;
-        enemies.Remove(obj);
+        var health = message.sender as UnitHealth;
+        health.OnDead -= Enemy_OnDead;
+        enemies.Remove(health.GetComponent<Enemy>());
 
-        if(enemies.Count == 0 && spawnWavesCoroutine == null)
+        if (enemies.Count == 0 && spawnWavesCoroutine == null)
         {
             OnHordeDefeated?.Invoke();
             FindObjectOfType<SpawnPoint>().IsReturningToBase = true;
