@@ -5,24 +5,35 @@ using UnityEngine;
 public class GameplayController : SingletonMono<GameplayController>
 {
     [SerializeField] CameraController cameraController;
-    [SerializeField] Player playerPrefab;
+    [SerializeField] GameObject playerPrefab;
     [SerializeField] InputJoystick InputJoystick;
-    public Player playerInstance;
+
+    public Squad SquadInstance { get; set; }
 
 
     private void Awake()
     {
         SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
-        SpawnPlayer(spawnPoint.transform.position, playerPrefab);
+        Vector3 spawnPos = Vector3.zero;
+        if(spawnPoint != null)
+        {
+            spawnPos = spawnPoint.transform.position;
+        }
+        SpawnPlayer(spawnPos, playerPrefab);
     }
 
 
 
-    public void SpawnPlayer(Vector3 point, Player prefab)
+    public void SpawnPlayer(Vector3 point, GameObject prefab)
     {
-        playerInstance = Instantiate(prefab, point, Quaternion.identity);
-        cameraController.SetTarget(playerInstance.transform);
-        InputJoystick.InputReceiver = playerInstance;
+        //playerInstance = Instantiate(prefab, point, Quaternion.identity);
+        Squad squad = FindObjectOfType<Squad>();
+        if (squad != null)
+        {
+            cameraController.SetTarget(squad.transform);
+            InputJoystick.InputReceiver = squad.GetComponent<IInputReceiver>();
+            SquadInstance = squad;
+        }
     }
 
 }

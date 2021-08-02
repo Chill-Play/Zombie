@@ -7,7 +7,7 @@ public class PlayerBuilding : MonoBehaviour
     [SerializeField] LayerMask buildingsMask;
     [SerializeField] LayerMask cellMask;
     [SerializeField] float radius;
-    [SerializeField] Player player;
+    [SerializeField] UnitMovement unitMovement;
     [SerializeField] int countPerUse = 10;
     [SerializeField] float baseRate = 0.25f;
     [SerializeField] float rateIncrease = 0.01f;
@@ -20,7 +20,7 @@ public class PlayerBuilding : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (player.InputActive)
+        if (unitMovement.InputActive)
         {
             return;
         }

@@ -4,30 +4,42 @@ using UnityEngine;
 
 public class PlayerResources : MonoBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] UnitMovement unitMovement;
     [SerializeField] float useSpotRadius = 2f;
     [SerializeField] float useRate = 0.5f;
     [SerializeField] LayerMask resourceSpotsMask;
+    [SerializeField] GameObject axeModel;
+    [SerializeField] GameObject weaponModel;
     Collider[] resourceSpots = new Collider[1];
     float nextUse;
     bool interacting;
-    PlayerAnimation animation;
+    UnitAnimation animation;
 
-    public bool CanDigResources { get; set; }
+    public bool CanDigResources { get; set; } = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        animation = GetComponent<PlayerAnimation>();
+        animation = GetComponent<UnitAnimation>();
+        if (axeModel.activeSelf)
+        {
+            axeModel.SetActive(false);
+            weaponModel.SetActive(true);
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (player.InputActive || !CanDigResources)
+        if (unitMovement.InputActive || !CanDigResources)
         {
             if (interacting)
             {
+                if (axeModel.activeSelf)
+                {
+                    axeModel.SetActive(false);
+                    weaponModel.SetActive(true);
+                }
                 interacting = false;
                 animation.ResetInteraction();
             }
@@ -36,12 +48,17 @@ public class PlayerResources : MonoBehaviour
         int count = Physics.OverlapSphereNonAlloc(transform.position, useSpotRadius, resourceSpots, resourceSpotsMask);
         if (count > 0)
         {
+            if(!axeModel.activeSelf)
+            {
+                axeModel.SetActive(true);
+                weaponModel.SetActive(false);
+            }
             interacting = true;
             ResourceSpot spot = resourceSpots[0].GetComponent<ResourceSpot>();
             animation.SetInteraction(spot.InteractionType, true);
             if (nextUse < Time.time)
             {
-                spot.UseSpot();
+                spot.UseSpot(gameObject);
                 nextUse = Time.time + useRate;
             }
         }
@@ -49,6 +66,11 @@ public class PlayerResources : MonoBehaviour
         {
             if (interacting)
             {
+                if (axeModel.activeSelf)
+                {
+                    axeModel.SetActive(false);
+                    weaponModel.SetActive(true);
+                }
                 interacting = false;
                 animation.ResetInteraction();
             }
