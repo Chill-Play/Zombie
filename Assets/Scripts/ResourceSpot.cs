@@ -29,13 +29,13 @@ public class ResourceSpot : MonoBehaviour
 
     }
 
-    public void UseSpot()
+    public void UseSpot(GameObject user)
     {
         if (uses >= maxUses)
         {
             return;
         }
-        SpawnResources();
+        SpawnResources(user);
         uses++;
         Level.Instance.AddNoiseLevel(noisePerUse);
 
@@ -48,11 +48,12 @@ public class ResourceSpot : MonoBehaviour
         }
     }
 
-    void SpawnResources()
+    void SpawnResources(GameObject user)
     {
         for (int i = 0; i < countPerUse; i++)
         {
             Resource instance = Instantiate(resourcePrefab, transform.position + resourceSpawnOffset, transform.rotation);
+            instance.Picker = user.transform;
             Rigidbody body = instance.GetComponent<Rigidbody>();
             body.velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(3f, 6f), Random.Range(-1f, 1f)) * resourcesVelocity;
             body.angularVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * 360f;

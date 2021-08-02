@@ -3,93 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour, IDamagable
+public struct DamageTakenInfo
 {
-    public event System.Action<Enemy> OnDead;
+    public float damage;
+    public float currentHealth;
+    public float maxHealth;
+}
 
-    [SerializeField] float basehealth;
-    [SerializeField] NavMeshAgent agent;
-    [SerializeField] Player player;
-    [SerializeField] ParticleSystem bloodVfx;
-    [SerializeField] float bloodVfxScale = 0.2f;
 
-    [SerializeField] float attackDamage = 1f;
-    [SerializeField] float attackRate = 1.5f;
-    [SerializeField] float attackRadius = 1f;
-    [SerializeField] float attackTime = 0.5f;
+
+public class Enemy : MonoBehaviour
+{
     [SerializeField] float baseSpeed = 3f;
-    [SerializeField] float healthPerLevel = 20f;
     [SerializeField] float speedPerLevel = 1f;
 
-    float currentHealth;
-    float nextAttack;
-    bool attackStarted;
-    int level;
-
-
-
-    public void Damage(DamageInfo info)
-    {
-        currentHealth -= info.damage;
-        ParticleSystem vfx = Instantiate(bloodVfx, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-        vfx.transform.localScale = Vector3.one * bloodVfxScale;
-        if(currentHealth <= 0f)
-        {
-            OnDead?.Invoke(this);
-            Destroy(gameObject);
-        }
-    }
+    int level = -1;
+    Squad squad;
 
 
     public void SetLevel(int level)
     {
-        agent.speed = baseSpeed + (speedPerLevel * level);
-        currentHealth = basehealth + (healthPerLevel * level);
+        //agent.speed = baseSpeed + (speedPerLevel * level);
         this.level = level;
     }
 
 
     void Start()
     {
-        
+        if(level == -1)
+        {
+            SetLevel(1);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        player = GameplayController.Instance.playerInstance;
-        if (player != null && agent.enabled)
+        squad = GameplayController.Instance.SquadInstance;
+        if (squad != null)
         {
-            agent.SetDestination(player.transform.position);
-        }
-        if (nextAttack < Time.time)
-        {
-            float distance = Vector3.Distance(player.transform.position, transform.position);
-            if (distance < attackRadius)
-            {
-                nextAttack = Time.time + attackRate;
-                StartCoroutine(AttackCoroutine());
-            }
+            GetComponent<UnitMovement>().MoveTo(squad.transform.position);
         }
     }
 
     
     public void Stop()
     {
-        agent.enabled = false;
+        //agent.enabled = false;
         StopAllCoroutines();
-    }
-
-
-    private IEnumerator AttackCoroutine()
-    {
-        agent.isStopped = true;
-        yield return new WaitForSeconds(attackTime);
-        float distance = Vector3.Distance(player.transform.position, transform.position);
-        if (distance < attackRadius)
-        {
-            player.TakeDamage(attackDamage);
-        }
-        agent.isStopped = false;
     }
 }

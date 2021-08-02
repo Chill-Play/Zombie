@@ -26,13 +26,16 @@ public class InGameUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Level.Instance.OnNoiseLevelChanged += Level_OnNoiseLevelChanged;
-        Level.Instance.OnNoiseLevelExceeded += Level_OnNoiseLevelExceeded;
-        Level.Instance.OnHordeDefeated += Level_OnHordeDefeated;
+        if (Level.Instance != null)
+        {
+            Level.Instance.OnNoiseLevelChanged += Level_OnNoiseLevelChanged;
+            Level.Instance.OnNoiseLevelExceeded += Level_OnNoiseLevelExceeded;
+            Level.Instance.OnHordeDefeated += Level_OnHordeDefeated;
+        }
         noiseBar.SetValue(0f);
 
         PlayerBackpack backpack = FindObjectOfType<PlayerBackpack>();
-        backpack.OnPickupResource += Backpack_OnPickupResource;
+        //backpack.OnPickupResource += Backpack_OnPickupResource;
         baseIndicator.gameObject.SetActive(false);
     }
 
