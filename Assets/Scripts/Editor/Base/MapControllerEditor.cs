@@ -16,6 +16,15 @@ public class MapControllerEditor : Editor
         {
             myTarget.ApplyMapChanges();
             EditorUtility.SetDirty(myTarget);
+            for (int i = 0; i < myTarget.MapCells.Count; i++)
+            {
+                EditorUtility.SetDirty(myTarget.MapCells[i]);
+            }
+        }
+
+        if (GUILayout.Button("Clear"))
+        {
+            myTarget.ClearPrefs();        
         }
     }
 

@@ -5,35 +5,26 @@ using SimpleJSON;
 using DG.Tweening;
 
 public class MapCell : MonoBehaviour
-{   
-    string gridId;
-   
+{
+    public const string DEFAULT_GRID_ID = "none";
+
+   [SerializeField, HideInInspector] protected string gridId = DEFAULT_GRID_ID;  
 
     public string GridId { get => gridId; set { gridId = value; } }
-    public int GridIndex { get; set; }
-
-   
-
+    public int GridIndex { get; set; } 
 
     public virtual void InitCell()
     {
-        Save();
+        
     }
 
-    public void Save()
-    {       
-        string key = "map_cell_" + GridId;
-        string saveInfo = GetSaveData().ToString();       
-        PlayerPrefs.SetString(key, saveInfo);       
-    }
-
-    public virtual JSONObject GetSaveData()
+    public virtual JSONNode GetSaveData()
     {
-        JSONObject jsonObject = new JSONObject();       
+        JSONNode jsonObject = new JSONObject();       
         return jsonObject;
     }
 
-    public virtual void Load(string loadData)
+    public virtual void Load(JSONNode loadData)
     {
 
     }

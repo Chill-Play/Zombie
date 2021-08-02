@@ -25,22 +25,26 @@ public class MapController : SingletonMono<MapController>
     public event System.Action<float> OnCompletionProgressUpdate;
     public event System.Action OnMapComplited;
 
-
+  
     [SerializeField] Vector2 mapExtends;
     [SerializeField] Vector2 cellSize;
 
-    [SerializeField] LayerMask NullMask;
+    [SerializeField] LayerMask NavMeshMask;
 
     Vector3 BoundsCenter = Vector3.zero;
     Vector3 BoundsSize = new Vector3(512f, 4000f, 512f);
 
+
     [SerializeField, HideInInspector] List<MapCell> mapCells = new List<MapCell>();
     [SerializeField, HideInInspector] List<Building> buildings = new List<Building>();
-
-    [SerializeField, HideInInspector] string sceneName;
-    [SerializeField, HideInInspector] string scenePath;
+    [SerializeField, HideInInspector] int mapCellId = -1;
+    
+    JSONNode saveDataNode;
 
     float mapProgress = 0;
+    string saveId;
+
+    public List<MapCell> MapCells => mapCells;
 
     public void ApplyMapChanges()
     {
@@ -51,32 +55,88 @@ public class MapController : SingletonMono<MapController>
         buildings = new List<Building>();
         for (int i = 0; i < sceneMapCells.Length; i++)
         {
-            mapCells.Add(sceneMapCells[i]);
+            if (sceneMapCells[i].GridId == MapCell.DEFAULT_GRID_ID)
+            {              
+                mapCellId++;
+                sceneMapCells[i].GridId = "map_cell_" + mapCellId.ToString();                
+            }
+            mapCells.Add(sceneMapCells[i]);            
         }
         for (int i = 0; i < sceneBuildings.Length; i++)
         {
             buildings.Add(sceneBuildings[i]);
         }
 
-        Scene scene = SceneManager.GetActiveScene();
+        saveId = SceneManager.GetActiveScene().name;
+    }
 
-        sceneName = scene.name;
-        scenePath = scene.path;        
+    public void ClearPrefs()
+    {
+        string filePath = Path.Combine(Application.persistentDataPath, saveId + ".json");
+        File.Delete(filePath);
     }
 
     private void Awake()
-    {             
-        Load();
+    {
         for (int i = 0; i < mapCells.Count; i++)
         {
             if (mapCells[i] != null)
             {
-                mapCells[i].GridId = sceneName + "_" + i;
                 mapCells[i].GridIndex = i;
-                mapCells[i].InitCell();
+                mapCells[i].InitCell();              
             }
         }
+        Load();
         UpdateNavMesh();
+    }
+
+    void Load()
+    {
+        saveDataNode = new JSONObject();
+        string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
+        bool isSaveExist = File.Exists(filePath);        
+        if (isSaveExist)
+        {
+            string loadData = File.ReadAllText(filePath);
+            JSONNode mainNode = JSON.Parse(loadData);
+            for (int i = 0; i < mapCells.Count; i++)
+            {
+                MapCell mapCell = mapCells[i];
+                if (mapCell != null)
+                {
+                    if (mainNode.HasKey(mapCell.GridId))
+                    {
+                        saveDataNode.Add(mapCell.GridId, mainNode[mapCell.GridId]);                        
+                    }
+                    else
+                    {
+                        saveDataNode.Add(mapCell.GridId, "");
+                    }
+                    mapCell.Load(saveDataNode[mapCell.GridId]);
+                }
+            }        
+        }
+        else
+        {
+            for (int i = 0; i < mapCells.Count; i++)
+            {
+                MapCell mapCell = mapCells[i];
+                if (mapCell != null)
+                {
+                    saveDataNode.Add(mapCell.GridId, "");
+                }
+                mapCell.Load(saveDataNode[mapCell.GridId]);
+            }
+        }
+
+    }
+
+
+    public void Save(MapCell mapCell)
+    {
+        saveDataNode[mapCell.GridId] = mapCell.GetSaveData();
+        string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
+        File.WriteAllText(filePath, saveDataNode.ToString());
     }
 
     private void Start()
@@ -84,12 +144,11 @@ public class MapController : SingletonMono<MapController>
         UpdateCompletionProgress();
     }
 
-    public void ReplaceMapCell(int gridId, MapCell mapCell, bool needToUpdateNavMesh = false)
-    {   
-        mapCells[gridId] = mapCell;
-        mapCell.GridId = sceneName + "_" + gridId;
-        mapCells[gridId].GridIndex = gridId;
-        mapCell.Save();
+    public void ReplaceMapCell(int gridIndex, MapCell mapCell, bool needToUpdateNavMesh = false)
+    {
+        mapCells[gridIndex] = mapCell;       
+        mapCells[gridIndex].GridIndex = gridIndex;  
+        mapCells[gridIndex].InitCell();
         if (needToUpdateNavMesh)
         {
             UpdateNavMesh();
@@ -100,7 +159,7 @@ public class MapController : SingletonMono<MapController>
     {        
         NavMeshData navMeshData = NavMeshBuilder.BuildNavMeshData(
             NavMesh.GetSettingsByID(0),
-            GetBuildSources(NullMask),
+            GetBuildSources(NavMeshMask),
             new Bounds(BoundsCenter, BoundsSize),
             Vector3.zero,
             Quaternion.identity);
@@ -121,21 +180,6 @@ public class MapController : SingletonMono<MapController>
             sources);        
         return sources;
     }  
-
-    public void Load()
-    {
-        for (int i = 0; i < mapCells.Count; i++)
-        {
-            string gridCellId = "map_cell_" + sceneName + "_" + i;
-            if (PlayerPrefs.HasKey(gridCellId))
-            {
-                string loadInfo = PlayerPrefs.GetString(gridCellId);
-                mapCells[i].GridId = sceneName + "_" + i;
-                mapCells[i].GridIndex = i;
-                mapCells[i].Load(loadInfo);
-            }
-        }
-    }
 
     public void UpdateCompletionProgress()
     {

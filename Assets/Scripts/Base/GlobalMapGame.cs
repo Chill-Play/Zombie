@@ -13,6 +13,7 @@ public class GlobalMapGame : SingletonMono<GlobalMapGame>
 
     private void Awake()
     {
+        
         stateAreas = FindObjectsOfType<StateArea>();
         levelNumber = PlayerPrefs.GetInt(LevelController.LEVEL_NUMBER_PREFS, 0);
         StateArea currentState = GetStateArea(levelSequence.GetScene(levelNumber));      

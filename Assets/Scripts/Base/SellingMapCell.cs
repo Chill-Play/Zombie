@@ -14,12 +14,12 @@ public class SellingMapCell : MapCell, IBuilding
         public int count;
     }
 
+    public event System.Action OnOpening;
+
     [SerializeField] Transform resourcesLayout;
     [SerializeField] ResourceBar resourceBarPrefab;
 
     [SerializeField] List<CostInfo> cost = new List<CostInfo>();
-    [SerializeField] Transform sellingCellContent;
-    [SerializeField] MapCell buyingContent;
 
     Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
     Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();
@@ -69,7 +69,7 @@ public class SellingMapCell : MapCell, IBuilding
         {
             ResourcesController.Instance.UpdateResources();
             result.buildingFinished = UpdateBuilding();
-            Save();
+            MapController.Instance.Save(this);
         }       
         return result;
     }
@@ -99,7 +99,7 @@ public class SellingMapCell : MapCell, IBuilding
         if (finishedResources == resources.Count)
         {
             result = true;
-            Save();
+            MapController.Instance.Save(this);
             FinishBuilding();
         }
         return result;
@@ -107,48 +107,25 @@ public class SellingMapCell : MapCell, IBuilding
 
     void FinishBuilding()
     {
-        sellingCellContent.DOScale(Vector3.zero,0.3f).SetEase(Ease.InCirc).OnComplete(CreateNewCell);
+        transform.DOScale(Vector3.zero,0.3f).SetEase(Ease.InCirc).OnComplete(CreateNewCell);
         UIBuyingPopUpText.Instance.SpawnText(transform.position + 0.5f * Vector3.up);
     }
 
     void CreateNewCell()
     {
-        sellingCellContent.gameObject.SetActive(false);
-        buyingContent.gameObject.SetActive(true);
-        buyingContent.Build((x) => MapController.Instance.ReplaceMapCell(GridIndex, x, true));         
+        OnOpening?.Invoke();       
     }
 
    
 
-    public override JSONObject GetSaveData()
+    public override JSONNode GetSaveData()
     {
-        JSONObject jsonObject = base.GetSaveData();        
-        jsonObject.Add("selling_cell", "yes");
+        JSONNode jsonObject = base.GetSaveData();        
+        jsonObject.Add("sold", false);
         for (int i = 0; i < cost.Count; i++)
         {
             jsonObject.Add(cost[i].type.ToString(), resources[cost[i].type]);
         }
         return jsonObject;
     }
-
-    public override void Load(string loadData)
-    {
-        base.Load(loadData);
-        JSONNode jsonNode = JSON.Parse(loadData);
-        if (jsonNode.HasKey("selling_cell"))
-        {
-            sellingCellContent.gameObject.SetActive(true);
-            for (int i = 0; i < cost.Count; i++)
-            {
-                resources[cost[i].type] = jsonNode[cost[i].type.ToString()];
-            }
-        }
-        else
-        {
-            sellingCellContent.gameObject.SetActive(false);
-            buyingContent.gameObject.SetActive(true);
-            buyingContent.Load(loadData);
-            MapController.Instance.ReplaceMapCell(GridIndex, buyingContent);
-        }
-    }  
 }
