@@ -18,8 +18,9 @@ public class OpendMapCell : MapCell
             content.SetActive(false);
             sellingMapCell = Instantiate<SellingMapCell>(sellingMapCellPrefab, this.transform);
             sellingMapCell.GridId = GridId;
-            sellingMapCell.OnOpening += SellingMapCell_OnOpening;
+            sellingMapCell.OnOpening += SellingMapCell_OnOpening;            
             MapController.Instance.ReplaceMapCell(GridIndex, sellingMapCell);
+            sellingMapCell.Load(loadData);         
         }  
     }
 

@@ -38,11 +38,11 @@ public class MapController : SingletonMono<MapController>
     [SerializeField, HideInInspector] List<MapCell> mapCells = new List<MapCell>();
     [SerializeField, HideInInspector] List<Building> buildings = new List<Building>();
     [SerializeField, HideInInspector] int mapCellId = -1;
-    
-    JSONNode saveDataNode;
+    [SerializeField, HideInInspector] string saveId;
 
+    JSONNode saveDataNode;
     float mapProgress = 0;
-    string saveId;
+    
 
     public List<MapCell> MapCells => mapCells;
 

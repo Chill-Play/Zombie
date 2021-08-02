@@ -128,4 +128,16 @@ public class SellingMapCell : MapCell, IBuilding
         }
         return jsonObject;
     }
+
+    public override void Load(JSONNode loadData)
+    {
+        for (int i = 0; i < cost.Count; i++)
+        {
+            if (loadData.HasKey(cost[i].type.ToString()))
+            {
+                resources[cost[i].type] = loadData[cost[i].type.ToString()].AsInt;
+                resourceBars[cost[i].type].UpdateValue(resources[cost[i].type]);
+            }
+        }
+    }
 }
