@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBuilder : MonoBehaviour
-{
-    [SerializeField] Player player;
+{   
     [SerializeField] int countPerUse = 10;
     [SerializeField] float baseRate = 0.25f;
     [SerializeField] float rateIncrease = 0.01f;
@@ -13,9 +12,11 @@ public class PlayerBuilder : MonoBehaviour
     int uses;
 
     IBuilding targetBuilding;
+    UnitMovement unitMovement;
 
     private void OnEnable()
     {
+        unitMovement = GetComponent<UnitMovement>();
         BuildingTargetVolume.OnBuildingTargetEnter += BuildingTargetVolume_OnBuildingTargetEnter;
         BuildingTargetVolume.OnBuildingTargetExit += BuildingTargetVolume_OnBuildingTargetExit; ;
     }
@@ -35,35 +36,33 @@ public class PlayerBuilder : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (player.InputActive)
+        if (!unitMovement.InputActive)
         {
-            return;
-        }
-        
-        if (targetBuilding!= null)
-        {
-          
-            if (nextUse < Time.time)
-            {             
-                BuildingReport buildingReport = targetBuilding.TryUseResources(ResourcesController.Instance.Resources, countPerUse); 
-                if (buildingReport.resourcesUsed)
+
+            if (targetBuilding != null)
+            {
+                if (nextUse < Time.time)
                 {
-                    uses++;
-                    nextUse = Time.time + baseRate - (rateIncrease * uses);
-                }
-                else
-                {
-                    uses = 0;
-                }
-                if (buildingReport.buildingFinished)
-                {
-                    targetBuilding = null;
+                    BuildingReport buildingReport = targetBuilding.TryUseResources(ResourcesController.Instance.Resources, countPerUse);
+                    if (buildingReport.resourcesUsed)
+                    {
+                        uses++;
+                        nextUse = Time.time + baseRate - (rateIncrease * uses);
+                    }
+                    else
+                    {
+                        uses = 0;
+                    }
+                    if (buildingReport.buildingFinished)
+                    {
+                        targetBuilding = null;
+                    }
                 }
             }
-        }
-        else
-        {
-            uses = 0;
+            else
+            {
+                uses = 0;
+            }
         }
     }
 

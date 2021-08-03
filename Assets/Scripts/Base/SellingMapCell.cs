@@ -19,10 +19,16 @@ public class SellingMapCell : MapCell, IBuilding
     [SerializeField] Transform resourcesLayout;
     [SerializeField] ResourceBar resourceBarPrefab;
 
-    [SerializeField] List<CostInfo> cost = new List<CostInfo>();
+    List<CostInfo> cost = new List<CostInfo>();
 
     Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
     Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();
+
+    public void SetupCost(List<CostInfo> cost)
+    {
+        this.cost.Clear();
+        this.cost.AddRange(cost);
+    }
 
     public override void InitCell()
     {
@@ -76,8 +82,8 @@ public class SellingMapCell : MapCell, IBuilding
 
     void CreateResourceAnimation(ResourceType type, int i)
     {
-        Player player = GameplayController.Instance.playerInstance;
-        Resource instance = Instantiate(type.defaultPrefab, player.transform.position, Quaternion.LookRotation(UnityEngine.Random.insideUnitSphere));
+        Transform playerTransform = CampGameplayController.Instance.playerInstance;  
+        Resource instance = Instantiate(type.defaultPrefab, playerTransform.position, Quaternion.LookRotation(UnityEngine.Random.insideUnitSphere));
         instance.GetComponent<Rigidbody>().isKinematic = true;
         instance.transform.DOJump(transform.position, 1f, 1, 0.3f).OnComplete(() => Destroy(instance)).SetDelay((float)i * 0.1f);
     }

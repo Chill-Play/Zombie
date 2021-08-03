@@ -38,6 +38,7 @@ public class MapController : SingletonMono<MapController>
     [SerializeField, HideInInspector] List<MapCell> mapCells = new List<MapCell>();
     [SerializeField, HideInInspector] List<Building> buildings = new List<Building>();
     [SerializeField, HideInInspector] int mapCellId = -1;
+    [SerializeField, HideInInspector] int buildingId = -1;
     [SerializeField, HideInInspector] string saveId;
 
     JSONNode saveDataNode;
@@ -55,16 +56,21 @@ public class MapController : SingletonMono<MapController>
         buildings = new List<Building>();
         for (int i = 0; i < sceneMapCells.Length; i++)
         {
-            if (sceneMapCells[i].GridId == MapCell.DEFAULT_GRID_ID)
+            if (sceneMapCells[i].SaveId == MapCell.DEFAULT_GRID_ID)
             {              
                 mapCellId++;
-                sceneMapCells[i].GridId = "map_cell_" + mapCellId.ToString();                
+                sceneMapCells[i].SaveId = "map_cell_" + mapCellId.ToString();                
             }
             mapCells.Add(sceneMapCells[i]);            
         }
         for (int i = 0; i < sceneBuildings.Length; i++)
         {
             buildings.Add(sceneBuildings[i]);
+            if (sceneBuildings[i].SaveId == Building.DEFAULT_BUILDING_ID)
+            {
+                buildingId++;
+                buildings[i].SaveId = "building_" + buildingId.ToString();
+            }            
         }
 
         saveId = SceneManager.GetActiveScene().name;
@@ -80,11 +86,12 @@ public class MapController : SingletonMono<MapController>
     {
         for (int i = 0; i < mapCells.Count; i++)
         {
-            if (mapCells[i] != null)
-            {
-                mapCells[i].GridIndex = i;
-                mapCells[i].InitCell();              
-            }
+            mapCells[i].GridIndex = i;
+            mapCells[i].InitCell();
+        }
+        for (int i = 0; i < buildings.Count; i++)
+        {
+            buildings[i].InitBuilding();
         }
         Load();
         UpdateNavMesh();
@@ -94,7 +101,7 @@ public class MapController : SingletonMono<MapController>
     {
         saveDataNode = new JSONObject();
         string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
-        bool isSaveExist = File.Exists(filePath);        
+        bool isSaveExist = File.Exists(filePath);
         if (isSaveExist)
         {
             string loadData = File.ReadAllText(filePath);
@@ -104,17 +111,33 @@ public class MapController : SingletonMono<MapController>
                 MapCell mapCell = mapCells[i];
                 if (mapCell != null)
                 {
-                    if (mainNode.HasKey(mapCell.GridId))
+                    if (mainNode.HasKey(mapCell.SaveId))
                     {
-                        saveDataNode.Add(mapCell.GridId, mainNode[mapCell.GridId]);                        
+                        saveDataNode.Add(mapCell.SaveId, mainNode[mapCell.SaveId]);
                     }
                     else
                     {
-                        saveDataNode.Add(mapCell.GridId, "");
+                        saveDataNode.Add(mapCell.SaveId, "");
                     }
-                    mapCell.Load(saveDataNode[mapCell.GridId]);
+                    mapCell.Load(saveDataNode[mapCell.SaveId]);
                 }
-            }        
+            }
+            for (int i = 0; i < buildings.Count; i++)
+            {
+                Building building = buildings[i];
+                if (building != null)
+                {
+                    if (mainNode.HasKey(building.SaveId))
+                    {
+                        saveDataNode.Add(building.SaveId, mainNode[building.SaveId]);
+                    }
+                    else
+                    {
+                        saveDataNode.Add(building.SaveId, "");
+                    }
+                    building.Load(saveDataNode[building.SaveId]);
+                }
+            }
         }
         else
         {
@@ -123,18 +146,26 @@ public class MapController : SingletonMono<MapController>
                 MapCell mapCell = mapCells[i];
                 if (mapCell != null)
                 {
-                    saveDataNode.Add(mapCell.GridId, "");
+                    saveDataNode.Add(mapCell.SaveId, "");
                 }
-                mapCell.Load(saveDataNode[mapCell.GridId]);
+                mapCell.Load(saveDataNode[mapCell.SaveId]);
+            }
+            for (int i = 0; i < buildings.Count; i++)
+            {
+                Building building = buildings[i];
+                if (building != null)
+                {
+                    saveDataNode.Add(building.SaveId, "");
+                }              
             }
         }
 
     }
 
 
-    public void Save(MapCell mapCell)
+    public void Save(ISavableMapData data)
     {
-        saveDataNode[mapCell.GridId] = mapCell.GetSaveData();
+        saveDataNode[data.SaveId] = data.GetSaveData();
         string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
         File.WriteAllText(filePath, saveDataNode.ToString());
     }

@@ -5,6 +5,7 @@ using SimpleJSON;
 
 public class OpendMapCell : MapCell
 {
+    [SerializeField] List<SellingMapCell.CostInfo> cost = new List<SellingMapCell.CostInfo>();
     [SerializeField] protected SellingMapCell sellingMapCellPrefab;
     [SerializeField] protected GameObject content;
 
@@ -17,7 +18,8 @@ public class OpendMapCell : MapCell
         {
             content.SetActive(false);
             sellingMapCell = Instantiate<SellingMapCell>(sellingMapCellPrefab, this.transform);
-            sellingMapCell.GridId = GridId;
+            sellingMapCell.SaveId = SaveId;
+            sellingMapCell.SetupCost(cost);
             sellingMapCell.OnOpening += SellingMapCell_OnOpening;            
             MapController.Instance.ReplaceMapCell(GridIndex, sellingMapCell);
             sellingMapCell.Load(loadData);         

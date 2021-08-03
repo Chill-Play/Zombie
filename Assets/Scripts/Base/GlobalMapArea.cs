@@ -21,7 +21,7 @@ public class GlobalMapArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Player>())
+        if (other.GetComponent<PlayerBuilder>())
         {
             OnGlobalMapAreaEnter?.Invoke();
         }
@@ -29,7 +29,7 @@ public class GlobalMapArea : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Player>())
+        if (other.GetComponent<PlayerBuilder>())
         {
             OnGlobalMapAreaExit?.Invoke();
         }

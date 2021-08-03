@@ -1,45 +1,42 @@
 using DG.Tweening;
+using SimpleJSON;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : MonoBehaviour, IBuilding
+public class Building : MonoBehaviour, IBuilding, ISavableMapData
 {
+    public const string DEFAULT_BUILDING_ID = "none";  
+
     [System.Serializable]
     public struct CostInfo
     {
         public ResourceType type;
         public int count;
     }
-    [SerializeField] string buildingId;
+    [SerializeField, HideInInspector] protected string buildingId = DEFAULT_BUILDING_ID;  
     [SerializeField] List<CostInfo> cost = new List<CostInfo>();
     [SerializeField] Transform resourcesLayout;
     [SerializeField] ResourceBar resourceBarPrefab;
     [SerializeField] GameObject unfinishedPrefab;
-    [SerializeField] GameObject finishedPrefab;
-
+    [SerializeField] GameObject finishedPrefab;  
 
     Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
     Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();
 
-    // Start is called before the first frame update
-    void Start()
+    public string SaveId { get => buildingId; set { buildingId = value; } }
+
+    
+    public void InitBuilding()
     {
-       for(int i = 0; i < cost.Count; i++)
-       {
-            int costCount = cost[i].count;
-            string pref = GetResourcePrefId(cost[i].type);
-            if (PlayerPrefs.HasKey(pref))
-            {
-                costCount = PlayerPrefs.GetInt(pref);
-            }
-            resources.Add(cost[i].type, costCount);
+      
+        for (int i = 0; i < cost.Count; i++)
+       {           
+            resources.Add(cost[i].type, cost[i].count);
             ResourceBar bar = Instantiate(resourceBarPrefab, resourcesLayout);
             bar.Setup(cost[i].type, cost[i].count);
             resourceBars.Add(cost[i].type, bar);
-       }
-
-       UpdateBuilding();
+       }     
     }
 
     private string GetResourcePrefId(ResourceType type)
@@ -93,11 +90,7 @@ public class Building : MonoBehaviour, IBuilding
 
     void SaveBuilding()
     {
-        foreach (var pair in resources)
-        {
-            string pref = GetResourcePrefId(pair.Key);
-            PlayerPrefs.SetInt(pref, pair.Value); 
-        }
+        MapController.Instance.Save(this);
     }
 
 
@@ -154,5 +147,28 @@ public class Building : MonoBehaviour, IBuilding
         }
         result /= (float)cost.Count;        
         return result;
+    }
+
+    public JSONNode GetSaveData()
+    {
+        JSONNode jsonObject = new JSONObject();       
+        for (int i = 0; i < cost.Count; i++)
+        {
+            jsonObject.Add(cost[i].type.ToString(), resources[cost[i].type]);
+        }
+        return jsonObject;
+    }
+
+    public void Load(JSONNode loadData)
+    {
+       
+        for (int i = 0; i < cost.Count; i++)
+        {
+            if (loadData.HasKey(cost[i].type.ToString()))
+            {
+                resources[cost[i].type] = loadData[cost[i].type.ToString()].AsInt;
+            }
+        }
+        UpdateBuilding();
     }
 }

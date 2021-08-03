@@ -4,14 +4,15 @@ using UnityEngine;
 using SimpleJSON;
 using DG.Tweening;
 
-public class MapCell : MonoBehaviour
+public class MapCell : MonoBehaviour, ISavableMapData
 {
     public const string DEFAULT_GRID_ID = "none";
 
-   [SerializeField, HideInInspector] protected string gridId = DEFAULT_GRID_ID;  
+    [SerializeField, HideInInspector] protected string gridId = DEFAULT_GRID_ID;  
 
-    public string GridId { get => gridId; set { gridId = value; } }
-    public int GridIndex { get; set; } 
+    public string SaveId { get => gridId; set { gridId = value; } }
+    public int GridIndex { get; set; }
+   
 
     public virtual void InitCell()
     {
