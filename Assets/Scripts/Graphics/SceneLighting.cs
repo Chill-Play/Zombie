@@ -25,7 +25,7 @@ public class SceneLighting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Shader.SetGlobalColor("_ShadowColor", new Vector4(shadowColor.r, shadowColor.g, shadowColor.b, 0.0f));
+        Shader.SetGlobalVector("_ShadowColor", new Vector4(shadowColor.r, shadowColor.g, shadowColor.b, 0.0f));
         Shader.SetGlobalColor("_RimColor", environmentColor);
     }
 }

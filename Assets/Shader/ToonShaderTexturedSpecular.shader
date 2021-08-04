@@ -64,54 +64,44 @@
             float _Glossiness;
 
 
-            float3 rgb2hsv(float3 c)
-            {
-                float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-                float4 p = lerp(float4(c.bg, K.wz), float4(c.gb, K.xy), step(c.b, c.g));
-                float4 q = lerp(float4(p.xyw, c.r), float4(c.r, p.yzx), step(p.x, c.r));
+            //float3 rgb2hsv(float3 c)
+            //{
+            //    float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+            //    float4 p = lerp(float4(c.bg, K.wz), float4(c.gb, K.xy), step(c.b, c.g));
+            //    float4 q = lerp(float4(p.xyw, c.r), float4(c.r, p.yzx), step(p.x, c.r));
 
-                float d = q.x - min(q.w, q.y);
-                float e = 1.0e-10;
-                return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
-            }
+            //    float d = q.x - min(q.w, q.y);
+            //    float e = 1.0e-10;
+            //    return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+            //}
 
 
-            float3 shift_col(float3 RGB, float3 shift)
-            {
-                float3 RESULT = float3(RGB);
-                float VSU = shift.z * shift.y * cos(shift.x * 3.14159265 / 180);
-                float VSW = shift.z * shift.y * sin(shift.x * 3.14159265 / 180);
+            //float3 shift_col(float3 RGB, float3 shift)
+            //{
+            //    float3 RESULT = float3(RGB);
+            //    float VSU = shift.z * shift.y * cos(shift.x * 3.14159265 / 180);
+            //    float VSW = shift.z * shift.y * sin(shift.x * 3.14159265 / 180);
 
-                RESULT.x = (.299 * shift.z + .701 * VSU + .168 * VSW) * RGB.x
-                    + (.587 * shift.z - .587 * VSU + .330 * VSW) * RGB.y
-                    + (.114 * shift.z - .114 * VSU - .497 * VSW) * RGB.z;
+            //    RESULT.x = (.299 * shift.z + .701 * VSU + .168 * VSW) * RGB.x
+            //        + (.587 * shift.z - .587 * VSU + .330 * VSW) * RGB.y
+            //        + (.114 * shift.z - .114 * VSU - .497 * VSW) * RGB.z;
 
-                RESULT.y = (.299 * shift.z - .299 * VSU - .328 * VSW) * RGB.x
-                    + (.587 * shift.z + .413 * VSU + .035 * VSW) * RGB.y
-                    + (.114 * shift.z - .114 * VSU + .292 * VSW) * RGB.z;
+            //    RESULT.y = (.299 * shift.z - .299 * VSU - .328 * VSW) * RGB.x
+            //        + (.587 * shift.z + .413 * VSU + .035 * VSW) * RGB.y
+            //        + (.114 * shift.z - .114 * VSU + .292 * VSW) * RGB.z;
 
-                RESULT.z = (.299 * shift.z - .3 * VSU + 1.25 * VSW) * RGB.x
-                    + (.587 * shift.z - .588 * VSU - 1.05 * VSW) * RGB.y
-                    + (.114 * shift.z + .886 * VSU - .203 * VSW) * RGB.z;
+            //    RESULT.z = (.299 * shift.z - .3 * VSU + 1.25 * VSW) * RGB.x
+            //        + (.587 * shift.z - .588 * VSU - 1.05 * VSW) * RGB.y
+            //        + (.114 * shift.z + .886 * VSU - .203 * VSW) * RGB.z;
 
-                return (RESULT);
-            }
+            //    return (RESULT);
+            //}
 
 
 
             half4 GetShadowColor(half4 color, float light)
             {
-                float3 hsl = rgb2hsv(color);
-                float3 targetHsl = rgb2hsv(_ShadowColor);
-                float hue = hsl.x + 0.25;
-                
-                float3 shift = float3(0,0,0);
-                shift.x = (targetHsl - hsl) * 360;
-                shift.x *= ((hue) - 0.5) * -2.0;
-                shift.y = targetHsl.y;
-                shift.z = targetHsl.z;
-
-                return half4(shift_col(float3(color.r, color.g, color.b), shift), color.a);
+                return color * _ShadowColor;
             }
 
 
@@ -150,7 +140,7 @@
                 //lighting
                 float NdotL = dot(_WorldSpaceLightPos0, normal);
                 float shadow = SHADOW_ATTENUATION(i);
-                float lightIntensity = NdotL * shadow;
+                float lightIntensity = clamp(NdotL * shadow, 0, 1);
                 diffuse = lerp(GetShadowColor(diffuse, lightIntensity), diffuse, lightIntensity);
 
                 half4 reflection =  half4(0, 0, 0, 0);
@@ -163,8 +153,9 @@
 
 
                 float4 rimDot = 1 - dot(viewDir, normal);
-                rimDot = pow(rimDot, 10 * (1.0 - (_Glossiness * 0.8)));
-                reflection += _RimColor * rimDot * _RimColor.a;
+                rimDot = pow(rimDot, 10 * ((_Glossiness * 0.8)));
+                rimDot *= _Glossiness;
+                reflection += _RimColor * rimDot;
 
                 half4 finalColor = diffuse * (1 - reflection);
                 finalColor += reflection;

@@ -13,6 +13,10 @@ public class UIController : SingletonMono<UIController>
     void Awake()
     {
         LevelBase levelBase = FindObjectOfType<LevelBase>();
+        if(baseUI == null)
+        {
+            return;
+        }
         if(levelBase != null)
         {
             baseUI.gameObject.SetActive(true);

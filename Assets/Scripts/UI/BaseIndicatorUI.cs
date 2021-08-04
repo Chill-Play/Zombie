@@ -14,7 +14,7 @@ public class BaseIndicatorUI : MonoBehaviour
     Canvas canvas;
     RectTransform canvasRect;
 
-    private void Start()
+    private void OnEnable()
     {
         spawnPoint = FindObjectOfType<SpawnPoint>();
         squad = FindObjectOfType<Squad>().gameObject;

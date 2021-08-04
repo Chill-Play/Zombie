@@ -18,7 +18,7 @@ public class BaseUI : MonoBehaviour
        globalMapButton.gameObject.SetActive(false);
        GlobalMapArea.OnGlobalMapAreaEnter += GlobalMapArea_OnGlobalMapAreaEnter;
        GlobalMapArea.OnGlobalMapAreaExit += GlobalMapArea_OnGlobalMapAreaExit;
-        MapController.Instance.OnCompletionProgressUpdate += MapController_OnCompletionProgressUpdate;
+       MapController.Instance.OnCompletionProgressUpdate += MapController_OnCompletionProgressUpdate;
     }
 
     void Start()

@@ -9,7 +9,7 @@ public class OpendMapCell : MapCell
     [SerializeField] List<SellingMapCell.CostInfo> cost = new List<SellingMapCell.CostInfo>();
     [SerializeField] protected SellingMapCell sellingMapCellPrefab;
     [SerializeField] protected GameObject content;
-    [SerializeField] protected GameObject junk—ontent;
+    [SerializeField] protected GameObject junkContent;
 
     SellingMapCell sellingMapCell;
 
@@ -17,11 +17,11 @@ public class OpendMapCell : MapCell
     {
         base.Load(loadData);
 
-        junk—ontent.SetActive(false);
+        junkContent.SetActive(false);
         if (!loadData.HasKey("sold") || !loadData["sold"].AsBool)
         {
             content.SetActive(false);
-            junk—ontent.SetActive(true);
+            junkContent.SetActive(true);
             sellingMapCell = Instantiate<SellingMapCell>(sellingMapCellPrefab, this.transform);
             sellingMapCell.SaveId = SaveId;
             sellingMapCell.SetupCost(cost);            
@@ -33,12 +33,12 @@ public class OpendMapCell : MapCell
 
     protected virtual void SellingMapCell_OnOpening()
     {
-        junk—ontent.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InCirc).OnComplete(OnFinishHidingJunk);
+        junkContent.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InCirc).OnComplete(OnFinishHidingJunk);
     }
 
     void OnFinishHidingJunk()
     {
-        junk—ontent.SetActive(false);
+        junkContent.SetActive(false);
         sellingMapCell.gameObject.SetActive(false);
         content.SetActive(true);
         MapController.Instance.Save(this);

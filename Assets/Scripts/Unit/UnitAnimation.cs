@@ -16,13 +16,19 @@ public class UnitAnimation : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        shooting.OnShoot += Shooting_OnShoot;
+        if (shooting != null)
+        {
+            shooting.OnShoot += Shooting_OnShoot;
+        }
     }
 
 
     private void OnDisable()
     {
-        shooting.OnShoot -= Shooting_OnShoot;
+        if (shooting != null)
+        {
+            shooting.OnShoot -= Shooting_OnShoot;
+        }
     }
 
     private void Shooting_OnShoot()
@@ -43,10 +49,13 @@ public class UnitAnimation : MonoBehaviour
 
     void LateUpdate()
     {
-        if (shooting.Target != null)
+        if (shooting != null)
         {
-            Vector3 aimAngle = modelPivot.transform.eulerAngles + spineAngleOffset;
-            aimSpineBone.eulerAngles = aimAngle;
+            if (shooting.Target != null)
+            {
+                Vector3 aimAngle = modelPivot.transform.eulerAngles + spineAngleOffset;
+                aimSpineBone.eulerAngles = aimAngle;
+            }
         }
     }
 

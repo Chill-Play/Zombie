@@ -88,19 +88,19 @@ public class Level : SingletonMono<Level>
             Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
             enemy.SetLevel(level);
             enemies.Add(enemy);
-            //enemy.GetComponent<IDamagable>().OnDead() += Enemy_OnDead;
+            enemy.GetComponent<IDamagable>().OnDead += Enemy_OnDead;
         }
 
 
-        for (int i = 0; i < bigZombiesCount; i++)
-        {
-            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPointsCount)];
-            Enemy prefab = bigZombiesPrefabs[Random.Range(0, zombiePrefabs.Length)];
-            Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-            enemy.SetLevel(level);
-            enemies.Add(enemy);
-            //enemy.OnDead += Enemy_OnDead;
-        }
+        //for (int i = 0; i < bigZombiesCount; i++)
+        //{
+        //    Transform spawnPoint = spawnPoints[Random.Range(0, spawnPointsCount)];
+        //    Enemy prefab = bigZombiesPrefabs[Random.Range(0, zombiePrefabs.Length)];
+        //    Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+        //    enemy.SetLevel(level);
+        //    enemies.Add(enemy);
+        //    //enemy.OnDead += Enemy_OnDead;
+        //}
     }
 
     private void Enemy_OnDead(EventMessage<Empty> message)
