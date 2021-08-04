@@ -32,7 +32,7 @@ public class MapController : SingletonMono<MapController>
     [SerializeField] LayerMask NavMeshMask;
 
     Vector3 BoundsCenter = Vector3.zero;
-    Vector3 BoundsSize = new Vector3(512f, 4000f, 512f);
+    Vector3 BoundsSize = new Vector3(512f, 4000f, 512f); // poluchshe nadi 4erez vergnie peremenie
 
 
     [SerializeField, HideInInspector] List<MapCell> mapCells = new List<MapCell>();
@@ -78,7 +78,7 @@ public class MapController : SingletonMono<MapController>
 
     public void ClearPrefs()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, saveId + ".json");
+        string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
         File.Delete(filePath);
     }
 

@@ -112,15 +112,12 @@ public class SellingMapCell : MapCell, IBuilding
     }
 
     void FinishBuilding()
-    {
-        transform.DOScale(Vector3.zero,0.3f).SetEase(Ease.InCirc).OnComplete(CreateNewCell);
+    {       
         UIBuyingPopUpText.Instance.SpawnText(transform.position + 0.5f * Vector3.up);
-    }
-
-    void CreateNewCell()
-    {
         OnOpening?.Invoke();       
     }
+
+ 
 
    
 

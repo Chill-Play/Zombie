@@ -80,11 +80,10 @@ public class Building : MonoBehaviour, IBuilding, ISavableMapData
 
     void CreateResourceAnimation(ResourceType type, int i)
     {
-        return;
-        //GameObject player = GameplayController.Instance.playerInstance;
-        //Resource instance = Instantiate(type.defaultPrefab, player.transform.position, Quaternion.LookRotation(Random.insideUnitSphere));
-        //instance.GetComponent<Rigidbody>().isKinematic = true;
-        //instance.transform.DOJump(transform.position, 1f, 1, 0.3f).OnComplete(() => Destroy(instance)).SetDelay((float)i * 0.1f);
+        Transform playerTransform = CampGameplayController.Instance.playerInstance;
+        Resource instance = Instantiate(type.defaultPrefab, playerTransform.position, Quaternion.LookRotation(UnityEngine.Random.insideUnitSphere));
+        instance.GetComponent<Rigidbody>().isKinematic = true;
+        instance.transform.DOJump(transform.position, 1f, 1, 0.3f).OnComplete(() => Destroy(instance)).SetDelay((float)i * 0.1f);
     }
 
 

@@ -2,24 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
+using DG.Tweening;
 
 public class OpendMapCell : MapCell
 {
     [SerializeField] List<SellingMapCell.CostInfo> cost = new List<SellingMapCell.CostInfo>();
     [SerializeField] protected SellingMapCell sellingMapCellPrefab;
     [SerializeField] protected GameObject content;
+    [SerializeField] protected GameObject junk—ontent;
 
     SellingMapCell sellingMapCell;
 
     public override void Load(JSONNode loadData)
     {
-        base.Load(loadData);     
+        base.Load(loadData);
+
+        junk—ontent.SetActive(false);
         if (!loadData.HasKey("sold") || !loadData["sold"].AsBool)
         {
             content.SetActive(false);
+            junk—ontent.SetActive(true);
             sellingMapCell = Instantiate<SellingMapCell>(sellingMapCellPrefab, this.transform);
             sellingMapCell.SaveId = SaveId;
-            sellingMapCell.SetupCost(cost);
+            sellingMapCell.SetupCost(cost);            
             sellingMapCell.OnOpening += SellingMapCell_OnOpening;            
             MapController.Instance.ReplaceMapCell(GridIndex, sellingMapCell);
             sellingMapCell.Load(loadData);         
@@ -27,13 +32,18 @@ public class OpendMapCell : MapCell
     }
 
     protected virtual void SellingMapCell_OnOpening()
-    {       
+    {
+        junk—ontent.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InCirc).OnComplete(OnFinishHidingJunk);
+    }
+
+    void OnFinishHidingJunk()
+    {
+        junk—ontent.SetActive(false);
         sellingMapCell.gameObject.SetActive(false);
         content.SetActive(true);
         MapController.Instance.Save(this);
         Build((x) => MapController.Instance.ReplaceMapCell(GridIndex, x, true));
         sellingMapCell.OnOpening -= SellingMapCell_OnOpening;
-
     }
 
     public override JSONNode GetSaveData()
