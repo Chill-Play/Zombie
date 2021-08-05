@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class MapCellWithBuildings : OpendMapCell
+public class MapCellWithBuildings : OpenedMapCell
 {
    [SerializeField] List<GameObject> buildings = new List<GameObject>();
 

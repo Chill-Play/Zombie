@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
 
-public interface ISavableMapData 
+public interface ISaveableMapData 
 {
     string SaveId { get; set; }
 

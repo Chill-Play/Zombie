@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : MonoBehaviour, IBuilding, ISavableMapData
+public class Building : BaseBuilding
 {
     public const string DEFAULT_BUILDING_ID = "none";  
 
@@ -24,9 +24,8 @@ public class Building : MonoBehaviour, IBuilding, ISavableMapData
     Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
     Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();
 
-    public string SaveId { get => buildingId; set { buildingId = value; } }
+    public override string SaveId { get => buildingId; set { buildingId = value; } }   
 
-    
     public void InitBuilding()
     {
       
@@ -44,7 +43,7 @@ public class Building : MonoBehaviour, IBuilding, ISavableMapData
         return buildingId + "_" + type.saveId;
     }
 
-    public BuildingReport TryUseResources(List<ResourceType> playerResources, int count)
+    public override BuildingReport TryUseResources(List<ResourceType> playerResources, int count)
     {
         BuildingReport result = new BuildingReport();
         for(int i = 0; i < playerResources.Count; i++ )
@@ -148,7 +147,7 @@ public class Building : MonoBehaviour, IBuilding, ISavableMapData
         return result;
     }
 
-    public JSONNode GetSaveData()
+    public override JSONNode GetSaveData()
     {
         JSONNode jsonObject = new JSONObject();       
         for (int i = 0; i < cost.Count; i++)
@@ -158,7 +157,7 @@ public class Building : MonoBehaviour, IBuilding, ISavableMapData
         return jsonObject;
     }
 
-    public void Load(JSONNode loadData)
+    public override void Load(JSONNode loadData)
     {
        
         for (int i = 0; i < cost.Count; i++)

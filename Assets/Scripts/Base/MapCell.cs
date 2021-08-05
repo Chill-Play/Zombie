@@ -4,7 +4,7 @@ using UnityEngine;
 using SimpleJSON;
 using DG.Tweening;
 
-public class MapCell : MonoBehaviour, ISavableMapData
+public class MapCell : MonoBehaviour, ISaveableMapData
 {
     public const string DEFAULT_GRID_ID = "none";
 

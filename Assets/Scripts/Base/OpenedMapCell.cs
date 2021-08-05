@@ -4,7 +4,7 @@ using UnityEngine;
 using SimpleJSON;
 using DG.Tweening;
 
-public class OpendMapCell : MapCell
+public class OpenedMapCell : MapCell
 {
     [SerializeField] List<SellingMapCell.CostInfo> cost = new List<SellingMapCell.CostInfo>();
     [SerializeField] protected SellingMapCell sellingMapCellPrefab;

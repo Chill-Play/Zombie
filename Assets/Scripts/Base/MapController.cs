@@ -9,31 +9,14 @@ using UnityEngine.SceneManagement;
 
 public class MapController : SingletonMono<MapController>
 {
-    [System.Serializable]
-    public struct GridPoint
-    {
-        public int x;
-        public int y;
-
-        public GridPoint(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
 
     public event System.Action<float> OnCompletionProgressUpdate;
-    public event System.Action OnMapComplited;
-
-  
-    [SerializeField] Vector2 mapExtends;
-    [SerializeField] Vector2 cellSize;
+    public event System.Action OnMapComplited; 
 
     [SerializeField] LayerMask NavMeshMask;
+    [SerializeField] Vector3 BoundsSize = new Vector3(512f, 4000f, 512f); 
 
-    Vector3 BoundsCenter = Vector3.zero;
-    Vector3 BoundsSize = new Vector3(512f, 4000f, 512f); // poluchshe nadi 4erez vergnie peremenie
-
+    Vector3 BoundsCenter = Vector3.zero;  
 
     [SerializeField, HideInInspector] List<MapCell> mapCells = new List<MapCell>();
     [SerializeField, HideInInspector] List<Building> buildings = new List<Building>();
@@ -42,8 +25,7 @@ public class MapController : SingletonMono<MapController>
     [SerializeField, HideInInspector] string saveId;
 
     JSONNode saveDataNode;
-    float mapProgress = 0;
-    
+    float mapProgress = 0;    
 
     public List<MapCell> MapCells => mapCells;
 
@@ -55,7 +37,7 @@ public class MapController : SingletonMono<MapController>
         mapCells = new List<MapCell>();
         buildings = new List<Building>();
         for (int i = 0; i < sceneMapCells.Length; i++)
-        {
+        {        
             if (sceneMapCells[i].SaveId == MapCell.DEFAULT_GRID_ID)
             {              
                 mapCellId++;
@@ -78,6 +60,16 @@ public class MapController : SingletonMono<MapController>
 
     public void ClearPrefs()
     {
+        MapCell[] sceneMapCells = FindObjectsOfType<MapCell>();
+        Building[] sceneBuildings = FindObjectsOfType<Building>(true);
+        for (int i = 0; i < sceneMapCells.Length; i++)
+        {
+            sceneMapCells[i].SaveId = MapCell.DEFAULT_GRID_ID;
+        }
+        for (int i = 0; i < sceneBuildings.Length; i++)
+        {
+            sceneBuildings[i].SaveId = Building.DEFAULT_BUILDING_ID;
+        }
         string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
         File.Delete(filePath);
     }
@@ -163,7 +155,7 @@ public class MapController : SingletonMono<MapController>
     }
 
 
-    public void Save(ISavableMapData data)
+    public void Save(ISaveableMapData data)
     {
         saveDataNode[data.SaveId] = data.GetSaveData();
         string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
