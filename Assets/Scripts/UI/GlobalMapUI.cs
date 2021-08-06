@@ -17,7 +17,7 @@ public class GlobalMapUI : SingletonMono<GlobalMapUI>
     void MoveButton_OnClick()
     {
         moveButton.gameObject.SetActive(false);
-        GlobalMapGame.Instance.MoveToNextState();
+       // GlobalMapGame.Instance.MoveToNextState();
     }
 
     public void SetDark(float value, float duration, System.Action callback = null)
