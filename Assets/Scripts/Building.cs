@@ -30,7 +30,9 @@ public class Building : BaseBuilding
             ResourceBar bar = Instantiate(resourceBarPrefab, resourcesLayout);
             bar.Setup(cost[i].type, cost[i].count);
             resourceBars.Add(cost[i].type, bar);
-       }     
+       }
+        finishedPrefab.SetActive(false);
+        unfinishedPrefab.SetActive(true);
     }
 
     private string GetResourcePrefId(ResourceType type)
@@ -118,8 +120,9 @@ public class Building : BaseBuilding
     {
         unfinishedPrefab.gameObject.SetActive(false);
         finishedPrefab.gameObject.SetActive(true);
+        Vector3 targetScale = finishedPrefab.transform.localScale;
         finishedPrefab.transform.localScale = Vector3.zero;
-        finishedPrefab.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);
+        finishedPrefab.transform.DOScale(targetScale, 0.3f).SetEase(Ease.OutCirc);
         finishedPrefab.transform.DOPunchPosition(Vector3.up * 0.8f, 0.5f, 3);
     }
 
@@ -155,13 +158,33 @@ public class Building : BaseBuilding
     public override void Load(JSONNode loadData)
     {
         base.Load(loadData);
+        bool isBuildingFinished = true;
         for (int i = 0; i < cost.Count; i++)
         {
             if (loadData.HasKey(cost[i].type.ToString()))
             {
-                resources[cost[i].type] = loadData[cost[i].type.ToString()].AsInt;
+                ResourceType resourceType = cost[i].type;
+                int value = loadData[cost[i].type.ToString()].AsInt;
+                resources[resourceType] = value;
+                if (value == 0)
+                {
+                    resourceBars[resourceType].gameObject.SetActive(false);
+                }
+                else
+                {
+                    isBuildingFinished = false;
+                    resourceBars[resourceType].UpdateValue(value);
+                }
             }
+            else
+            {
+                isBuildingFinished = false;
+            }            
         }
-        UpdateBuilding();
+        if(isBuildingFinished)
+        {
+            unfinishedPrefab.gameObject.SetActive(false);
+            finishedPrefab.gameObject.SetActive(true);          
+        }      
     }
 }

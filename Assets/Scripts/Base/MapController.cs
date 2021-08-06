@@ -28,6 +28,7 @@ public class MapController : SingletonMono<MapController>
     float mapProgress = 0;    
 
     public List<MapCell> MapCells => mapCells;
+    public List<BaseBuilding> Buildings => buildings;
 
     public void ApplyMapChanges()
     {
@@ -48,10 +49,11 @@ public class MapController : SingletonMono<MapController>
         for (int i = 0; i < sceneBuildings.Length; i++)
         {
             buildings.Add(sceneBuildings[i]);
-            if (sceneBuildings[i].SaveId == Building.DEFAULT_BUILDING_ID)
+            if (sceneBuildings[i].SaveId == BaseBuilding.DEFAULT_BUILDING_ID)
             {
+                
                 buildingId++;
-                buildings[i].SaveId = "building_" + buildingId.ToString();
+                sceneBuildings[i].SaveId = "building_" + buildingId.ToString();
             }            
         }
 
@@ -62,13 +64,15 @@ public class MapController : SingletonMono<MapController>
     {
         MapCell[] sceneMapCells = FindObjectsOfType<MapCell>();
         BaseBuilding[] sceneBuildings = FindObjectsOfType<BaseBuilding>(true);
+        mapCellId = 0;
+        buildingId = 0;
         for (int i = 0; i < sceneMapCells.Length; i++)
         {
             sceneMapCells[i].SaveId = MapCell.DEFAULT_GRID_ID;
         }
         for (int i = 0; i < sceneBuildings.Length; i++)
         {
-            sceneBuildings[i].SaveId = Building.DEFAULT_BUILDING_ID;
+            sceneBuildings[i].SaveId = BaseBuilding.DEFAULT_BUILDING_ID;
         }
         string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
         File.Delete(filePath);

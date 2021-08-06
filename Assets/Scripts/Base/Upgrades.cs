@@ -128,12 +128,15 @@ public class Upgrades : MonoBehaviour, IBuilding, ISaveableMapData
     public JSONNode GetSaveData()
     {
         JSONObject result = new JSONObject();
-        JSONObject jsonObject = new JSONObject();       
-        for (int i = 0; i < cost.Count; i++)
+        if (gameObject.activeSelf)
         {
-            jsonObject.Add(cost[i].type.ToString(), resources[cost[i].type]);
-        }        
-        result.Add("upgrades", jsonObject);
+            JSONObject jsonObject = new JSONObject();
+            for (int i = 0; i < cost.Count; i++)
+            {
+                jsonObject.Add(cost[i].type.ToString(), resources[cost[i].type]);
+            }
+            result.Add("upgrades", jsonObject);
+        }
         return result;
     }
 

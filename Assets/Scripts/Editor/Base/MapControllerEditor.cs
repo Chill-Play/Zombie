@@ -20,11 +20,26 @@ public class MapControllerEditor : Editor
             {
                 EditorUtility.SetDirty(myTarget.MapCells[i]);
             }
+            EditorUtility.SetDirty(myTarget);
+            for (int i = 0; i < myTarget.Buildings.Count; i++)
+            {
+                EditorUtility.SetDirty(myTarget.Buildings[i]);
+            }
         }
 
         if (GUILayout.Button("Clear"))
         {
-            myTarget.ClearPrefs();        
+            myTarget.ClearPrefs();
+            EditorUtility.SetDirty(myTarget);
+            for (int i = 0; i < myTarget.MapCells.Count; i++)
+            {
+                EditorUtility.SetDirty(myTarget.MapCells[i]);
+            }
+            EditorUtility.SetDirty(myTarget);
+            for (int i = 0; i < myTarget.Buildings.Count; i++)
+            {
+                EditorUtility.SetDirty(myTarget.Buildings[i]);
+            }
         }
     }
 

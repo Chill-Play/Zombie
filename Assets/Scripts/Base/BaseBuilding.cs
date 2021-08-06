@@ -14,12 +14,12 @@ public class BaseBuilding : MonoBehaviour, IBuilding, ISaveableMapData
 
     public event Action<ISaveableMapData> OnSave;
 
-    [SerializeField, HideInInspector] protected string buildingId = DEFAULT_BUILDING_ID;
+    [SerializeField] protected string buildingId = DEFAULT_BUILDING_ID;
     public virtual string SaveId { get => buildingId; set { buildingId = value; } }
 
 
     public virtual void InitBuilding()
-    {        
+    {
         for (int i = 0; i < saveingContent.Count; i++)
         {            
             ISaveableMapData saveableMapData = saveingContent[i].GetComponent<ISaveableMapData>();
@@ -37,7 +37,7 @@ public class BaseBuilding : MonoBehaviour, IBuilding, ISaveableMapData
     {       
         JSONObject jsonObject = new JSONObject();
         for (int i = 0; i < saveableMapDatas.Count; i++)
-        {
+        {           
             jsonObject.Add("save_data", saveableMapDatas[i].GetSaveData());
         }      
         return jsonObject;
