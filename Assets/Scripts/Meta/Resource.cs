@@ -8,19 +8,7 @@ public class Resource : MonoBehaviour
     [SerializeField] ResourceType type;
     public Transform Picker { get; set; }
 
-
-    void Start()
-    {
-        StartCoroutine(PickUp());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
+    
     IEnumerator PickUp()
     {
         yield return new WaitForSeconds(1f);
@@ -34,7 +22,7 @@ public class Resource : MonoBehaviour
             transform.position = Vector3.Lerp(startPos, picker.transform.position, t);
             yield return new WaitForEndOfFrame();
         }
-        picker.GetComponent<PlayerBackpack>().PickUp(type, count);
+        //picker.GetComponent<PlayerBackpack>().PickUp(type, count);
         Destroy(gameObject);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIController : SingletonMono<UIController>
 {
-    [SerializeField] BaseUI baseUI;
+    //[SerializeField] BaseUI baseUI;
     [SerializeField] InGameUI inGame;
     [SerializeField] RaidFinishScreen finishScreen;
     [SerializeField] FailedUI failedUI;
@@ -13,18 +13,18 @@ public class UIController : SingletonMono<UIController>
     void Awake()
     {
         LevelBase levelBase = FindObjectOfType<LevelBase>();
-        if(baseUI == null)
+        //if(baseUI == null)
         {
             return;
         }
         if(levelBase != null)
         {
-            baseUI.gameObject.SetActive(true);
+            //baseUI.gameObject.SetActive(true);
             inGame.gameObject.SetActive(false);
         }
         else
         {
-            baseUI.gameObject.SetActive(false);
+            //baseUI.gameObject.SetActive(false);
             inGame.gameObject.SetActive(true);
         }
     }
