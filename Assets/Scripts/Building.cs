@@ -5,16 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Building : BaseBuilding
-{
-    public const string DEFAULT_BUILDING_ID = "none";  
-
+{   
     [System.Serializable]
     public struct CostInfo
     {
         public ResourceType type;
         public int count;
     }
-    [SerializeField, HideInInspector] protected string buildingId = DEFAULT_BUILDING_ID;  
     [SerializeField] List<CostInfo> cost = new List<CostInfo>();
     [SerializeField] Transform resourcesLayout;
     [SerializeField] ResourceBar resourceBarPrefab;
@@ -22,14 +19,12 @@ public class Building : BaseBuilding
     [SerializeField] GameObject finishedPrefab;  
 
     Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
-    Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();
+    Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();   
 
-    public override string SaveId { get => buildingId; set { buildingId = value; } }   
-
-    public void InitBuilding()
+    public override void InitBuilding()
     {
-      
-        for (int i = 0; i < cost.Count; i++)
+        base.InitBuilding();
+       for (int i = 0; i < cost.Count; i++)
        {           
             resources.Add(cost[i].type, cost[i].count);
             ResourceBar bar = Instantiate(resourceBarPrefab, resourcesLayout);
@@ -128,7 +123,7 @@ public class Building : BaseBuilding
         finishedPrefab.transform.DOPunchPosition(Vector3.up * 0.8f, 0.5f, 3);
     }
 
-    public float GetCompletionProgress()
+    public override float GetCompletionProgress()
     {
         float result = 0f;
         
@@ -149,7 +144,7 @@ public class Building : BaseBuilding
 
     public override JSONNode GetSaveData()
     {
-        JSONNode jsonObject = new JSONObject();       
+        JSONNode jsonObject = base.GetSaveData();       
         for (int i = 0; i < cost.Count; i++)
         {
             jsonObject.Add(cost[i].type.ToString(), resources[cost[i].type]);
@@ -159,7 +154,7 @@ public class Building : BaseBuilding
 
     public override void Load(JSONNode loadData)
     {
-       
+        base.Load(loadData);
         for (int i = 0; i < cost.Count; i++)
         {
             if (loadData.HasKey(cost[i].type.ToString()))

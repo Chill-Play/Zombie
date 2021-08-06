@@ -25,4 +25,14 @@ public class StatsManager : SingletonMono<StatsManager>
             statsInfo.Add(baseStats[i].statsType, baseStats[i].value);
         }
     }
+
+    public int AddStat(StatsType statsType, int value = 1)
+    {
+        if (statsInfo.ContainsKey(statsType))
+        {
+            statsInfo[statsType]++;
+            return (statsInfo[statsType]);
+        }
+        return -1;
+    }
 }

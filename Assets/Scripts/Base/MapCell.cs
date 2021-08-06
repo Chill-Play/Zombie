@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
 using DG.Tweening;
+using System;
 
 public class MapCell : MonoBehaviour, ISaveableMapData
 {
     public const string DEFAULT_GRID_ID = "none";
 
-    [SerializeField, HideInInspector] protected string gridId = DEFAULT_GRID_ID;  
+    [SerializeField, HideInInspector] protected string gridId = DEFAULT_GRID_ID;
+
+    public event Action<ISaveableMapData> OnSave;
 
     public string SaveId { get => gridId; set { gridId = value; } }
     public int GridIndex { get; set; }

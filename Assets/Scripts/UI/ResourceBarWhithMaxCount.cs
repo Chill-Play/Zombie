@@ -18,10 +18,10 @@ public class ResourceBarWhithMaxCount : MonoBehaviour
     public void Setup(ResourceType type, int count, int maxValue)
     {
         resourceType = type;
-        icon.sprite = type.icon;
-        text.text = count.ToString() + "/" + maxValue.ToString();
-        targetValue = count;
-        currentValue = count;
+        icon.sprite = type.icon;     
+        targetValue = maxValue - count;
+        currentValue = maxValue - count;
+        text.text = currentValue.ToString() + "/" + maxValue.ToString();
         this.maxValue = maxValue;
     }
 
@@ -39,7 +39,8 @@ public class ResourceBarWhithMaxCount : MonoBehaviour
 
     public void UpdateValue(int newValue)
     {
-        if(targetValue == newValue)
+        newValue = maxValue - newValue;
+        if (targetValue == newValue)
         {
             return;
         }

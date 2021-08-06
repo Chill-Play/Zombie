@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using SimpleJSON;
+using System;
 
 public class Upgrades : MonoBehaviour, IBuilding, ISaveableMapData
 {
@@ -26,10 +27,12 @@ public class Upgrades : MonoBehaviour, IBuilding, ISaveableMapData
     Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
     Dictionary<ResourceType, ResourceBarWhithMaxCount> resourceBars = new Dictionary<ResourceType, ResourceBarWhithMaxCount>();
 
+    public event Action<ISaveableMapData> OnSave;
+
     public string SaveId { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
 
-    private void OnEnable()
+    private void Awake()
     {
         statValue = StatsManager.Instance.StatsInfo[statType];
         statUpgradeBar.SetupBar(statType, statValue);
@@ -44,8 +47,7 @@ public class Upgrades : MonoBehaviour, IBuilding, ISaveableMapData
     }
 
     public BuildingReport TryUseResources(List<ResourceType> playerResources, int count)
-    {
-        Debug.Log("AZZAZA");
+    {       
         BuildingReport result = new BuildingReport();
         for (int i = 0; i < playerResources.Count; i++)
         {
@@ -70,8 +72,8 @@ public class Upgrades : MonoBehaviour, IBuilding, ISaveableMapData
         if (result.resourcesUsed)
         {
             ResourcesController.Instance.UpdateResources();
-            result.buildingFinished = UpdateStatsLevel();
-            SaveBuilding();
+            result.needToResetSpeed = UpdateStatsLevel();
+            SaveStatProgress();
         }
 
         return result;
@@ -86,9 +88,9 @@ public class Upgrades : MonoBehaviour, IBuilding, ISaveableMapData
     }
 
 
-    void SaveBuilding()
+    void SaveStatProgress()
     {
-       // MapController.Instance.Save(this);
+        OnSave?.Invoke(this);
     }
 
 
@@ -114,16 +116,40 @@ public class Upgrades : MonoBehaviour, IBuilding, ISaveableMapData
 
     void AddStat()
     {
-        
+        statValue = StatsManager.Instance.AddStat(statType);
+        statUpgradeBar.UpdateValue(statValue);
+        for (int i = 0; i < cost.Count; i++)
+        {
+            resources[cost[i].type] = cost[i].count;
+            resourceBars[cost[i].type].Setup(cost[i].type, cost[i].count, cost[i].count);
+        }
     }
 
     public JSONNode GetSaveData()
     {
-        throw new System.NotImplementedException();
+        JSONObject result = new JSONObject();
+        JSONObject jsonObject = new JSONObject();       
+        for (int i = 0; i < cost.Count; i++)
+        {
+            jsonObject.Add(cost[i].type.ToString(), resources[cost[i].type]);
+        }        
+        result.Add("upgrades", jsonObject);
+        return result;
     }
 
     public void Load(JSONNode loadData)
     {
-        throw new System.NotImplementedException();
+        if (loadData.HasKey("save_data") && loadData["save_data"].HasKey("upgrades"))
+        {            
+            JSONNode upgradesNode = loadData["save_data"]["upgrades"];
+            for (int i = 0; i < cost.Count; i++)
+            {
+                if (upgradesNode.HasKey(cost[i].type.ToString()))
+                {
+                    resources[cost[i].type] = upgradesNode[cost[i].type.ToString()].AsInt;
+                }
+            }
+        }
+        UpdateStatsLevel();
     }
 }

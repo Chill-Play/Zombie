@@ -53,6 +53,10 @@ public class PlayerBuilder : MonoBehaviour
                     {
                         uses = 0;
                     }
+                    if (buildingReport.needToResetSpeed)
+                    {
+                        uses = 0;
+                    }
                     if (buildingReport.buildingFinished)
                     {
                         targetBuilding = null;

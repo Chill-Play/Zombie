@@ -15,7 +15,7 @@ public class BuildingTargetVolume : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {    Debug.Log("AZAZA");
+    {    
         if (other.GetComponent<PlayerBuilder>())
         {
            

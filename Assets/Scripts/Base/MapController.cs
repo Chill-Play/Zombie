@@ -19,7 +19,7 @@ public class MapController : SingletonMono<MapController>
     Vector3 BoundsCenter = Vector3.zero;  
 
     [SerializeField, HideInInspector] List<MapCell> mapCells = new List<MapCell>();
-    [SerializeField, HideInInspector] List<Building> buildings = new List<Building>();
+    [SerializeField, HideInInspector] List<BaseBuilding> buildings = new List<BaseBuilding>();
     [SerializeField, HideInInspector] int mapCellId = -1;
     [SerializeField, HideInInspector] int buildingId = -1;
     [SerializeField, HideInInspector] string saveId;
@@ -32,10 +32,10 @@ public class MapController : SingletonMono<MapController>
     public void ApplyMapChanges()
     {
         MapCell[] sceneMapCells = FindObjectsOfType<MapCell>();
-        Building[] sceneBuildings = FindObjectsOfType<Building>(true);
+        BaseBuilding[] sceneBuildings = FindObjectsOfType<BaseBuilding>(true);
 
         mapCells = new List<MapCell>();
-        buildings = new List<Building>();
+        buildings = new List<BaseBuilding>();
         for (int i = 0; i < sceneMapCells.Length; i++)
         {        
             if (sceneMapCells[i].SaveId == MapCell.DEFAULT_GRID_ID)
@@ -61,7 +61,7 @@ public class MapController : SingletonMono<MapController>
     public void ClearPrefs()
     {
         MapCell[] sceneMapCells = FindObjectsOfType<MapCell>();
-        Building[] sceneBuildings = FindObjectsOfType<Building>(true);
+        BaseBuilding[] sceneBuildings = FindObjectsOfType<BaseBuilding>(true);
         for (int i = 0; i < sceneMapCells.Length; i++)
         {
             sceneMapCells[i].SaveId = MapCell.DEFAULT_GRID_ID;
@@ -116,7 +116,7 @@ public class MapController : SingletonMono<MapController>
             }
             for (int i = 0; i < buildings.Count; i++)
             {
-                Building building = buildings[i];
+                BaseBuilding building = buildings[i];
                 if (building != null)
                 {
                     if (mainNode.HasKey(building.SaveId))
@@ -144,7 +144,7 @@ public class MapController : SingletonMono<MapController>
             }
             for (int i = 0; i < buildings.Count; i++)
             {
-                Building building = buildings[i];
+                BaseBuilding building = buildings[i];
                 if (building != null)
                 {
                     saveDataNode.Add(building.SaveId, "");
@@ -158,6 +158,7 @@ public class MapController : SingletonMono<MapController>
     public void Save(ISaveableMapData data)
     {
         saveDataNode[data.SaveId] = data.GetSaveData();
+        //Debug.Log(saveDataNode[data.SaveId].ToString());
         string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
         File.WriteAllText(filePath, saveDataNode.ToString());
     }
