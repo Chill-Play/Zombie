@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class OpenedMapCell : MapCell
 {
-    [SerializeField] List<SellingMapCell.CostInfo> cost = new List<SellingMapCell.CostInfo>();
+    [SerializeField] List<CostInfo> cost = new List<CostInfo>();
     [SerializeField] protected SellingMapCell sellingMapCellPrefab;
     [SerializeField] protected GameObject content;
     [SerializeField] protected GameObject junkContent;

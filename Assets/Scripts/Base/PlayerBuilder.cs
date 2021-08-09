@@ -18,7 +18,7 @@ public class PlayerBuilder : MonoBehaviour
     {
         unitMovement = GetComponent<UnitMovement>();
         BuildingTargetVolume.OnBuildingTargetEnter += BuildingTargetVolume_OnBuildingTargetEnter;
-        BuildingTargetVolume.OnBuildingTargetExit += BuildingTargetVolume_OnBuildingTargetExit; ;
+        BuildingTargetVolume.OnBuildingTargetExit += BuildingTargetVolume_OnBuildingTargetExit;
     }
  
     private void BuildingTargetVolume_OnBuildingTargetEnter(IBuilding obj)

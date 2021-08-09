@@ -23,7 +23,7 @@ public class GlobalMapUI : SingletonMono<GlobalMapUI>
     public void SetDark(float value, float duration, System.Action callback = null)
     {
         darkImage.gameObject.SetActive(true);
-        darkImage.DOFade(value, duration).OnComplete(() => { callback(); darkImage.gameObject.SetActive(false); });
+        //darkImage.DOFade(value, duration).OnComplete(() => { callback(); darkImage.gameObject.SetActive(false); });
     }
 
 

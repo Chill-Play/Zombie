@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using SimpleJSON;
+using System;
 
-
-public class SellingMapCell : MapCell, IBuilding
+public class SellingMapCell : MapCell, IBuildable
 {
-    [System.Serializable]
-    public struct CostInfo
-    {
-        public ResourceType type;
-        public int count;
-    }
-
     public event System.Action OnOpening;
+    public event Action<List<CostInfo>> OnInitialized;
+    public event Action<Dictionary<ResourceType, int>> OnUpdated;
 
     [SerializeField] Transform resourcesLayout;
     [SerializeField] ResourceBar resourceBarPrefab;

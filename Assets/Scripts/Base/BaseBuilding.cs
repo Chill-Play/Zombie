@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using SimpleJSON;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class BaseBuilding : MonoBehaviour, IBuilding, ISaveableMapData
+public abstract class BaseBuilding : MonoBehaviour, IBuilding, ISaveableMapData
 {
     public const string DEFAULT_BUILDING_ID = "none";
 
-    [SerializeField] protected List<GameObject> saveingContent = new List<GameObject>();
+    [FormerlySerializedAs("saveingContent")]
+    [SerializeField] protected List<GameObject> savingContent = new List<GameObject>();
 
     protected List<ISaveableMapData> saveableMapDatas = new List<ISaveableMapData>();
 
@@ -20,9 +22,9 @@ public class BaseBuilding : MonoBehaviour, IBuilding, ISaveableMapData
 
     public virtual void InitBuilding()
     {
-        for (int i = 0; i < saveingContent.Count; i++)
+        for (int i = 0; i < savingContent.Count; i++)
         {            
-            ISaveableMapData saveableMapData = saveingContent[i].GetComponent<ISaveableMapData>();
+            ISaveableMapData saveableMapData = savingContent[i].GetComponent<ISaveableMapData>();
             saveableMapDatas.Add(saveableMapData);
             saveableMapData.OnSave += SaveableMapData_OnSave;
         }
@@ -51,13 +53,7 @@ public class BaseBuilding : MonoBehaviour, IBuilding, ISaveableMapData
         }
     }
 
-    public virtual BuildingReport TryUseResources(List<ResourceType> playerResources, int count)
-    {
-        return new BuildingReport();
-    }
+    public abstract BuildingReport TryUseResources(List<ResourceType> playerResources, int count);
 
-    public virtual float GetCompletionProgress()
-    {        
-        return 1f;
-    }
+    public abstract float GetCompletionProgress();
 }

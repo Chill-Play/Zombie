@@ -5,34 +5,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Building : BaseBuilding
-{   
-    [System.Serializable]
-    public struct CostInfo
-    {
-        public ResourceType type;
-        public int count;
-    }
+{
+    public event System.Action OnBuildingInited;
+    public event System.Action OnDataLoaded;
+    public event System.Action OnUpdate;
+
     [SerializeField] List<CostInfo> cost = new List<CostInfo>();
-    [SerializeField] Transform resourcesLayout;
-    [SerializeField] ResourceBar resourceBarPrefab;
     [SerializeField] GameObject unfinishedPrefab;
     [SerializeField] GameObject finishedPrefab;  
 
-    Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
-    Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();   
+    public Dictionary<ResourceType, int> Resources { get; } = new Dictionary<ResourceType, int>();
+    public List<CostInfo> Cost => cost; 
 
     public override void InitBuilding()
     {
         base.InitBuilding();
-       for (int i = 0; i < cost.Count; i++)
-       {           
-            resources.Add(cost[i].type, cost[i].count);
-            ResourceBar bar = Instantiate(resourceBarPrefab, resourcesLayout);
-            bar.Setup(cost[i].type, cost[i].count);
-            resourceBars.Add(cost[i].type, bar);
-       }
+        for (int i = 0; i < cost.Count; i++)
+        {
+            Resources.Add(cost[i].type, cost[i].count);
+        }
         finishedPrefab.SetActive(false);
         unfinishedPrefab.SetActive(true);
+        OnBuildingInited?.Invoke();
     }
 
     private string GetResourcePrefId(ResourceType type)
@@ -45,7 +39,7 @@ public class Building : BaseBuilding
         BuildingReport result = new BuildingReport();
         for(int i = 0; i < playerResources.Count; i++ )
         {
-            if (resources.TryGetValue(playerResources[i], out int needCount))
+            if (Resources.TryGetValue(playerResources[i], out int needCount))
             {
                 ResourceType type = playerResources[i];
                 int playerCount = type.Count;
@@ -54,7 +48,7 @@ public class Building : BaseBuilding
                     int useCount = Mathf.Min(count, playerCount);
                     useCount = Mathf.Min(useCount, needCount);
                     type.Count -= useCount;
-                    resources[playerResources[i]] -= useCount;
+                    Resources[playerResources[i]] -= useCount;
                     result.resourcesUsed = true;
                     if (useCount > 0)
                     {
@@ -93,16 +87,14 @@ public class Building : BaseBuilding
     {
         bool result = false;
         int finishedResources = 0;
-        foreach (var pair in resources)
+        foreach (var pair in Resources)
         {
-            resourceBars[pair.Key].UpdateValue(pair.Value);
             if (pair.Value == 0)
             {
-                resourceBars[pair.Key].gameObject.SetActive(false);
                 finishedResources++;
             }
         }
-        if(finishedResources == resources.Count)
+        if(finishedResources == Resources.Count)
         {
             result = true;
             FinishBuilding();
@@ -130,7 +122,7 @@ public class Building : BaseBuilding
     {
         float result = 0f;
         
-        foreach (var pair in resources)
+        foreach (var pair in Resources)
         {
             for (int i = 0; i < cost.Count; i++)
             {
@@ -150,7 +142,7 @@ public class Building : BaseBuilding
         JSONNode jsonObject = base.GetSaveData();       
         for (int i = 0; i < cost.Count; i++)
         {
-            jsonObject.Add(cost[i].type.ToString(), resources[cost[i].type]);
+            jsonObject.Add(cost[i].type.ToString(), Resources[cost[i].type]);
         }
         return jsonObject;
     }
@@ -158,33 +150,15 @@ public class Building : BaseBuilding
     public override void Load(JSONNode loadData)
     {
         base.Load(loadData);
-        bool isBuildingFinished = true;
         for (int i = 0; i < cost.Count; i++)
         {
             if (loadData.HasKey(cost[i].type.ToString()))
             {
                 ResourceType resourceType = cost[i].type;
                 int value = loadData[cost[i].type.ToString()].AsInt;
-                resources[resourceType] = value;
-                if (value == 0)
-                {
-                    resourceBars[resourceType].gameObject.SetActive(false);
-                }
-                else
-                {
-                    isBuildingFinished = false;
-                    resourceBars[resourceType].UpdateValue(value);
-                }
-            }
-            else
-            {
-                isBuildingFinished = false;
-            }            
+                Resources[resourceType] = value;
+            }        
         }
-        if(isBuildingFinished)
-        {
-            unfinishedPrefab.gameObject.SetActive(false);
-            finishedPrefab.gameObject.SetActive(true);          
-        }      
+        UpdateBuilding();     
     }
 }
