@@ -14,7 +14,7 @@ public class UnitMovement : MonoBehaviour
     void Update()
     {
         if (InputActive)
-        {
+        {            
             agent.velocity = new Vector3(Input.x, 0f, Input.y) * agent.speed;
         }
         else if(!goToDestination)
@@ -29,5 +29,27 @@ public class UnitMovement : MonoBehaviour
         goToDestination = true;
         Input = Vector2.zero;
         agent.SetDestination(target);
+    }
+
+    public bool GetNearestPoint(Vector3 target, float distance, out Vector3 result)
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(target, out hit, distance, NavMesh.AllAreas))
+        {
+            result = hit.position;
+            return true;
+        }
+        result = target;
+        return false;
+    }
+
+    public Vector3 CalculateNextPoint(Vector2 input)
+    {       
+        return (transform.position + new Vector3(input.x, 0f, input.y) * agent.speed);
+    }
+
+    public bool IsBlocked()
+    {
+        return agent.velocity.magnitude < 0.3f;            
     }
 }
