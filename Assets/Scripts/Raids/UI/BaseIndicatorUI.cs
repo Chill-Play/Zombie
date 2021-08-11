@@ -7,7 +7,7 @@ public class BaseIndicatorUI : MonoBehaviour
     [SerializeField] float radius = 300;
     [SerializeField] Transform house;
     [SerializeField] GameObject group;
-    
+
     SpawnPoint spawnPoint;
     GameObject squad;
 

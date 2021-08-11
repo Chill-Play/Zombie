@@ -12,12 +12,12 @@ public class SellingMapCell : MapCell, IBuildable
     public event Action<Dictionary<ResourceType, int>> OnUpdated;
 
     [SerializeField] Transform resourcesLayout;
-    [SerializeField] ResourceBar resourceBarPrefab;
+    //[SerializeField] ResourceBar resourceBarPrefab;
 
     List<CostInfo> cost = new List<CostInfo>();
 
-    Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
-    Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();
+    //Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
+    //Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();
 
     public void SetupCost(List<CostInfo> cost)
     {
@@ -31,13 +31,13 @@ public class SellingMapCell : MapCell, IBuildable
         {
             int costCount = cost[i].count;
 
-            ResourceBar bar = Instantiate(resourceBarPrefab, resourcesLayout);
-            if (!resources.ContainsKey(cost[i].type))
-            {
-                resources.Add(cost[i].type, costCount);
-            }
-            bar.Setup(cost[i].type, resources[cost[i].type]);
-            resourceBars.Add(cost[i].type, bar);
+            //ResourceBar bar = Instantiate(resourceBarPrefab, resourcesLayout);
+            //if (!resources.ContainsKey(cost[i].type))
+            //{
+            //    resources.Add(cost[i].type, costCount);
+            //}
+            //bar.Setup(cost[i].type, resources[cost[i].type]);
+            //resourceBars.Add(cost[i].type, bar);
         }        
         base.InitCell();
     }
@@ -48,16 +48,16 @@ public class SellingMapCell : MapCell, IBuildable
         BuildingReport result = new BuildingReport();
         for (int i = 0; i < playerResources.Count; i++)
         {
-            if (resources.TryGetValue(playerResources[i], out int needCount))
+            //if (resources.TryGetValue(playerResources[i], out int needCount))
             {
                 ResourceType type = playerResources[i];
                 int playerCount = type.Count;
                 if (playerCount > 0)
                 {
                     int useCount = Mathf.Min(count, playerCount);
-                    useCount = Mathf.Min(useCount, needCount);
+                    //useCount = Mathf.Min(useCount, needCount);
                     type.Count -= useCount;
-                    resources[playerResources[i]] -= useCount;
+                    //resources[playerResources[i]] -= useCount;
                     result.resourcesUsed = true;
                     if (useCount > 0)
                     {
@@ -87,28 +87,28 @@ public class SellingMapCell : MapCell, IBuildable
     {
         bool result = false;
 
-        int finishedResources = 0;
-        foreach (var pair in resources)
-        {
-            resourceBars[pair.Key].UpdateValue(pair.Value);
-            if (pair.Value == 0)
-            {
-                resourceBars[pair.Key].gameObject.SetActive(false);
-                finishedResources++;
-            }
-        }
-        if (finishedResources == resources.Count)
-        {
-            result = true;
-            MapController.Instance.Save(this);
-            FinishBuilding();
-        }
+        //int finishedResources = 0;
+        //foreach (var pair in resources)
+        //{
+        //    resourceBars[pair.Key].UpdateValue(pair.Value);
+        //    if (pair.Value == 0)
+        //    {
+        //        resourceBars[pair.Key].gameObject.SetActive(false);
+        //        finishedResources++;
+        //    }
+        //}
+        //if (finishedResources == resources.Count)
+        //{
+        //    result = true;
+        //    MapController.Instance.Save(this);
+        //    FinishBuilding();
+        //}
         return result;
     }
 
     void FinishBuilding()
     {       
-        UIBuyingPopUpText.Instance.SpawnText(transform.position + 0.5f * Vector3.up);
+        //UIBuyingPopUpText.Instance.SpawnText(transform.position + 0.5f * Vector3.up);
         OnOpening?.Invoke();       
     }
 
@@ -122,7 +122,7 @@ public class SellingMapCell : MapCell, IBuildable
         jsonObject.Add("sold", false);
         for (int i = 0; i < cost.Count; i++)
         {
-            jsonObject.Add(cost[i].type.ToString(), resources[cost[i].type]);
+            //jsonObject.Add(cost[i].type.ToString(), resources[cost[i].type]);
         }
         return jsonObject;
     }
@@ -133,8 +133,8 @@ public class SellingMapCell : MapCell, IBuildable
         {
             if (loadData.HasKey(cost[i].type.ToString()))
             {
-                resources[cost[i].type] = loadData[cost[i].type.ToString()].AsInt;
-                resourceBars[cost[i].type].UpdateValue(resources[cost[i].type]);
+                //resources[cost[i].type] = loadData[cost[i].type.ToString()].AsInt;
+                //resourceBars[cost[i].type].UpdateValue(resources[cost[i].type]);
             }
         }
     }

@@ -19,31 +19,31 @@ public class Upgrades : MonoBehaviour, IBuilding, ISaveableMapData
     [SerializeField] List<CostInfo> cost = new List<CostInfo>();
 
     [SerializeField] Transform resourcesLayout;
-    [SerializeField] StatUpgradeBar statUpgradeBar;
-    [SerializeField] ResourceBarWhithMaxCount resourceBarPrefab;
+    //[SerializeField] StatUpgradeBar statUpgradeBar;
+    //[SerializeField] ResourceBarWhithMaxCount resourceBarPrefab;
 
     int statValue;
 
     Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
-    Dictionary<ResourceType, ResourceBarWhithMaxCount> resourceBars = new Dictionary<ResourceType, ResourceBarWhithMaxCount>();
+    //Dictionary<ResourceType, ResourceBarWhithMaxCount> resourceBars = new Dictionary<ResourceType, ResourceBarWhithMaxCount>();
 
     public event Action<ISaveableMapData> OnSave;
 
     public string SaveId { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
+    
 
     private void Awake()
     {
         statValue = StatsManager.Instance.StatsInfo[statType];
-        statUpgradeBar.SetupBar(statType, statValue);
+        //statUpgradeBar.SetupBar(statType, statValue);
 
-        for (int i = 0; i < cost.Count; i++)
-        {
-            resources.Add(cost[i].type, cost[i].count);
-            ResourceBarWhithMaxCount bar = Instantiate(resourceBarPrefab, resourcesLayout);
-            bar.Setup(cost[i].type, cost[i].count, cost[i].count);
-            resourceBars.Add(cost[i].type, bar);
-        }
+        //for (int i = 0; i < cost.Count; i++)
+        //{
+        //    resources.Add(cost[i].type, cost[i].count);
+        //    ResourceBarWhithMaxCount bar = Instantiate(resourceBarPrefab, resourcesLayout);
+        //    bar.Setup(cost[i].type, cost[i].count, cost[i].count);
+        //    resourceBars.Add(cost[i].type, bar);
+        //}
     }
 
     public BuildingReport TryUseResources(List<ResourceType> playerResources, int count)
@@ -100,7 +100,7 @@ public class Upgrades : MonoBehaviour, IBuilding, ISaveableMapData
         int finishedResources = 0;
         foreach (var pair in resources)
         {
-            resourceBars[pair.Key].UpdateValue(pair.Value);
+            //resourceBars[pair.Key].UpdateValue(pair.Value);
             if (pair.Value == 0)
             {               
                 finishedResources++;
@@ -117,11 +117,11 @@ public class Upgrades : MonoBehaviour, IBuilding, ISaveableMapData
     void AddStat()
     {
         statValue = StatsManager.Instance.AddStat(statType);
-        statUpgradeBar.UpdateValue(statValue);
+        //statUpgradeBar.UpdateValue(statValue);
         for (int i = 0; i < cost.Count; i++)
         {
             resources[cost[i].type] = cost[i].count;
-            resourceBars[cost[i].type].Setup(cost[i].type, cost[i].count, cost[i].count);
+            //resourceBars[cost[i].type].Setup(cost[i].type, cost[i].count, cost[i].count);
         }
     }
 

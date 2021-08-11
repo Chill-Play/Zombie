@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InGameUI : MonoBehaviour
+public class InGameUI : UIScreen
 {
     enum State
     {
@@ -35,7 +35,7 @@ public class InGameUI : MonoBehaviour
         noiseBar.SetValue(0f);
 
         PlayerBackpack backpack = FindObjectOfType<PlayerBackpack>();
-        //backpack.OnPickupResource += Backpack_OnPickupResource;
+        backpack.OnPickupResource += Backpack_OnPickupResource;
         baseIndicator.gameObject.SetActive(false);
     }
 
@@ -60,7 +60,7 @@ public class InGameUI : MonoBehaviour
         noiseBar.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f, 3);
     }
 
-    
+
     void Update()
     {
         switch (state)
@@ -69,7 +69,7 @@ public class InGameUI : MonoBehaviour
                 break;
             case State.ComingTimer:
                 timerFill.SetValue(Level.Instance.ComingTimerValue);
-                if(Level.Instance.ComingTimerValue <= Mathf.Epsilon)
+                if (Level.Instance.ComingTimerValue <= Mathf.Epsilon)
                 {
                     SwitchState(State.Coming);
                 }

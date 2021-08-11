@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RaidFinishScreen : MonoBehaviour
+public class RaidFinishScreen : UIScreen
 {
     [SerializeField] Image background;
     [SerializeField] Transform upperPanel;
@@ -14,13 +14,29 @@ public class RaidFinishScreen : MonoBehaviour
     [SerializeField] Transform doubleButton;
     [SerializeField] Transform noThanksButton;
 
-    void Start()
+    void OnEnable()
     {
-       
+        Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
+        foreach (PlayerBackpack backpack in FindObjectsOfType<PlayerBackpack>())
+        {
+            foreach (var pair in backpack.Resources)
+            {
+                if (resources.ContainsKey(pair.Key))
+                {
+                    resources[pair.Key] += pair.Value;
+                }
+                else
+                {
+                    resources.Add(pair.Key, pair.Value);
+                }
+            }
+        }
+        Show(resources);
     }
 
     public void Show(Dictionary<ResourceType, int> resources)
     {
+        
         background.color = new Color(background.color.r, background.color.g, background.color.b, 0f);
         upperPanel.transform.localScale = Vector3.zero;
         collectedPanel.transform.localScale = Vector3.zero;
@@ -28,7 +44,8 @@ public class RaidFinishScreen : MonoBehaviour
         noThanksButton.transform.localScale = Vector3.zero;
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(background.DOFade(0.6f, 0.2f));
+        
+        sequence.Append((background as Graphic) .DOFade(0.6f, 0.2f));
         sequence.AppendInterval(0.1f);
         sequence.Append(upperPanel.DOScale(1f, 0.3f).SetEase(Ease.OutElastic, 1.2f, 0.2f));
         sequence.AppendInterval(0.1f);
@@ -43,7 +60,7 @@ public class RaidFinishScreen : MonoBehaviour
 
     IEnumerator ShowCollectedResources(Dictionary<ResourceType, int> resources)
     {
-        foreach(KeyValuePair<ResourceType, int> pair in resources)
+        foreach (KeyValuePair<ResourceType, int> pair in resources)
         {
             ResourceBar bar = Instantiate(resourceBarPrefab, colletctedContent);
             bar.Setup(pair.Key, 0);
@@ -56,12 +73,12 @@ public class RaidFinishScreen : MonoBehaviour
     public void DoubleClicked()
     {
         //GameplayController.Instance.playerInstance.GetComponent<PlayerBackpack>().MoveToSavedData();
-        LevelController.Instance.ToBase();
+        //LevelController.Instance.ToBase();
     }
 
 
     public void NoThanksClicked()
     {
-        LevelController.Instance.ToBase();
+        //LevelController.Instance.ToBase();
     }
 }

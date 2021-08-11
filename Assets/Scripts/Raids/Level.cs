@@ -8,6 +8,7 @@ public class Level : SingletonMono<Level>
     public event System.Action<float> OnNoiseLevelChanged;
     public event System.Action OnNoiseLevelExceeded;
     public event System.Action OnHordeDefeated;
+    public event System.Action OnLevelEnded;
 
     [SerializeField] List<Transform> zombiesSpawnPoints;
     [SerializeField] Enemy[] zombiePrefabs;
@@ -49,7 +50,7 @@ public class Level : SingletonMono<Level>
 
     private void PlayerInstance_OnDead()
     {
-        UIController.Instance.ShowFailedScreen();
+        //UIController.Instance.ShowFailedScreen();
     }
 
     // Update is called once per frame
@@ -153,7 +154,7 @@ public class Level : SingletonMono<Level>
                 }
             }
         }
-        UIController.Instance.ShowFinishScreen(resources);
+        OnLevelEnded?.Invoke();
         for (int i = 0; i < enemies.Count; i++)
         {
             enemies[i].Stop();

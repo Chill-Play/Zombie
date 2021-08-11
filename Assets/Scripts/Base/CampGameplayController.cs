@@ -11,13 +11,13 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     [HideInInspector] public Transform playerInstance;
     private void Awake()
     {
-        SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
-        Vector3 spawnPos = Vector3.zero;
-        if (spawnPoint != null)
-        {
-            spawnPos = spawnPoint.transform.position;
-        }
-        SpawnPlayer(spawnPos, playerPrefab);
+        //SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
+        //Vector3 spawnPos = Vector3.zero;
+        //if (spawnPoint != null)
+        //{
+        //    spawnPos = spawnPoint.transform.position;
+        //}
+        //SpawnPlayer(spawnPos, playerPrefab);
     }
 
 

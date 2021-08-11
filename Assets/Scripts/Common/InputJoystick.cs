@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class InputJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField] float padRadius = 200f;
+    [SerializeField] Component target;
 
     public IInputReceiver InputReceiver;
 
