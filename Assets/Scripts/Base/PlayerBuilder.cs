@@ -11,7 +11,7 @@ public class PlayerBuilder : MonoBehaviour
     float nextUse;
     int uses;
 
-    IBuilding targetBuilding;
+    IBuildable targetBuilding;
     UnitMovement unitMovement;
 
     private void OnEnable()
@@ -21,12 +21,12 @@ public class PlayerBuilder : MonoBehaviour
         BuildingTargetVolume.OnBuildingTargetExit += BuildingTargetVolume_OnBuildingTargetExit;
     }
  
-    private void BuildingTargetVolume_OnBuildingTargetEnter(IBuilding obj)
+    private void BuildingTargetVolume_OnBuildingTargetEnter(IBuildable obj)
     {
         targetBuilding = obj;
     }
 
-    private void BuildingTargetVolume_OnBuildingTargetExit(IBuilding obj)
+    private void BuildingTargetVolume_OnBuildingTargetExit(IBuildable obj)
     {       
         if (targetBuilding == obj)
         {
@@ -43,24 +43,24 @@ public class PlayerBuilder : MonoBehaviour
             {
                 if (nextUse < Time.time)
                 {
-                    //BuildingReport buildingReport = targetBuilding.TryUseResources(ResourcesController.Instance.Resources, countPerUse);
-                    //if (buildingReport.resourcesUsed)
-                    //{
-                    //    uses++;
-                    //    nextUse = Time.time + baseRate - (rateIncrease * uses);
-                    //}
-                    //else
-                    //{
-                    //    uses = 0;
-                    //}
-                    //if (buildingReport.needToResetSpeed)
-                    //{
-                    //    uses = 0;
-                    //}
-                    //if (buildingReport.buildingFinished)
-                    //{
-                    //    targetBuilding = null;
-                    //}
+                    BuildingReport buildingReport = targetBuilding.TryUseResources(ResourcesController.Instance.Resources, countPerUse);
+                    if (buildingReport.resourcesUsed)
+                    {
+                        uses++;
+                        nextUse = Time.time + baseRate - (rateIncrease * uses);
+                    }
+                    else
+                    {
+                        uses = 0;
+                    }
+                    if (buildingReport.needToResetSpeed)
+                    {
+                        uses = 0;
+                    }
+                    if (buildingReport.buildingFinished)
+                    {
+                        targetBuilding = null;
+                    }
                 }
             }
             else

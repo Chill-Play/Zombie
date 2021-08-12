@@ -31,15 +31,4 @@ public class PlayerBackpack : MonoBehaviour
         OnPickupResource?.Invoke(type, resources[type], count);
         resources[type] += count;
     }
-
-
-    public void MoveToSavedData()
-    {
-        foreach (var pair in resources)
-        {
-            pair.Key.Count += pair.Value;
-            Debug.Log(pair.Key.name + " : " + pair.Key.Count);
-        }
-        ResourcesController.Instance.UpdateResources();
-    }
 }

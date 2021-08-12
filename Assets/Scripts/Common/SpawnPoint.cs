@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
+    public event System.Action OnReturnedToBase;
     public bool IsReturningToBase { get; set; }
 
     private void OnTriggerEnter(Collider other)
     {
         if(IsReturningToBase)
         {
-            Level.Instance.EndLevel();
+            OnReturnedToBase?.Invoke();
+            //Level.Instance.EndLevel();
         }
     }
 }

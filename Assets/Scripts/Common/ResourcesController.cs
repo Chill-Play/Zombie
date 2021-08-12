@@ -8,19 +8,24 @@ using UnityEngine;
 public class ResourcesController : SingletonMono<ResourcesController>
 {
     public event System.Action OnResourcesUpdated;
+
+    const string RESOURCE_PREFS = "M_Resource_";
+
     [SerializeField] List<ResourceType> resourceTypes;
 
-
+    public ResourcesInfo resourcesCount = new ResourcesInfo();
     public List<ResourceType> Resources => resourceTypes;
+    public ResourcesInfo ResourcesCount => resourcesCount;
 
-    void Start()
+    void OnEnable()
     {
-        for (int i = 0; i < resourceTypes.Count; i++)
-        {           
-           resourceTypes[i].UpdateCount();
-           resourceTypes[i].Count = 999; ////////////////////////////
+        resourcesCount.Clear();
+        foreach(ResourceType resourceType in resourceTypes)
+        {
+            resourcesCount.AddSlot(resourceType, PlayerPrefs.GetInt(RESOURCE_PREFS + resourceType.saveId, 0));
         }
     }
+
 
 
     public void UpdateResources()
@@ -32,30 +37,27 @@ public class ResourcesController : SingletonMono<ResourcesController>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.T))
         {
-            for (int i = 0; i < resourceTypes.Count; i++)
+            foreach(var slot in resourcesCount.Slots)
             {
-                resourceTypes[i].Count += 100;
-            }
-            UpdateResources();
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            for (int i = 0; i < resourceTypes.Count; i++)
-            {
-               Debug.Log(resourceTypes[i].name + " : " + resourceTypes[i].Count);
+                slot.count += 100;
             }
         }
     }
 
 
+    public void AddResources(ResourcesInfo resources)
+    {
+        resourcesCount.Add(resources);
+    }
+
 
     public void Save()
     {
-        for(int i = 0; i < resourceTypes.Count; i++)
+        foreach (var slot in resourcesCount.Slots)
         {
-            resourceTypes[i].Save();
+            PlayerPrefs.SetInt(RESOURCE_PREFS + slot.type.saveId, slot.count);
         }
     }
 }
