@@ -19,7 +19,7 @@ public class MapController : SingletonMono<MapController>
     Vector3 BoundsCenter = Vector3.zero;  
 
     [SerializeField, HideInInspector] List<MapCell> mapCells = new List<MapCell>();
-    [SerializeField, HideInInspector] List<BaseBuilding> buildings = new List<BaseBuilding>();
+    //[SerializeField, HideInInspector] List<BaseBuilding> buildings = new List<BaseBuilding>();
     [SerializeField, HideInInspector] int mapCellId = -1;
     [SerializeField, HideInInspector] int buildingId = -1;
     [SerializeField, HideInInspector] string saveId;
@@ -28,155 +28,111 @@ public class MapController : SingletonMono<MapController>
     float mapProgress = 0;    
 
     public List<MapCell> MapCells => mapCells;
-    public List<BaseBuilding> Buildings => buildings;
+    //public List<BaseBuilding> Buildings => buildings;
 
     public void ApplyMapChanges()
     {
-        MapCell[] sceneMapCells = FindObjectsOfType<MapCell>();
-        BaseBuilding[] sceneBuildings = FindObjectsOfType<BaseBuilding>(true);
+        //MapCell[] sceneMapCells = FindObjectsOfType<MapCell>();
+        //BaseBuilding[] sceneBuildings = FindObjectsOfType<BaseBuilding>(true);
 
-        mapCells = new List<MapCell>();
-        buildings = new List<BaseBuilding>();
-        for (int i = 0; i < sceneMapCells.Length; i++)
-        {        
-            if (sceneMapCells[i].SaveId == MapCell.DEFAULT_GRID_ID)
-            {              
-                mapCellId++;
-                sceneMapCells[i].SaveId = "map_cell_" + mapCellId.ToString();                
-            }
-            mapCells.Add(sceneMapCells[i]);            
-        }
-        for (int i = 0; i < sceneBuildings.Length; i++)
-        {
-            buildings.Add(sceneBuildings[i]);
-            if (sceneBuildings[i].SaveId == BaseBuilding.DEFAULT_BUILDING_ID)
-            {
+        //mapCells = new List<MapCell>();
+        //buildings = new List<BaseBuilding>();
+        //for (int i = 0; i < sceneMapCells.Length; i++)
+        //{        
+        //    if (sceneMapCells[i].SaveId == MapCell.DEFAULT_GRID_ID)
+        //    {              
+        //        mapCellId++;
+        //        sceneMapCells[i].SaveId = "map_cell_" + mapCellId.ToString();                
+        //    }
+        //    mapCells.Add(sceneMapCells[i]);            
+        //}
+        //for (int i = 0; i < sceneBuildings.Length; i++)
+        //{
+        //    buildings.Add(sceneBuildings[i]);
+        //    if (sceneBuildings[i].SaveId == BaseBuilding.DEFAULT_BUILDING_ID)
+        //    {
                 
-                buildingId++;
-                sceneBuildings[i].SaveId = "building_" + buildingId.ToString();
-            }            
-        }
+        //        buildingId++;
+        //        sceneBuildings[i].SaveId = "building_" + buildingId.ToString();
+        //    }            
+        //}
 
-        saveId = SceneManager.GetActiveScene().name;
+        //saveId = SceneManager.GetActiveScene().name;
     }
 
     public void ClearPrefs()
     {
         MapCell[] sceneMapCells = FindObjectsOfType<MapCell>();
-        BaseBuilding[] sceneBuildings = FindObjectsOfType<BaseBuilding>(true);
+        //BaseBuilding[] sceneBuildings = FindObjectsOfType<BaseBuilding>(true);
         mapCellId = 0;
         buildingId = 0;
-        for (int i = 0; i < sceneMapCells.Length; i++)
-        {
-            sceneMapCells[i].SaveId = MapCell.DEFAULT_GRID_ID;
-        }
-        for (int i = 0; i < sceneBuildings.Length; i++)
-        {
-            sceneBuildings[i].SaveId = BaseBuilding.DEFAULT_BUILDING_ID;
-        }
+        //for (int i = 0; i < sceneMapCells.Length; i++)
+        //{
+        //    sceneMapCells[i].SaveId = MapCell.DEFAULT_GRID_ID;
+        //}
+        //for (int i = 0; i < sceneBuildings.Length; i++)
+        //{
+        //    sceneBuildings[i].SaveId = BaseBuilding.DEFAULT_BUILDING_ID;
+        //}
         string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
         File.Delete(filePath);
     }
 
     private void Awake()
     {
-        for (int i = 0; i < mapCells.Count; i++)
-        {
-            mapCells[i].GridIndex = i;
-            mapCells[i].InitCell();
-        }
-        for (int i = 0; i < buildings.Count; i++)
-        {
-            buildings[i].InitBuilding();
-        }
-        Load();
-        UpdateNavMesh();
+        //for (int i = 0; i < mapCells.Count; i++)
+        //{
+        //    mapCells[i].GridIndex = i;
+        //    mapCells[i].InitCell();
+        //}
+        //for (int i = 0; i < buildings.Count; i++)
+        //{
+        //    buildings[i].InitBuilding();
+        //}
+        //Load();
+        //UpdateNavMesh();
     }
 
-    void Load()
+
+    private void Update()
     {
-        saveDataNode = new JSONObject();
-        string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
-        bool isSaveExist = File.Exists(filePath);
-        if (isSaveExist)
+        if(Input.GetKeyDown(KeyCode.C))
         {
-            string loadData = File.ReadAllText(filePath);
-            JSONNode mainNode = JSON.Parse(loadData);
-            for (int i = 0; i < mapCells.Count; i++)
-            {
-                MapCell mapCell = mapCells[i];
-                if (mapCell != null)
-                {
-                    if (mainNode.HasKey(mapCell.SaveId))
-                    {
-                        saveDataNode.Add(mapCell.SaveId, mainNode[mapCell.SaveId]);
-                    }
-                    else
-                    {
-                        saveDataNode.Add(mapCell.SaveId, "");
-                    }
-                    mapCell.Load(saveDataNode[mapCell.SaveId]);
-                }
-            }
-            for (int i = 0; i < buildings.Count; i++)
-            {
-                BaseBuilding building = buildings[i];
-                if (building != null)
-                {
-                    if (mainNode.HasKey(building.SaveId))
-                    {
-                        saveDataNode.Add(building.SaveId, mainNode[building.SaveId]);
-                    }
-                    else
-                    {
-                        saveDataNode.Add(building.SaveId, "");
-                    }
-                    building.Load(saveDataNode[building.SaveId]);
-                }
-            }
+            NewSave();
         }
-        else
+        if(Input.GetKeyDown(KeyCode.V))
         {
-            for (int i = 0; i < mapCells.Count; i++)
-            {
-                MapCell mapCell = mapCells[i];
-                if (mapCell != null)
-                {
-                    saveDataNode.Add(mapCell.SaveId, "");
-                }
-                mapCell.Load(saveDataNode[mapCell.SaveId]);
-            }
-            for (int i = 0; i < buildings.Count; i++)
-            {
-                BaseBuilding building = buildings[i];
-                if (building != null)
-                {
-                    saveDataNode.Add(building.SaveId, "");
-                }              
-            }
+            NewLoad();
         }
-
     }
 
-
-    public void Save(ISaveableMapData data)
+    string json;
+    void NewSave()
     {
-        saveDataNode[data.SaveId] = data.GetSaveData();
-        //Debug.Log(saveDataNode[data.SaveId].ToString());
-        string filePath = Path.Combine(Application.persistentDataPath, saveId + ".txt");
-        File.WriteAllText(filePath, saveDataNode.ToString());
+        var objects = FindObjectsOfType<BaseObject>();
+        json = BaseSerialization.SerializeBase(objects);
+        Debug.Log(json);
     }
+
+
+    void NewLoad()
+    {
+        var objects = FindObjectsOfType<BaseObject>();
+        BaseSerialization.DeserializeBase(json, objects);
+    }
+
+
 
     private void Start()
     {
-        UpdateCompletionProgress();
+        //UpdateCompletionProgress();
     }
 
     public void ReplaceMapCell(int gridIndex, MapCell mapCell, bool needToUpdateNavMesh = false)
     {
         mapCells[gridIndex] = mapCell;       
-        mapCells[gridIndex].GridIndex = gridIndex;  
-        mapCells[gridIndex].InitCell();
+        //mapCells[gridIndex].GridIndex = gridIndex;  
+        //mapCells[gridIndex].InitCell();
         if (needToUpdateNavMesh)
         {
             UpdateNavMesh();
@@ -212,11 +168,11 @@ public class MapController : SingletonMono<MapController>
     public void UpdateCompletionProgress()
     {
         float progress = 0;
-        for (int i = 0; i < buildings.Count; i++)
-        {
-            progress += buildings[i].GetCompletionProgress();           
-        }
-        progress /= (float)buildings.Count;        
+        //for (int i = 0; i < buildings.Count; i++)
+        //{
+        //    progress += buildings[i].GetCompletionProgress();           
+        //}
+        //progress /= (float)buildings.Count;        
         OnCompletionProgressUpdate?.Invoke(progress);
         if (progress >= 1f)
         {

@@ -16,21 +16,7 @@ public class RaidFinishScreen : UIScreen
 
     void OnEnable()
     {
-        Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
-        foreach (PlayerBackpack backpack in FindObjectsOfType<PlayerBackpack>())
-        {
-            foreach (var pair in backpack.Resources)
-            {
-                if (resources.ContainsKey(pair.Key))
-                {
-                    resources[pair.Key] += pair.Value;
-                }
-                else
-                {
-                    resources.Add(pair.Key, pair.Value);
-                }
-            }
-        }
+        var resources = FindObjectOfType<Squad>().CollectResources();
         Show(resources);
     }
 
@@ -72,13 +58,17 @@ public class RaidFinishScreen : UIScreen
 
     public void DoubleClicked()
     {
-        //GameplayController.Instance.playerInstance.GetComponent<PlayerBackpack>().MoveToSavedData();
-        //LevelController.Instance.ToBase();
+        var resources = FindObjectOfType<Squad>().CollectResources(); //Refactor
+        //FindObjectOfType<ResourcesController>().AddResources(resources);
+        //FindObjectOfType<ResourcesController>().AddResources(resources);
+        LevelController.Instance.ToBase();
     }
 
 
     public void NoThanksClicked()
     {
-        //LevelController.Instance.ToBase();
+        var resources = FindObjectOfType<Squad>().CollectResources();
+        //FindObjectOfType<ResourcesController>().AddResources(resources);
+        LevelController.Instance.ToBase();
     }
 }
