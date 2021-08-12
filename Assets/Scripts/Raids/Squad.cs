@@ -34,6 +34,20 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     public void SetInput(Vector2 input)
     {
+        if (input.magnitude < 0.1f)
+        {
+            for (int i = 0; i < units.Count; i++)
+            {
+                units[i].GetComponent<PlayerResources>().IsSquadStoped = true; // remove GetComponent
+            }
+        }
+        else
+        {
+            for (int i = 0; i < units.Count; i++)
+            {
+                units[i].GetComponent<PlayerResources>().IsSquadStoped = false;
+            }
+        }
         units[0].Input = input;
     }
 

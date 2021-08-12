@@ -11,7 +11,7 @@ public class TextOnDamage : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        damagable = GetComponent<IDamagable>();
+        damagable = GetComponent<IDamagable>();       
         damagable.OnDamage += Enemy_OnDamage;
     }
 

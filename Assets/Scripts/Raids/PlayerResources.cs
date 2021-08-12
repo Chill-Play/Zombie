@@ -15,6 +15,7 @@ public class PlayerResources : MonoBehaviour
     bool interacting;
     UnitAnimation animation;
 
+    public bool IsSquadStoped { get; set; } = true;
     public bool CanDigResources { get; set; } = true;
 
     // Start is called before the first frame update
@@ -31,49 +32,37 @@ public class PlayerResources : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (unitMovement.InputActive || !CanDigResources)
+        if (CanDigResources && IsSquadStoped)
         {
-            if (interacting)
+            int count = Physics.OverlapSphereNonAlloc(transform.position, useSpotRadius, resourceSpots, resourceSpotsMask);
+            if (count > 0)
             {
-                if (axeModel.activeSelf)
+                if (!axeModel.activeSelf)
                 {
-                    axeModel.SetActive(false);
-                    weaponModel.SetActive(true);
+                    axeModel.SetActive(true);
+                    weaponModel.SetActive(false);
                 }
-                interacting = false;
-                animation.ResetInteraction();
-            }
-            return;
-        }
-        int count = Physics.OverlapSphereNonAlloc(transform.position, useSpotRadius, resourceSpots, resourceSpotsMask);
-        if (count > 0)
-        {
-            if(!axeModel.activeSelf)
-            {
-                axeModel.SetActive(true);
-                weaponModel.SetActive(false);
-            }
-            interacting = true;
-            ResourceSpot spot = resourceSpots[0].GetComponent<ResourceSpot>();
-            animation.SetInteraction(spot.InteractionType, true);
-            if (nextUse < Time.time)
-            {
-                spot.UseSpot(gameObject);
-                nextUse = Time.time + useRate;
+                interacting = true;
+                ResourceSpot spot = resourceSpots[0].GetComponent<ResourceSpot>();
+                animation.SetInteraction(spot.InteractionType, true);
+                if (nextUse < Time.time)
+                {
+                    spot.UseSpot(gameObject);
+                    nextUse = Time.time + useRate;
+                }
+                return;
             }
         }
-        else
+
+        if (interacting)
         {
-            if (interacting)
+            if (axeModel.activeSelf)
             {
-                if (axeModel.activeSelf)
-                {
-                    axeModel.SetActive(false);
-                    weaponModel.SetActive(true);
-                }
-                interacting = false;
-                animation.ResetInteraction();
+                axeModel.SetActive(false);
+                weaponModel.SetActive(true);
             }
+            interacting = false;
+            animation.ResetInteraction();
         }
     }
 }
