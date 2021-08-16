@@ -13,21 +13,30 @@ public class UnitMovement : MonoBehaviour
 
     void Update()
     {
-        if (InputActive)
+        if (!goToDestination)
         {
-            agent.velocity = new Vector3(Input.x, 0f, Input.y) * agent.speed;
-        }
-        else if(!goToDestination)
-        {
-            agent.velocity = Vector3.zero;
+            if (InputActive)
+            {
+                agent.velocity = new Vector3(Input.x, 0f, Input.y) * agent.speed;
+            }
+            else 
+            {
+                agent.velocity = Vector3.zero;
+            }
         }
     }
 
 
     public void MoveTo(Vector3 target)
-    {
+    {       
         goToDestination = true;
         Input = Vector2.zero;
         agent.SetDestination(target);
+    }
+
+    public void StopMoving()
+    {
+        goToDestination = false;
+        agent.velocity = Vector3.zero;
     }
 }

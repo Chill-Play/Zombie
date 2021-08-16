@@ -9,12 +9,14 @@ public class StateController : MonoBehaviour
     {
         public SubjectId subjectId;
 
-        public List<MonoBehaviour> components = new List<MonoBehaviour>();      
+        public List<MonoBehaviour> components = new List<MonoBehaviour>();
     }
 
     [SerializeField] List<State> states = new List<State>();
 
     State currentState;
+
+    public SubjectId CurrentStateId => currentState == null? null : currentState.subjectId;
 
     public void ToState(SubjectId subjectId)
     {

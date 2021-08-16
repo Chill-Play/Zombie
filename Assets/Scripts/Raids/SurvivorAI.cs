@@ -8,37 +8,59 @@ public class SurvivorAI : MonoBehaviour
 {
     [SerializeField] Transform modelPivot;
     [SerializeField] NavMeshAgent navMeshAgent;
-    [SerializeField] UnitMovement unitMovement;
+    [SerializeField] UnitTargetDetection targetDetection;
     [SerializeField] UnitShooting unitShooting;
-    [SerializeField] PlayerResources resources;
+    [SerializeField] InteractivePointDetection interactivePointDetection;
+    [SerializeField] StateController stateController;
+    [SerializeField] SubjectId movingState;
+    [SerializeField] SubjectId shootingState;
+    [SerializeField] SubjectId interactingState;
 
-    // Start is called before the first frame update
-    void Start()
+    Squad squad;
+
+    private void Start()
     {
-
+        squad = FindObjectOfType<Squad>();
     }
 
-    // Update is called once per frame
     void Update()
-    {
-        if(unitShooting.Target != null)
+    {       
+        if (targetDetection.Target != null)
         {
-            resources.CanDigResources = false;
-            Vector3 direction = unitShooting.Target.transform.position - modelPivot.position;
+            ToState(shootingState);
+            Vector3 direction = targetDetection.Target.transform.position - modelPivot.position;
             direction.y = 0;
             direction.Normalize();
             modelPivot.rotation = Quaternion.RotateTowards(modelPivot.rotation, Quaternion.LookRotation(direction), navMeshAgent.angularSpeed * Time.deltaTime);
             unitShooting.AllowShooting = Vector3.Angle(modelPivot.transform.forward, direction) < 15f;
-
+        }
+        else if (squad.IsMoving)
+        {        
+            ToState(movingState);
+            RotateToward();
+        }
+        else if (interactivePointDetection.Target != null)
+        {
+            ToState(interactingState);
+            RotateToward();
         }
         else
         {
-            resources.CanDigResources = true;
-            if (unitShooting.AllowShooting)
-            {
-                unitShooting.AllowShooting = false;
-            }
-            modelPivot.localRotation = Quaternion.RotateTowards(modelPivot.localRotation, Quaternion.identity, navMeshAgent.angularSpeed * Time.deltaTime);
+            ToState(movingState);
+            RotateToward();
         }
+    }
+
+    void ToState(SubjectId state)
+    {
+        if (stateController.CurrentStateId != state)
+        {           
+            stateController.ToState(state);
+        }
+    }
+
+    void RotateToward()
+    {
+        modelPivot.localRotation = Quaternion.RotateTowards(modelPivot.localRotation, Quaternion.identity, navMeshAgent.angularSpeed * Time.deltaTime);
     }
 }
