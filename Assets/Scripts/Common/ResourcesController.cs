@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -52,6 +53,11 @@ public class ResourcesController : SingletonMono<ResourcesController>
         resourcesCount.Add(resources);
     }
 
+
+    public ResourceType GetResourceType(string saveId)
+    {
+        return resourceTypes.FirstOrDefault((x) => x.saveId == saveId);
+    }
 
     public void Save()
     {
