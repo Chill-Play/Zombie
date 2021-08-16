@@ -10,6 +10,7 @@ public class UnitAnimation : MonoBehaviour
     [SerializeField] Transform aimSpineBone;
     [SerializeField] Transform modelPivot;
     [SerializeField] UnitShooting shooting;
+    [SerializeField] UnitTargetDetection unitTargetDetection;
     [SerializeField] Vector3 spineAngleOffset;
 
 
@@ -51,7 +52,7 @@ public class UnitAnimation : MonoBehaviour
     {
         if (shooting != null)
         {
-            if (shooting.Target != null)
+            if (unitTargetDetection.Target != null)
             {
                 Vector3 aimAngle = modelPivot.transform.eulerAngles + spineAngleOffset;
                 aimSpineBone.eulerAngles = aimAngle;

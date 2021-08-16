@@ -7,6 +7,9 @@ public class Squad : MonoBehaviour, IInputReceiver
 {
     [SerializeField] List<UnitMovement> units;
 
+    bool isMoving = false;
+
+    public bool IsMoving => isMoving;
     public List<UnitMovement> Units => units;
     // Start is called before the first frame update
     void Start()
@@ -61,17 +64,11 @@ public class Squad : MonoBehaviour, IInputReceiver
     {
         if (input.magnitude < 0.1f)
         {
-            for (int i = 0; i < units.Count; i++)
-            {
-                units[i].GetComponent<PlayerResources>().IsSquadStoped = true; // remove GetComponent
-            }
+            isMoving = false;
         }
         else
         {
-            for (int i = 0; i < units.Count; i++)
-            {
-                units[i].GetComponent<PlayerResources>().IsSquadStoped = false;
-            }
+            isMoving = true;
         }
         units[0].Input = input;
     }

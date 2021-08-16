@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerResources : MonoBehaviour
 {
     [SerializeField] UnitMovement unitMovement;
+    [SerializeField] InteractivePointDetection interactivePointDetection;
     [SerializeField] float useSpotRadius = 2f;
     [SerializeField] float useRate = 0.5f;
     [SerializeField] LayerMask resourceSpotsMask;
@@ -14,9 +16,6 @@ public class PlayerResources : MonoBehaviour
     float nextUse;
     bool interacting;
     UnitAnimation animation;
-
-    public bool IsSquadStoped { get; set; } = true;
-    public bool CanDigResources { get; set; } = true;
 
     // Start is called before the first frame update
     void Start()
@@ -32,27 +31,32 @@ public class PlayerResources : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (CanDigResources && IsSquadStoped)
+        int count = Physics.OverlapSphereNonAlloc(transform.position, useSpotRadius, resourceSpots, resourceSpotsMask);
+        if (count > 0)
         {
-            int count = Physics.OverlapSphereNonAlloc(transform.position, useSpotRadius, resourceSpots, resourceSpotsMask);
-            if (count > 0)
+            if (!axeModel.activeSelf)
             {
-                if (!axeModel.activeSelf)
-                {
-                    axeModel.SetActive(true);
-                    weaponModel.SetActive(false);
-                }
-                interacting = true;
-                ResourceSpot spot = resourceSpots[0].GetComponent<ResourceSpot>();
-                animation.SetInteraction(spot.InteractionType, true);
-                if (nextUse < Time.time)
-                {
-                    spot.UseSpot(gameObject);
-                    nextUse = Time.time + useRate;
-                }
-                return;
+                axeModel.SetActive(true);
+                weaponModel.SetActive(false);
+            }
+            interacting = true;
+            ResourceSpot spot = resourceSpots[0].GetComponent<ResourceSpot>();
+            animation.SetInteraction(spot.InteractionType, true);
+            if (nextUse < Time.time)
+            {
+                spot.UseSpot(gameObject);
+                nextUse = Time.time + useRate;
+            }
+            return;
+        }
+        if (!interacting)
+        {
+            if (interactivePointDetection.Target != null)
+            {              
+                unitMovement.MoveTo(interactivePointDetection.Target.transform.position);
             }
         }
+        
 
         if (interacting)
         {
@@ -64,5 +68,17 @@ public class PlayerResources : MonoBehaviour
             interacting = false;
             animation.ResetInteraction();
         }
+    }
+
+    private void OnDisable()
+    {       
+        if (axeModel.activeSelf)
+        {
+            axeModel.SetActive(false);
+            weaponModel.SetActive(true);
+        }
+        interacting = false;
+        animation.ResetInteraction();
+        unitMovement.StopMoving();
     }
 }

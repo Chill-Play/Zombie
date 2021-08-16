@@ -5,14 +5,11 @@ using UnityEngine;
 public class UnitShooting : MonoBehaviour
 {
     public event System.Action OnShoot;
-    [SerializeField] float radius;
+    [SerializeField] UnitTargetDetection unitTargetDetection;
     [SerializeField] Weapon[] weapons;
-    Transform target;
 
-    public bool AllowShooting { get; set; } = true;
-    public Transform Target => target;
+    public bool AllowShooting { get; set; } = false;
 
-    Collider[] attackColliders = new Collider[30];
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -40,15 +37,13 @@ public class UnitShooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int collidersFound = Physics.OverlapSphereNonAlloc(transform.position, radius, attackColliders, GameplayUtils.ATTACK_MASK);
-        target = GameplayUtils.GetAttackTarget(0, collidersFound, transform, attackColliders);
-        if (target != null && AllowShooting)
+        if (unitTargetDetection.Target != null && AllowShooting)
         {
             for (int i = 0; i < weapons.Length; i++)
             {
                 if (!weapons[i].Firing)
                 {
-                    weapons[i].StartFire(target);
+                    weapons[i].StartFire(unitTargetDetection.Target);
                 }
             }
         }
