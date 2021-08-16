@@ -6,15 +6,16 @@ using UnityEngine;
 public class Buildable : BaseObject
 {
     public event System.Action OnUpdate;
-    public event System.Action OnBuilt;
+    public event System.Action<bool> OnBuilt; // true if built after deserialization 
 
     [SerializeField] ResourcesInfo cost;
     [BaseSerialize] ResourcesInfo resourcesSpent = new ResourcesInfo();
+    [BaseSerialize] bool built;
 
     public ResourcesInfo Cost => cost;
     public ResourcesInfo ResourcesSpent => resourcesSpent;
 
-    public bool Built { get; set; }
+    public bool Built => built;
 
 
     public void Awake()
@@ -32,13 +33,27 @@ public class Buildable : BaseObject
         resourcesSpent.Spend(info, cost, count);
         if(cost.IsFilled(resourcesSpent))
         {
-            Built = true;
-            enabled = false;
-            OnBuilt?.Invoke();
+            FinishBuilding(false);
         }
         else
         {
             OnUpdate?.Invoke();
+        }
+    }
+
+    private void FinishBuilding(bool afterDeserialization)
+    {
+        built = true;
+        enabled = false;
+        OnBuilt?.Invoke(afterDeserialization);
+    }
+
+    public override void BaseAfterDeserialize()
+    {
+        base.BaseAfterDeserialize();
+        if (built)
+        {
+            FinishBuilding(true);
         }
     }
 }

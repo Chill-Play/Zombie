@@ -17,6 +17,15 @@ public class BaseObject : MonoBehaviour, ISerializationCallbackReceiver
         }
     }
 
+
+    public virtual void BaseAfterDeserialize()
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            Debug.LogError("Object id is null : " + gameObject.name);
+        }
+    }
+
 #if UNITY_EDITOR
     public void OnAfterDeserialize()
     {

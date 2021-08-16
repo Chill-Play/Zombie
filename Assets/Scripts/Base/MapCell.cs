@@ -31,11 +31,14 @@ public class MapCell : MonoBehaviour
     }
 
 
-    private void Buildable_OnBuilt()
+    private void Buildable_OnBuilt(bool afterDeserialization)
     {
         content.SetActive(true);
-        content.transform.localScale = Vector3.zero;
-        content.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);    
+        if (!afterDeserialization)
+        {
+            content.transform.localScale = Vector3.zero;
+            content.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);
+        }
     }
 
 

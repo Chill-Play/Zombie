@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class BuildableInfoUI : MonoBehaviour
 {
-    [SerializeField] Buildable building;
+    public event System.Action<EventMessage<Buildable>> OnBuildingBuilt;
     [SerializeField] ResourceBar resourceBarPrefab;
     [SerializeField] Transform resourcesLayout;
 
     Dictionary<ResourceType, ResourceBar> resourceBars = new Dictionary<ResourceType, ResourceBar>();
+    Buildable building;
 
-    void OnEnable()
+
+    public void Initialize(Buildable building)
     {
+        this.building = building;
         building.OnUpdate += Building_OnUpdate;
         building.OnBuilt += Building_OnBuilt;
         foreach (var cost in building.Cost.Slots)
@@ -24,7 +27,7 @@ public class BuildableInfoUI : MonoBehaviour
     }
 
 
-    private void OnDisable()
+    private void Remove()
     {
         building.OnBuilt -= Building_OnBuilt;
         building.OnUpdate -= Building_OnUpdate;
@@ -69,11 +72,12 @@ public class BuildableInfoUI : MonoBehaviour
     }
 
 
-    private void Building_OnBuilt()
+    private void Building_OnBuilt(bool afterDeserialization)
     {
         foreach(var pair in resourceBars)
         {
             pair.Value.UpdateValue(0);
         }
+        OnBuildingBuilt?.Invoke(new EventMessage<Buildable>(building, this));
     }
 }
