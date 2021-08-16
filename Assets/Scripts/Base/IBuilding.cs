@@ -18,5 +18,5 @@ public struct BuildingReport
 
 public interface IBuilding 
 {
-    BuildingReport TryUseResources(List<ResourceType> playerResources, int count);
+
 }

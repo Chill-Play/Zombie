@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerBuilding : MonoBehaviour
 {
-    [SerializeField] LayerMask buildingsMask;
-    [SerializeField] LayerMask cellMask;
+    [SerializeField] LayerMask buildablesMask;
     [SerializeField] float radius;
     [SerializeField] UnitMovement unitMovement;
     [SerializeField] int countPerUse = 10;
@@ -13,8 +12,7 @@ public class PlayerBuilding : MonoBehaviour
     [SerializeField] float rateIncrease = 0.01f;
 
 
-    Collider[] buildings = new Collider[1];
-    Collider[] cells = new Collider[1];
+    Collider[] buildablesBuffer = new Collider[1];
     float nextUse;
     int uses;
 
@@ -24,25 +22,25 @@ public class PlayerBuilding : MonoBehaviour
         {
             return;
         }
-        //int count = Physics.OverlapSphereNonAlloc(transform.position, radius, buildings, buildingsMask);
-        int count = Physics.OverlapSphereNonAlloc(transform.position, radius, cells, cellMask);
+        int count = Physics.OverlapSphereNonAlloc(transform.position, radius, buildablesBuffer, buildablesMask);
         if (count > 0)
         {
             if (nextUse < Time.time)
             {
-                //Building building = buildings[0].GetComponent<Building>();
-                //bool used = building.TryUseResources(ResourcesController.Instance.Resources, countPerUse);
-                SellingMapCell mapCell = cells[0].GetComponent<SellingMapCell>();
-               /* bool used = mapCell.TryUseResources(ResourcesController.Instance.Resources, countPerUse);
-                if (used)
+                Buildable buildable = buildablesBuffer[0].GetComponent<Buildable>();
+                if (buildable != null)
                 {
-                    uses++;
-                    nextUse = Time.time + baseRate - (rateIncrease * uses);
+                    if (!buildable.Built)
+                    {
+                        buildable.SpendResources(ResourcesController.Instance.ResourcesCount, countPerUse);
+                        uses++;
+                        nextUse = Time.time + baseRate - (rateIncrease * uses);
+                    }
+                    else
+                    {
+                        uses = 0;
+                    }
                 }
-                else
-                {
-                    uses = 0;
-                }*/
             }
         }
         else

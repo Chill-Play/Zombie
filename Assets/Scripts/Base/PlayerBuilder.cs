@@ -11,22 +11,22 @@ public class PlayerBuilder : MonoBehaviour
     float nextUse;
     int uses;
 
-    IBuilding targetBuilding;
+    IBuildable targetBuilding;
     UnitMovement unitMovement;
 
     private void OnEnable()
     {
         unitMovement = GetComponent<UnitMovement>();
         BuildingTargetVolume.OnBuildingTargetEnter += BuildingTargetVolume_OnBuildingTargetEnter;
-        BuildingTargetVolume.OnBuildingTargetExit += BuildingTargetVolume_OnBuildingTargetExit; ;
+        BuildingTargetVolume.OnBuildingTargetExit += BuildingTargetVolume_OnBuildingTargetExit;
     }
  
-    private void BuildingTargetVolume_OnBuildingTargetEnter(IBuilding obj)
+    private void BuildingTargetVolume_OnBuildingTargetEnter(IBuildable obj)
     {
         targetBuilding = obj;
     }
 
-    private void BuildingTargetVolume_OnBuildingTargetExit(IBuilding obj)
+    private void BuildingTargetVolume_OnBuildingTargetExit(IBuildable obj)
     {       
         if (targetBuilding == obj)
         {

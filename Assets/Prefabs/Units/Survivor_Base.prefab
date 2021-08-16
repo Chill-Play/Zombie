@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 6724815731642420075}
   - component: {fileID: 1555253045}
   - component: {fileID: 3412838976713829729}
-  - component: {fileID: 6873024208652931715}
   - component: {fileID: 8470681195262452251}
   - component: {fileID: 3538268089468884926}
   - component: {fileID: 3084550951077763591}
+  - component: {fileID: 5653733016416292161}
   m_Layer: 7
   m_Name: Survivor_Base
   m_TagString: Untagged
@@ -90,21 +90,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6873024208652931715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3346936833982169915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbf4990f73d01644d9db3fcf29743109, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  countPerUse: 10
-  baseRate: 0.25
-  rateIncrease: 0.01
 --- !u!114 &8470681195262452251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +135,26 @@ MonoBehaviour:
   modelPivot: {fileID: 6724815732587931373}
   shooting: {fileID: 0}
   spineAngleOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &5653733016416292161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3346936833982169915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0207aa2e25e04a24085339f327737b4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildablesMask:
+    serializedVersion: 2
+    m_Bits: 8192
+  radius: 2
+  unitMovement: {fileID: 8470681195262452251}
+  countPerUse: 10
+  baseRate: 0.25
+  rateIncrease: 0.01
 --- !u!1 &6724815732587931374
 GameObject:
   m_ObjectHideFlags: 0

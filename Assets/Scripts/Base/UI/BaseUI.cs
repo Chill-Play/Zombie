@@ -6,99 +6,99 @@ using UnityEngine.UI;
 
 public class BaseUI : MonoBehaviour
 {
-    [SerializeField] Button raidButton;
-    [SerializeField] Button globalMapButton;
-    [SerializeField] LevelPackProgressBar levelBar;
-    [SerializeField] ResourcesInfoUIPanel resourcesInfo;
-    [SerializeField] Bar completionProgressBar;
+    //[SerializeField] Button raidButton;
+    //[SerializeField] Button globalMapButton;
+    //[SerializeField] LevelPackProgressBar levelBar;
+    //[SerializeField] ResourcesInfoUIPanel resourcesInfo;
+    //[SerializeField] Bar completionProgressBar;
 
 
-    private void OnEnable()
-    {
-       globalMapButton.gameObject.SetActive(false);
-       GlobalMapArea.OnGlobalMapAreaEnter += GlobalMapArea_OnGlobalMapAreaEnter;
-       GlobalMapArea.OnGlobalMapAreaExit += GlobalMapArea_OnGlobalMapAreaExit;
-       MapController.Instance.OnCompletionProgressUpdate += MapController_OnCompletionProgressUpdate;
-    }
+    //private void OnEnable()
+    //{
+    //   globalMapButton.gameObject.SetActive(false);
+    //   GlobalMapArea.OnGlobalMapAreaEnter += GlobalMapArea_OnGlobalMapAreaEnter;
+    //   GlobalMapArea.OnGlobalMapAreaExit += GlobalMapArea_OnGlobalMapAreaExit;
+    //   MapController.Instance.OnCompletionProgressUpdate += MapController_OnCompletionProgressUpdate;
+    //}
 
-    void Start()
-    {
-        raidButton.gameObject.SetActive(false);
+    //void Start()
+    //{
+    //    raidButton.gameObject.SetActive(false);
      
-        levelBar.Setup(LevelController.Instance.CurrentLevel, LevelController.Instance.TotalLevelsInPack);
+    //    levelBar.Setup(LevelController.Instance.CurrentLevel, LevelController.Instance.TotalLevelsInPack);
 
 
-        raidButton.onClick.AddListener(() => RaidButton_OnClick());
-        globalMapButton.onClick.AddListener(() => GlobalMap_OnClick());
+    //    raidButton.onClick.AddListener(() => RaidButton_OnClick());
+    //    globalMapButton.onClick.AddListener(() => GlobalMap_OnClick());
 
-        RaidZone zone = FindObjectOfType<RaidZone>();
-        zone.OnEnterZone += Zone_OnEnterZone;
-        zone.OnExitZone += Zone_OnExitZone;
-        ResourcesController.Instance.OnResourcesUpdated += ResourcesController_OnResourcesUpdated;
+    //    RaidZone zone = FindObjectOfType<RaidZone>();
+    //    zone.OnEnterZone += Zone_OnEnterZone;
+    //    zone.OnExitZone += Zone_OnExitZone;
+    //    ResourcesController.Instance.OnResourcesUpdated += ResourcesController_OnResourcesUpdated;
 
-        List<ResourceType> resources = ResourcesController.Instance.Resources;
-        foreach(var type in resources)
-        {
-            resourcesInfo.UpdateBar(type, type.Count);
-        }
-    }
+    //    List<ResourceType> resources = ResourcesController.Instance.Resources;
+    //    foreach(var type in resources)
+    //    {
+    //        resourcesInfo.UpdateBar(type, type.Count);
+    //    }
+    //}
 
-    private void OnDisable()
-    {
-        GlobalMapArea.OnGlobalMapAreaEnter -= GlobalMapArea_OnGlobalMapAreaEnter;
-        GlobalMapArea.OnGlobalMapAreaExit -= GlobalMapArea_OnGlobalMapAreaExit;       
-    }
+    //private void OnDisable()
+    //{
+    //    GlobalMapArea.OnGlobalMapAreaEnter -= GlobalMapArea_OnGlobalMapAreaEnter;
+    //    GlobalMapArea.OnGlobalMapAreaExit -= GlobalMapArea_OnGlobalMapAreaExit;       
+    //}
 
-    private void MapController_OnCompletionProgressUpdate(float value)
-    {
-        completionProgressBar.SetValue(value);
-    }
+    //private void MapController_OnCompletionProgressUpdate(float value)
+    //{
+    //    completionProgressBar.SetValue(value);
+    //}
 
-    private void GlobalMapArea_OnGlobalMapAreaExit()
-    {
-        globalMapButton.gameObject.SetActive(false);
-    }
+    //private void GlobalMapArea_OnGlobalMapAreaExit()
+    //{
+    //    globalMapButton.gameObject.SetActive(false);
+    //}
 
-    private void GlobalMapArea_OnGlobalMapAreaEnter()
-    {
-        globalMapButton.gameObject.SetActive(true);
-    }
+    //private void GlobalMapArea_OnGlobalMapAreaEnter()
+    //{
+    //    globalMapButton.gameObject.SetActive(true);
+    //}
 
-    private void ResourcesController_OnResourcesUpdated()
-    {
-        List<ResourceType> resources = ResourcesController.Instance.Resources;
-        foreach (var type in resources)
-        {
-            resourcesInfo.UpdateBar(type, type.Count);
-        }
-    }
+    //private void ResourcesController_OnResourcesUpdated()
+    //{
+    //    List<ResourceType> resources = ResourcesController.Instance.Resources;
+    //    foreach (var type in resources)
+    //    {
+    //        resourcesInfo.UpdateBar(type, type.Count);
+    //    }
+    //}
 
-    private void Zone_OnExitZone()
-    {
-        raidButton.transform.DOScale(0.5f, 0.15f).SetEase(Ease.InExpo).OnComplete(() => raidButton.gameObject.SetActive(false));
-    }
+    //private void Zone_OnExitZone()
+    //{
+    //    raidButton.transform.DOScale(0.5f, 0.15f).SetEase(Ease.InExpo).OnComplete(() => raidButton.gameObject.SetActive(false));
+    //}
 
-    private void Zone_OnEnterZone()
-    {
-        raidButton.gameObject.SetActive(true);
-        raidButton.transform.localScale = Vector3.one * 0.4f;
-        raidButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.2f, 0.3f);
-    }
+    //private void Zone_OnEnterZone()
+    //{
+    //    raidButton.gameObject.SetActive(true);
+    //    raidButton.transform.localScale = Vector3.one * 0.4f;
+    //    raidButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.2f, 0.3f);
+    //}
 
-    // Update is called once per frame
-    void Update()
-    {
+    //// Update is called once per frame
+    //void Update()
+    //{
         
-    }
+    //}
 
 
-    void RaidButton_OnClick()
-    {
-        Game.Instance.RunRaid();
-    }
+    //void RaidButton_OnClick()
+    //{
+    //    Game.Instance.RunRaid();
+    //}
 
-    void GlobalMap_OnClick()
-    {
-        Game.Instance.ToGlobalMap();
-    }
+    //void GlobalMap_OnClick()
+    //{
+    //    Game.Instance.ToGlobalMap();
+    //}
 }
