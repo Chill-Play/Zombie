@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class BuildingTargetVolume : MonoBehaviour
 {
-    public static event System.Action<IBuilding> OnBuildingTargetEnter;
-    public static event System.Action<IBuilding> OnBuildingTargetExit;
+    public static event System.Action<IBuildable> OnBuildingTargetEnter;
+    public static event System.Action<IBuildable> OnBuildingTargetExit;
 
-    IBuilding building;
+    IBuildable building;
 
     private void Awake()
     {
-        building = GetComponentInParent<IBuilding>();  
+        building = GetComponentInParent<IBuildable>();  
     }
 
     private void OnTriggerEnter(Collider other)

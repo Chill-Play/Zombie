@@ -20,7 +20,7 @@ public class GlobalMapGame : SingletonMono<GlobalMapGame>
         player = Instantiate<GlobalMapPlayer>(playerPrefab, currentState.transform.position, Quaternion.identity);
         CameraController.Instance.SetTarget(player.transform);
         CameraController.Instance.Zoom(-9f, 1f);
-        GlobalMapUI.Instance.SetDark(0f, 1f);
+        //GlobalMapUI.Instance.SetDark(0f, 1f);
     }
 
     public void MoveToNextState()
@@ -33,7 +33,7 @@ public class GlobalMapGame : SingletonMono<GlobalMapGame>
     {
         PlayerPrefs.SetInt(LevelController.LEVEL_NUMBER_PREFS, levelNumber + 1);
         StateArea nextState = GetStateArea(levelSequence.GetScene(levelNumber + 1));
-        GlobalMapUI.Instance.SetDark(1f, 1f);
+        //GlobalMapUI.Instance.SetDark(1f, 1f);
         CameraController.Instance.Zoom(-3f, 1f,() => StatesLoader.Instance.LoadState(nextState.StateBase));        
     }
 

@@ -5,37 +5,46 @@ using SimpleJSON;
 using DG.Tweening;
 using System;
 
-public class MapCell : MonoBehaviour, ISaveableMapData
+[RequireComponent(typeof(Buildable))]
+public class MapCell : MonoBehaviour
 {
-    public const string DEFAULT_GRID_ID = "none";
+    [SerializeField] Buildable buildable;
+    [SerializeField] GameObject content;
+    // public int GridIndex { get; set; }
 
-    [SerializeField, HideInInspector] protected string gridId = DEFAULT_GRID_ID;
 
-    public event Action<ISaveableMapData> OnSave;
 
-    public string SaveId { get => gridId; set { gridId = value; } }
-    public int GridIndex { get; set; }
-   
-
-    public virtual void InitCell()
+    private void Awake()
     {
-        
+        content.SetActive(false);
     }
 
-    public virtual JSONNode GetSaveData()
+    private void OnEnable()
     {
-        JSONNode jsonObject = new JSONObject();       
-        return jsonObject;
+        buildable.OnBuilt += Buildable_OnBuilt;
     }
 
-    public virtual void Load(JSONNode loadData)
-    {
 
+    private void OnDisable()
+    {
+        buildable.OnBuilt -= Buildable_OnBuilt;
     }
+
+
+    private void Buildable_OnBuilt(bool afterDeserialization)
+    {
+        content.SetActive(true);
+        if (!afterDeserialization)
+        {
+            content.transform.localScale = Vector3.zero;
+            content.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);
+        }
+    }
+
 
     public virtual void Build(System.Action<MapCell> OnBuildingComplete)
     {
-        transform.localScale = Vector3.zero;
-        transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc).OnComplete(() => OnBuildingComplete(this));       
+        //transform.localScale = Vector3.zero;
+        //transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc).OnComplete(() => OnBuildingComplete(this));       
     }
 }
