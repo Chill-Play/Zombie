@@ -19,6 +19,7 @@ public class Squad : MonoBehaviour, IInputReceiver
         {
             unit.GetComponent<UnitHealth>().OnDead += (x) => units.Remove(unit.GetComponent<UnitMovement>());
         }
+        units[0].GetComponent<PlayerResources>().CanMoveToResources = false;
     }
 
     // Update is called once per frame

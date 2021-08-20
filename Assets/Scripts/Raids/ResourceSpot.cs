@@ -12,7 +12,7 @@ public class ResourceSpot : MonoBehaviour
     [SerializeField] float noisePerUse = 10f;
     [SerializeField] float resourcesVelocity = 1f;
     [SerializeField] Vector3 resourceSpawnOffset = new Vector3(0f, 1f, 0f);
-    [SerializeField] ResourceInteractionType interactionType;
+    [SerializeField] ResourceInteractionType interactionType;   
 
     public ResourceInteractionType InteractionType => interactionType;
 
@@ -20,13 +20,7 @@ public class ResourceSpot : MonoBehaviour
 
     private void Awake()
     {
-        Level.Instance.RegisterResourceSpot(this);
-    }
-
-
-    private void Update()
-    {
-
+        Level.Instance.RegisterResourceSpot(this);       
     }
 
     public void UseSpot(GameObject user)
@@ -39,11 +33,12 @@ public class ResourceSpot : MonoBehaviour
         uses++;
         Level.Instance.AddNoiseLevel(noisePerUse);
 
+        transform.DOKill(true);
         transform.DOPunchScale(Vector3.one * 0.1f, 0.1f, 3);
 
         if (uses >= maxUses)
         {
-            OnSpotUsed?.Invoke(this);
+            OnSpotUsed?.Invoke(this);            
             transform.DOScale(0f, 0.25f).SetEase(Ease.InCirc).OnComplete(() => Destroy(gameObject));
         }
     }
