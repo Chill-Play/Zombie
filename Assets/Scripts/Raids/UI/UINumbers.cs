@@ -4,14 +4,23 @@ using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 
-class UINumber
+public class UINumber
 {
     public TMP_Text text;
     public Vector3 worldPos;
     public Vector3 offset;
+    public float lifeTime;
     public float t;
+
+    public event System.Action OnEnd;
+
+    public void End()
+    {
+        OnEnd?.Invoke();      
+    }
 }
 
 
@@ -21,6 +30,7 @@ public class UINumbers : MonoBehaviour
     [SerializeField] AnimationCurve scaleCurve;
     [SerializeField] float time = 0.4f;
     List<UINumber> numbers = new List<UINumber>();
+    List<UINumber> positionUpdateNumbers = new List<UINumber>();
     Camera camera;
     // Start is called before the first frame update
     void Start()
@@ -41,17 +51,23 @@ public class UINumbers : MonoBehaviour
                 numbers.RemoveAt(i);
             }
         }
+
+        for (int i = 0; i < positionUpdateNumbers.Count; i++)
+        {
+            Vector3 screenPos = camera.WorldToScreenPoint(positionUpdateNumbers[i].worldPos);
+            positionUpdateNumbers[i].text.transform.position = screenPos + positionUpdateNumbers[i].offset;
+        }
     }
 
     private void UpdateNumberPosition(UINumber number)
     {
         Vector3 screenPos = camera.WorldToScreenPoint(number.worldPos);
         number.text.transform.position = screenPos + number.offset;
-        number.t += Time.deltaTime / time;
+        number.t += Time.deltaTime / number.lifeTime;
         number.text.transform.localScale = Vector3.one * scaleCurve.Evaluate(number.t);
     }
 
-    public void SpawnNumber(Vector3 worldPos, string text, Vector2 offset, float randomAngle, float randomOffset)
+    public void SpawnNumber(Vector3 worldPos, string text, Vector2 offset, float randomAngle, float randomOffset, float lifeTime = 0.4f)
     {
         UINumber uINumber = new UINumber();
         uINumber.text = Instantiate(textPrefab, transform);
@@ -60,7 +76,46 @@ public class UINumbers : MonoBehaviour
         uINumber.offset = offset + (Random.insideUnitCircle * randomOffset);
         uINumber.worldPos = worldPos;
         uINumber.text.text = text;
+        uINumber.lifeTime = lifeTime;
         numbers.Add(uINumber);
         UpdateNumberPosition(uINumber);
+    }
+
+    public UINumber GetNumber(Vector3 worldPos, string text, Vector2 offset, float randomAngle, float randomOffset, bool updatePosition)
+    {
+
+        UINumber uINumber = new UINumber();
+        uINumber.text = Instantiate(textPrefab, transform);
+        uINumber.text.transform.SetAsFirstSibling();
+        uINumber.text.transform.localEulerAngles = Vector3.forward * Random.Range(-randomAngle, randomAngle);
+        uINumber.offset = offset + (Random.insideUnitCircle * randomOffset);
+        uINumber.worldPos = worldPos;
+        uINumber.text.text = text;
+        Vector3 screenPos = camera.WorldToScreenPoint(uINumber.worldPos);
+        uINumber.text.transform.position = screenPos + uINumber.offset;
+        if (updatePosition)
+        {
+            positionUpdateNumbers.Add(uINumber);
+            uINumber.OnEnd += () => positionUpdateNumbers.Remove(uINumber);
+        }
+        return uINumber;
+    }
+
+    public void PunchScaleNumber(UINumber uINumber, float punch, float duration)
+    {
+        uINumber.text.transform.DOKill(true);
+        uINumber.text.transform.DOPunchScale(uINumber.text.transform.localScale * punch, duration);
+    }
+
+    public void FollowPosition(UINumber number, Vector3 position)
+    {
+        number.worldPos = position;
+        Vector3 screenPos = camera.WorldToScreenPoint(number.worldPos);
+        number.text.transform.position = screenPos + number.offset;
+    }
+
+    public void ScaleToZeroAndDestroy(UINumber uINumber, float duration)
+    {
+        uINumber.text.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InCirc).OnComplete(() => { uINumber.End(); Destroy(uINumber.text.gameObject); });
     }
 }
