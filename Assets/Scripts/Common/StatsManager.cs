@@ -3,26 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct StatInfo
+public class StatInfo
 {
-    public StatsType statsType;
-    public int value;
+    public int level;
 
 }
 
 public class StatsManager : SingletonMono<StatsManager>
 {
-    [SerializeField] List<StatInfo> baseStats = new List<StatInfo>();
+    [SerializeField] List<StatsType> stats = new List<StatsType>();
 
-    Dictionary<StatsType, int> statsInfo = new Dictionary<StatsType, int>();
-
-    public Dictionary<StatsType, int> StatsInfo => statsInfo;
+    Dictionary<StatsType, StatInfo> statsInfo = new Dictionary<StatsType, StatInfo>();
 
     private void Awake()
     {
-        for (int i = 0; i < baseStats.Count; i++)
+        for (int i = 0; i < stats.Count; i++)
         {
-            statsInfo.Add(baseStats[i].statsType, baseStats[i].value);
+            statsInfo.Add(stats[i], new StatInfo());
         }
     }
 
@@ -30,9 +27,16 @@ public class StatsManager : SingletonMono<StatsManager>
     {
         if (statsInfo.ContainsKey(statsType))
         {
-            statsInfo[statsType]++;
-            return (statsInfo[statsType]);
+            statsInfo[statsType].level += value;
+            return (statsInfo[statsType].level);
         }
+        Debug.LogError("No such stat : " + statsType.name);
         return -1;
+    }
+
+
+    public StatInfo GetStatInfo(StatsType type)
+    {
+        return statsInfo[type];
     }
 }

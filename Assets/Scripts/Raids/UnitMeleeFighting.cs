@@ -26,29 +26,29 @@ public class UnitMeleeFighting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        squad = GameplayController.Instance.SquadInstance;
-        if (squad != null && agent.enabled)
-        {
-            Transform target = null;
-            float closestDistance = 0f;
-            for (int i = 0; i < squad.Units.Count; i++)
-            {
-                float distance = Vector3.Distance(transform.position, squad.Units[i].transform.position);
-                if (closestDistance < distance)
-                {
-                    target = squad.Units[i].transform;
-                }
-            }
-            if (nextAttack < Time.time)
-            {
-                int count = Physics.OverlapSphereNonAlloc(transform.position, attackRadius, attackColliders, attackMask);
-                if (count > 0)
-                {
-                    nextAttack = Time.time + attackRate;
-                    StartCoroutine(AttackCoroutine(attackColliders, count));
-                }
-            }
-        }
+        //squad = GameplayController.Instance.SquadInstance;
+        //if (squad != null && agent.enabled)
+        //{
+        //    Transform target = null;
+        //    float closestDistance = 0f;
+        //    for (int i = 0; i < squad.Units.Count; i++)
+        //    {
+        //        float distance = Vector3.Distance(transform.position, squad.Units[i].transform.position);
+        //        if (closestDistance < distance)
+        //        {
+        //            target = squad.Units[i].transform;
+        //        }
+        //    }
+        //    if (nextAttack < Time.time)
+        //    {
+        //        int count = Physics.OverlapSphereNonAlloc(transform.position, attackRadius, attackColliders, attackMask);
+        //        if (count > 0)
+        //        {
+        //            nextAttack = Time.time + attackRate;
+        //            StartCoroutine(AttackCoroutine(attackColliders, count));
+        //        }
+        //    }
+        //}
     }
 
 

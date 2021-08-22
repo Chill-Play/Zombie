@@ -17,6 +17,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] float baseSpeed = 3f;
     [SerializeField] float speedPerLevel = 1f;
 
+    [SerializeField] SubjectId wanderingState;
+    [SerializeField] SubjectId aggressiveState;
+    [SerializeField] SubjectId deadState;
+
+    StateController stateController;
     int level = -1;
     Squad squad;
 
@@ -27,22 +32,52 @@ public class Enemy : MonoBehaviour
         this.level = level;
     }
 
+    private void OnDisable()
+    {
+        GetComponent<NavMeshAgent>().enabled = false;
+        GetComponent<Collider>().enabled = false;
+    }
+
+
+    private void OnEnable()
+    {
+        GetComponent<NavMeshAgent>().enabled = true;
+        GetComponent<Collider>().enabled = true;
+    }
+
 
     void Start()
     {
+        stateController = GetComponent<StateController>();
+        stateController.ToState(wanderingState);
+        GetComponent<UnitHealth>().OnDead += Enemy_OnDead;
         if(level == -1)
         {
             SetLevel(1);
         }
     }
 
+    private void Enemy_OnDead(EventMessage<Empty> obj)
+    {
+        stateController.ToState(deadState);
+        GetComponent<UnitMovement>().StopMoving();
+        GetComponent<NavMeshAgent>().enabled = false;
+        GetComponent<Collider>().enabled = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
         squad = GameplayController.Instance.SquadInstance;
-        if (squad != null)
+        if (Vector3.Distance(squad.transform.position, transform.position) < 10f)
         {
-            GetComponent<UnitMovement>().MoveTo(squad.transform.position);
+            if (stateController.CurrentStateId == wanderingState)
+            {
+                GetComponent<ZombieAgroSequence>().Play(() =>
+                {
+                    stateController.ToState(aggressiveState);
+                });
+            }
         }
     }
 
