@@ -8,6 +8,14 @@ public class ZombieFollowPlayer : MonoBehaviour
     [SerializeField] ZombieAgroSequence agroSequence;
     
     float nextAggro = 0.0f;
+    UnitMeleeFighting meleeFighting;
+
+    private void Awake()
+    {
+        meleeFighting = GetComponent<UnitMeleeFighting>();
+    }
+
+
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -44,7 +52,7 @@ public class ZombieFollowPlayer : MonoBehaviour
         else
         {
             var squad = GameplayController.Instance.SquadInstance;
-            if (squad != null)
+            if (squad != null && !meleeFighting.Attacking)
             {
                 GetComponent<UnitMovement>().MoveTo(squad.transform.position);
             }
