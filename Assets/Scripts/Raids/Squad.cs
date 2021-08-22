@@ -16,7 +16,7 @@ public class Squad : MonoBehaviour, IInputReceiver
     {
         //units = GetComponentsInChildren<UnitMovement>().ToList();
         foreach(UnitMovement unit in units)
-        {
+        { 
             unit.GetComponent<UnitHealth>().OnDead += (x) => units.Remove(unit.GetComponent<UnitMovement>());
         }
         units[0].GetComponent<PlayerResources>().CanMoveToResources = false;

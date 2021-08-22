@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ZombieMovement : UnitMovement
 {
@@ -133,5 +134,11 @@ public class ZombieMovement : UnitMovement
         //agent.GetComponentInChildren<Animator>().SetTrigger("Land");
         agent.CompleteOffMeshLink();
         offMeshCoroutine = null;
+    }
+
+    public override bool CanReachDestination(Vector3 destination)
+    {
+        NavMeshPath path = new NavMeshPath();
+        return agent.CalculatePath(destination, path);
     }
 }

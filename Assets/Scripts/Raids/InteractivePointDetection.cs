@@ -24,17 +24,20 @@ public class InteractivePointDetection : MonoBehaviour
             {
                 for (int i = 0; i < interactivePoints.Length; i++)
                 {
-                    InteractivePoint possibleTarget = interactivePoints[0].GetComponent<InteractivePoint>();
-                    if (possibleTarget.HasFreePoint())
+                    if (interactivePoints[i] != null)
                     {
-                        InteractivePoint.WorkingPoint point = possibleTarget.GetFreePoint(transform.position);
-                        float dist = Vector3.Distance(point.transform.position, transform.position);
-                        if (minDist > dist)
+                        InteractivePoint possibleTarget = interactivePoints[i].GetComponent<InteractivePoint>();
+                        if (possibleTarget.HasFreePoint())
                         {
-                            minDist = dist; 
-                            target = possibleTarget;
-                        }
+                           // InteractivePoint.WorkingPoint point = possibleTarget.GetFreePoint(transform.position, GetComponent<>);
+                            float dist = Vector3.Distance(interactivePoints[i].transform.position, transform.position);
+                            if (minDist > dist)
+                            {
+                                minDist = dist;
+                                target = possibleTarget;
+                            }
 
+                        }
                     }
                 }
             }
@@ -46,8 +49,18 @@ public class InteractivePointDetection : MonoBehaviour
       
     }
 
-    public void PointIsFull()
+    public void TryTo—hangeTarget()
     {
+
+        /*for (int i = 0; i < interactivePoints.Length; i++)
+        {
+            InteractivePoint possibleTarget = interactivePoints[0].GetComponent<InteractivePoint>();
+            if (possibleTarget.HasFreePoint() && possibleTarget != target)
+            {
+                target = possibleTarget;
+                return;
+            }
+        }*/
         target = null;
     }
 }
