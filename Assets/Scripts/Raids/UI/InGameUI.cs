@@ -57,6 +57,7 @@ public class InGameUI : UIScreen
     private void Level_OnNoiseLevelChanged(float value)
     {
         noiseBar.SetValue(value / Level.Instance.MaxNoiseLevel);
+        noiseBar.transform.DOKill(true);
         noiseBar.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f, 3);
     }
 

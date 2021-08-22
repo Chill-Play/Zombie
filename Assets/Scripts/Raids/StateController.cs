@@ -14,7 +14,7 @@ public class StateController : MonoBehaviour
 
     [SerializeField] List<State> states = new List<State>();
 
-    State currentState;
+    [SerializeField] State currentState;
 
     public SubjectId CurrentStateId => currentState == null? null : currentState.subjectId;
 

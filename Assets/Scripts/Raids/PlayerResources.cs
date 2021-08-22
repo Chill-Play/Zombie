@@ -17,6 +17,10 @@ public class PlayerResources : MonoBehaviour
     bool interacting;
     UnitAnimation animation;
 
+    InteractivePoint.WorkingPoint target;
+
+    public bool CanMoveToResources { get; set; } = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,14 +29,48 @@ public class PlayerResources : MonoBehaviour
         {
             axeModel.SetActive(false);
             weaponModel.SetActive(true);
+        }      
+    }
+
+    private void OnEnable()
+    {
+        TryToFindFreePoint();
+    }
+
+    void TryToFindFreePoint()
+    {
+        if (CanMoveToResources && interactivePointDetection.Target!= null)
+        {
+            target = interactivePointDetection.Target.GetFreePoint(transform.position);
+         
+            if (target.transform != null)
+            { 
+                //  Debug.DrawLine(transform.position + Vector3.up, target.transform.position, Color.red, float.MaxValue);
+                interactivePointDetection.Target.TakePoint(target);             
+                unitMovement.MoveTo(target.transform.position);
+            }
+            else
+            {
+                interactivePointDetection.PointIsFull();
+            }
         }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        int count = Physics.OverlapSphereNonAlloc(transform.position, useSpotRadius, resourceSpots, resourceSpotsMask);
-        if (count > 0)
+        bool atTarget = false;
+        if ((target.transform!= null && Vector3.Distance(transform.position, target.transform.position) < 0.5f) || !CanMoveToResources || atTarget)
+        {
+            if (CanMoveToResources)
+            {
+                transform.rotation = target.transform.rotation;
+            }
+            atTarget = true;
+        }      
+
+        int count = Physics.OverlapSphereNonAlloc(transform.position, useSpotRadius, resourceSpots, resourceSpotsMask);     
+        if (count > 0 && atTarget)
         {
             if (!axeModel.activeSelf)
             {
@@ -49,14 +87,11 @@ public class PlayerResources : MonoBehaviour
             }
             return;
         }
-        if (!interacting)
+
+        if (target.transform == null)
         {
-            if (interactivePointDetection.Target != null)
-            {              
-                unitMovement.MoveTo(interactivePointDetection.Target.transform.position);
-            }
+            TryToFindFreePoint();
         }
-        
 
         if (interacting)
         {
@@ -71,7 +106,15 @@ public class PlayerResources : MonoBehaviour
     }
 
     private void OnDisable()
-    {       
+    {
+        if (target.index != -1)
+        {
+            if (interactivePointDetection.Target != null)
+            {
+                interactivePointDetection.Target.FreePoint(target);
+            }
+            target = new InteractivePoint.WorkingPoint(null, -1);           
+        }
         if (axeModel.activeSelf)
         {
             axeModel.SetActive(false);
