@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SurvivorMovement : UnitMovement
 {
     public bool InputActive => Input.magnitude > 0.05f;
-    public bool goToDestination;
+    public bool goToDestination;   
 
     void Update()
     {
@@ -34,5 +35,15 @@ public class SurvivorMovement : UnitMovement
     {
         goToDestination = false;
         agent.velocity = Vector3.zero;
+        if (agent.isActiveAndEnabled)
+        {
+            agent.ResetPath();
+        }
+    }
+
+    public override bool CanReachDestination(Vector3 destination)
+    {      
+        NavMeshPath path = new NavMeshPath();
+        return (agent.CalculatePath(destination, path) && path.status == NavMeshPathStatus.PathComplete);
     }
 }

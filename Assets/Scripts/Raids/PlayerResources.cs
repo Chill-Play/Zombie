@@ -41,17 +41,18 @@ public class PlayerResources : MonoBehaviour
     {
         if (CanMoveToResources && interactivePointDetection.Target!= null)
         {
-            target = interactivePointDetection.Target.GetFreePoint(transform.position);
-         
-            if (target.transform != null)
-            { 
-                //  Debug.DrawLine(transform.position + Vector3.up, target.transform.position, Color.red, float.MaxValue);
-                interactivePointDetection.Target.TakePoint(target);             
+            target = interactivePointDetection.Target.GetFreePoint(transform.position, unitMovement);
+
+            if (target.transform != null && unitMovement.CanReachDestination(target.transform.position))
+            {
+                Debug.DrawLine(transform.position + Vector3.up, target.transform.position, Color.red,10f);
+                interactivePointDetection.Target.TakePoint(target);
                 unitMovement.MoveTo(target.transform.position);
             }
             else
             {
-                interactivePointDetection.PointIsFull();
+               // Debug.DrawLine(transform.position + Vector3.up, target.transform.position, Color.yellow, 10f);
+                interactivePointDetection.TryTo—hangeTarget();
             }
         }
     }

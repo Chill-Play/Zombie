@@ -13,4 +13,7 @@ public abstract class UnitMovement : MonoBehaviour
     public abstract void MoveTo(Vector3 target);
 
     public abstract void StopMoving();
+
+    public abstract bool CanReachDestination(Vector3 destination);
+
 }
