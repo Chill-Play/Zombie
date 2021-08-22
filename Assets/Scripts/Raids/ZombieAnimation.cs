@@ -12,6 +12,8 @@ public class ZombieAnimation : MonoBehaviour
     [SerializeField] int deathAnimationsCount;
     [SerializeField] int attackAnimationsCount;
 
+    float speed;
+
     private void Awake()
     {
         health.OnDead += Health_OnDead;
@@ -28,7 +30,8 @@ public class ZombieAnimation : MonoBehaviour
 
     private void Update()
     {
-        animator.SetFloat("MovementSpeed", movement.Velocity.magnitude / agent.speed);
+        speed = Mathf.Lerp(speed, movement.Velocity.magnitude / agent.speed, Time.deltaTime * 3.0f);
+        animator.SetFloat("MovementSpeed", speed * 2.0f);
     }
 
 
