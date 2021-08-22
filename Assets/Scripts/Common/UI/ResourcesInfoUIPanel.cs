@@ -14,7 +14,7 @@ public class ResourcesInfoUIPanel : MonoBehaviour
 
 
     public void UpdateBar(ResourceType type, int totalCount)
-    {
+    {       
         ResourceBar bar = null;
         if (barsByType.ContainsKey(type))
         {

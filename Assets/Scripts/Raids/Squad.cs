@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Squad : MonoBehaviour, IInputReceiver
 {
+    public event System.Action<Unit> OnUnitAdd;
+
     [SerializeField] List<UnitMovement> units;
 
     bool isMoving = false;
@@ -76,9 +78,10 @@ public class Squad : MonoBehaviour, IInputReceiver
 
 
     public void AddUnit(Unit unit)
-    {
+    {       
         unit.GetComponent<UnitHealth>().OnDead += (x) => units.Remove(unit.GetComponent<UnitMovement>());
         units.Add(unit.GetComponent<UnitMovement>());
+        OnUnitAdd?.Invoke(unit);
     }
 
     Vector3 GetPosition(int index, float unitRadius)

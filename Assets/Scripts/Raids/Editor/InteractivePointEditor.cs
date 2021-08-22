@@ -17,5 +17,11 @@ public class InteractivePointEditor : Editor
             EditorUtility.SetDirty(myTarget);
             myTarget.GenerateWorkingPoints();
         }
+
+        if (GUILayout.Button("Clear Nulls"))
+        {
+            EditorUtility.SetDirty(myTarget);
+            myTarget.ClearNulls();
+        }
     }
 }

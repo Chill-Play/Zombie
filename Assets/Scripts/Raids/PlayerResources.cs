@@ -44,8 +44,7 @@ public class PlayerResources : MonoBehaviour
             target = interactivePointDetection.Target.GetFreePoint(transform.position, unitMovement);
 
             if (target.transform != null && unitMovement.CanReachDestination(target.transform.position))
-            {
-                Debug.DrawLine(transform.position + Vector3.up, target.transform.position, Color.red,10f);
+            {               
                 interactivePointDetection.Target.TakePoint(target);
                 unitMovement.MoveTo(target.transform.position);
             }
