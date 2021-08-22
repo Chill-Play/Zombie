@@ -71,12 +71,20 @@ public class Enemy : MonoBehaviour
         squad = GameplayController.Instance.SquadInstance;
         if (Vector3.Distance(squad.transform.position, transform.position) < 10f)
         {
-            if (stateController.CurrentStateId == wanderingState)
+            if (stateController.CurrentStateId == wanderingState && !GetComponent<ZombieAgroSequence>().IsPlaying)
             {
-                GetComponent<ZombieAgroSequence>().Play(() =>
+                float rand = Random.Range(0f, 100f);
+                if (rand < 30f)
+                {
+                    GetComponent<ZombieAgroSequence>().Play(() =>
+                    {
+                        stateController.ToState(aggressiveState);
+                    });
+                }
+                else
                 {
                     stateController.ToState(aggressiveState);
-                });
+                }
             }
         }
     }

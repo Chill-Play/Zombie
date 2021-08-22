@@ -18,6 +18,7 @@ public class ZombieAnimation : MonoBehaviour
 
     private void Health_OnDead(EventMessage<Empty> obj)
     {
+        //animator.Play(1.0f);
         animator.SetTrigger("Death");
         animator.SetInteger("DeathId", Random.Range(0, deathAnimationsCount));
     }

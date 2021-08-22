@@ -24,13 +24,21 @@ public class ZombieFollowPlayer : MonoBehaviour
     {
         if (Time.time > nextAggro)
         {
-            if(!agroSequence.IsPlaying)
+            if (!agroSequence.IsPlaying)
             {
                 movement.StopMoving();
-                agroSequence.Play(() =>
+                float rand = Random.Range(0f, 100f);
+                if (rand < 30f)
+                {
+                    agroSequence.Play(() =>
+                    {
+                        SetNextAggro();
+                    });
+                }
+                else
                 {
                     SetNextAggro();
-                });
+                }
             }
         }
         else

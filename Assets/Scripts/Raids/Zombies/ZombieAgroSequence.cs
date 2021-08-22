@@ -30,7 +30,7 @@ public class ZombieAgroSequence : MonoBehaviour
     {
         animator.SetTrigger("Aggro");
         IsPlaying = true;
-        yield return new WaitForSeconds(1.70f);
+        yield return new WaitForSeconds(2.3f);
         IsPlaying = false;
         onComplete?.Invoke();
     }
