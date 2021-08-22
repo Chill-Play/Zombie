@@ -10,11 +10,14 @@ public class ZombieAnimation : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] int deathAnimationsCount;
+    [SerializeField] int attackAnimationsCount;
 
     private void Awake()
     {
         health.OnDead += Health_OnDead;
+        GetComponent<UnitMeleeFighting>().OnAttack += ZombieAnimation_OnAttack;
     }
+
 
     private void Health_OnDead(EventMessage<Empty> obj)
     {
@@ -26,5 +29,12 @@ public class ZombieAnimation : MonoBehaviour
     private void Update()
     {
         animator.SetFloat("MovementSpeed", movement.Velocity.magnitude / agent.speed);
+    }
+
+
+    private void ZombieAnimation_OnAttack()
+    {
+        animator.SetTrigger("Attack");
+        animator.SetInteger("AttackId", Random.Range(0, attackAnimationsCount));
     }
 }

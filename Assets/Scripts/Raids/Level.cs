@@ -65,7 +65,14 @@ public class Level : SingletonMono<Level>
             comingTimer -= Time.deltaTime;
             if(comingTimer <= 0)
             {
-
+                var zombies = FindObjectsOfType<Enemy>();
+                foreach(var e in zombies)
+                {
+                   if(!e.IsDead)
+                    {
+                        e.GoAggressive();
+                    }
+                }
                 SpawnHorde(hordeSize, bigZombiesCount, 0);
                 comingTimerActive = false;
             }
@@ -88,6 +95,7 @@ public class Level : SingletonMono<Level>
             Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
             enemy.SetLevel(level);
             enemies.Add(enemy);
+            enemy.GoAggressive();
             enemy.GetComponent<IDamagable>().OnDead += Enemy_OnDead;
         }
 

@@ -241,6 +241,7 @@ MonoBehaviour:
   animator: {fileID: 2578109563513320458}
   agent: {fileID: 4592489489785157102}
   deathAnimationsCount: 5
+  attackAnimationsCount: 0
 --- !u!114 &5596092676802040938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,8 +272,8 @@ MonoBehaviour:
   agent: {fileID: 4592489489785157102}
   attackDamage: 1
   attackRate: 1.5
-  attackRadius: 1
-  attackTime: 0.5
+  attackRadius: 3
+  attackTime: 2.5
   attackMask:
     serializedVersion: 2
     m_Bits: 128
@@ -337,6 +338,9 @@ MonoBehaviour:
     - {fileID: 415167390}
     - {fileID: 2050915670}
   - subjectId: {fileID: 1337734200025154110, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
+    components: []
+  currentState:
+    subjectId: {fileID: 0}
     components: []
 --- !u!114 &2050915672
 MonoBehaviour:
