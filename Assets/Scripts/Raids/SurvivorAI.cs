@@ -25,7 +25,7 @@ public class SurvivorAI : MonoBehaviour
 
     void Update()
     {       
-        if (interactivePointDetection.Target != null && !squad.IsMoving)
+        if (interactivePointDetection.Target != null && !squad.IsMoving && targetDetection.Target == null)
         {
             ToState(interactingState);
             RotateToward();

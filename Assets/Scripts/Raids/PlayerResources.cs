@@ -29,7 +29,8 @@ public class PlayerResources : MonoBehaviour
         {
             axeModel.SetActive(false);
             weaponModel.SetActive(true);
-        }      
+        }
+        enabled = false;
     }
 
     private void OnEnable()
