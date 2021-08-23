@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -79,6 +80,8 @@ public class Enemy : MonoBehaviour
         GetComponent<UnitMovement>().StopMoving();
         GetComponent<NavMeshAgent>().enabled = false;
         GetComponent<Collider>().enabled = false;
+        var renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        renderer.material.DOColor(Color.gray, "_MainColor", 0.5f);
     }
 
 
