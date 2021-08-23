@@ -8,6 +8,7 @@ public class Squad : MonoBehaviour, IInputReceiver
     public event System.Action<Unit> OnUnitAdd;
 
     [SerializeField] List<UnitMovement> units;
+    [SerializeField] float unitRadius;
 
     bool isMoving = false;
 
@@ -29,7 +30,7 @@ public class Squad : MonoBehaviour, IInputReceiver
     {
         for(int i = 1; i < units.Count; i++)
         {
-            Vector3 targetPos = units[0].transform.position + GetPosition(i, 1f);
+            Vector3 targetPos = units[0].transform.position + GetPosition(i, unitRadius);
             Vector3 direction = targetPos - units[i].transform.position;
             direction = Vector3.ClampMagnitude(direction * 2f, 1f);
             units[i].Input = new Vector2(direction.x, direction.z);
