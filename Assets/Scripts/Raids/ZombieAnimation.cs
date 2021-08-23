@@ -12,10 +12,12 @@ public class ZombieAnimation : MonoBehaviour
     [SerializeField] int deathAnimationsCount;
     [SerializeField] int attackAnimationsCount;
 
+    float randomSpeedOffset;
     float speed;
 
     private void Awake()
     {
+        randomSpeedOffset = Random.Range(0.0f, 0.3f);
         health.OnDead += Health_OnDead;
         GetComponent<UnitMeleeFighting>().OnAttack += ZombieAnimation_OnAttack;
     }
@@ -31,7 +33,7 @@ public class ZombieAnimation : MonoBehaviour
     private void Update()
     {
         speed = Mathf.Lerp(speed, movement.Velocity.magnitude / agent.speed, Time.deltaTime * 3.0f);
-        animator.SetFloat("MovementSpeed", speed * 2.0f);
+        animator.SetFloat("MovementSpeed", Mathf.Clamp01(speed * 2.0f) - randomSpeedOffset);
     }
 
 
