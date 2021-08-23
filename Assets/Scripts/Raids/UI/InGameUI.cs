@@ -33,18 +33,10 @@ public class InGameUI : UIScreen
             Level.Instance.OnHordeDefeated += Level_OnHordeDefeated;
         }
         noiseBar.SetValue(0f);
-
-        PlayerBackpack backpack = FindObjectOfType<PlayerBackpack>();
-        backpack.OnPickupResource += Backpack_OnPickupResource;
+        
         baseIndicator.gameObject.SetActive(false);
 
-        Squad squad = FindObjectOfType<Squad>();
-        squad.OnUnitAdd += Squad_OnUnitAdd;
-    }
-
-    private void Squad_OnUnitAdd(Unit unit)
-    {
-        unit.GetComponent<PlayerBackpack>().OnPickupResource += Backpack_OnPickupResource;      
+        FindObjectOfType<SquadBackpack>().OnPickupResource += Backpack_OnPickupResource;
     }
 
     private void Backpack_OnPickupResource(ResourceType type, int total, int added)

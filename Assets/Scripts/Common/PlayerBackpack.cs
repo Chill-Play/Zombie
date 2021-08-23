@@ -16,7 +16,7 @@ public class PlayerBackpack : MonoBehaviour
         {
             resources.Add(type, 0);
         }
-        OnPickupResource?.Invoke(type, resources[type], count);
         resources[type] += count;   
+        OnPickupResource?.Invoke(type, resources[type], count);        
     }
 }
