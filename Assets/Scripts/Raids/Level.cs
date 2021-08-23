@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -87,10 +88,12 @@ public class Level : SingletonMono<Level>
         List<Transform> spawnPoints = new List<Transform>();
         spawnPoints.AddRange(zombiesSpawnPoints);
         spawnPoints.Shuffle();
-
+        var squad = FindObjectOfType<Squad>();
+        var points = spawnPoints.ToList();
+        points.RemoveAll((x) => Vector3.Distance(x.position, squad.transform.position) < 15f);
         for (int i = 0; i < hordeSize; i++)
         {
-            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPointsCount)];
+            Transform spawnPoint = points[Random.Range(0, points.Count)];
             Enemy prefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
             Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
             enemy.SetLevel(level);

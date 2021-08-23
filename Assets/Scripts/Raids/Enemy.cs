@@ -55,7 +55,10 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        stateController.ToState(wanderingState);
+        if (stateController.CurrentStateId != aggressiveState)
+        {
+            stateController.ToState(wanderingState);
+        }
         GetComponent<UnitHealth>().OnDead += Enemy_OnDead;
         GetComponent<UnitHealth>().OnDamage += Enemy_OnDamage;
         if (level == -1)
@@ -69,6 +72,7 @@ public class Enemy : MonoBehaviour
         StartAggro();
     }
 
+
     private void Enemy_OnDead(EventMessage<Empty> obj)
     {
         stateController.ToState(deadState);
@@ -76,6 +80,7 @@ public class Enemy : MonoBehaviour
         GetComponent<NavMeshAgent>().enabled = false;
         GetComponent<Collider>().enabled = false;
     }
+
 
     // Update is called once per frame
     void Update()
