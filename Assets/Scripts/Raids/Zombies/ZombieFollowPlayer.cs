@@ -30,26 +30,26 @@ public class ZombieFollowPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time > nextAggro)
-        {
-            if (!agroSequence.IsPlaying)
-            {
-                movement.StopMoving();
-                float rand = Random.Range(0f, 100f);
-                if (rand < 30f)
-                {
-                    agroSequence.Play(() =>
-                    {
-                        SetNextAggro();
-                    });
-                }
-                else
-                {
-                    SetNextAggro();
-                }
-            }
-        }
-        else
+        //if (Time.time > nextAggro)
+        //{
+        //    if (!agroSequence.IsPlaying)
+        //    {
+        //        movement.StopMoving();
+        //        float rand = Random.Range(0f, 100f);
+        //        if (rand < 30f)
+        //        {
+        //            agroSequence.Play(() =>
+        //            {
+        //                SetNextAggro();
+        //            });
+        //        }
+        //        else
+        //        {
+        //            SetNextAggro();
+        //        }
+        //    }
+        //}
+        //else
         {
             var squad = GameplayController.Instance.SquadInstance;
             if (squad != null && !meleeFighting.Attacking)
