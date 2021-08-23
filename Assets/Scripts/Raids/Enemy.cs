@@ -57,10 +57,16 @@ public class Enemy : MonoBehaviour
     {
         stateController.ToState(wanderingState);
         GetComponent<UnitHealth>().OnDead += Enemy_OnDead;
-        if(level == -1)
+        GetComponent<UnitHealth>().OnDamage += Enemy_OnDamage;
+        if (level == -1)
         {
             SetLevel(1);
         }
+    }
+
+    private void Enemy_OnDamage(DamageTakenInfo obj)
+    {
+        StartAggro();
     }
 
     private void Enemy_OnDead(EventMessage<Empty> obj)
@@ -75,12 +81,17 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         squad = GameplayController.Instance.SquadInstance;
-        if (Vector3.Distance(squad.transform.position, transform.position) < 10f)
+        if (Vector3.Distance(squad.transform.position, transform.position) < 6f)
         {
-            if (stateController.CurrentStateId == wanderingState && !GetComponent<ZombieAgroSequence>().IsPlaying)
-            {
-                GoAggressive();
-            }
+            StartAggro();
+        }
+    }
+
+    private void StartAggro()
+    {
+        if (stateController.CurrentStateId == wanderingState && !GetComponent<ZombieAgroSequence>().IsPlaying)
+        {
+            GoAggressive();
         }
     }
 

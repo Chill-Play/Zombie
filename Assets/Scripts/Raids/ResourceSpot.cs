@@ -8,7 +8,7 @@ public class ResourceSpot : MonoBehaviour
     public event System.Action<ResourceSpot> OnSpotUsed;
     [SerializeField] int maxUses = 3;
     [SerializeField] int countPerUse = 3;
-    [SerializeField] Resource resourcePrefab;
+    [SerializeField] ResourceType resourceType;
     [SerializeField] float noisePerUse = 10f;
     [SerializeField] float resourcesVelocity = 1f;
     [SerializeField] Vector3 resourceSpawnOffset = new Vector3(0f, 1f, 0f);
@@ -47,7 +47,7 @@ public class ResourceSpot : MonoBehaviour
     {
         for (int i = 0; i < countPerUse; i++)
         {
-            Resource instance = Instantiate(resourcePrefab, transform.position + resourceSpawnOffset, transform.rotation);
+            Resource instance = Instantiate(resourceType.defaultPrefab, transform.position + resourceSpawnOffset, transform.rotation);
             instance.PickUp(user.transform);
             Rigidbody body = instance.GetComponent<Rigidbody>();
             body.velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(3f, 6f), Random.Range(-1f, 1f)) * resourcesVelocity;
