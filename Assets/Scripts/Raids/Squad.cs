@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class Squad : MonoBehaviour, IInputReceiver
 {
+    public event System.Action<Unit> OnUnitAdd;
+
     [SerializeField] List<UnitMovement> units;
+    [SerializeField] float unitRadius;
 
     bool isMoving = false;
 
@@ -16,7 +19,7 @@ public class Squad : MonoBehaviour, IInputReceiver
     {
         //units = GetComponentsInChildren<UnitMovement>().ToList();
         foreach(UnitMovement unit in units)
-        {
+        { 
             unit.GetComponent<UnitHealth>().OnDead += (x) => units.Remove(unit.GetComponent<UnitMovement>());
         }
         units[0].GetComponent<PlayerResources>().CanMoveToResources = false;
@@ -27,7 +30,7 @@ public class Squad : MonoBehaviour, IInputReceiver
     {
         for(int i = 1; i < units.Count; i++)
         {
-            Vector3 targetPos = units[0].transform.position + GetPosition(i, 1f);
+            Vector3 targetPos = units[0].transform.position + GetPosition(i, unitRadius);
             Vector3 direction = targetPos - units[i].transform.position;
             direction = Vector3.ClampMagnitude(direction * 2f, 1f);
             units[i].Input = new Vector2(direction.x, direction.z);
@@ -76,9 +79,10 @@ public class Squad : MonoBehaviour, IInputReceiver
 
 
     public void AddUnit(Unit unit)
-    {
+    {       
         unit.GetComponent<UnitHealth>().OnDead += (x) => units.Remove(unit.GetComponent<UnitMovement>());
         units.Add(unit.GetComponent<UnitMovement>());
+        OnUnitAdd?.Invoke(unit);
     }
 
     Vector3 GetPosition(int index, float unitRadius)

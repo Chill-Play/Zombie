@@ -15,6 +15,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] Transform shootPoint;
     [SerializeField] ParticleSystem muzzleFx;
     [SerializeField] ParticleSystem shellsFx;
+    [SerializeField] float noisePerShoot;
 
     bool firing;
     float nextFire;
@@ -60,6 +61,7 @@ public class Weapon : MonoBehaviour
                         bullet.InstantHit(target);
                     }
                 }
+                Level.Instance.AddNoiseLevel(noisePerShoot);
                 if (muzzleFx != null)
                 {
                     muzzleFx.Play();

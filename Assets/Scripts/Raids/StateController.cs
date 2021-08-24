@@ -9,7 +9,7 @@ public class StateController : MonoBehaviour
     {
         public SubjectId subjectId;
 
-        public List<MonoBehaviour> components = new List<MonoBehaviour>();
+        public List<Behaviour> components = new List<Behaviour>();
     }
 
     [SerializeField] List<State> states = new List<State>();

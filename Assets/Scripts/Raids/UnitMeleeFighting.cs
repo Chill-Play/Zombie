@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class UnitMeleeFighting : MonoBehaviour
 {
+    public event System.Action OnAttack;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] float attackDamage = 1f;
     [SerializeField] float attackRate = 1.5f;
@@ -16,6 +17,8 @@ public class UnitMeleeFighting : MonoBehaviour
     float nextAttack;
     bool attackStarted;
     Collider[] attackColliders = new Collider[5];
+    Coroutine attackCoroutine;
+    public bool Attacking { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -42,10 +45,10 @@ public class UnitMeleeFighting : MonoBehaviour
             if (nextAttack < Time.time)
             {
                 int count = Physics.OverlapSphereNonAlloc(transform.position, attackRadius, attackColliders, attackMask);
-                if (count > 0)
+                if (count > 0 && attackCoroutine == null)
                 {
                     nextAttack = Time.time + attackRate;
-                    StartCoroutine(AttackCoroutine(attackColliders, count));
+                    attackCoroutine = StartCoroutine(AttackCoroutine(attackColliders));
                 }
             }
         }
@@ -54,11 +57,23 @@ public class UnitMeleeFighting : MonoBehaviour
 
 
 
-    private IEnumerator AttackCoroutine(Collider[] colliders, int count)
+    private IEnumerator AttackCoroutine(Collider[] colliders)
     {
-        agent.isStopped = true;
-        agent.SetDestination(transform.position);
-        yield return new WaitForSeconds(attackTime);
+        OnAttack?.Invoke();
+        //agent.isStopped = true;
+        Attacking = true;
+        GetComponent<ZombieMovement>().StopMoving();
+        float t = 0f;
+        Vector3 targetLook = colliders[0].transform.position - transform.position;
+        targetLook.y = 0.0f;
+        targetLook.Normalize();
+        while(t < 1.0f)
+        {
+            yield return new WaitForFixedUpdate();
+            t += Time.deltaTime / attackTime;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetLook), agent.angularSpeed * Time.fixedDeltaTime);
+        }
+        int count = Physics.OverlapSphereNonAlloc(transform.position, attackRadius, colliders, attackMask);
         for (int i = 0; i < count; i++)
         {
             IDamagable damagable = colliders[i].GetComponent<IDamagable>();
@@ -67,6 +82,8 @@ public class UnitMeleeFighting : MonoBehaviour
                 damagable.Damage(new DamageInfo { damage = attackDamage });
             }
         }
-        agent.isStopped = false;
+        Attacking = false;
+        attackCoroutine = null;
+        //agent.isStopped = false;
     }
 }

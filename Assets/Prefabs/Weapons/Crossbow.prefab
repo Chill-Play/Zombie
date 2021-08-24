@@ -1,0 +1,148 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7148286636472676760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7148286636472676761}
+  m_Layer: 7
+  m_Name: ShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7148286636472676761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7148286636472676760}
+  m_LocalRotation: {x: 0, y: 0, z: 0.92387956, w: 0.38268343}
+  m_LocalPosition: {x: -0.005, y: 0.071, z: 0.599}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4717072179054280445}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 135}
+--- !u!1 &8836381619606548992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4717072179054280445}
+  - component: {fileID: 9064676954617565157}
+  m_Layer: 0
+  m_Name: Crossbow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4717072179054280445
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8836381619606548992}
+  m_LocalRotation: {x: -0.30438128, y: 0.86536676, z: 0.39667532, w: 0.033782694}
+  m_LocalPosition: {x: -0.00004, y: 0.00046, z: 0.0011}
+  m_LocalScale: {x: 0.013, y: 0.013, z: 0.013}
+  m_Children:
+  - {fileID: 7148286636472676761}
+  - {fileID: 5700891102755478154}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -135, y: 15, z: 135}
+--- !u!114 &9064676954617565157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8836381619606548992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd316ec3716a9954fbc309b386ce9f20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletDamage: 10
+  fireRate: 0.2
+  spread: 3
+  uniformSpread: 0
+  bulletsPerShot: 1
+  bulletPrefab: {fileID: 4499265678727622789, guid: c350f2f5c7de41f40b66475bdc2c5336, type: 3}
+  shootPoint: {fileID: 7148286636472676761}
+  muzzleFx: {fileID: 0}
+  shellsFx: {fileID: 0}
+--- !u!1001 &86822893120327898
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4717072179054280445}
+    m_Modifications:
+    - target: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6219876774819675860, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+      propertyPath: m_Name
+      value: Crossbow_stylizedToonyShader
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+--- !u!4 &5700891102755478154 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5632268889600805456, guid: 819b366f3a7824345b889080510dd15c, type: 3}
+  m_PrefabInstance: {fileID: 86822893120327898}
+  m_PrefabAsset: {fileID: 0}

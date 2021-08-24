@@ -33,10 +33,10 @@ public class InGameUI : UIScreen
             Level.Instance.OnHordeDefeated += Level_OnHordeDefeated;
         }
         noiseBar.SetValue(0f);
-
-        PlayerBackpack backpack = FindObjectOfType<PlayerBackpack>();
-        backpack.OnPickupResource += Backpack_OnPickupResource;
+        
         baseIndicator.gameObject.SetActive(false);
+
+        FindObjectOfType<SquadBackpack>().OnPickupResource += Backpack_OnPickupResource;
     }
 
     private void Backpack_OnPickupResource(ResourceType type, int total, int added)

@@ -28,17 +28,6 @@ public class InteractivePoint : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < workingPoint.Count; i++)
-        {
-            Collider[] hitColliders = Physics.OverlapSphere(workingPoint[i].transform.position, entityRadius, layerMask);
-            if (hitColliders.Length > 0)
-            {
-                Destroy(workingPoint[i].gameObject);
-                workingPoint.RemoveAt(i);
-                i--;
-            }           
-        }
-
         workingPointFree = new bool[workingPoint.Count];
         for (int i = 0; i < workingPoint.Count; i++)
         {
@@ -47,14 +36,14 @@ public class InteractivePoint : MonoBehaviour
         }
     }
 
-    public WorkingPoint GetFreePoint(Vector3 position)
+    public WorkingPoint GetFreePoint(Vector3 position, UnitMovement unitMovement)
     {
         int idx = -1;
         float minDist = float.MaxValue;
         for (int i = 0; i < workingPoint.Count; i++)
         {
             float dist = Vector3.Distance(position, workingPoint[i].position);
-            if (workingPointFree[i] && dist < minDist)
+            if (workingPointFree[i] && dist < minDist && unitMovement.CanReachDestination(workingPoint[i].position))
             {
                 minDist = dist;
                 idx = i;
@@ -115,6 +104,17 @@ public class InteractivePoint : MonoBehaviour
             go.transform.rotation = rotation;
             workingPoint.Add(go.transform);
         }
+    }
+
+    public void ClearNulls()
+    {
+        for (int i = workingPoint.Count -1; i >= 0; i--)
+        {
+            if (workingPoint[i] == null)
+            {
+                workingPoint.RemoveAt(i);               
+            }
+        }       
     }
 
 }

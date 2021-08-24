@@ -14,7 +14,7 @@ public class UIController : SingletonMono<UIController>
     }
 
 
-    public void ShowScreen(SubjectId screenId)
+    public UIScreen ShowScreen(SubjectId screenId)
     {
         UIScreen screen = screens.FirstOrDefault((x) => x.Id == screenId);
         if(screen != null)
@@ -30,6 +30,7 @@ public class UIController : SingletonMono<UIController>
         {
             Debug.LogError("No screen found with id : " + screenId.name);
         }
+        return activeScreen;
     }
 
 

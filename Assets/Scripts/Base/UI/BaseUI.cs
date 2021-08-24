@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BaseUI : MonoBehaviour
+public class BaseUI : UIScreen
 {
     //[SerializeField] Button raidButton;
     //[SerializeField] Button globalMapButton;

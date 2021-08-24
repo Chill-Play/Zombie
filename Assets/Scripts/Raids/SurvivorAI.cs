@@ -25,21 +25,7 @@ public class SurvivorAI : MonoBehaviour
 
     void Update()
     {       
-        if (targetDetection.Target != null)
-        {
-            ToState(shootingState);
-            Vector3 direction = targetDetection.Target.transform.position - modelPivot.position;
-            direction.y = 0;
-            direction.Normalize();
-            modelPivot.rotation = Quaternion.RotateTowards(modelPivot.rotation, Quaternion.LookRotation(direction), navMeshAgent.angularSpeed * Time.deltaTime);
-            unitShooting.AllowShooting = Vector3.Angle(modelPivot.transform.forward, direction) < 15f;
-        }
-        else if (squad.IsMoving)
-        {        
-            ToState(movingState);
-            RotateToward();
-        }
-        else if (interactivePointDetection.Target != null)
+        if (interactivePointDetection.Target != null && !squad.IsMoving && targetDetection.Target == null)
         {
             ToState(interactingState);
             RotateToward();
@@ -47,7 +33,15 @@ public class SurvivorAI : MonoBehaviour
         else
         {
             ToState(movingState);
-            RotateToward();
+            if (targetDetection.Target != null)
+            {
+                //ToState(shootingState);
+                Vector3 direction = targetDetection.Target.transform.position - modelPivot.position;
+                direction.y = 0;
+                direction.Normalize();
+                modelPivot.rotation = Quaternion.RotateTowards(modelPivot.rotation, Quaternion.LookRotation(direction), navMeshAgent.angularSpeed * Time.deltaTime);
+                unitShooting.AllowShooting = Vector3.Angle(modelPivot.transform.forward, direction) < 15f;
+            }
         }
     }
 

@@ -22,8 +22,12 @@ public class UnitHealth : MonoBehaviour, IDamagable
     }
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 direction)
     {
+        if(currentHealth <= 0f)
+        {
+            return;
+        }
         currentHealth -= damage;
 
         if (bloodVfx != null)
@@ -41,13 +45,18 @@ public class UnitHealth : MonoBehaviour, IDamagable
         OnDamage?.Invoke(info);
         if (currentHealth <= 0f)
         {
+            var dir = -direction;
+            dir.y = 0.0f;
+            dir.Normalize();
+            transform.forward = dir;
             OnDead?.Invoke(new EventMessage<Empty>(new Empty(), this));
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 
     public void Damage(DamageInfo info)
     {
-        TakeDamage(info.damage);
+        
+        TakeDamage(info.damage, info.direction);
     }
 }

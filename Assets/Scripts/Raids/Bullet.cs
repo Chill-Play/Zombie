@@ -35,6 +35,7 @@ public class Bullet : MonoBehaviour
         {
             DamageInfo damageInfo = new DamageInfo()
             {
+                direction = transform.forward,
                 damage = Damage,
             };
             damagable.Damage(damageInfo);

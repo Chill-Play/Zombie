@@ -1,0 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ZombieFollowPlayer : MonoBehaviour
+{
+    [SerializeField] UnitMovement movement;
+    [SerializeField] ZombieAgroSequence agroSequence;
+    
+    float nextAggro = 0.0f;
+    UnitMeleeFighting meleeFighting;
+
+    private void Awake()
+    {
+        meleeFighting = GetComponent<UnitMeleeFighting>();
+    }
+
+
+    // Start is called before the first frame update
+    void OnEnable()
+    {
+        SetNextAggro();
+    }
+
+    private void SetNextAggro()
+    {
+        nextAggro = Time.time + Random.Range(3f, 5f);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //if (Time.time > nextAggro)
+        //{
+        //    if (!agroSequence.IsPlaying)
+        //    {
+        //        movement.StopMoving();
+        //        float rand = Random.Range(0f, 100f);
+        //        if (rand < 30f)
+        //        {
+        //            agroSequence.Play(() =>
+        //            {
+        //                SetNextAggro();
+        //            });
+        //        }
+        //        else
+        //        {
+        //            SetNextAggro();
+        //        }
+        //    }
+        //}
+        //else
+        {
+            var squad = GameplayController.Instance.SquadInstance;
+            if (squad != null && !meleeFighting.Attacking)
+            {
+                GetComponent<UnitMovement>().MoveTo(squad.transform.position);
+            }
+        }
+    }
+}
