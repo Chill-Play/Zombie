@@ -25,9 +25,9 @@ public class Level : SingletonMono<Level>
     [SerializeField] float finalWavesRate = 5f;
     [SerializeField] int finalWavesHordeSize = 5;
     [SerializeField] int finalWavesBigZombiesCount = 5;
-    
 
 
+    List<ZombiesDoorSpawner> doorSpawners;
     List<ResourceSpot> resourceSpots = new List<ResourceSpot>();
     List<Enemy> enemies = new List<Enemy>();
 
@@ -46,6 +46,7 @@ public class Level : SingletonMono<Level>
 
     void Start()
     {
+        doorSpawners = FindObjectsOfType<ZombiesDoorSpawner>().ToList();
         //GameplayController.Instance.playerInstance.GetComponent<UnitHealth>().OnDead += PlayerInstance_OnDead;
     }
 
@@ -77,6 +78,24 @@ public class Level : SingletonMono<Level>
                 SpawnHorde(hordeSize, bigZombiesCount, 0);
                 comingTimerActive = false;
             }
+        }
+    }
+
+
+    public void SpawnInDoors()
+    {
+        var squad = FindObjectOfType<Squad>();
+        var points = new List<ZombiesDoorSpawner>(doorSpawners);
+        points.RemoveAll((x) => Vector3.Distance(x.transform.position, squad.transform.position) > 15f);
+        for (int i = 0; i < hordeSize; i++)
+        {
+            Transform spawnPoint = points[Random.Range(0, points.Count)];
+            Enemy prefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
+            Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+            enemy.SetLevel(level);
+            enemies.Add(enemy);
+            enemy.GoAggressive();
+            enemy.GetComponent<IDamagable>().OnDead += Enemy_OnDead;
         }
     }
 
