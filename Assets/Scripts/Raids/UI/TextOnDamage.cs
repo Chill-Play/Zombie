@@ -8,7 +8,13 @@ public class TextOnDamage : MonoBehaviour
     [SerializeField] float randomAngle = 15f;
     [SerializeField] float randomOffset = 10f;
     IDamagable damagable;
-    // Start is called before the first frame update
+    UINumbers uiNumbers;
+
+    private void Awake()
+    {
+        uiNumbers = FindObjectOfType<UINumbers>();
+    }
+
     void OnEnable()
     {
         damagable = GetComponent<IDamagable>();       
@@ -24,7 +30,7 @@ public class TextOnDamage : MonoBehaviour
 
     private void Enemy_OnDamage(DamageTakenInfo obj)
     {
-        FindObjectOfType<UINumbers>().SpawnNumber(transform.position + Vector3.up * upOffset, "-" + obj.damage, Vector2.zero, randomAngle, randomOffset);
+        uiNumbers.SpawnNumber(transform.position + Vector3.up * upOffset, "-" + obj.damage, Vector2.zero, randomAngle, randomOffset);
     }
 
     // Update is called once per frame

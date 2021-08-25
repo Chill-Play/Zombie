@@ -52,7 +52,7 @@ public class PlayerResources : MonoBehaviour
             else
             {
                // Debug.DrawLine(transform.position + Vector3.up, target.transform.position, Color.yellow, 10f);
-                interactivePointDetection.TryTo—hangeTarget();
+                interactivePointDetection.NullTarget();
             }
         }
     }

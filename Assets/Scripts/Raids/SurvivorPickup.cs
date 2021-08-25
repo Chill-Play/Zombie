@@ -5,10 +5,12 @@ using UnityEngine;
 public class SurvivorPickup : MonoBehaviour
 {
     [SerializeField] Unit unitPrefab;
-    // Start is called before the first frame update
-    void Start()
+
+    Squad squad;
+
+    void Awake()
     {
-        
+        squad = FindObjectOfType<Squad>();
     }
 
 
@@ -16,7 +18,7 @@ public class SurvivorPickup : MonoBehaviour
     void Pickup()
     {
         Unit instance = Instantiate(unitPrefab, transform.position, transform.rotation);
-        FindObjectOfType<Squad>().AddUnit(instance);
+        squad.AddUnit(instance);
         Destroy(gameObject);
     }
 

@@ -7,6 +7,7 @@ public class UnitMeleeFighting : MonoBehaviour
 {
     public event System.Action OnAttack;
     [SerializeField] NavMeshAgent agent;
+    [SerializeField] ZombieMovement zombieMovement;
     [SerializeField] float attackDamage = 1f;
     [SerializeField] float attackRate = 1.5f;
     [SerializeField] float attackRadius = 1f;
@@ -62,7 +63,7 @@ public class UnitMeleeFighting : MonoBehaviour
         OnAttack?.Invoke();
         //agent.isStopped = true;
         Attacking = true;
-        GetComponent<ZombieMovement>().StopMoving();
+        zombieMovement.StopMoving();
         float t = 0f;
         Vector3 targetLook = colliders[0].transform.position - transform.position;
         targetLook.y = 0.0f;

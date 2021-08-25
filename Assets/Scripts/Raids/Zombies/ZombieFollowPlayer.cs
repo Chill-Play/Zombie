@@ -54,7 +54,7 @@ public class ZombieFollowPlayer : MonoBehaviour
             var squad = GameplayController.Instance.SquadInstance;
             if (squad != null && !meleeFighting.Attacking)
             {
-                GetComponent<UnitMovement>().MoveTo(squad.transform.position);
+                movement.MoveTo(squad.transform.position);
             }
         }
     }
