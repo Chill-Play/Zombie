@@ -96,7 +96,7 @@ public class InteractivePoint : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(newPos, dir.normalized, out hit, dir.magnitude, layerMask))
             {
-                Debug.DrawLine(transform.position, hit.point - dir.normalized*entityRadius, Color.yellow, 5f);               
+                newPos = hit.point - dir.normalized*entityRadius;                             
             }
             GameObject go = Instantiate(debugWorkingPointPrefab, newPos, Quaternion.identity);
             go.transform.parent = transform;

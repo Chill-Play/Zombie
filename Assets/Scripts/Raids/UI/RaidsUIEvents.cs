@@ -5,19 +5,20 @@ using UnityEngine;
 public class RaidsUIEvents : MonoBehaviour
 {
     [SerializeField] SubjectId inGameScreenId;
-    [SerializeField] SubjectId finishScreenId; 
+    [SerializeField] SubjectId finishScreenId;
+    [SerializeField] UIController uiController;
+    
     // Start is called before the first frame update
     void Start()
     {
         Level level = FindObjectOfType<Level>();
         level.OnLevelEnded += Level_OnLevelEnded;
-        GetComponent<UIController>().ShowScreen(inGameScreenId);
-
+        uiController.ShowScreen(inGameScreenId);
     }
 
     private void Level_OnLevelEnded()
     {
-        GetComponent<UIController>().ShowScreen(finishScreenId);
+        uiController.ShowScreen(finishScreenId);
     }
 
     // Update is called once per frame

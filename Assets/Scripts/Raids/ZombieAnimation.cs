@@ -7,6 +7,7 @@ public class ZombieAnimation : MonoBehaviour
 {
     [SerializeField] UnitHealth health;
     [SerializeField] ZombieMovement movement;
+    [SerializeField] UnitMeleeFighting unitMeleeFighting;
     [SerializeField] Animator animator;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] int deathAnimationsCount;
@@ -19,7 +20,7 @@ public class ZombieAnimation : MonoBehaviour
     {
         randomSpeedOffset = Random.Range(0.0f, 0.3f);
         health.OnDead += Health_OnDead;
-        GetComponent<UnitMeleeFighting>().OnAttack += ZombieAnimation_OnAttack;
+        unitMeleeFighting.OnAttack += ZombieAnimation_OnAttack;
     }
 
 

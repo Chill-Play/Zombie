@@ -9,9 +9,11 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     [SerializeField] List<UnitMovement> units;
     [SerializeField] float unitRadius;
+    [SerializeField] float unit—atchingDistance = 5f;
 
     bool isMoving = false;
-
+    List<InteractivePointDetection> interactivePointDetections = new List<InteractivePointDetection>();
+    List<bool> caughtUpSquad = new List<bool>();
     public bool IsMoving => isMoving;
     public List<UnitMovement> Units => units;
     // Start is called before the first frame update
@@ -21,21 +23,38 @@ public class Squad : MonoBehaviour, IInputReceiver
         foreach(UnitMovement unit in units)
         { 
             unit.GetComponent<UnitHealth>().OnDead += (x) => units.Remove(unit.GetComponent<UnitMovement>());
+            caughtUpSquad.Add(true);
+            interactivePointDetections.Add(unit.GetComponent<InteractivePointDetection>());
         }
         units[0].GetComponent<PlayerResources>().CanMoveToResources = false;
+       
+    
     }
 
     // Update is called once per frame
     void Update()
     {
+        transform.position = units[0].transform.position;
         for(int i = 1; i < units.Count; i++)
         {
+            
             Vector3 targetPos = units[0].transform.position + GetPosition(i, unitRadius);
             Vector3 direction = targetPos - units[i].transform.position;
+            if (direction.magnitude >= unit—atchingDistance && !caughtUpSquad[i])
+            {
+                interactivePointDetections[i].enabled = false;
+                interactivePointDetections[i].NullTarget();
+                units[i].MoveTo(targetPos);
+            }
+            else if (interactivePointDetections[i].enabled == false)
+            {
+                caughtUpSquad[i] = true;
+                interactivePointDetections[i].enabled = true;
+                units[i].StopMoving();
+            }
             direction = Vector3.ClampMagnitude(direction * 2f, 1f);
             units[i].Input = new Vector2(direction.x, direction.z);
-        }
-        transform.position = units[0].transform.position;
+        }        
     }
 
 
@@ -72,6 +91,10 @@ public class Squad : MonoBehaviour, IInputReceiver
         }
         else
         {
+            for (int i = 1; i < caughtUpSquad.Count; i++)
+            {
+                caughtUpSquad[i] = false;
+            }
             isMoving = true;
         }
         units[0].Input = input;
@@ -82,6 +105,8 @@ public class Squad : MonoBehaviour, IInputReceiver
     {       
         unit.GetComponent<UnitHealth>().OnDead += (x) => units.Remove(unit.GetComponent<UnitMovement>());
         units.Add(unit.GetComponent<UnitMovement>());
+        interactivePointDetections.Add(unit.GetComponent<InteractivePointDetection>());
+        caughtUpSquad.Add(true);
         OnUnitAdd?.Invoke(unit);
     }
 
