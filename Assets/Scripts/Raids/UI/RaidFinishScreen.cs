@@ -14,9 +14,16 @@ public class RaidFinishScreen : UIScreen
     [SerializeField] Transform doubleButton;
     [SerializeField] Transform noThanksButton;
 
+    Squad squad;
+
+    private void Awake()
+    {
+        squad = FindObjectOfType<Squad>();
+    }
+
     void OnEnable()
     {
-        var resources = FindObjectOfType<Squad>().CollectResources();
+        var resources = squad.CollectResources();
         Show(resources);
     }
 
@@ -58,7 +65,7 @@ public class RaidFinishScreen : UIScreen
 
     public void DoubleClicked()
     {
-        var resources = FindObjectOfType<Squad>().CollectResources(); //Refactor
+        var resources = squad.CollectResources(); //Refactor
         //FindObjectOfType<ResourcesController>().AddResources(resources);
         //FindObjectOfType<ResourcesController>().AddResources(resources);
         LevelController.Instance.ToBase();
@@ -67,7 +74,7 @@ public class RaidFinishScreen : UIScreen
 
     public void NoThanksClicked()
     {
-        var resources = FindObjectOfType<Squad>().CollectResources();
+        var resources = squad.CollectResources();
         //FindObjectOfType<ResourcesController>().AddResources(resources);
         LevelController.Instance.ToBase();
     }

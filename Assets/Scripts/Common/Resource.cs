@@ -6,7 +6,13 @@ public class Resource : MonoBehaviour
 {
     [SerializeField] int count = 1;
     [SerializeField] ResourceType type;
-    //public Transform Picker { get; set; }
+
+    Rigidbody body;
+
+    private void Awake()
+    {
+        body = GetComponent<Rigidbody>();
+    }  
 
     public void PickUp(Transform picker)
     {
@@ -17,7 +23,7 @@ public class Resource : MonoBehaviour
     IEnumerator PickUpCoroutine(Transform picker)
     {
         yield return new WaitForSeconds(1f);
-        GetComponent<Rigidbody>().isKinematic = true;
+        body.isKinematic = true;
         Vector3 startPos = transform.position;
         float t = 0;
         while (t < 1f)

@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
     StateController stateController;
     int level = -1;
     Squad squad;
+    ZombieAgroSequence zombieAgroSequence;
+
     public bool IsDead => stateController.CurrentStateId == deadState;
 
 
@@ -51,6 +53,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         stateController = GetComponent<StateController>();
+        zombieAgroSequence = GetComponent<ZombieAgroSequence>();
     }
 
 
@@ -97,7 +100,7 @@ public class Enemy : MonoBehaviour
 
     private void StartAggro()
     {
-        if (stateController.CurrentStateId == wanderingState && !GetComponent<ZombieAgroSequence>().IsPlaying)
+        if (stateController.CurrentStateId == wanderingState && !zombieAgroSequence.IsPlaying)
         {
             GoAggressive();
         }
@@ -108,7 +111,7 @@ public class Enemy : MonoBehaviour
         float rand = Random.Range(0f, 100f);
         if (rand < 30f)
         {
-            GetComponent<ZombieAgroSequence>().Play(() =>
+            zombieAgroSequence.Play(() =>
             {
                 stateController.ToState(aggressiveState);
             });

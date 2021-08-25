@@ -25,8 +25,7 @@ public class GameplayController : SingletonMono<GameplayController>
 
 
     public void SpawnPlayer(Vector3 point, GameObject prefab)
-    {
-        //playerInstance = Instantiate(prefab, point, Quaternion.identity);
+    {      
         Squad squad = FindObjectOfType<Squad>();
         if (squad != null)
         {

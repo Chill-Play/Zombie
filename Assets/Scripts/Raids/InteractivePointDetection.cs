@@ -10,7 +10,7 @@ public class InteractivePointDetection : MonoBehaviour
     InteractivePoint target; 
     Collider[] interactivePoints = new Collider[3];
 
-   public  InteractivePoint Target => target;
+   public  InteractivePoint Target => target;  
 
     void FixedUpdate()
     {
@@ -28,8 +28,7 @@ public class InteractivePointDetection : MonoBehaviour
                     {
                         InteractivePoint possibleTarget = interactivePoints[i].GetComponent<InteractivePoint>();
                         if (possibleTarget.HasFreePoint())
-                        {
-                           // InteractivePoint.WorkingPoint point = possibleTarget.GetFreePoint(transform.position, GetComponent<>);
+                        {                           
                             float dist = Vector3.Distance(interactivePoints[i].transform.position, transform.position);
                             if (minDist > dist)
                             {
@@ -49,18 +48,8 @@ public class InteractivePointDetection : MonoBehaviour
       
     }
 
-    public void TryTo—hangeTarget()
+    public void NullTarget()
     {
-
-        /*for (int i = 0; i < interactivePoints.Length; i++)
-        {
-            InteractivePoint possibleTarget = interactivePoints[0].GetComponent<InteractivePoint>();
-            if (possibleTarget.HasFreePoint() && possibleTarget != target)
-            {
-                target = possibleTarget;
-                return;
-            }
-        }*/
         target = null;
     }
 }

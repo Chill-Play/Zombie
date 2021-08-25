@@ -9,7 +9,7 @@ public abstract class UnitMovement : MonoBehaviour
 
     public bool InputActive => Input.magnitude > 0.05f;
     public Vector2 Input { get; set; }
-
+   
     public abstract void MoveTo(Vector3 target);
 
     public abstract void StopMoving();
