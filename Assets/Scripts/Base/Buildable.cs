@@ -45,6 +45,7 @@ public class Buildable : BaseObject
         {
             OnUpdate?.Invoke();
         }
+        RequireSave();
     }
 
     private void FinishBuilding(bool afterDeserialization)
