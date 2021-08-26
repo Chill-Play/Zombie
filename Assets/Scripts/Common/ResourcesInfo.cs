@@ -114,6 +114,10 @@ public class ResourcesInfo : ISerializationCallbackReceiver
         if(idsByTypes.TryGetValue(type, out var slot))
         {
             slot.count -= count;
+            if(slot.count < 0)
+            {
+                slot.count = 0;
+            }
         }
         else
         {
