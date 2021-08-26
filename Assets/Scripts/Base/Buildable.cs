@@ -48,6 +48,7 @@ public class Buildable : BaseObject
         {
             OnUpdate?.Invoke();
         }
+        RequireSave();
     }
 
     void CreateResourceAnimation(ResourceType type, int count, int order)

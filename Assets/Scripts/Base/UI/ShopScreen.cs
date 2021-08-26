@@ -71,11 +71,8 @@ public class ShopScreen : UIScreen
     {
         var price = proposal.pricePerUnit * proposal.count;
         var playerResources = ResourcesController.Instance.ResourcesCount;
-        if(playerResources.Count(moneyResource) >= price)
-        {
-            playerResources.Subtract(proposal.type, proposal.count);
-            playerResources.Add(moneyResource, price);
-        }
+        playerResources.Subtract(proposal.type, proposal.count);
+        playerResources.Add(moneyResource, price);
         ResourcesController.Instance.UpdateResources();
 
         var new_proposal = GenerateNewProposal(proposal.type);

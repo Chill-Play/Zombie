@@ -31,6 +31,10 @@ public class UnitMeleeFighting : MonoBehaviour
     void Update()
     {
         squad = GameplayController.Instance.SquadInstance;
+        if((transform.position - squad.transform.position).sqrMagnitude > 50)
+        {
+            return;
+        }
         if (squad != null && agent.enabled)
         {
             Transform target = null;
