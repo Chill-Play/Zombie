@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 
 public class Buildable : BaseObject
@@ -11,6 +12,8 @@ public class Buildable : BaseObject
     [SerializeField] ResourcesInfo cost;
     [BaseSerialize] ResourcesInfo resourcesSpent = new ResourcesInfo();
     [BaseSerialize] bool built;
+
+    PlayerBuilding player;
 
     public ResourcesInfo Cost => cost;
     public ResourcesInfo ResourcesSpent => resourcesSpent;
@@ -36,8 +39,8 @@ public class Buildable : BaseObject
     public void SpendResources(ResourcesInfo info, int count)
     {
         if (Built) return;
-        resourcesSpent.Spend(info, cost, count);
-        if(cost.IsFilled(resourcesSpent))
+        resourcesSpent.Spend(info, cost, count, CreateResourceAnimation);        
+        if (cost.IsFilled(resourcesSpent))
         {
             FinishBuilding(false);
         }
@@ -45,7 +48,23 @@ public class Buildable : BaseObject
         {
             OnUpdate?.Invoke();
         }
+        RequireSave();
     }
+
+    void CreateResourceAnimation(ResourceType type, int count, int order)
+    {
+        if (count > 0)
+        {
+            if (player == null)
+            {
+                player = FindObjectOfType<PlayerBuilding>();
+            }
+            Resource instance = Instantiate(type.defaultPrefab, player.transform.position, Quaternion.LookRotation(UnityEngine.Random.insideUnitSphere));
+            instance.GetComponent<Rigidbody>().isKinematic = true;
+            instance.transform.DOJump(transform.position, 1f, 1, 0.3f).OnComplete(() => Destroy(instance)).SetDelay((float)order * 0.1f);  
+        }
+     }
+       
 
     private void FinishBuilding(bool afterDeserialization)
     {

@@ -32,13 +32,17 @@ public class MapController : SingletonMono<MapController>
     private void Awake()
     {
         objects = FindObjectsOfType<BaseObject>();
-        // foreach(var obj in objects)
-        // {
-        //     obj.OnUpdate += BaseObject_OnUpdate;
-        // }
+        foreach (var obj in objects)
+        {
+            obj.OnRequireSave += BaseObject_OnRequireSave;
+        }
         NewLoad();
     }
 
+    private void BaseObject_OnRequireSave()
+    {
+        SaveBase();
+    }
 
     void OnDisable()
     {

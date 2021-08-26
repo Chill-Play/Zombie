@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BaseObject : MonoBehaviour, ISerializationCallbackReceiver
 {
+    public event System.Action OnRequireSave;
     [SerializeField] protected string id;
     public string Id {
         get
@@ -25,6 +26,13 @@ public class BaseObject : MonoBehaviour, ISerializationCallbackReceiver
             Debug.LogError("Object id is null : " + gameObject.name);
         }
     }
+
+
+    protected void RequireSave()
+    {
+        OnRequireSave?.Invoke();
+    }
+
 
 //#if UNITY_EDITOR
     public void OnAfterDeserialize()

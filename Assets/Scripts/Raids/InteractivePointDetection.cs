@@ -20,8 +20,8 @@ public class InteractivePointDetection : MonoBehaviour
 
         if (count > 0)
         {
-            if (target == null)
-            {
+            //if (target == null)
+            //{
                 for (int i = 0; i < interactivePoints.Length; i++)
                 {
                     if (interactivePoints[i] != null)
@@ -39,7 +39,7 @@ public class InteractivePointDetection : MonoBehaviour
                         }
                     }
                 }
-            }
+            //}
         }
         else
         {
