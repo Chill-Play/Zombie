@@ -11,6 +11,7 @@ public class UnitAnimation : MonoBehaviour
     [SerializeField] Transform modelPivot;
     [SerializeField] UnitShooting shooting;
     [SerializeField] UnitTargetDetection unitTargetDetection;
+    [SerializeField] UnitHealth unitHealth;
     [SerializeField] Vector3 spineAngleOffset;
 
 
@@ -21,8 +22,16 @@ public class UnitAnimation : MonoBehaviour
         {
             shooting.OnShoot += Shooting_OnShoot;
         }
+        if (unitHealth != null)
+        {
+            unitHealth.OnDead += UnitHealth_OnDead;
+        }
     }
 
+    private void UnitHealth_OnDead(EventMessage<Empty> obj)
+    {
+        animator.SetTrigger("Death");
+    }
 
     private void OnDisable()
     {

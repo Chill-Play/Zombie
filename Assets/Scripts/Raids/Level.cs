@@ -10,6 +10,7 @@ public class Level : SingletonMono<Level>
     public event System.Action OnNoiseLevelExceeded;
     public event System.Action OnHordeDefeated;
     public event System.Action OnLevelEnded;
+    public event System.Action OnLevelFailed;
 
     [SerializeField] List<Transform> zombiesSpawnPoints;
     [SerializeField] Enemy[] zombiePrefabs;
@@ -40,21 +41,32 @@ public class Level : SingletonMono<Level>
     int finalWaveLevel;
 
     Coroutine spawnWavesCoroutine;
+    Squad squad;
 
     public float MaxNoiseLevel => maxNoiseLevel;
     public float ComingTimerValue => comingTimer / comingTime;
 
+    private void Awake()
+    {
+        squad = FindObjectOfType<Squad>();
+    }
 
     void OnEnable()
     {
         FindObjectOfType<SpawnPoint>().OnReturnedToBase += SpawnPoint_OnReturnedToBase;
+        squad.OnPlayerUnitDead += Squad_OnPlayerUnitDead;
     }
 
+    private void Squad_OnPlayerUnitDead()
+    {
+        OnLevelFailed?.Invoke();
+    }
 
     void OnDisable()
     {
         var spawnPoint = FindObjectOfType<SpawnPoint>();
-        if(spawnPoint != null)
+        squad.OnPlayerUnitDead -= Squad_OnPlayerUnitDead;
+        if (spawnPoint != null)
         {
             spawnPoint.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
         }

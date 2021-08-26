@@ -85,9 +85,29 @@ MonoBehaviour:
   - subjectId: {fileID: -5394108602055148265, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
     components:
     - {fileID: 6724815731642420078}
+    - {fileID: 6724815731642420077}
+    - {fileID: 6724815731642420073}
+    - {fileID: 4805048125854226984}
+    - {fileID: 9153932022786451599}
+    - {fileID: 1555253044}
+    - {fileID: 1555253046}
+    - {fileID: 7102109612129048549}
+    - {fileID: 790408206}
+    - {fileID: 220707173521780509}
   - subjectId: {fileID: 1115681336743573062, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
     components:
     - {fileID: 3225008838242985669}
+    - {fileID: 6724815731642420077}
+    - {fileID: 6724815731642420073}
+    - {fileID: 4805048125854226984}
+    - {fileID: 9153932022786451599}
+    - {fileID: 1555253044}
+    - {fileID: 1555253046}
+    - {fileID: 7102109612129048549}
+    - {fileID: 790408206}
+    - {fileID: 220707173521780509}
+  - subjectId: {fileID: 1337734200025154110, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
+    components: []
   currentState:
     subjectId: {fileID: 0}
     components: []
@@ -107,11 +127,13 @@ MonoBehaviour:
   navMeshAgent: {fileID: 6724815731642420075}
   targetDetection: {fileID: 4805048125854226984}
   unitShooting: {fileID: 6724815731642420078}
+  unitHealth: {fileID: 1555253046}
   interactivePointDetection: {fileID: 9153932022786451599}
   stateController: {fileID: 2406957249927383472}
   movingState: {fileID: -5394108602055148265, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
   shootingState: {fileID: -4611125992726261297, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
   interactingState: {fileID: 1115681336743573062, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
+  deadState: {fileID: 1337734200025154110, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
 --- !u!114 &6724815731642420073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +229,7 @@ MonoBehaviour:
   modelPivot: {fileID: 6724815732587931373}
   shooting: {fileID: 6724815731642420078}
   unitTargetDetection: {fileID: 4805048125854226984}
+  unitHealth: {fileID: 1555253046}
   spineAngleOffset: {x: 0, y: 38, z: 0}
 --- !u!114 &1555253046
 MonoBehaviour:

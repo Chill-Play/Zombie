@@ -24,8 +24,12 @@ public class UnitShooting : MonoBehaviour
     {
         for (int i = 0; i < weapons.Length; i++)
         {
+            if (weapons[i].Firing)
+            {
+                weapons[i].StopFire();
+            }
             weapons[i].OnShoot -= UnitShooting_OnShoot;
-        }
+        }     
     }
 
 
