@@ -42,6 +42,7 @@ public class LevelController : SingletonMono<LevelController>
 
     public void ToBase()
     {
+        OnRaidFinished();
         SceneManager.LoadScene(baseLevel);
     }
 
