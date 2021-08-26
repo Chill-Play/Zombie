@@ -26,10 +26,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 170470427460420053}
   m_LocalRotation: {x: 0.00000006657903, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5950459, y: 0.5810001, z: -0.04609863}
+  m_LocalPosition: {x: -1.563, y: 0.5810001, z: -0.195}
   m_LocalScale: {x: 1.05584, y: 1.3, z: 1.3}
   m_Children: []
-  m_Father: {fileID: 3762275621060467024}
+  m_Father: {fileID: 6493737637822819467}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2734170038199277115
@@ -109,8 +109,7 @@ Transform:
   m_LocalPosition: {x: -0.5866, y: 0, z: -24.81671}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3808559319639080126}
-  - {fileID: 2465993372918053617}
+  - {fileID: 6493737637822819467}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -130,6 +129,38 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1 &5841869797916190687
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6493737637822819467}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6493737637822819467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5841869797916190687}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.072, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3808559319639080126}
+  - {fileID: 2465993372918053617}
+  m_Father: {fileID: 3762275621060467024}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7439774634773639863
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,10 +187,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7439774634773639863}
   m_LocalRotation: {x: 0.00000006657903, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.004953079, y: -0.04, z: 0}
-  m_LocalScale: {x: 0.56178, y: 1.157743, z: 0.539385}
+  m_LocalPosition: {x: 0.035, y: -0.04, z: -0.165}
+  m_LocalScale: {x: 0.56178, y: 1.5174538, z: 0.539385}
   m_Children: []
-  m_Father: {fileID: 3762275621060467024}
+  m_Father: {fileID: 6493737637822819467}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8531103486724553982
