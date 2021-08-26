@@ -150,7 +150,6 @@ public class Level : SingletonMono<Level>
             }
             spawned += spawnCount;
             spawnPoints.Clear();
-            Debug.Log("Lol");
             yield return new WaitForSeconds(0.5f);
         }
     }

@@ -32,7 +32,9 @@ public class PlayerBuilding : MonoBehaviour
                 {
                     if (!buildable.Built)
                     {
-                        buildable.SpendResources(ResourcesController.Instance.ResourcesCount, countPerUse);
+                        var controller = ResourcesController.Instance;
+                        buildable.SpendResources(controller.ResourcesCount, countPerUse);
+                        controller.UpdateResources();
                         uses++;
                         nextUse = Time.time + baseRate - (rateIncrease * uses);
                     }

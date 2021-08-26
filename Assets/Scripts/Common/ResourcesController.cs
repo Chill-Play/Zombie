@@ -14,7 +14,7 @@ public class ResourcesController : SingletonMono<ResourcesController>
 
     [SerializeField] List<ResourceType> resourceTypes;
 
-    public ResourcesInfo resourcesCount = new ResourcesInfo();
+    ResourcesInfo resourcesCount = new ResourcesInfo();
     public List<ResourceType> Resources => resourceTypes;
     public ResourcesInfo ResourcesCount => resourcesCount;
 
@@ -25,6 +25,7 @@ public class ResourcesController : SingletonMono<ResourcesController>
         {
             resourcesCount.AddSlot(resourceType, PlayerPrefs.GetInt(RESOURCE_PREFS + resourceType.saveId, 0));
         }
+        UpdateResources();
     }
 
 
@@ -44,6 +45,7 @@ public class ResourcesController : SingletonMono<ResourcesController>
             {
                 slot.count += 100;
             }
+            UpdateResources();
         }
     }
 

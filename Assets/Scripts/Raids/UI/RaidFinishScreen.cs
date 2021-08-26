@@ -65,17 +65,31 @@ public class RaidFinishScreen : UIScreen
 
     public void DoubleClicked()
     {
-        var resources = squad.CollectResources(); //Refactor
-        //FindObjectOfType<ResourcesController>().AddResources(resources);
-        //FindObjectOfType<ResourcesController>().AddResources(resources);
+        var info = new ResourcesInfo();
+        var resources = FindObjectOfType<SquadBackpack>().Resources;
+        var resourceController = ResourcesController.Instance;
+        foreach(var pair in resources)
+        {
+            info.AddSlot(pair.Key, pair.Value);
+        }
+        resourceController.AddResources(info);
+        resourceController.AddResources(info);
+        resourceController.UpdateResources();
         LevelController.Instance.ToBase();
     }
 
 
     public void NoThanksClicked()
     {
-        var resources = squad.CollectResources();
-        //FindObjectOfType<ResourcesController>().AddResources(resources);
+        var info = new ResourcesInfo();
+        var resources = FindObjectOfType<SquadBackpack>().Resources;
+        var resourceController = ResourcesController.Instance;
+        foreach (var pair in resources)
+        {
+            info.AddSlot(pair.Key, pair.Value);
+        }
+        resourceController.AddResources(info);
+        resourceController.UpdateResources();
         LevelController.Instance.ToBase();
     }
 }

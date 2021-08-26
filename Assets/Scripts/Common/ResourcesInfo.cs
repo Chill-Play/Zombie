@@ -40,6 +40,12 @@ public class ResourcesInfo : ISerializationCallbackReceiver
     }
 
 
+    public int Count(ResourceType type)
+    {
+        return idsByTypes[type].count;
+    }
+
+
     public void AddSlot(ResourceType type, int count)
     {
         ResourceSlot slot = new ResourceSlot(type, count);
@@ -56,6 +62,19 @@ public class ResourcesInfo : ISerializationCallbackReceiver
             {
                 thisSlot.count += slot.count;
             }
+        }
+    }
+
+
+    public void Add(ResourceType type, int count)
+    {
+        if(idsByTypes.TryGetValue(type, out var slot))
+        {
+            slot.count += count;
+        }
+        else
+        {
+            AddSlot(type, count);
         }
     }
 
@@ -83,6 +102,19 @@ public class ResourcesInfo : ISerializationCallbackReceiver
             {
                 thisSlot.count -= slot.count;
             }
+        }
+    }
+
+
+    public void Subtract(ResourceType type, int count)
+    {
+        if(idsByTypes.TryGetValue(type, out var slot))
+        {
+            slot.count -= count;
+        }
+        else
+        {
+            Debug.LogError("No such resource in collection : " + type.name);
         }
     }
 

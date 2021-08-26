@@ -9,7 +9,7 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     [SerializeField] List<UnitMovement> units;
     [SerializeField] float unitRadius;
-    [SerializeField] float unit—atchingDistance = 5f;
+    [SerializeField] float unitCatchingDistance = 5f;
 
     bool isMoving = false;
     List<InteractivePointDetection> interactivePointDetections = new List<InteractivePointDetection>();
@@ -40,7 +40,7 @@ public class Squad : MonoBehaviour, IInputReceiver
             
             Vector3 targetPos = units[0].transform.position + GetPosition(i, unitRadius);
             Vector3 direction = targetPos - units[i].transform.position;
-            if (direction.magnitude >= unit—atchingDistance && !caughtUpSquad[i])
+            if (direction.magnitude >= unitCatchingDistance && !caughtUpSquad[i])
             {
                 interactivePointDetections[i].enabled = false;
                 interactivePointDetections[i].NullTarget();

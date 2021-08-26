@@ -63,21 +63,21 @@ public class MapController : SingletonMono<MapController>
 
     void NewSave()
     {
-        Debug.Log("Save");
+        //Debug.Log("Save");
 
         json = BaseSerialization.SerializeBase(objects);
-        Debug.Log("JSON : " + json);
+        //Debug.Log("JSON : " + json);
         PlayerPrefs.SetString("BaseInfo", json);
     }
 
 
     void NewLoad()
     {
-        Debug.Log("Load");
+        //Debug.Log("Load");
         var json = PlayerPrefs.GetString("BaseInfo", null);
         if(!string.IsNullOrEmpty(json))
         {
-            Debug.Log("JSON : " + json);
+            //Debug.Log("JSON : " + json);
             BaseSerialization.DeserializeBase(json, objects);
         }
     }

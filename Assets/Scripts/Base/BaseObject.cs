@@ -26,7 +26,7 @@ public class BaseObject : MonoBehaviour, ISerializationCallbackReceiver
         }
     }
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
     public void OnAfterDeserialize()
     {
         if(string.IsNullOrEmpty(id))
@@ -39,5 +39,5 @@ public class BaseObject : MonoBehaviour, ISerializationCallbackReceiver
     {
 
     }
-#endif
+//#endif
 }
