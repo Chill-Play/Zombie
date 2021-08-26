@@ -79,7 +79,7 @@ public class ResourcesInfo : ISerializationCallbackReceiver
     }
 
 
-    public void Spend(ResourcesInfo resourcesInfo, ResourcesInfo cost, int spendCount)
+    public void Spend(ResourcesInfo resourcesInfo, ResourcesInfo cost, int spendCount, System.Action<ResourceType, int> onSpendCallback = null)
     {
         foreach (var slot in resourcesInfo.slots)
         {
@@ -88,6 +88,7 @@ public class ResourcesInfo : ISerializationCallbackReceiver
                 int spendAmount = Mathf.Min(spendCount, slot.count, cost.idsByTypes[slot.type].count - thisSlot.count);
                 thisSlot.count += spendAmount;
                 slot.count -= spendAmount;
+                onSpendCallback?.Invoke(slot.type, spendAmount);
             }
         }
     }
