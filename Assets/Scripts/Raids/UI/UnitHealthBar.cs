@@ -7,16 +7,16 @@ public class UnitHealthBar : MonoBehaviour
    
     void OnEnable()
     {
-        FindObjectOfType<UIUnitHealthBars>().CreateHealthBar(this);
+        //FindObjectOfType<UIUnitHealthBars>().CreateHealthBar(this);
     }
 
     
     void OnDisable()
     {
-        UIUnitHealthBars bars = FindObjectOfType<UIUnitHealthBars>();
-        if (bars != null)
-        {
-            bars.RemoveHealthBar(this);
-        }
+        // UIUnitHealthBars bars = FindObjectOfType<UIUnitHealthBars>();
+        // if (bars != null)
+        // {
+        //     bars.RemoveHealthBar(this);
+        // }
     }
 }

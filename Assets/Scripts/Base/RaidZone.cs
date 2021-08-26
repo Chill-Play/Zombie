@@ -11,17 +11,17 @@ public class RaidZone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //if(other.TryGetComponent(out UnitPlayerInput player)) //Refactor
-        //{
-        //    OnEnterZone?.Invoke();
-        //}
+        {
+           OnEnterZone?.Invoke();
+        }
     }
 
 
     private void OnTriggerExit(Collider other)
     {
         //if (other.TryGetComponent(out UnitPlayerInput player)) //Refactor
-        //{
-        //    OnExitZone?.Invoke();
-        //}
+        {
+           OnExitZone?.Invoke();
+        }
     }
 }

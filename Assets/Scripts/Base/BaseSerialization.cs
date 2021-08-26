@@ -115,6 +115,7 @@ public static class BaseSerialization
                     }
                 }
             }
+            obj.BaseAfterDeserialize();
         }
     }
 }

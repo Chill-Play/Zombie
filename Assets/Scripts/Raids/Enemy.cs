@@ -85,6 +85,21 @@ public class Enemy : MonoBehaviour
         GetComponent<Collider>().enabled = false;
         var renderer = GetComponentInChildren<SkinnedMeshRenderer>();
         renderer.material.DOColor(Color.gray, "_MainColor", 0.5f);
+        StartCoroutine(OnDeadCoroutine());
+    }
+
+
+    IEnumerator OnDeadCoroutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        float t = 0.0f;
+        while(t < 1.0f)
+        {
+            yield return new WaitForFixedUpdate();
+            t += Time.deltaTime;
+            transform.Translate(Vector3.down * Time.deltaTime * 1.0f);
+        }
+        Destroy(gameObject);
     }
 
 

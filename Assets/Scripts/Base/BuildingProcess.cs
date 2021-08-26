@@ -53,6 +53,7 @@ public class BuildingProcess : MonoBehaviour
 
     private void Buildable_OnBuilt(bool obj)
     {
+        Debug.Log("Lol");
         SetBuildingActive(true);
         float targetScale = transform.localScale.x;
         transform.localScale = Vector3.one * 0.2f;

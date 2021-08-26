@@ -27,6 +27,12 @@ public class Buildable : BaseObject
     }
 
 
+    void Start()
+    {
+        OnUpdate?.Invoke(); //Refactor
+    }
+
+
     public void SpendResources(ResourcesInfo info, int count)
     {
         if (Built) return;

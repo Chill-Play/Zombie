@@ -44,6 +44,23 @@ public class Level : SingletonMono<Level>
     public float MaxNoiseLevel => maxNoiseLevel;
     public float ComingTimerValue => comingTimer / comingTime;
 
+
+    void OnEnable()
+    {
+        FindObjectOfType<SpawnPoint>().OnReturnedToBase += SpawnPoint_OnReturnedToBase;
+    }
+
+
+    void OnDisable()
+    {
+        var spawnPoint = FindObjectOfType<SpawnPoint>();
+        if(spawnPoint != null)
+        {
+            spawnPoint.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
+        }
+    }
+
+
     void Start()
     {
         doorSpawners = FindObjectsOfType<ZombiesDoorSpawner>().ToList();
@@ -82,56 +99,63 @@ public class Level : SingletonMono<Level>
     }
 
 
-    public void SpawnInDoors()
-    {
-        var squad = FindObjectOfType<Squad>();
-        var points = new List<ZombiesDoorSpawner>(doorSpawners);
-        points.RemoveAll((x) => Vector3.Distance(x.transform.position, squad.transform.position) > 15f);
-        for (int i = 0; i < hordeSize; i++)
-        {
-            Transform spawnPoint = points[Random.Range(0, points.Count)];
-            Enemy prefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
-            Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-            enemy.SetLevel(level);
-            enemies.Add(enemy);
-            enemy.GoAggressive();
-            enemy.GetComponent<IDamagable>().OnDead += Enemy_OnDead;
-        }
-    }
+    //public void SpawnInDoors()
+    //{
+    //    var squad = FindObjectOfType<Squad>();
+    //    var points = new List<ZombiesDoorSpawner>(doorSpawners);
+    //    points.RemoveAll((x) => Vector3.Distance(x.transform.position, squad.transform.position) > 15f);
+    //    for (int i = 0; i < hordeSize; i++)
+    //    {
+    //        Transform spawnPoint = points[Random.Range(0, points.Count)];
+    //        Enemy prefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
+    //        Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+    //        enemy.SetLevel(level);
+    //        enemies.Add(enemy);
+    //        enemy.GoAggressive();
+    //        enemy.GetComponent<IDamagable>().OnDead += Enemy_OnDead;
+    //    }
+    //}
 
 
     public void SpawnHorde(int hordeSize, int bigZombiesCount, int level)
     {
-        int spawnPointsCount = Random.Range(minHordeSpawnPoints, maxHordeSpawnPoints + 1);
+        StartCoroutine(SpawnHordeCoroutine(hordeSize, level));
 
-        List<Transform> spawnPoints = new List<Transform>();
-        spawnPoints.AddRange(zombiesSpawnPoints);
-        spawnPoints.Shuffle();
-        var squad = FindObjectOfType<Squad>();
-        var points = spawnPoints.ToList();
-        points.RemoveAll((x) => Vector3.Distance(x.position, squad.transform.position) < 15f);
-        for (int i = 0; i < hordeSize; i++)
-        {
-            Transform spawnPoint = points[Random.Range(0, points.Count)];
-            Enemy prefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
-            Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-            enemy.SetLevel(level);
-            enemies.Add(enemy);
-            enemy.GoAggressive();
-            enemy.GetComponent<IDamagable>().OnDead += Enemy_OnDead;
-        }
-
-
-        //for (int i = 0; i < bigZombiesCount; i++)
-        //{
-        //    Transform spawnPoint = spawnPoints[Random.Range(0, spawnPointsCount)];
-        //    Enemy prefab = bigZombiesPrefabs[Random.Range(0, zombiePrefabs.Length)];
-        //    Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-        //    enemy.SetLevel(level);
-        //    enemies.Add(enemy);
-        //    //enemy.OnDead += Enemy_OnDead;
-        //}
     }
+
+
+    IEnumerator SpawnHordeCoroutine(int hordeSize, int level)
+    {
+        var spawnGroup = 10;
+        var spawned = 0;
+        List<Transform> spawnPoints = new List<Transform>(zombiesSpawnPoints.Count);
+
+        while(spawned < hordeSize)
+        {
+            var spawnCount = Mathf.Min(spawnGroup, hordeSize - spawned);
+            var squad = FindObjectOfType<Squad>();
+            spawnPoints.AddRange(zombiesSpawnPoints);
+            spawnPoints.Shuffle();
+            var points = spawnPoints;
+            points.RemoveAll((x) => Mathf.Abs(squad.transform.position.z - x.position.z) < 30f && Mathf.Abs(squad.transform.position.x - x.position.x) < 10f);
+            for (int i = 0; i < spawnCount; i++)
+            {
+                Transform spawnPoint = points[Random.Range(0, points.Count)];
+                Enemy prefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
+                Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+                enemy.SetLevel(level);
+                enemies.Add(enemy);
+                enemy.GoAggressive();
+                enemy.GetComponent<IDamagable>().OnDead += Enemy_OnDead;
+            }
+            spawned += spawnCount;
+            spawnPoints.Clear();
+            Debug.Log("Lol");
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+
 
     private void Enemy_OnDead(EventMessage<Empty> message)
     {
@@ -220,5 +244,11 @@ public class Level : SingletonMono<Level>
     {
         obj.OnSpotUsed -= Spot_OnSpotUsed;
         resourceSpots.Remove(obj);
+    }
+
+
+    void SpawnPoint_OnReturnedToBase()
+    {
+        EndLevel();
     }
 }

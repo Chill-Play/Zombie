@@ -8,7 +8,7 @@ public class UIBuildablesView : MonoBehaviour
     [SerializeField] BuildableInfoUI buildableInfoPrefab;
     Dictionary<Buildable, BuildableInfoUI> infoInstancePerBuildable = new Dictionary<Buildable, BuildableInfoUI>();
 
-    void Start()
+    void Awake()
     {
         Buildable[] buildables = FindObjectsOfType<Buildable>();
         foreach(var buildable in buildables)

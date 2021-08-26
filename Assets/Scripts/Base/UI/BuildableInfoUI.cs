@@ -79,5 +79,9 @@ public class BuildableInfoUI : MonoBehaviour
             pair.Value.UpdateValue(0);
         }
         OnBuildingBuilt?.Invoke(new EventMessage<Buildable>(building, this));
+        if(afterDeserialization)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
