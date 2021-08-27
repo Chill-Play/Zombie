@@ -6,6 +6,7 @@ using UnityEngine;
 public class Squad : MonoBehaviour, IInputReceiver
 {
     public event System.Action<Unit> OnUnitAdd;
+    public event System.Action OnPlayerUnitDead;
 
     [SerializeField] List<UnitMovement> units;
     [SerializeField] float unitRadius;
@@ -22,19 +23,39 @@ public class Squad : MonoBehaviour, IInputReceiver
         //units = GetComponentsInChildren<UnitMovement>().ToList();
         foreach(UnitMovement unit in units)
         { 
-            unit.GetComponent<UnitHealth>().OnDead += (x) => units.Remove(unit.GetComponent<UnitMovement>());
+            unit.GetComponent<UnitHealth>().OnDead += (x) => RemoveUnit(unit);
             caughtUpSquad.Add(true);
             interactivePointDetections.Add(unit.GetComponent<InteractivePointDetection>());
         }
         units[0].GetComponent<PlayerResources>().CanMoveToResources = false;
-       
-    
+        units[0].GetComponent<UnitHealth>().OnDead += Squad_OnDead; 
+    }
+
+    private void Squad_OnDead(EventMessage<Empty> obj)
+    {
+        OnPlayerUnitDead?.Invoke();
+    }
+
+    void RemoveUnit(UnitMovement unit)
+    {
+        for (int i = 0; i < units.Count; i++)
+        {
+            if (units[i] == unit)
+            {
+                units.RemoveAt(i);
+                interactivePointDetections.RemoveAt(i);
+                caughtUpSquad.RemoveAt(i);
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = units[0].transform.position;
+        if (units.Count > 0)
+        {
+            transform.position = units[0].transform.position;           
+        }     
         for(int i = 1; i < units.Count; i++)
         {
             
@@ -97,13 +118,16 @@ public class Squad : MonoBehaviour, IInputReceiver
             }
             isMoving = true;
         }
-        units[0].Input = input;
+        if (units.Count > 0)
+        {
+            units[0].Input = input;
+        }
     }
 
 
     public void AddUnit(Unit unit)
-    {       
-        unit.GetComponent<UnitHealth>().OnDead += (x) => units.Remove(unit.GetComponent<UnitMovement>());
+    {
+        unit.GetComponent<UnitHealth>().OnDead += (x) => RemoveUnit(unit.GetComponent<UnitMovement>());       
         units.Add(unit.GetComponent<UnitMovement>());
         interactivePointDetections.Add(unit.GetComponent<InteractivePointDetection>());
         caughtUpSquad.Add(true);

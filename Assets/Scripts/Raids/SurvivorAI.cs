@@ -10,17 +10,25 @@ public class SurvivorAI : MonoBehaviour
     [SerializeField] NavMeshAgent navMeshAgent;
     [SerializeField] UnitTargetDetection targetDetection;
     [SerializeField] UnitShooting unitShooting;
+    [SerializeField] UnitHealth unitHealth;
     [SerializeField] InteractivePointDetection interactivePointDetection;
     [SerializeField] StateController stateController;
     [SerializeField] SubjectId movingState;
     [SerializeField] SubjectId shootingState;
     [SerializeField] SubjectId interactingState;
+    [SerializeField] SubjectId deadState;
 
     Squad squad;
 
     private void Start()
     {
         squad = FindObjectOfType<Squad>();
+        unitHealth.OnDead += UnitHealth_OnDead;
+    }
+
+    private void UnitHealth_OnDead(EventMessage<Empty> obj)
+    {
+        ToState(deadState);
     }
 
     void Update()

@@ -75,7 +75,7 @@ public class RaidFinishScreen : UIScreen
         resourceController.AddResources(info);
         resourceController.AddResources(info);
         resourceController.UpdateResources();
-        LevelController.Instance.ToBase();
+        LevelController.Instance.ToBase(true);
     }
 
 
@@ -90,6 +90,6 @@ public class RaidFinishScreen : UIScreen
         }
         resourceController.AddResources(info);
         resourceController.UpdateResources();
-        LevelController.Instance.ToBase();
+        LevelController.Instance.ToBase(true);
     }
 }
