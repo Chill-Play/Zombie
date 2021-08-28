@@ -70,7 +70,7 @@ public class UINumbers : MonoBehaviour
     public void SpawnNumber(Vector3 worldPos, string text, Vector2 offset, float randomAngle, float randomOffset, float lifeTime = 0.4f)
     {
         UINumber uINumber = new UINumber();
-        uINumber.text = Instantiate(textPrefab, transform);
+        uINumber.text = Instantiate(textPrefab, transform);    
         uINumber.text.transform.SetAsFirstSibling();
         uINumber.text.transform.localEulerAngles = Vector3.forward * Random.Range(-randomAngle, randomAngle);
         uINumber.offset = offset + (Random.insideUnitCircle * randomOffset);

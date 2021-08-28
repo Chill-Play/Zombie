@@ -33,14 +33,16 @@ public class BaseUI : UIScreen
         }
     }
 
-    //private void MapController_OnCompletionProgressUpdate(float value)
-    //{
-    //    completionProgressBar.SetValue(value);
-    //}
+   
 
-    //private void GlobalMapArea_OnGlobalMapAreaExit()
-    //{
-    //    globalMapButton.gameObject.SetActive(false);
+    //private void MapController_OnCompletionProgressUpdate(float value)
+//    {
+//        completionProgressBar.SetValue(value);
+//    }
+
+//private void GlobalMapArea_OnGlobalMapAreaExit()
+//{
+//    globalMapButton.gameObject.SetActive(false);
     //}
 
     //private void GlobalMapArea_OnGlobalMapAreaEnter()
@@ -58,7 +60,7 @@ public class BaseUI : UIScreen
     //}
 
     private void Zone_OnExitZone()
-    {
+    {       
        raidButton.transform.DOScale(0.5f, 0.15f).SetEase(Ease.InExpo).OnComplete(() => raidButton.gameObject.SetActive(false));
     }
 

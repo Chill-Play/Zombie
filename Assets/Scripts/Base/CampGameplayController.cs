@@ -18,6 +18,12 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
             spawnPos = spawnPoint.transform.position;
         }
         SpawnPlayer(spawnPos, playerPrefab);
+       
+    }
+
+    private void Start()
+    {
+         FindObjectOfType<CampSquad>().SpawnSquad(playerInstance.transform.position);
     }
 
 

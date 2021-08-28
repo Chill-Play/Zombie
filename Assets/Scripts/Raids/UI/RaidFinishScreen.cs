@@ -16,6 +16,8 @@ public class RaidFinishScreen : UIScreen
 
     Squad squad;
 
+    //const string SURVIVORS_COUNT_PREFS = "M_Survivors_Count";
+
     private void Awake()
     {
         squad = FindObjectOfType<Squad>();
@@ -75,6 +77,7 @@ public class RaidFinishScreen : UIScreen
         resourceController.AddResources(info);
         resourceController.AddResources(info);
         resourceController.UpdateResources();
+        SaveSquad();
         LevelController.Instance.ToBase(true);
     }
 
@@ -90,6 +93,12 @@ public class RaidFinishScreen : UIScreen
         }
         resourceController.AddResources(info);
         resourceController.UpdateResources();
+        SaveSquad();
         LevelController.Instance.ToBase(true);
+    }
+
+    void SaveSquad()
+    {
+        PlayerPrefs.SetInt("M_Survivors_Count", squad.Units.Count - 1);        
     }
 }
