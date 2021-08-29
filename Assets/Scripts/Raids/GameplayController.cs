@@ -10,16 +10,21 @@ public class GameplayController : SingletonMono<GameplayController>
 
     public Squad SquadInstance { get; set; }
 
+    Vector3 spawnPos;
 
     private void Awake()
     {
         SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
-        Vector3 spawnPos = Vector3.zero;
+        spawnPos = Vector3.zero;
         if(spawnPoint != null)
         {
             spawnPos = spawnPoint.transform.position;
         }
         SpawnPlayer(spawnPos, playerPrefab);
+
+        Level level = FindObjectOfType<Level>();
+        level.OnLevelEnded += OnLevelEnded;
+        level.OnLevelFailed += OnLevelEnded;
     }
 
 
@@ -33,6 +38,12 @@ public class GameplayController : SingletonMono<GameplayController>
             InputJoystick.InputReceiver = squad.GetComponent<IInputReceiver>();
             SquadInstance = squad;
         }
+    }
+
+    private void OnLevelEnded()
+    {
+        InputJoystick.InputReceiver = null;
+        SquadInstance.GoToPosition(spawnPos);
     }
 
 }

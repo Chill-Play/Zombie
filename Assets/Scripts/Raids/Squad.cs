@@ -19,9 +19,8 @@ public class Squad : MonoBehaviour, IInputReceiver
     public List<UnitMovement> Units => units;
     // Start is called before the first frame update
     void Start()
-    {
-        //units = GetComponentsInChildren<UnitMovement>().ToList();
-        foreach(UnitMovement unit in units)
+    {  
+        foreach (UnitMovement unit in units)
         { 
             unit.GetComponent<UnitHealth>().OnDead += (x) => RemoveUnit(unit);
             caughtUpSquad.Add(true);
@@ -155,5 +154,10 @@ public class Squad : MonoBehaviour, IInputReceiver
         Vector3 pos = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
         pos *= unitRadius * ring * 2f;
         return pos;
+    }
+
+    public void GoToPosition(Vector3 position)
+    {
+        units[0].MoveTo(position);
     }
 }

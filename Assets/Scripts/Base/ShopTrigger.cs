@@ -7,6 +7,9 @@ public class ShopTrigger : MonoBehaviour //ONLY FOR FIRST BUILD
     [SerializeField] GameObject go;
     void OnTriggerEnter(Collider other)
     {
-        go.SetActive(true);
+        if (other.GetComponent<PlayerBuilding>() != null)
+        {
+            go.SetActive(true);
+        }
     }
 }
