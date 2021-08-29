@@ -7,10 +7,9 @@ public class RaidZone : MonoBehaviour
     public event System.Action OnEnterZone;
     public event System.Action OnExitZone;
 
-
     private void OnTriggerEnter(Collider other)
     {
-        //if(other.TryGetComponent(out UnitPlayerInput player)) //Refactor
+        if (other.TryGetComponent(out PlayerBuilding playerBuilding))
         {
            OnEnterZone?.Invoke();
         }
@@ -19,7 +18,7 @@ public class RaidZone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        //if (other.TryGetComponent(out UnitPlayerInput player)) //Refactor
+        if (other.TryGetComponent(out PlayerBuilding playerBuilding))
         {
            OnExitZone?.Invoke();
         }

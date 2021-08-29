@@ -12,37 +12,43 @@ public class BaseUI : UIScreen
     //[SerializeField] ResourcesInfoUIPanel resourcesInfo;
     //[SerializeField] Bar completionProgressBar;
 
+    CampGameplayController campGameplayController;
 
     private void OnEnable()
     {
-        FindObjectOfType<RaidZone>().OnEnterZone += Zone_OnEnterZone;
+       
     }
+
+   
 
     void Start()
     {
        raidButton.gameObject.SetActive(false);
        raidButton.onClick.AddListener(() => RaidButton_OnClick());
+
+        CampGameplayController campGameplayController = CampGameplayController.Instance;
+
+        campGameplayController.OnRaidReadiness += OnRaidReadiness;
+        campGameplayController.OnRaidUnpreparedness += OnRaidUnpreparedness;
     }
 
     private void OnDisable()
     {
-        var zone = FindObjectOfType<RaidZone>();
-        if(zone != null)
+        if (campGameplayController != null)
         {
-            zone.OnExitZone += Zone_OnExitZone;
+            campGameplayController.OnRaidReadiness -= OnRaidReadiness;
+            campGameplayController.OnRaidUnpreparedness -= OnRaidUnpreparedness;
         }
     }
 
-   
-
     //private void MapController_OnCompletionProgressUpdate(float value)
-//    {
-//        completionProgressBar.SetValue(value);
-//    }
+    //    {
+    //        completionProgressBar.SetValue(value);
+    //    }
 
-//private void GlobalMapArea_OnGlobalMapAreaExit()
-//{
-//    globalMapButton.gameObject.SetActive(false);
+    //private void GlobalMapArea_OnGlobalMapAreaExit()
+    //{
+    //    globalMapButton.gameObject.SetActive(false);
     //}
 
     //private void GlobalMapArea_OnGlobalMapAreaEnter()
@@ -59,22 +65,23 @@ public class BaseUI : UIScreen
     //    }
     //}
 
-    private void Zone_OnExitZone()
-    {       
-       raidButton.transform.DOScale(0.5f, 0.15f).SetEase(Ease.InExpo).OnComplete(() => raidButton.gameObject.SetActive(false));
-    }
-
-    private void Zone_OnEnterZone()
+    private void OnRaidReadiness()
     {
        raidButton.gameObject.SetActive(true);
        raidButton.transform.localScale = Vector3.one * 0.4f;
        raidButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.2f, 0.3f);
     }
 
+    private void OnRaidUnpreparedness()
+    {
+        raidButton.transform.DOScale(0.5f, 0.15f).SetEase(Ease.InExpo).OnComplete(() => raidButton.gameObject.SetActive(false));
+    }
+
+
     //// Update is called once per frame
     //void Update()
     //{
-        
+
     //}
 
 

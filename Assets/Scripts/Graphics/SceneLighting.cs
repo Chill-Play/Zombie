@@ -10,7 +10,6 @@ public struct HSV
     public float v;
 }
 
-
 [ExecuteInEditMode]
 public class SceneLighting : MonoBehaviour
 {
