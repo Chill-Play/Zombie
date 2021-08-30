@@ -24,7 +24,7 @@ public class GameplayController : SingletonMono<GameplayController>
 
         Level level = FindObjectOfType<Level>();
         level.OnLevelEnded += OnLevelEnded;
-        level.OnLevelFailed += OnLevelEnded;
+        level.OnLevelFailed += OnLevelFailed;
     }
 
 
@@ -44,6 +44,11 @@ public class GameplayController : SingletonMono<GameplayController>
     {
         InputJoystick.InputReceiver = null;
         SquadInstance.GoToPosition(spawnPos);
+    }
+
+    private void OnLevelFailed()
+    {
+        InputJoystick.InputReceiver = null;      
     }
 
 }
