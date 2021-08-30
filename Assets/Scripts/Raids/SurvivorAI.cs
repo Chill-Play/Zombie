@@ -13,44 +13,70 @@ public class SurvivorAI : MonoBehaviour
     [SerializeField] UnitHealth unitHealth;
     [SerializeField] InteractivePointDetection interactivePointDetection;
     [SerializeField] StateController stateController;
+    [SerializeField] Collider mainCollider;
     [SerializeField] SubjectId movingState;
     [SerializeField] SubjectId shootingState;
     [SerializeField] SubjectId interactingState;
     [SerializeField] SubjectId deadState;
+    [SerializeField] SubjectId leaderDefeatedState;
 
     Squad squad;
+    Level level;
 
     private void Start()
     {
+        level = FindObjectOfType<Level>();
         squad = FindObjectOfType<Squad>();
         unitHealth.OnDead += UnitHealth_OnDead;
+        level.OnLevelFailed += SurvivorAI_OnLevelFailed; ;
+    }
+
+    private void SurvivorAI_OnLevelFailed()
+    {
+        ToState(leaderDefeatedState);
     }
 
     private void UnitHealth_OnDead(EventMessage<Empty> obj)
     {
+        mainCollider.enabled = false;
+        level.OnLevelFailed -= SurvivorAI_OnLevelFailed; ;
         ToState(deadState);
+        
     }
 
     void Update()
-    {       
+    {
+        if (stateController.CurrentStateId == leaderDefeatedState)
+        {
+            if (targetDetection.Target != null)
+            {
+                RotateToTarget();
+            }
+            return;
+        }
+
         if (interactivePointDetection.Target != null && !squad.IsMoving && targetDetection.Target == null)
         {
             ToState(interactingState);
             RotateToward();
         }
         else
-        {
+        {           
             ToState(movingState);
             if (targetDetection.Target != null)
             {
-                //ToState(shootingState);
-                Vector3 direction = targetDetection.Target.transform.position - modelPivot.position;
-                direction.y = 0;
-                direction.Normalize();
-                modelPivot.rotation = Quaternion.RotateTowards(modelPivot.rotation, Quaternion.LookRotation(direction), navMeshAgent.angularSpeed * Time.deltaTime);
-                unitShooting.AllowShooting = Vector3.Angle(modelPivot.transform.forward, direction) < 15f;
+                RotateToTarget();
             }
         }
+    }
+
+    void RotateToTarget()
+    {
+        Vector3 direction = targetDetection.Target.transform.position - modelPivot.position;
+        direction.y = 0;
+        direction.Normalize();
+        modelPivot.rotation = Quaternion.RotateTowards(modelPivot.rotation, Quaternion.LookRotation(direction), navMeshAgent.angularSpeed * Time.deltaTime);
+        unitShooting.AllowShooting = Vector3.Angle(modelPivot.transform.forward, direction) < 15f;
     }
 
     void ToState(SubjectId state)

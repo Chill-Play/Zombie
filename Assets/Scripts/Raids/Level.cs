@@ -42,6 +42,7 @@ public class Level : SingletonMono<Level>
 
     Coroutine spawnWavesCoroutine;
     Squad squad;
+    SpawnPoint spawnPoint;
 
     public float MaxNoiseLevel => maxNoiseLevel;
     public float ComingTimerValue => comingTimer / comingTime;
@@ -53,18 +54,19 @@ public class Level : SingletonMono<Level>
 
     void OnEnable()
     {
-        FindObjectOfType<SpawnPoint>().OnReturnedToBase += SpawnPoint_OnReturnedToBase;
+        spawnPoint = FindObjectOfType<SpawnPoint>();
+        spawnPoint.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
         squad.OnPlayerUnitDead += Squad_OnPlayerUnitDead;
     }
 
     private void Squad_OnPlayerUnitDead()
     {
+        spawnPoint.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
         OnLevelFailed?.Invoke();
     }
 
     void OnDisable()
     {
-        var spawnPoint = FindObjectOfType<SpawnPoint>();
         squad.OnPlayerUnitDead -= Squad_OnPlayerUnitDead;
         if (spawnPoint != null)
         {
@@ -77,11 +79,6 @@ public class Level : SingletonMono<Level>
     {
         doorSpawners = FindObjectsOfType<ZombiesDoorSpawner>().ToList();
         //GameplayController.Instance.playerInstance.GetComponent<UnitHealth>().OnDead += PlayerInstance_OnDead;
-    }
-
-    private void PlayerInstance_OnDead()
-    {
-        //UIController.Instance.ShowFailedScreen();
     }
 
     // Update is called once per frame

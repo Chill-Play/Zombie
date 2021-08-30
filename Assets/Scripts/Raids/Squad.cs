@@ -27,7 +27,7 @@ public class Squad : MonoBehaviour, IInputReceiver
             interactivePointDetections.Add(unit.GetComponent<InteractivePointDetection>());
         }
         units[0].GetComponent<PlayerResources>().CanMoveToResources = false;
-        units[0].GetComponent<UnitHealth>().OnDead += Squad_OnDead; 
+        units[0].GetComponent<UnitHealth>().OnDead += Squad_OnDead;     
     }
 
     private void Squad_OnDead(EventMessage<Empty> obj)
@@ -51,6 +51,12 @@ public class Squad : MonoBehaviour, IInputReceiver
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            units[0].GetComponent<UnitHealth>().TakeDamage(1000f,Vector3.forward);
+        }
+
         if (units.Count > 0)
         {
             transform.position = units[0].transform.position;           
