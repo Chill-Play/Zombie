@@ -58,15 +58,7 @@ public class LevelController : SingletonMono<LevelController>
     public void OnRaidFinished()
     {
         LevelPack pack = collection.GetPack(currentPack);
-        if(currentLevel + 1 >= pack.GetLevelsCount())
-        {
-            currentPack++;
-            currentLevel = 0;
-        }
-        else
-        {
-            currentLevel++;
-        }
+        currentLevel++;
         PlayerPrefs.SetInt(PREF_CURRENT_PACK, currentPack);
         PlayerPrefs.SetInt(PREF_CURRENT_LEVEL, currentLevel);
     }

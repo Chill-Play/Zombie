@@ -7,6 +7,7 @@ public class PlayerResourceCombo : MonoBehaviour
     [SerializeField] float comboTime = 0.2f;
     [SerializeField] float showingTime = 0.8f;
     [SerializeField] float upOffset = 2f;
+    [SerializeField]
 
     int resourceCombo = 0;
     float nextCheckCombo;

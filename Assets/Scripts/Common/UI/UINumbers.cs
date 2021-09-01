@@ -69,28 +69,17 @@ public class UINumbers : MonoBehaviour
 
     public void SpawnNumber(Vector3 worldPos, string text, Vector2 offset, float randomAngle, float randomOffset, float lifeTime = 0.4f)
     {
-        UINumber uINumber = new UINumber();
-        uINumber.text = Instantiate(textPrefab, transform);    
-        uINumber.text.transform.SetAsFirstSibling();
-        uINumber.text.transform.localEulerAngles = Vector3.forward * Random.Range(-randomAngle, randomAngle);
-        uINumber.offset = offset + (Random.insideUnitCircle * randomOffset);
-        uINumber.worldPos = worldPos;
-        uINumber.text.text = text;
+        UINumber uINumber = CreateNumberPrefab(worldPos, text, offset, randomAngle, randomOffset);
         uINumber.lifeTime = lifeTime;
         numbers.Add(uINumber);
         UpdateNumberPosition(uINumber);
     }
 
+
     public UINumber GetNumber(Vector3 worldPos, string text, Vector2 offset, float randomAngle, float randomOffset, bool updatePosition)
     {
 
-        UINumber uINumber = new UINumber();
-        uINumber.text = Instantiate(textPrefab, transform);
-        uINumber.text.transform.SetAsFirstSibling();
-        uINumber.text.transform.localEulerAngles = Vector3.forward * Random.Range(-randomAngle, randomAngle);
-        uINumber.offset = offset + (Random.insideUnitCircle * randomOffset);
-        uINumber.worldPos = worldPos;
-        uINumber.text.text = text;
+        UINumber uINumber = CreateNumberPrefab(worldPos, text, offset, randomAngle, randomOffset);
         Vector3 screenPos = camera.WorldToScreenPoint(uINumber.worldPos);
         uINumber.text.transform.position = screenPos + uINumber.offset;
         if (updatePosition)
@@ -100,6 +89,20 @@ public class UINumbers : MonoBehaviour
         }
         return uINumber;
     }
+
+
+    private UINumber CreateNumberPrefab(Vector3 worldPos, string text, Vector2 offset, float randomAngle, float randomOffset)
+    {
+        UINumber uINumber = new UINumber();
+        uINumber.text = Instantiate(textPrefab, transform);
+        uINumber.text.transform.SetAsFirstSibling();
+        uINumber.text.transform.localEulerAngles = Vector3.forward * Random.Range(-randomAngle, randomAngle);
+        uINumber.offset = offset + (Random.insideUnitCircle * randomOffset);
+        uINumber.worldPos = worldPos;
+        uINumber.text.text = text;
+        return uINumber;
+    }
+
 
     public void PunchScaleNumber(UINumber uINumber, float punch, float duration)
     {

@@ -38,7 +38,8 @@ public class Level : SingletonMono<Level>
     bool noiseLevelExceeded;
     bool comingTimerActive;
 
-    int finalWaveLevel;
+    int zombieLevel;
+    int generation;
 
     Coroutine spawnWavesCoroutine;
     Squad squad;
@@ -50,6 +51,13 @@ public class Level : SingletonMono<Level>
     private void Awake()
     {
         squad = FindObjectOfType<Squad>();
+        
+    }
+
+
+    void Start()
+    {
+        zombieLevel = LevelController.Instance.CurrentLevel;
     }
 
     void OnEnable()
@@ -75,18 +83,12 @@ public class Level : SingletonMono<Level>
     }
 
 
-    void Start()
-    {
-        doorSpawners = FindObjectsOfType<ZombiesDoorSpawner>().ToList();
-        //GameplayController.Instance.playerInstance.GetComponent<UnitHealth>().OnDead += PlayerInstance_OnDead;
-    }
-
     // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            SpawnHorde(hordeSize, bigZombiesCount, 0);
+            SpawnHorde(hordeSize, bigZombiesCount, 0, generation);
         }
         if(comingTimerActive)
         {
@@ -101,7 +103,7 @@ public class Level : SingletonMono<Level>
                         e.GoAggressive();
                     }
                 }
-                SpawnHorde(hordeSize, bigZombiesCount, 0);
+                SpawnHorde(hordeSize, bigZombiesCount, 0, generation);
                 comingTimerActive = false;
             }
         }
@@ -126,14 +128,14 @@ public class Level : SingletonMono<Level>
     //}
 
 
-    public void SpawnHorde(int hordeSize, int bigZombiesCount, int level)
+    public void SpawnHorde(int hordeSize, int bigZombiesCount, int level, int generation)
     {
-        StartCoroutine(SpawnHordeCoroutine(hordeSize, level));
+        StartCoroutine(SpawnHordeCoroutine(hordeSize, level, generation));
 
     }
 
 
-    IEnumerator SpawnHordeCoroutine(int hordeSize, int level)
+    IEnumerator SpawnHordeCoroutine(int hordeSize, int level, int generation)
     {
         var spawnGroup = 10;
         var spawned = 0;
@@ -152,7 +154,10 @@ public class Level : SingletonMono<Level>
                 Transform spawnPoint = points[Random.Range(0, points.Count)];
                 Enemy prefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
                 Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-                enemy.SetLevel(level);
+                if(enemy.TryGetComponent<ZombieLevelStats>(out var stats))
+                {
+                    stats.SetLevel(level, generation);
+                }
                 enemies.Add(enemy);
                 enemy.GoAggressive();
                 enemy.GetComponent<IDamagable>().OnDead += Enemy_OnDead;
@@ -187,8 +192,8 @@ public class Level : SingletonMono<Level>
         while(true)
         {
             yield return new WaitForSeconds(finalWavesRate);
-            finalWaveLevel++;
-            SpawnHorde(finalWavesHordeSize, finalWavesBigZombiesCount, finalWaveLevel);
+            generation++;
+            SpawnHorde(finalWavesHordeSize, finalWavesBigZombiesCount, 0, generation);
         }
     }
 

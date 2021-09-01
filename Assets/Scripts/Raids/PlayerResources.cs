@@ -12,10 +12,13 @@ public class PlayerResources : MonoBehaviour
     [SerializeField] LayerMask resourceSpotsMask;
     [SerializeField] GameObject axeModel;
     [SerializeField] GameObject weaponModel;
+
     Collider[] resourceSpots = new Collider[1];
     float nextUse;
     bool interacting;
     UnitAnimation animation;
+    SquadBackpack squadBackpack;
+
 
     InteractivePoint.WorkingPoint target;
 
@@ -31,6 +34,7 @@ public class PlayerResources : MonoBehaviour
             weaponModel.SetActive(true);
         }
         enabled = false;
+        squadBackpack = FindObjectOfType<SquadBackpack>();
     }
 
     private void OnEnable()
@@ -60,6 +64,10 @@ public class PlayerResources : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(squadBackpack.IsFilled)
+        {
+            return;
+        }
         bool atTarget = false;
         if ((target.transform!= null && Vector3.Distance(transform.position, target.transform.position) < 0.5f) || !CanMoveToResources || atTarget)
         {
@@ -83,10 +91,14 @@ public class PlayerResources : MonoBehaviour
             animation.SetInteraction(spot.InteractionType, true);
             if (nextUse < Time.time)
             {
+                squadBackpack.UseSpot(ResourceSpot.COUNT_PER_USE);
                 spot.UseSpot(gameObject);
                 nextUse = Time.time + useRate;
             }
-            return;
+            if (!squadBackpack.IsFilled)
+            {
+                return;
+            }
         }
 
         if (target.transform == null)

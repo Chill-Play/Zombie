@@ -15,9 +15,6 @@ public struct DamageTakenInfo
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] float baseSpeed = 3f;
-    [SerializeField] float speedPerLevel = 1f;
-
     [SerializeField] SubjectId wanderingState;
     [SerializeField] SubjectId aggressiveState;
     [SerializeField] SubjectId deadState;
