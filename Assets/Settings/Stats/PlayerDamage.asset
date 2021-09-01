@@ -10,18 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82a54039fc35059478bdfd8db29e495c, type: 3}
-  m_Name: AttackSpeed
+  m_Name: PlayerDamage
   m_EditorClassIdentifier: 
-  saveId: M_Stat_AttackSpeed
-  displayName: ATTACK SPEED
-  icon: {fileID: 21300000, guid: 2d44b469c08ad96438fb29d54880992c, type: 3}
-  lockedIcon: {fileID: 21300000, guid: 25dac6b06b2643f468bdba67218287d6, type: 3}
+  saveId: Damage
+  displayName: DAMAGE
+  icon: {fileID: 21300000, guid: 5d0b01fe301504a448983f437ac92bc5, type: 3}
+  lockedIcon: {fileID: 21300000, guid: c94fa2ea9e1580a4994e0ff2c78ba7d5, type: 3}
   levelUpCosts:
   - slots:
     - type: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
       count: 100
+    - type: {fileID: 11400000, guid: 29f2789cd1ee39e4eba3eef853bb3300, type: 2}
+      count: 100
   - slots:
     - type: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
-      count: 500
-    - type: {fileID: 11400000, guid: 4e5ffd959c052d6468170f09cb161c1f, type: 2}
-      count: 100
+      count: 10000
+    - type: {fileID: 11400000, guid: 29f2789cd1ee39e4eba3eef853bb3300, type: 2}
+      count: 1000
