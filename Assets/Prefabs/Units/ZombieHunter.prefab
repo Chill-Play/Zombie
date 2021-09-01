@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 6979471718666769626}
   - component: {fileID: 6979471720252185124}
   - component: {fileID: 6979471720252185130}
+  - component: {fileID: -2081598960699626631}
   m_Layer: 6
   m_Name: ZombieHunter
   m_TagString: Untagged
@@ -238,8 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0f46f8b4cc8740a1f902631037806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 3
-  speedPerLevel: 0.25
   wanderingState: {fileID: -2769955253899925341, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
   aggressiveState: {fileID: -4556111188870099931, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
   deadState: {fileID: 1337734200025154110, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
@@ -291,7 +290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 6874705624150676114}
   zombieMovement: {fileID: 6979471718666769634}
-  attackDamage: 1
+  attackDamage: 3
   attackRate: 1.5
   attackRadius: 1.5
   attackTime: 2.5
@@ -390,6 +389,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 6979471718666769634}
   agroSequence: {fileID: 6979471720252185124}
+--- !u!114 &-2081598960699626631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6874705624150676110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86040247c65f9a04996a3aa5121a5485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedPerLevel: 0.1
+  attackDamagePerLevel: 0.5
+  healthPerLevel: 10
+  speedPerGeneration: 0.1
+  attackDamagePerGeneration: 1
+  healthPerGeneration: 25
+  unitHealth: {fileID: 4096667769111837358}
+  agent: {fileID: 6874705624150676114}
+  meleeFighting: {fileID: 6454749999483964552}
 --- !u!1001 &2532931867462314593
 PrefabInstance:
   m_ObjectHideFlags: 0

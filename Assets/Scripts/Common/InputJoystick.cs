@@ -5,30 +5,38 @@ using UnityEngine.EventSystems;
 
 public class InputJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
+    public event System.Action OnBeginDragEvent;
+    public event System.Action OnEndDragEvent;
+
+
     [SerializeField] float padRadius = 200f;
     [SerializeField] Component target;
 
     public IInputReceiver InputReceiver;
 
-    private Vector2 _startPosition;
     private bool _isMoving;
-    private Vector2 _currentPosition;
+     
+    public Vector2 StartPosition { get; set; }
+    public Vector2 CurrentPosition { get; set; }
+
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        _startPosition = eventData.pressPosition;
+        StartPosition = eventData.pressPosition;
         _isMoving = true;
-        _currentPosition = _startPosition;
+        CurrentPosition = StartPosition;
+        OnBeginDragEvent?.Invoke();
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         _isMoving = false;
+        OnEndDragEvent?.Invoke();   
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        _currentPosition = eventData.position;
+        CurrentPosition = eventData.position;
     }
 
     void Update()
@@ -39,7 +47,7 @@ public class InputJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         }
         if (_isMoving)
         {
-            var delta = Vector2.ClampMagnitude(_currentPosition - _startPosition, padRadius) / padRadius * transform.localScale.y;
+            var delta = Vector2.ClampMagnitude(CurrentPosition - StartPosition, padRadius) / padRadius * transform.localScale.y;
             InputReceiver.SetInput(delta);
         }
         else

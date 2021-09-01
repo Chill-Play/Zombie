@@ -14,21 +14,22 @@ public class UnitHealth : MonoBehaviour, IDamagable
     [SerializeField] ParticleSystem bloodVfx;
     [SerializeField] float bloodVfxScale = 0.2f;
 
-    float currentHealth = 0f;
+
+    public float CurrentHealth { get; set; }
 
     private void Start()
     {
-        currentHealth = health;
+        CurrentHealth += health;
     }
 
 
     public void TakeDamage(float damage, Vector3 direction)
     {
-        if(currentHealth <= 0f)
+        if(CurrentHealth <= 0f)
         {
             return;
         }
-        currentHealth -= damage;
+        CurrentHealth -= damage;
 
         if (bloodVfx != null)
         {
@@ -39,11 +40,11 @@ public class UnitHealth : MonoBehaviour, IDamagable
         {
             damage = damage,
             maxHealth = health,
-            currentHealth = currentHealth,
+            currentHealth = CurrentHealth,
         };
 
         OnDamage?.Invoke(info);
-        if (currentHealth <= 0f)
+        if (CurrentHealth <= 0f)
         {
             var dir = -direction;
             dir.y = 0.0f;
