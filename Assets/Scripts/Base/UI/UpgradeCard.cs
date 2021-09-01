@@ -14,20 +14,23 @@ public class UpgradeCard : MonoBehaviour
     [SerializeField] List<UIResourceSlot> resourceSlots;
     [SerializeField] TMP_Text nameLabel;
     [SerializeField] TMP_Text levelLabel;
+    [SerializeField] Button button;
+    bool unlocked;
 
-
-    public void Setup(StatInfo statInfo, StatsType type, ResourcesInfo resources)
+    public void Setup(StatInfo statInfo, StatsType type, ResourcesInfo resources, System.Action OnClick)
     {
         var cost = type.levelUpCosts[statInfo.level];
         if(cost.IsFilled(resources))
         {
             background.sprite = unlockedSprite;
             icon.sprite = type.icon;
+            unlocked = true;
         }
         else
         {
             background.sprite = lockedSpite;
             icon.sprite = type.lockedIcon;
+            unlocked = false;
         }
         for(int i = 0; i < resourceSlots.Count; i++)
         {
@@ -42,6 +45,8 @@ public class UpgradeCard : MonoBehaviour
                 slot.gameObject.SetActive(false);
             }
         }
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(() => OnClick?.Invoke());
         nameLabel.text = type.displayName;
         levelLabel.text = "LVL " + statInfo.level;
     }

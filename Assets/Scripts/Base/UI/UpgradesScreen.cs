@@ -10,24 +10,41 @@ public class UpgradesScreen : UIScreen
     [SerializeField] TMP_Text label;
     [SerializeField] List<UpgradeCard> cards;
     [SerializeField] Transform panel;
-   
 
+    List<(StatsType, StatInfo)> stats = new List<(StatsType, StatInfo)>();
+    ResourcesInfo availableResources;
     System.Action onClose;
     
     public void Show(string name, List<(StatsType, StatInfo)> stats, ResourcesInfo availableResources, System.Action onClose = null)
     {
         this.onClose = onClose;
         label.text = name;
+        this.stats = stats;
+        this.availableResources = availableResources;
         if(cards.Count != stats.Count)
         {
             Debug.LogError("Wrong setup for upgrade screen");
             return;
         }
-        for(int i = 0; i < stats.Count; i++)
-        {
-            cards[i].Setup(stats[i].Item2, stats[i].Item1, availableResources);
-        }
+        UpdateButtons();
         ShowAnimation();
+    }
+    
+
+    void UpdateButtons()
+    {
+        for (int i = 0; i < cards.Count; i++)
+        {
+            var type = stats[i].Item1;
+            var info = stats[i].Item2;
+            cards[i].Setup(info, type, availableResources, () =>
+            {
+                var cost = type.levelUpCosts[info.level];
+                availableResources.Subtract(cost);
+                FindObjectOfType<StatsManager>().AddStatLevel(type);
+                UpdateButtons();
+            });
+        }
     }
 
 

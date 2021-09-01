@@ -8,7 +8,7 @@
         _UseMainTexture("Use Main Texture", Float) = 0
         [NoScaleOffset] _MainTex("Texture", 2D) = "white" {}
 
-        _Glossiness("Glossiness", Range(0.001, 0.99)) = 0.5
+        _Glossiness("Glossiness", Range(0.001, 0.999)) = 0.5
 
           
 
