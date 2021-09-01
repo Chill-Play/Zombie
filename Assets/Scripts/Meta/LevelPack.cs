@@ -16,6 +16,6 @@ public class LevelPack : ScriptableObject
 
     public SceneReference GetLevel(int i)
     {
-        return levels[i];
+        return levels[i % levels.Count];
     }
 }

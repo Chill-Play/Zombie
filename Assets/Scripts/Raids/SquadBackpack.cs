@@ -6,9 +6,15 @@ public class SquadBackpack : MonoBehaviour
 {
     public event System.Action<ResourceType, int, int> OnPickupResource;
 
+    [SerializeField] int maxResources = 50; 
+
     Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
 
     public Dictionary<ResourceType, int> Resources => resources;
+    public bool IsFilled { get; set; }
+
+
+    int totalResources = 0;
 
     private void Start()
     {
@@ -32,6 +38,20 @@ public class SquadBackpack : MonoBehaviour
             resources.Add(type, 0);
         }
         resources[type] += count;
-        OnPickupResource?.Invoke(type, resources[type], count);
+        if (totalResources > 0)
+        {
+            OnPickupResource?.Invoke(type, resources[type], count);
+        }
+    }
+
+
+    public void UseSpot(int count)
+    {
+        var takeCount = Mathf.Min(maxResources - totalResources, count);
+        totalResources += takeCount;
+        if (totalResources >= maxResources)
+        {
+            IsFilled = true;
+        }
     }
 }

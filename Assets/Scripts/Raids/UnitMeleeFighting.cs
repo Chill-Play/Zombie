@@ -20,6 +20,7 @@ public class UnitMeleeFighting : MonoBehaviour
     Collider[] attackColliders = new Collider[5];
     Coroutine attackCoroutine;
     public bool Attacking { get; set; }
+    public float AttackBuff { get; set; }
 
     // Start is called before the first frame update
     void Start()

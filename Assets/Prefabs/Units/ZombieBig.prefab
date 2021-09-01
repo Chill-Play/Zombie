@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 6105794885148247669}
   - component: {fileID: 6105794885710252171}
   - component: {fileID: 6105794885710252165}
+  - component: {fileID: -4678937130651385487}
   m_Layer: 6
   m_Name: ZombieBig
   m_TagString: Untagged
@@ -219,8 +220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0f46f8b4cc8740a1f902631037806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 3
-  speedPerLevel: 0.25
   wanderingState: {fileID: -2769955253899925341, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
   aggressiveState: {fileID: -4556111188870099931, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
   deadState: {fileID: 1337734200025154110, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
@@ -272,7 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 4592489489785157102}
   zombieMovement: {fileID: 6105794885148247629}
-  attackDamage: 1
+  attackDamage: 3
   attackRate: 1.5
   attackRadius: 1.5
   attackTime: 2.5
@@ -371,6 +370,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 6105794885148247629}
   agroSequence: {fileID: 6105794885710252171}
+--- !u!114 &-4678937130651385487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592489489785157106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86040247c65f9a04996a3aa5121a5485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedPerLevel: 0.1
+  attackDamagePerLevel: 0.5
+  healthPerLevel: 10
+  speedPerGeneration: 0.1
+  attackDamagePerGeneration: 1
+  healthPerGeneration: 25
+  unitHealth: {fileID: 917183137407035393}
+  agent: {fileID: 4592489489785157102}
+  meleeFighting: {fileID: 7922909784534015527}
 --- !u!95 &3361552781569811690
 Animator:
   serializedVersion: 3
