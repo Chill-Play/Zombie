@@ -28,7 +28,7 @@ public class PlayerBuilding : MonoBehaviour
             if (nextUse < Time.time)
             {
                 Buildable buildable = buildablesBuffer[0].GetComponent<Buildable>();
-                if (buildable != null)
+                if (buildable != null && buildable.enabled)
                 {
                     if (!buildable.Built)
                     {

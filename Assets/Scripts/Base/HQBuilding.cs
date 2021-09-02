@@ -5,13 +5,25 @@ using UnityEngine;
 public class HQBuilding : BaseObject
 {
     [BaseSerialize] int level;
+    [SerializeField] ResourcesInfo baseCost;
+    [SerializeField] float costPower;
+    [SerializeField] float costMultiplier;
 
     public int Level => level;
 
 
     private void Start()
     {
-        FindObjectOfType<UnlockableBuilding>().SetLevel(level);
+        UpdateUnlockables();
+    }
+
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            LevelUp();
+        }
     }
 
 
@@ -19,6 +31,23 @@ public class HQBuilding : BaseObject
     {
         level += 1;
         RequireSave();
-        FindObjectOfType<UnlockableBuilding>().SetLevel(level);
+        UpdateUnlockables();
     }
+
+
+    public ResourcesInfo GetCostForLevelUp()
+    {
+        return MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
+    }
+
+
+    private void UpdateUnlockables()
+    {
+        var unlockables = FindObjectsOfType<UnlockableBuilding>();
+        foreach (var unlockable in unlockables)
+        {
+            unlockable.SetLevel(level);
+        }
+    }
+
 }
