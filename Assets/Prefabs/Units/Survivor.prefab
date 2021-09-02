@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 3412838976713829729}
   - component: {fileID: 790408206}
   - component: {fileID: 220707173521780509}
+  - component: {fileID: 1215391646487715569}
   m_Layer: 7
   m_Name: Survivor
   m_TagString: Untagged
@@ -340,6 +341,27 @@ MonoBehaviour:
   comboTime: 0.7
   showingTime: 1
   upOffset: 2
+  resourceCombo: 0
+--- !u!114 &1215391646487715569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3346936833982169915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6e0af1a452b0b40bc837870537273c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageStat: {fileID: 11400000, guid: 117d01ef4d124fe45ab71bdcce4a8fc5, type: 2}
+  attackSpeedStat: {fileID: 11400000, guid: 1bdb0199362822d4398baebf14e57c8e, type: 2}
+  healthStat: {fileID: 11400000, guid: 7dec1b2a375e4e14ea7c38a22e4c57bf, type: 2}
+  health: {fileID: 1555253046}
+  shooting: {fileID: 6724815731642420078}
+  damagePerLevel: 5
+  healthPerLevel: 5
+  attackRatePerLevel: -0.05
 --- !u!1 &6724815732587931374
 GameObject:
   m_ObjectHideFlags: 0
