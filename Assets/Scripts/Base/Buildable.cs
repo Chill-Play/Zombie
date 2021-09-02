@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class Buildable : BaseObject
 {
+    public event System.Action OnEnabled;
     public event System.Action OnUpdate;
     public event System.Action<bool> OnBuilt; // true if built after deserialization 
 
@@ -17,7 +18,7 @@ public class Buildable : BaseObject
 
     public ResourcesInfo Cost => cost;
     public ResourcesInfo ResourcesSpent => resourcesSpent;
-
+    bool initialized;
     public bool Built => built;
 
 
@@ -32,7 +33,17 @@ public class Buildable : BaseObject
 
     void Start()
     {
+        initialized = true;
         OnUpdate?.Invoke(); //Refactor
+    }
+
+
+    private void OnEnable()
+    {
+        if (initialized)
+        {
+            OnEnabled?.Invoke();
+        }
     }
 
 

@@ -8,16 +8,28 @@ public class UIBuildablesView : MonoBehaviour
     [SerializeField] BuildableInfoUI buildableInfoPrefab;
     Dictionary<Buildable, BuildableInfoUI> infoInstancePerBuildable = new Dictionary<Buildable, BuildableInfoUI>();
 
-    void Awake()
+    void Start()
     {
-        Buildable[] buildables = FindObjectsOfType<Buildable>();
+        Buildable[] buildables = FindObjectsOfType<Buildable>(true);
         foreach(var buildable in buildables)
         {
-            var info = Instantiate(buildableInfoPrefab, transform);
-            info.Initialize(buildable);
-            info.OnBuildingBuilt += Info_OnBuildingBuilt;
-            infoInstancePerBuildable.Add(buildable, info);
+            if (buildable.enabled)
+            {
+                SpawnInfoPrefab(buildable);
+            }
+            else
+            {
+                buildable.OnEnabled += () => SpawnInfoPrefab(buildable);
+            }
         }
+    }
+
+    private void SpawnInfoPrefab(Buildable buildable)
+    {
+        var info = Instantiate(buildableInfoPrefab, transform);
+        info.Initialize(buildable);
+        info.OnBuildingBuilt += Info_OnBuildingBuilt;
+        infoInstancePerBuildable.Add(buildable, info);
     }
 
     // Update is called once per frame
