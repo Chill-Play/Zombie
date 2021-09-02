@@ -11,6 +11,9 @@ public class BuildingProcess : MonoBehaviour
     GameObject buildingSpotInstance;
     Buildable buildable;
     BaseBuilding baseBuilding;
+
+    public GameObject BuildingSpot => buildingSpotInstance;
+
     // Start is called before the first frame update
     void Awake()
     {
