@@ -23,10 +23,12 @@ public class PlayerResources : MonoBehaviour
     InteractivePoint.WorkingPoint target;
 
     public bool CanMoveToResources { get; set; } = true;
+    public float UseRate { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
+        UseRate += useRate;
         animation = GetComponent<UnitAnimation>();
         if (axeModel.activeSelf)
         {
@@ -36,6 +38,13 @@ public class PlayerResources : MonoBehaviour
         enabled = false;
         squadBackpack = FindObjectOfType<SquadBackpack>();
     }
+
+
+    public void AddUseRate(float useRate)
+    {
+        UseRate += useRate;
+    }
+
 
     private void OnEnable()
     {

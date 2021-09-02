@@ -14,6 +14,13 @@ public class UIController : SingletonMono<UIController>
     }
 
 
+    public void HideActiveScreen()
+    {
+        activeScreen.gameObject.SetActive(false);
+        activeScreen = null;
+    }
+
+
     public UIScreen ShowScreen(SubjectId screenId)
     {
         UIScreen screen = screens.FirstOrDefault((x) => x.Id == screenId);
@@ -38,4 +45,7 @@ public class UIController : SingletonMono<UIController>
     {
         screen.gameObject.SetActive(false);
     }
+
+
+
 }

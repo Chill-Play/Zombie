@@ -6,18 +6,22 @@ public class SquadBackpack : MonoBehaviour
 {
     public event System.Action<ResourceType, int, int> OnPickupResource;
 
-    [SerializeField] int maxResources = 50; 
+    [SerializeField] int maxResources = 50;
+    [SerializeField] int resourcesPerLevel = 5;
+    [SerializeField] StatsType resourcesStat;
 
     Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
 
     public Dictionary<ResourceType, int> Resources => resources;
     public bool IsFilled { get; set; }
 
+    public int MaxResources { get; set; }
 
     int totalResources = 0;
 
     private void Start()
     {
+        MaxResources = maxResources + (FindObjectOfType<StatsManager>().GetStatInfo(resourcesStat).level * resourcesPerLevel);
         PlayerBackpack backpack = FindObjectOfType<PlayerBackpack>();
         backpack.OnPickupResource += Backpack_OnPickupResource;
 
@@ -47,9 +51,9 @@ public class SquadBackpack : MonoBehaviour
 
     public void UseSpot(int count)
     {
-        var takeCount = Mathf.Min(maxResources - totalResources, count);
+        var takeCount = Mathf.Min(MaxResources - totalResources, count);
         totalResources += takeCount;
-        if (totalResources >= maxResources)
+        if (totalResources >= MaxResources)
         {
             IsFilled = true;
         }
