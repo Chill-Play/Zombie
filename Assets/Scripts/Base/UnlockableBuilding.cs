@@ -17,6 +17,7 @@ public class UnlockableBuilding : MonoBehaviour
         buildingProcess = GetComponent<BuildingProcess>();
         var spot = buildingProcess.BuildingSpot.transform;
         lockerInstance = Instantiate(lockerPrefab, spot.transform.position, Quaternion.identity, spot);
+        lockerInstance.SetLevel(unlockLevel);
     }
 
 
