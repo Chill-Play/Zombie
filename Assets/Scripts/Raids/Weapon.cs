@@ -22,11 +22,14 @@ public class Weapon : MonoBehaviour
     Transform target;
 
     public bool Firing => firing;
+    public float Damage { get; set; }
+    public float FireRate { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Damage += bulletDamage;
+        FireRate += fireRate;
     }
 
     // Update is called once per frame
@@ -41,7 +44,7 @@ public class Weapon : MonoBehaviour
                     firing = false;
                     return;
                 }
-                nextFire = Time.time + fireRate;
+                nextFire = Time.time + FireRate;
                 for (int i = 0; i < bulletsPerShot; i++)
                 {
                     Quaternion spreadRot = Quaternion.identity;
@@ -55,8 +58,10 @@ public class Weapon : MonoBehaviour
                     }
                     Quaternion weaponDirection = Quaternion.LookRotation(new Vector3(shootPoint.forward.x, 0f, shootPoint.forward.z));
                     Bullet bullet = Instantiate(bulletPrefab, shootPoint.position, spreadRot * weaponDirection);
-                    bullet.Damage = bulletDamage;
-                    if (Vector3.Distance(shootPoint.position, target.position) < 2.5f)
+                    bullet.Damage = Damage;
+                    Vector3 checkPos = shootPoint.position;
+                    checkPos.y = target.position.y;
+                    if (Vector3.Distance(checkPos, target.position) < 2.5f)
                     {
                         bullet.InstantHit(target);
                     }

@@ -38,6 +38,25 @@ public class UnitShooting : MonoBehaviour
         OnShoot?.Invoke();
     }
 
+
+    public void AddDamage(float damage)
+    {
+        foreach(var weapon in weapons)
+        {
+            weapon.Damage += damage;
+        }
+    }
+
+
+    public void AddAttackRate(float rate)
+    {
+        foreach (var weapon in weapons)
+        {
+            weapon.FireRate += rate;
+        }
+    }
+
+
     // Update is called once per frame
     void Update()
     {

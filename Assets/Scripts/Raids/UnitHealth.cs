@@ -23,6 +23,12 @@ public class UnitHealth : MonoBehaviour, IDamagable
     }
 
 
+    public void AddMaxHealth(float health)
+    {
+        CurrentHealth += health;
+    }
+
+
     public void TakeDamage(float damage, Vector3 direction)
     {
         if(CurrentHealth <= 0f)
