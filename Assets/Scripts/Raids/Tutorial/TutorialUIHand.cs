@@ -43,9 +43,9 @@ public class TutorialUIHand : MonoBehaviour
         }
         else
         {
+            notMovingTime = 0f;
             if (content.gameObject.activeSelf)
-            {               
-                notMovingTime = 0f;
+            {                               
                 Hide();
             }
         }
