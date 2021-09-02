@@ -35,7 +35,10 @@ public class ResourceSpot : MonoBehaviour
         SpawnResources(user);
         uses++;
 
-        Level.Instance.AddNoiseLevel(noisePerUse);
+        if (Level.Instance != null)
+        {
+            Level.Instance.AddNoiseLevel(noisePerUse);
+        }
 
         transform.DOKill(true);
         transform.DOPunchScale(Vector3.one * 0.1f * scale, 0.2f, 3);
