@@ -16,4 +16,11 @@ MonoBehaviour:
   displayName: YOUR HEALTH
   icon: {fileID: 21300000, guid: 6fc6107599c70904f8f16fbaf99f0fca, type: 3}
   lockedIcon: {fileID: 21300000, guid: 01353be5c49fc204ea0e9d298c98ddbb, type: 3}
-  levelUpCosts: []
+  baseCost:
+    slots:
+    - type: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
+      count: 100
+    - type: {fileID: 11400000, guid: 4e5ffd959c052d6468170f09cb161c1f, type: 2}
+      count: 25
+  costMultiplier: 25
+  costPower: 1.1

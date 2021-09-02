@@ -54,6 +54,13 @@ public class ResourcesInfo : ISerializationCallbackReceiver
     }
 
 
+    public void AddSlot(ResourceSlot slot)
+    {
+        idsByTypes.Add(slot.type, slot);
+        slots.Add(slot);
+    }
+
+
     public void Add(ResourcesInfo resourcesInfo)
     {
         foreach(var slot in resourcesInfo.slots)

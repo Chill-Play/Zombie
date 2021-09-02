@@ -16,12 +16,11 @@ MonoBehaviour:
   displayName: ATTACK SPEED
   icon: {fileID: 21300000, guid: 2d44b469c08ad96438fb29d54880992c, type: 3}
   lockedIcon: {fileID: 21300000, guid: 25dac6b06b2643f468bdba67218287d6, type: 3}
-  levelUpCosts:
-  - slots:
+  baseCost:
+    slots:
     - type: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
       count: 100
-  - slots:
-    - type: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
-      count: 500
     - type: {fileID: 11400000, guid: 4e5ffd959c052d6468170f09cb161c1f, type: 2}
-      count: 100
+      count: 25
+  costMultiplier: 25
+  costPower: 1.1

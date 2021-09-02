@@ -39,9 +39,10 @@ public class UpgradesScreen : UIScreen
             var info = stats[i].Item2;
             cards[i].Setup(info, type, availableResources, () =>
             {
-                var cost = type.levelUpCosts[info.level];
+                var cost = type.GetLevelCost(info.level);
                 availableResources.Subtract(cost);
                 FindObjectOfType<StatsManager>().AddStatLevel(type);
+                FindObjectOfType<ResourcesController>().UpdateResources();
                 UpdateButtons();
             });
         }

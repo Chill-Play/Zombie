@@ -19,7 +19,7 @@ public class UpgradeCard : MonoBehaviour
 
     public void Setup(StatInfo statInfo, StatsType type, ResourcesInfo resources, System.Action OnClick)
     {
-        var cost = type.levelUpCosts[statInfo.level];
+        var cost = type.GetLevelCost(statInfo.level);
         if(cost.IsFilled(resources))
         {
             background.sprite = unlockedSprite;
@@ -45,6 +45,7 @@ public class UpgradeCard : MonoBehaviour
                 slot.gameObject.SetActive(false);
             }
         }
+        button.interactable = unlocked;
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => OnClick?.Invoke());
         nameLabel.text = type.displayName;

@@ -16,4 +16,11 @@ MonoBehaviour:
   displayName: SURVIVORS DAMAGE
   icon: {fileID: 21300000, guid: 94ef59dbd334c5c4d8ac9206b570674a, type: 3}
   lockedIcon: {fileID: 21300000, guid: 753e2f9f768c28d4ab829830f1043a3d, type: 3}
-  levelUpCosts: []
+  baseCost:
+    slots:
+    - type: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
+      count: 100
+    - type: {fileID: 11400000, guid: 4e5ffd959c052d6468170f09cb161c1f, type: 2}
+      count: 25
+  costMultiplier: 25
+  costPower: 1.1

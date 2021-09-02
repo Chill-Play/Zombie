@@ -16,4 +16,11 @@ MonoBehaviour:
   displayName: SURVIVORS HEALTH
   icon: {fileID: 21300000, guid: 53f2456d6197e264db7a29de358bf9d9, type: 3}
   lockedIcon: {fileID: 21300000, guid: 20373ec1a416020419596ca5fa3587a0, type: 3}
-  levelUpCosts: []
+  baseCost:
+    slots:
+    - type: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
+      count: 100
+    - type: {fileID: 11400000, guid: 4e5ffd959c052d6468170f09cb161c1f, type: 2}
+      count: 25
+  costMultiplier: 25
+  costPower: 1.1

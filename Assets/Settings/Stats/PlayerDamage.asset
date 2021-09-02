@@ -16,14 +16,11 @@ MonoBehaviour:
   displayName: DAMAGE
   icon: {fileID: 21300000, guid: 5d0b01fe301504a448983f437ac92bc5, type: 3}
   lockedIcon: {fileID: 21300000, guid: c94fa2ea9e1580a4994e0ff2c78ba7d5, type: 3}
-  levelUpCosts:
-  - slots:
+  baseCost:
+    slots:
     - type: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
       count: 100
-    - type: {fileID: 11400000, guid: 29f2789cd1ee39e4eba3eef853bb3300, type: 2}
-      count: 100
-  - slots:
-    - type: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
-      count: 10000
-    - type: {fileID: 11400000, guid: 29f2789cd1ee39e4eba3eef853bb3300, type: 2}
-      count: 1000
+    - type: {fileID: 11400000, guid: 4e5ffd959c052d6468170f09cb161c1f, type: 2}
+      count: 25
+  costMultiplier: 25
+  costPower: 1.1
