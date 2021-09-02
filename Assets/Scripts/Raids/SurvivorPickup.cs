@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SurvivorPickup : MonoBehaviour
 {
+    public event System.Action<SurvivorPickup> OnPickup;
+
     [SerializeField] Unit unitPrefab;
 
     Squad squad;
@@ -19,6 +21,7 @@ public class SurvivorPickup : MonoBehaviour
     {
         Unit instance = Instantiate(unitPrefab, transform.position, transform.rotation);
         squad.AddUnit(instance);
+        OnPickup?.Invoke(this);
         Destroy(gameObject);
     }
 

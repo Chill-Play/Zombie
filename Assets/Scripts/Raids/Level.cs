@@ -26,6 +26,7 @@ public class Level : SingletonMono<Level>
     [SerializeField] float finalWavesRate = 5f;
     [SerializeField] int finalWavesHordeSize = 5;
     [SerializeField] int finalWavesBigZombiesCount = 5;
+    [SerializeField] bool tutorialMode = false;
 
 
     List<ZombiesDoorSpawner> doorSpawners;
@@ -205,7 +206,10 @@ public class Level : SingletonMono<Level>
             return;
         }
         levelEnded = true;
-        StopCoroutine(spawnWavesCoroutine);
+        if (spawnWavesCoroutine != null)
+        {
+            StopCoroutine(spawnWavesCoroutine);
+        }
         Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
         foreach(PlayerBackpack backpack in FindObjectsOfType<PlayerBackpack>())
         {
@@ -237,8 +241,8 @@ public class Level : SingletonMono<Level>
 
 
     public void AddNoiseLevel(float noise)
-    {
-        if (noiseLevelExceeded) return;
+    {       
+        if (noiseLevelExceeded || tutorialMode) return;
         noiseLevel += noise;
         if(noiseLevel >= maxNoiseLevel)
         {

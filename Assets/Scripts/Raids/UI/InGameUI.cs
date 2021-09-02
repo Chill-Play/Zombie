@@ -20,6 +20,7 @@ public class InGameUI : UIScreen
     [SerializeField] GameObject timeToRetreat;
     [SerializeField] ResourcesInfoUIPanel resourcesInfo;
     [SerializeField] BaseIndicatorUI baseIndicator;
+    [SerializeField] bool tutorialMode = false;
 
     State state;
 
@@ -35,8 +36,23 @@ public class InGameUI : UIScreen
         noiseBar.SetValue(0f);
         
         baseIndicator.gameObject.SetActive(false);
+        if (tutorialMode)
+        {
+            noiseBar.gameObject.SetActive(false);
+        }
 
         FindObjectOfType<SquadBackpack>().OnPickupResource += Backpack_OnPickupResource;
+
+        if (tutorialMode)
+        {
+            FindObjectOfType<TutorialHealper>().OnEscapeTrigger += Tutorial_OnEscapeTrigger;
+        }
+    }
+
+    private void Tutorial_OnEscapeTrigger()
+    {
+        baseIndicator.gameObject.SetActive(true);
+        baseIndicator.UpdateIndicator();
     }
 
     private void Backpack_OnPickupResource(ResourceType type, int total, int added)
