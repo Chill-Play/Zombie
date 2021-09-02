@@ -9,6 +9,7 @@ public class SurvivorPickup : MonoBehaviour
     [SerializeField] Unit unitPrefab;
 
     Squad squad;
+    bool pickuped = false;
 
     void Awake()
     {
@@ -19,10 +20,14 @@ public class SurvivorPickup : MonoBehaviour
     // Update is called once per frame
     void Pickup()
     {
-        Unit instance = Instantiate(unitPrefab, transform.position, transform.rotation);
-        squad.AddUnit(instance);
-        OnPickup?.Invoke(this);
-        Destroy(gameObject);
+        if (!pickuped)
+        {
+            Unit instance = Instantiate(unitPrefab, transform.position, transform.rotation);
+            squad.AddUnit(instance);
+            OnPickup?.Invoke(this);
+            Destroy(gameObject);
+            pickuped = true;
+        }
     }
 
 
