@@ -8,7 +8,7 @@ public class UpgradesScreen : UIScreen
 {
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] TMP_Text label;
-    [SerializeField] List<UpgradeCard> cards;
+    [SerializeField] List<StatUpgradeCard> cards;
     [SerializeField] Transform panel;
 
     List<(StatsType, StatInfo)> stats = new List<(StatsType, StatInfo)>();
