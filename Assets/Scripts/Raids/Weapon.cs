@@ -59,7 +59,9 @@ public class Weapon : MonoBehaviour
                     Quaternion weaponDirection = Quaternion.LookRotation(new Vector3(shootPoint.forward.x, 0f, shootPoint.forward.z));
                     Bullet bullet = Instantiate(bulletPrefab, shootPoint.position, spreadRot * weaponDirection);
                     bullet.Damage = Damage;
-                    if (Vector3.Distance(shootPoint.position, target.position) < 2.5f)
+                    Vector3 checkPos = shootPoint.position;
+                    checkPos.y = target.position.y;
+                    if (Vector3.Distance(checkPos, target.position) < 2.5f)
                     {
                         bullet.InstantHit(target);
                     }
