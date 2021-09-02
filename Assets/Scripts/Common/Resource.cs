@@ -32,7 +32,18 @@ public class Resource : MonoBehaviour
             transform.position = Vector3.Lerp(startPos, picker.transform.position, t);
             yield return new WaitForEndOfFrame();
         }
-        picker.GetComponent<PlayerBackpack>().PickUp(type, count);
+        PlayerBackpack playerBackpack = picker.GetComponent<PlayerBackpack>();
+        if (playerBackpack != null)
+        {
+            picker.GetComponent<PlayerBackpack>().PickUp(type, count);
+        }
+        else
+        {
+            ResourcesInfo resourcesInfo = new ResourcesInfo();
+            resourcesInfo.AddSlot(type, count);
+            FindObjectOfType<ResourcesController>().AddResources(resourcesInfo);
+            FindObjectOfType<ResourcesController>().UpdateResources();
+        }
         Destroy(gameObject);
     }
 }

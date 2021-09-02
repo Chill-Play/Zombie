@@ -12,6 +12,7 @@ public class PlayerResources : MonoBehaviour
     [SerializeField] LayerMask resourceSpotsMask;
     [SerializeField] GameObject axeModel;
     [SerializeField] GameObject weaponModel;
+    [SerializeField] bool inCamp = false;
 
     Collider[] resourceSpots = new Collider[1];
     float nextUse;
@@ -21,6 +22,7 @@ public class PlayerResources : MonoBehaviour
 
 
     InteractivePoint.WorkingPoint target;
+
 
     public bool CanMoveToResources { get; set; } = true;
     public float UseRate { get; set; }
@@ -35,7 +37,14 @@ public class PlayerResources : MonoBehaviour
             axeModel.SetActive(false);
             weaponModel.SetActive(true);
         }
-        enabled = false;
+        if (!inCamp)
+        {
+            enabled = false;
+        }
+        else
+        {
+            CanMoveToResources = false;
+        }
         squadBackpack = FindObjectOfType<SquadBackpack>();
     }
 
@@ -73,8 +82,22 @@ public class PlayerResources : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(squadBackpack.IsFilled)
+        if(!inCamp && squadBackpack.IsFilled)
         {
+            return;
+        }
+        if (inCamp && unitMovement.InputActive)
+        {
+            if (interacting)
+            {
+                if (axeModel.activeSelf)
+                {
+                    axeModel.SetActive(false);
+                    weaponModel.SetActive(true);
+                }
+                interacting = false;
+                animation.ResetInteraction();
+            }
             return;
         }
         bool atTarget = false;
@@ -100,11 +123,14 @@ public class PlayerResources : MonoBehaviour
             animation.SetInteraction(spot.InteractionType, true);
             if (nextUse < Time.time)
             {
-                squadBackpack.UseSpot(ResourceSpot.COUNT_PER_USE);
+                if (!inCamp)
+                {
+                    squadBackpack.UseSpot(ResourceSpot.COUNT_PER_USE);
+                }
                 spot.UseSpot(gameObject);
                 nextUse = Time.time + useRate;
             }
-            if (!squadBackpack.IsFilled)
+            if (inCamp || !squadBackpack.IsFilled)
             {
                 return;
             }
