@@ -6,12 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class BaseLoader : MonoBehaviour
 {
-    [SerializeField] LevelSequence levelSequence;
+    [SerializeField] SceneReference baseLevel;
+    [SerializeField] SceneReference tutorialLevel;
 
     void Start()
     {
-        int levelNumber = PlayerPrefs.GetInt(LevelController.LEVEL_NUMBER_PREFS, 0);
-        SceneReference scene = levelSequence.GetScene(levelNumber);
-        SceneManager.LoadScene(scene);
+        int levelNumber = PlayerPrefs.GetInt(LevelController.PREF_CURRENT_LEVEL, 0);
+        if (levelNumber == 0)
+        {
+            SceneManager.LoadScene(tutorialLevel);
+        }
+        else
+        {
+            SceneManager.LoadScene(baseLevel);
+        }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class LevelController : SingletonMono<LevelController>
 {
     public const string LEVEL_NUMBER_PREFS = "G_LevelNumber";
-    const string PREF_CURRENT_LEVEL = "G_CurrentLevel";
+    public const string PREF_CURRENT_LEVEL = "G_CurrentLevel";
     const string PREF_CURRENT_PACK = "G_CurrentPack";
     
 
@@ -34,7 +34,7 @@ public class LevelController : SingletonMono<LevelController>
 
     public void NextRaid()
     {
-        SceneReference scene = collection.GetPack(currentPack).GetLevel(currentLevel);
+        SceneReference scene = collection.GetPack(currentPack).GetLevel(currentLevel - 1);
         Debug.Log("Pack : " + currentPack + " Level : " + currentLevel);
         SceneManager.LoadScene(scene);
     }
