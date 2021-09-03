@@ -56,7 +56,19 @@ public class Weapon : MonoBehaviour
                     {
                         spreadRot = Quaternion.Euler(new Vector3(0f, Random.Range(-spread, spread)));
                     }
-                    Quaternion weaponDirection = Quaternion.LookRotation(new Vector3(shootPoint.forward.x, 0f, shootPoint.forward.z));
+                    Vector3 targetDirection = target.position - shootPoint.position;
+                    targetDirection.y = 0.0f;
+                    targetDirection.Normalize();
+                    Vector3 shootPointForward = new Vector3(shootPoint.forward.x, 0f, shootPoint.forward.z);
+                    Quaternion weaponDirection;
+                    if (Vector3.Angle(targetDirection, shootPointForward) < 10.0f)
+                    {
+                        weaponDirection = Quaternion.LookRotation(targetDirection);
+                    }
+                    else
+                    {
+                        weaponDirection = Quaternion.LookRotation(shootPointForward);
+                    }
                     Bullet bullet = Instantiate(bulletPrefab, shootPoint.position, spreadRot * weaponDirection);
                     bullet.Damage = Damage;
                     Vector3 checkPos = shootPoint.position;
