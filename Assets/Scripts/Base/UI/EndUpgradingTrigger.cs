@@ -5,6 +5,7 @@ using UnityEngine;
 public class EndUpgradingTrigger : ConditionTrigger
 {
     [SerializeField] UpgradeZone upgradeZone;
+    [SerializeField] bool doOnce = false;
 
 
     private void Awake()
@@ -15,5 +16,9 @@ public class EndUpgradingTrigger : ConditionTrigger
     private void UpgradeZone_OnEndUpgrading()
     {
         InvokeEvent();
+        if (doOnce)
+        {
+            upgradeZone.OnEndUpgrading -= UpgradeZone_OnEndUpgrading;
+        }
     }
 }
