@@ -32,6 +32,7 @@ public class PlayerResourceCombo : MonoBehaviour
         if (uiNumber == null)
         {
             uiNumber = uiNumbers.GetNumber(transform.position + Vector3.up * upOffset, "+" + resourceCombo.ToString(), Vector2.zero, 0f, 0f, false);
+            uiNumbers.AttachImage(uiNumber, type.icon);
         }
         uiNumber.text.text = "+" + resourceCombo.ToString();
         uiNumbers.PunchScaleNumber(uiNumber, 0.2f, 0.4f);

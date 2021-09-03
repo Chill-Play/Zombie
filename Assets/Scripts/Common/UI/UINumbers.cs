@@ -27,6 +27,7 @@ public class UINumber
 public class UINumbers : MonoBehaviour
 {
     [SerializeField] TMP_Text textPrefab;
+    [SerializeField] Image imagePrefab;
     [SerializeField] AnimationCurve scaleCurve;
     [SerializeField] float time = 0.4f;
     List<UINumber> numbers = new List<UINumber>();
@@ -121,4 +122,11 @@ public class UINumbers : MonoBehaviour
     {
         uINumber.text.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InCirc).OnComplete(() => { uINumber.End(); Destroy(uINumber.text.gameObject); });
     }
+
+    public void AttachImage(UINumber uINumber, Sprite sprite)
+    {
+        Image image =  Instantiate<Image>(imagePrefab, uINumber.text.transform);
+        image.sprite = sprite;
+    }
+
 }
