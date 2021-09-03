@@ -7,7 +7,7 @@ public class UpgradeZone : MonoBehaviour
 {
     public event System.Action OnEndUpgrading;
 
-
+    [SerializeField] string label;
     [SerializeField] SubjectId screenId;
     [SerializeField] List<StatsType> stats;
 
@@ -27,6 +27,6 @@ public class UpgradeZone : MonoBehaviour
             var info = FindObjectOfType<StatsManager>().GetStatInfo(type);
             statsList.Add((type, info));
         }
-        screen.Show("TEST", statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => { FindObjectOfType<UIController>().HideActiveScreen(); OnEndUpgrading?.Invoke(); });
+        screen.Show(label, statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => { FindObjectOfType<UIController>().HideActiveScreen(); OnEndUpgrading?.Invoke(); });
     }
 }

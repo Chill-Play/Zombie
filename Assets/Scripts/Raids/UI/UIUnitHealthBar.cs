@@ -6,14 +6,21 @@ using UnityEngine.UI;
 
 public class UIUnitHealthBar : MonoBehaviour
 {
+    const float HIDE_TIME = 2.0f;
+
     [SerializeField] Transform barTransform;
     [SerializeField] Transform barPivot;
     [SerializeField] Image barFill;
     [SerializeField] Image barBackFill;
+    [SerializeField] CanvasGroup group;
 
     float backFillVelocity;
     UnitHealthBar unit;
     float upOffset;
+    float hideTimer;
+    bool appeared;
+
+    Tween alphaTween;
 
     float smoothTime = 0.3f;
     Vector3 smoothVelocity;
@@ -27,11 +34,19 @@ public class UIUnitHealthBar : MonoBehaviour
     private void PlayerInstance_OnTakeDamage(DamageTakenInfo info)
     {      
         barFill.fillAmount = info.currentHealth / info.maxHealth;
-        barTransform.DOShakePosition(0.2f, 30f, 50);
+       // barTransform.DOShakePosition(0.2f, 30f, 50);
     }
 
     void Update()
     {
+        if (appeared)
+        {
+            hideTimer -= Time.deltaTime;
+            if (hideTimer <= 0.0f)
+            {
+                Hide();
+            }
+        }
         if (unit != null)
         {
             Vector3 playerWorldPosition = unit.transform.position;
@@ -50,25 +65,46 @@ public class UIUnitHealthBar : MonoBehaviour
         unit.GetComponent<IDamagable>().OnDamage += Unit_OnDamage;
         this.upOffset = upOffset;
         barFill.fillAmount = 1f;
-        barTransform.gameObject.SetActive(false);
+        group.alpha = 0.0f;
     }
 
 
     public void Appear()
     {
-        barTransform.gameObject.SetActive(true);
+        appeared = true;
+        SmoothGroupAlpha(1f);
+    }
+
+
+    void Hide()
+    {
+        appeared = false;
+        SmoothGroupAlpha(0f);
+    }
+
+
+    void SmoothGroupAlpha(float target)
+    {
+
+        if(alphaTween != null)
+        {
+            alphaTween.Complete();
+        }
+        alphaTween = DOTween.To(() => group.alpha, (x) => group.alpha = x, target, 0.3f);
     }
 
 
     private void Unit_OnDamage(DamageTakenInfo obj)
     {      
-        if (!barTransform.gameObject.activeSelf)
-        {           
+        if (!appeared)
+        {
+            appeared = true;
+            hideTimer = HIDE_TIME;
             Appear();
         }
         barFill.fillAmount = obj.currentHealth / obj.maxHealth;
         //barTransform.DOShakePosition(0.2f, 1f * obj.damage, 50);
-        barTransform.DOShakePosition(0.2f, 30f, 50);
+       // barTransform.DOShakePosition(0.2f, 30f, 50);
     }
 
 
