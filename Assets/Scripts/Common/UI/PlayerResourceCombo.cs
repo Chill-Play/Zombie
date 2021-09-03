@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerResourceCombo : MonoBehaviour
+public class PlayerResourceCombo : MonoBehaviour, IResourceStore
 {
     [SerializeField] float comboTime = 0.2f;
     [SerializeField] float showingTime = 0.8f;
     [SerializeField] float upOffset = 2f;
-    [SerializeField]
+
 
     int resourceCombo = 0;
     float nextCheckCombo;
 
     UINumbers uiNumbers;
     UINumber uiNumber;
+
+    PlayerBackpack playerBackpack;
 
     private void Start()
     {
@@ -22,7 +24,11 @@ public class PlayerResourceCombo : MonoBehaviour
 
     private void OnEnable()
     {
-        GetComponent<PlayerBackpack>().OnPickupResource += PlayerResourceCombo_OnPickupResource;
+        playerBackpack = GetComponent<PlayerBackpack>();
+        if (playerBackpack != null)
+        {
+            playerBackpack.OnPickupResource += PlayerResourceCombo_OnPickupResource;
+        }
     }
     
     private void PlayerResourceCombo_OnPickupResource(ResourceType type, int lastCount, int addCount)
@@ -55,7 +61,14 @@ public class PlayerResourceCombo : MonoBehaviour
 
     private void OnDisable()
     {
-        GetComponent<PlayerBackpack>().OnPickupResource -= PlayerResourceCombo_OnPickupResource;
+        if (playerBackpack != null)
+        {
+            playerBackpack.OnPickupResource -= PlayerResourceCombo_OnPickupResource;
+        }
     }
 
+    public void OnPickupResource(ResourceType type, int lastCount, int addCount)
+    {
+        PlayerResourceCombo_OnPickupResource(type, lastCount, addCount);
+    }
 }
