@@ -23,7 +23,7 @@ public class ResourceSpot : MonoBehaviour
     private void Awake()
     {
         scale = transform.localScale.magnitude;
-        //Level.Instance.RegisterResourceSpot(this);
+        Level.Instance.RegisterResourceSpot(this);
     }
 
     public void UseSpot(GameObject user)
