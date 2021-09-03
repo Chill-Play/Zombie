@@ -19,7 +19,12 @@ public class UIBuildablesView : MonoBehaviour
             }
             else
             {
-                buildable.OnEnabled += () => SpawnInfoPrefab(buildable);
+                buildable.OnEnabled += () => {
+                    if (!buildable.Built)
+                    {
+                        SpawnInfoPrefab(buildable);
+                    }
+                };
             }
         }
     }
