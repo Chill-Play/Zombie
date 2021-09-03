@@ -29,7 +29,7 @@ public class ZombieSpawnResourceOnDeath : MonoBehaviour
     void SpawnResource()
     {
         Resource instance = Instantiate(resourceType.defaultPrefab, transform.position + resourceSpawnOffset, transform.rotation);
-        instance.PickUp(FindObjectOfType<Squad>().transform);
+        instance.PickUp(FindObjectOfType<Squad>().Units[0].transform);
         Rigidbody body = instance.GetComponent<Rigidbody>();
         body.velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(3f, 6f), Random.Range(-1f, 1f)) * resourcesVelocity;
         body.angularVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * 360f;
