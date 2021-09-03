@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InputJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class InputJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerExitHandler
 {
     public event System.Action OnBeginDragEvent;
     public event System.Action OnEndDragEvent;
@@ -54,5 +54,10 @@ public class InputJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         {
             InputReceiver.SetInput(Vector2.zero);
         }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        _isMoving = false;
     }
 }
