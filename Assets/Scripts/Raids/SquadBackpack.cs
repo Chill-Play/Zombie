@@ -42,7 +42,7 @@ public class SquadBackpack : MonoBehaviour
             resources.Add(type, 0);
         }
         resources[type] += count;
-        if (totalResources > 0)
+        //if (totalResources > 0)
         {
             OnPickupResource?.Invoke(type, resources[type], count);
         }
