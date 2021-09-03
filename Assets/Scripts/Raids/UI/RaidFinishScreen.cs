@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class RaidFinishScreen : UIScreen
 {
@@ -11,8 +12,9 @@ public class RaidFinishScreen : UIScreen
     [SerializeField] Transform collectedPanel;
     [SerializeField] Transform colletctedContent;
     [SerializeField] ResourceBar resourceBarPrefab;
-    [SerializeField] Transform doubleButton;
-    [SerializeField] Transform noThanksButton;
+    [SerializeField] Transform continueButton;
+    [SerializeField] Transform survivorsPanel;
+    [SerializeField] TMP_Text survivorsLabel;
 
     Squad squad;
 
@@ -31,25 +33,26 @@ public class RaidFinishScreen : UIScreen
 
     public void Show(Dictionary<ResourceType, int> resources)
     {
-        
+        survivorsLabel.text = "+" + (squad.Units.Count - 1);
+
+
         background.color = new Color(background.color.r, background.color.g, background.color.b, 0f);
         upperPanel.transform.localScale = Vector3.zero;
         collectedPanel.transform.localScale = Vector3.zero;
-        doubleButton.transform.localScale = Vector3.zero;
-        noThanksButton.transform.localScale = Vector3.zero;
+        continueButton.transform.localScale = Vector3.zero;
+        survivorsPanel.transform.localScale = Vector3.zero;
 
         Sequence sequence = DOTween.Sequence();
         
         sequence.Append((background as Graphic) .DOFade(0.6f, 0.2f));
         sequence.AppendInterval(0.1f);
-        sequence.Append(upperPanel.DOScale(1f, 0.3f).SetEase(Ease.OutElastic, 1.2f, 0.2f));
+        sequence.Append(upperPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         sequence.AppendInterval(0.1f);
-        sequence.Append(collectedPanel.DOScale(1f, 0.3f).SetEase(Ease.OutElastic, 1.2f, 0.2f));
+        sequence.Append(collectedPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         sequence.AppendCallback(() => StartCoroutine(ShowCollectedResources(resources)));
         sequence.AppendInterval(resources.Count * 0.5f + 0.5f);
-        sequence.Append(doubleButton.DOScale(1f, 0.3f).SetEase(Ease.OutElastic, 1.2f, 0.2f));
-        sequence.AppendInterval(2f);
-        sequence.Append(noThanksButton.DOScale(1f, 0.3f).SetEase(Ease.OutElastic, 1.2f, 0.2f));
+        sequence.Append(survivorsPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+        sequence.Append(continueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
     }
 
 

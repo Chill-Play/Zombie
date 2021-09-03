@@ -87,9 +87,9 @@ public class Level : SingletonMono<Level>
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.P))
         {
-            SpawnHorde(hordeSize, bigZombiesCount, 0, generation);
+            EndLevel();
         }
         if(comingTimerActive)
         {
