@@ -27,7 +27,7 @@ public class UIUnitHealthBar : MonoBehaviour
     private void PlayerInstance_OnTakeDamage(DamageTakenInfo info)
     {      
         barFill.fillAmount = info.currentHealth / info.maxHealth;
-        barTransform.DOShakePosition(0.2f, 30f, 50);
+       // barTransform.DOShakePosition(0.2f, 30f, 50);
     }
 
     void Update()
@@ -68,7 +68,7 @@ public class UIUnitHealthBar : MonoBehaviour
         }
         barFill.fillAmount = obj.currentHealth / obj.maxHealth;
         //barTransform.DOShakePosition(0.2f, 1f * obj.damage, 50);
-        barTransform.DOShakePosition(0.2f, 30f, 50);
+       // barTransform.DOShakePosition(0.2f, 30f, 50);
     }
 
 

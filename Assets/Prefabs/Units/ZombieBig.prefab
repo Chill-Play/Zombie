@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 6105794885710252171}
   - component: {fileID: 6105794885710252165}
   - component: {fileID: -4678937130651385487}
+  - component: {fileID: 6820605764176312936}
   m_Layer: 6
   m_Name: ZombieBig
   m_TagString: Untagged
@@ -391,6 +392,22 @@ MonoBehaviour:
   unitHealth: {fileID: 917183137407035393}
   agent: {fileID: 4592489489785157102}
   meleeFighting: {fileID: 7922909784534015527}
+--- !u!114 &6820605764176312936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592489489785157106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e59ba00dd0bb7429d1ce2a6fcb0357, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 917183137407035393}
+  resourceType: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
+  resourcesVelocity: 1
+  resourceSpawnOffset: {x: 0, y: 1, z: 0}
 --- !u!95 &3361552781569811690
 Animator:
   serializedVersion: 3

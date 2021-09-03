@@ -9,6 +9,11 @@ public class Ruins : MonoBehaviour
 
     public void Show(bool show)
     {
+        var obstacles = GetComponentsInChildren<UnityEngine.AI.NavMeshObstacle>();
+        foreach(var obstacle in obstacles)
+        {
+            obstacle.enabled = show;
+        }
         buildingRuins.gameObject.SetActive(show);
     }
 }
