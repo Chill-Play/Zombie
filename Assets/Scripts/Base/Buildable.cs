@@ -40,7 +40,7 @@ public class Buildable : BaseObject
 
     private void OnEnable()
     {
-        if (initialized)
+        //if (initialized)
         {
             OnEnabled?.Invoke();
         }

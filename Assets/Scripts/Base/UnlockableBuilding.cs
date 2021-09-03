@@ -25,7 +25,7 @@ public class UnlockableBuilding : MonoBehaviour
 
     public void SetLevel(int level)
     {
-        if (level >= unlockLevel)
+        if (level >= unlockLevel - 1)
         {
             SetLock(false);
         }

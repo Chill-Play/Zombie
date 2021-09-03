@@ -33,6 +33,7 @@ public class ShopScreen : UIScreen
 
     void OnEnable()
     {
+        FindObjectOfType<InputJoystick>().ResetInput();
         ShowAnimation();
     }
 
