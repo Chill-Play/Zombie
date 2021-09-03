@@ -29,6 +29,11 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
         SpawnPlayer(spawnPos, playerPrefab);
     }
 
+    public void SetPlayerReturnedToRaidZone(bool value)
+    {
+        isPlayerReturnedToRaidZone = value;
+    }
+
     private void RaidZone_OnEnterZone()
     {
         if (isPlayerReturnedToRaidZone)
