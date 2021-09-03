@@ -10,14 +10,17 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     [SerializeField] CameraController cameraController;
     [SerializeField] GameObject playerPrefab;
     [SerializeField] InputJoystick InputJoystick;
+    [SerializeField] float timeBeforeRaid = 2.5f;
 
     [HideInInspector] public Transform playerInstance;
 
     bool isPlayerReturnedToRaidZone = false;
 
+    RaidZone raidZone;
+
     private void Awake()
     {
-        RaidZone raidZone = FindObjectOfType<RaidZone>();
+        raidZone = FindObjectOfType<RaidZone>(true);
         raidZone.OnEnterZone += RaidZone_OnEnterZone; 
         raidZone.OnExitZone += RaidZone_OnExitZone;
 
@@ -39,7 +42,15 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
         if (isPlayerReturnedToRaidZone)
         {
             OnRaidReadiness?.Invoke();
+            playerInstance.GetComponent<UnitMovement>().MoveTo(raidZone.transform.position);
+            StartCoroutine(RaidCoroutine());
         }
+    }
+
+    IEnumerator RaidCoroutine()
+    {
+        yield return new WaitForSeconds(timeBeforeRaid);
+        Game.Instance.RunRaid();
     }
 
     private void RaidZone_OnExitZone()

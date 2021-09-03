@@ -7,13 +7,13 @@ public class CampTutorialContent : MonoBehaviour
     [SerializeField] List<GameObject> tutorialContent = new List<GameObject>();
     [SerializeField] TutorialText tutorialUIInfo;
 
-    const string TUTORIAL_COMPLITED_KEY = "tutorial_complited";
-    bool complited;
+    const string TUTORIAL_COMPLETED_KEY = "tutorial_completed";
+    bool completed;
 
     private void Awake()
     {
-        complited = PlayerPrefs.GetInt(TUTORIAL_COMPLITED_KEY, 0) == 1;
-        if (complited)
+        completed = PlayerPrefs.GetInt(TUTORIAL_COMPLETED_KEY, 0) == 1;
+        if (completed)
         {
             for (int i = 0; i < tutorialContent.Count; i++)
             {
@@ -22,7 +22,7 @@ public class CampTutorialContent : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetInt(TUTORIAL_COMPLITED_KEY, 1);
+            PlayerPrefs.SetInt(TUTORIAL_COMPLETED_KEY, 1);
             FindObjectOfType<RaidZone>().gameObject.SetActive(false);
             tutorialUIInfo.gameObject.SetActive(true);
             tutorialUIInfo.gameObject.SetActive(false);

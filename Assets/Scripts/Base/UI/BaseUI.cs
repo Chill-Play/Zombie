@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class BaseUI : UIScreen
 {
-    [SerializeField] Button raidButton;
+    //[SerializeField] Button raidButton;
+    [SerializeField] Transform raidEntrance;
     //[SerializeField] Button globalMapButton;
     //[SerializeField] LevelPackProgressBar levelBar;
     //[SerializeField] ResourcesInfoUIPanel resourcesInfo;
@@ -22,9 +23,9 @@ public class BaseUI : UIScreen
    
 
     void Start()
-    {
-       raidButton.gameObject.SetActive(false);
-       raidButton.onClick.AddListener(() => RaidButton_OnClick());
+    {       
+        //raidButton.gameObject.SetActive(false);
+        //raidButton.onClick.AddListener(() => RaidButton_OnClick());
 
         CampGameplayController campGameplayController = CampGameplayController.Instance;
 
@@ -36,7 +37,7 @@ public class BaseUI : UIScreen
     {
         if (campGameplayController != null)
         {
-            campGameplayController.OnRaidReadiness -= OnRaidReadiness;
+            campGameplayController.OnRaidReadiness -= OnRaidReadiness;           
             campGameplayController.OnRaidUnpreparedness -= OnRaidUnpreparedness;
         }
     }
@@ -67,14 +68,14 @@ public class BaseUI : UIScreen
 
     private void OnRaidReadiness()
     {
-       raidButton.gameObject.SetActive(true);
-       raidButton.transform.localScale = Vector3.one * 0.4f;
-       raidButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.2f, 0.3f);
+        raidEntrance.gameObject.SetActive(true);
+        raidEntrance.transform.localScale = Vector3.one * 0.4f;
+        raidEntrance.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.2f, 0.3f);
     }
 
     private void OnRaidUnpreparedness()
     {
-        raidButton.transform.DOScale(0.5f, 0.15f).SetEase(Ease.InExpo).OnComplete(() => raidButton.gameObject.SetActive(false));
+        raidEntrance.transform.DOScale(0.5f, 0.15f).SetEase(Ease.InExpo).OnComplete(() => raidEntrance.gameObject.SetActive(false));
     }
 
 
