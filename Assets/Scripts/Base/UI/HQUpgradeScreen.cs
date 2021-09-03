@@ -28,7 +28,8 @@ public class HQUpgradeScreen : UIScreen
         HQBuilding hq = FindObjectOfType<HQBuilding>();
         var cost = hq.GetCostForLevelUp();
         var level = hq.Level;
-        card.Setup(level, cost, availableResources, () =>
+        levelLabel.text = "LVL " + (level + 1);
+        card.Setup(level + 2, cost, availableResources, () =>
         {
             hq.LevelUp();
             availableResources.Subtract(cost);

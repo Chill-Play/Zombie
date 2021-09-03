@@ -15,7 +15,10 @@ public class UpgradeHQZone : MonoBehaviour
     // Update is called once per frame
     void OnTriggerEnter(Collider collider)
     {
-        var screen = (HQUpgradeScreen)FindObjectOfType<UIController>().ShowScreen(screenId);
-        screen.Show(FindObjectOfType<ResourcesController>().ResourcesCount, () => FindObjectOfType<UIController>().HideActiveScreen());
+        if (collider.TryGetComponent(out PlayerBuilding playerBuilding))
+        {
+            var screen = (HQUpgradeScreen)FindObjectOfType<UIController>().ShowScreen(screenId);
+            screen.Show(FindObjectOfType<ResourcesController>().ResourcesCount, () => FindObjectOfType<UIController>().HideActiveScreen());
+        }
     }
 }
