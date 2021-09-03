@@ -10,12 +10,13 @@ public class UnlockableBuilding : MonoBehaviour
     Buildable buildable;
 
     LockerTag lockerInstance;
+    Transform spot;
 
     private void Start()
     {
         buildable = GetComponent<Buildable>();
         buildingProcess = GetComponent<BuildingProcess>();
-        var spot = buildingProcess.BuildingSpot.transform;
+        spot = buildingProcess.BuildingSpot.transform;
         lockerInstance = Instantiate(lockerPrefab, spot.transform.position, Quaternion.identity, spot);
         lockerInstance.SetLevel(unlockLevel);
     }
@@ -37,6 +38,10 @@ public class UnlockableBuilding : MonoBehaviour
 
     void SetLock(bool locked)
     {
+        if(spot.TryGetComponent<Ruins>(out var ruins))
+        {
+            ruins.Show(!locked);
+        }
         buildable.enabled = !locked;
         lockerInstance.gameObject.SetActive(locked);
     }

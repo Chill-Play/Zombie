@@ -29,8 +29,8 @@ Transform:
   m_LocalPosition: {x: 1.4052999, y: 0, z: -0.29699928}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4183178500405286841}
-  m_RootOrder: 5
+  m_Father: {fileID: 5618729278133336590}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2514638876825052285
 MeshFilter:
@@ -110,11 +110,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3733144411471482616}
-  - {fileID: 8482924705185633016}
-  - {fileID: 8932068842870379244}
-  - {fileID: 2804855962262698041}
-  - {fileID: 4361328472468148378}
-  - {fileID: 2678661553583442103}
+  - {fileID: 5618729278133336590}
   m_Father: {fileID: 3684571403941767958}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -144,11 +140,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1294646046064104526}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.6547, y: 0, z: -1.8769991}
+  m_LocalPosition: {x: -1.6547002, y: 0, z: -1.8769993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4183178500405286841}
-  m_RootOrder: 2
+  m_Father: {fileID: 5618729278133336590}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3088097918934031841
 MeshFilter:
@@ -210,6 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3684571403941767958}
   - component: {fileID: 3462614843035441936}
+  - component: {fileID: 7163854555569213993}
   m_Layer: 0
   m_Name: Blacksmith_Ruins
   m_TagString: Untagged
@@ -248,6 +245,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &7163854555569213993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4065038004407939500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f340786e03e6c8c4b861ec0211f080d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingRuins: {fileID: 8894585669491826828}
 --- !u!1 &4203895309160038421
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,11 +284,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4203895309160038421}
   m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 1.1053, y: 0, z: -1.876999}
+  m_LocalPosition: {x: 1.1053, y: 0, z: -1.8769993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4183178500405286841}
-  m_RootOrder: 3
+  m_Father: {fileID: 5618729278133336590}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &94870066927615380
 MeshFilter:
@@ -356,11 +366,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5175134709246681626}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.1053, y: 0, z: 0.6430004}
+  m_LocalPosition: {x: 1.1053, y: 0, z: 0.6430003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4183178500405286841}
-  m_RootOrder: 4
+  m_Father: {fileID: 5618729278133336590}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6329881131868815193
 MeshFilter:
@@ -438,11 +448,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5599796796462962289}
   m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -1.7046999, y: 0, z: 0.643001}
+  m_LocalPosition: {x: -1.7046999, y: 0, z: 0.64300126}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4183178500405286841}
-  m_RootOrder: 1
+  m_Father: {fileID: 5618729278133336590}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1700147427641397197
 MeshFilter:
@@ -576,3 +586,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8894585669491826828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5618729278133336590}
+  m_Layer: 0
+  m_Name: Ruins
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5618729278133336590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8894585669491826828}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8482924705185633016}
+  - {fileID: 8932068842870379244}
+  - {fileID: 2804855962262698041}
+  - {fileID: 4361328472468148378}
+  - {fileID: 2678661553583442103}
+  m_Father: {fileID: 4183178500405286841}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -27,9 +27,8 @@ Transform:
   m_LocalPosition: {x: 0.047, y: 0, z: 0.256}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8742870600654193681}
-  - {fileID: 7226115756103517837}
   - {fileID: 4659746052058091542}
+  - {fileID: 2411573428613087205}
   m_Father: {fileID: 4631476554173478392}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -64,7 +63,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4542726968535681200}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &149911498724249686
 MeshFilter:
@@ -131,6 +130,38 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 2, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1 &3277615937621633344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2411573428613087205}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2411573428613087205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3277615937621633344}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8742870600654193681}
+  - {fileID: 7226115756103517837}
+  m_Father: {fileID: 4542726968535681200}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4776335582014420970
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,10 +188,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4776335582014420970}
   m_LocalRotation: {x: 8.881784e-16, y: -0, z: 0.000000021855696, w: 1}
-  m_LocalPosition: {x: -3.0931673, y: 0, z: -3.3014095}
+  m_LocalPosition: {x: -3.0931678, y: 0, z: -3.3014088}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4542726968535681200}
+  m_Father: {fileID: 2411573428613087205}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5797172227946686948
@@ -237,11 +268,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4954862495106202271}
-  m_LocalRotation: {x: -1.7763568e-15, y: -0.00000008940697, z: 0.000000021855698, w: 1}
-  m_LocalPosition: {x: -3.0931673, y: 0, z: -0.26809153}
+  m_LocalRotation: {x: -3.5527137e-15, y: -0.00000008940697, z: 0.000000021855698, w: 1}
+  m_LocalPosition: {x: -3.093167, y: 0, z: -0.26809102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4542726968535681200}
+  m_Father: {fileID: 2411573428613087205}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &636088827894028001
@@ -302,6 +333,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4631476554173478392}
+  - component: {fileID: 1511990811820697292}
   m_Layer: 0
   m_Name: Barracks_Ruins
   m_TagString: Untagged
@@ -324,3 +356,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -269.976, z: 0}
+--- !u!114 &1511990811820697292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5408154442031640386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f340786e03e6c8c4b861ec0211f080d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingRuins: {fileID: 3277615937621633344}
