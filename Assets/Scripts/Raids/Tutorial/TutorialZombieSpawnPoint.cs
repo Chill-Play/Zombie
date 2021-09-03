@@ -27,6 +27,10 @@ public class TutorialZombieSpawnPoint : MonoBehaviour
 
     private void Awake()
     {
+        foreach(var param in zombieSpawnParams)
+        {
+            param.count = (int)((float)param.count / 2.5f); //release
+        }
         if (conditionTrigger != null)
         {
             conditionTrigger.OnTrigger += SpawnHorde;
@@ -54,7 +58,7 @@ public class TutorialZombieSpawnPoint : MonoBehaviour
                 enemy.GoAggressive();
                 enemy.GetComponent<IDamagable>().OnDead += Enemy_OnDead; 
                 zombieList[idx].spawnedCount++;
-                if (zombieList[idx].spawnedCount == zombieList[idx].count)
+                if (zombieList[idx].spawnedCount >= zombieList[idx].count)
                 {
                     zombieList.RemoveAt(idx);
                     if (zombieList.Count == 0)

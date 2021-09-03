@@ -20,13 +20,16 @@ public class UpgradeZone : MonoBehaviour
     // Update is called once per frame
     void OnTriggerEnter(Collider collider)
     {
-        var screen = (UpgradesScreen)FindObjectOfType<UIController>().ShowScreen(screenId);
-        var statsList = new List<(StatsType, StatInfo)>();
-        foreach (var type in stats)
+        if (collider.TryGetComponent(out PlayerBuilding playerBuilding))
         {
-            var info = FindObjectOfType<StatsManager>().GetStatInfo(type);
-            statsList.Add((type, info));
+            var screen = (UpgradesScreen)FindObjectOfType<UIController>().ShowScreen(screenId);
+            var statsList = new List<(StatsType, StatInfo)>();
+            foreach (var type in stats)
+            {
+                var info = FindObjectOfType<StatsManager>().GetStatInfo(type);
+                statsList.Add((type, info));
+            }
+            screen.Show(label, statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => { FindObjectOfType<UIController>().HideActiveScreen(); OnEndUpgrading?.Invoke(); });
         }
-        screen.Show(label, statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => { FindObjectOfType<UIController>().HideActiveScreen(); OnEndUpgrading?.Invoke(); });
     }
 }

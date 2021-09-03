@@ -50,14 +50,6 @@ public class StatsManager : SingletonMono<StatsManager>
 
     public StatInfo GetStatInfo(StatsType type)
     {
-        if (type != null)
-        {
-            Debug.Log("Stat type : " + type.name);
-        }
-        else
-        {
-            Debug.Log("Stat type is null");
-        }
         return statsInfo[type];
     }
 }

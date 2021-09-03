@@ -131,6 +131,7 @@ public class Level : SingletonMono<Level>
 
     public void SpawnHorde(int hordeSize, int bigZombiesCount, int level, int generation)
     {
+        hordeSize = (int)((float)hordeSize / 2.5f); //release stuff
         StartCoroutine(SpawnHordeCoroutine(hordeSize, level, generation));
 
     }
