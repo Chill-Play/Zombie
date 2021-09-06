@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class UnlockableBuilding : MonoBehaviour
 {
@@ -17,7 +18,9 @@ public class UnlockableBuilding : MonoBehaviour
         buildable = GetComponent<Buildable>();
         buildingProcess = GetComponent<BuildingProcess>();
         spot = buildingProcess.BuildingSpot.transform;
-        lockerInstance = Instantiate(lockerPrefab, spot.transform.position, Quaternion.identity, spot);
+        var lockPos = spot.transform.position;
+        lockPos.y = 0.4f;
+        lockerInstance = Instantiate(lockerPrefab, lockPos, Quaternion.identity, spot);
         lockerInstance.SetLevel(unlockLevel);
     }
 
@@ -41,6 +44,11 @@ public class UnlockableBuilding : MonoBehaviour
         if(spot.TryGetComponent<Ruins>(out var ruins))
         {
             ruins.Show(!locked);
+        }
+        var obstacles = GetComponentsInChildren<NavMeshObstacle>();
+        foreach(var obstacle in obstacles)
+        {
+            obstacle.enabled = !locked;
         }
         buildable.enabled = !locked;
         lockerInstance.gameObject.SetActive(locked);
