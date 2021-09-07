@@ -12,6 +12,9 @@ public class StatInfo
 public class StatsManager : SingletonMono<StatsManager>
 {
     const string SAVE_PREFS_PREFIX = "M_Stat_";
+
+    public event System.Action<StatsType, int> OnStatsUpdate;
+
     [SerializeField] List<StatsType> stats = new List<StatsType>();
 
     Dictionary<StatsType, StatInfo> statsInfo = new Dictionary<StatsType, StatInfo>();
@@ -23,7 +26,15 @@ public class StatsManager : SingletonMono<StatsManager>
             var info = new StatInfo();
             var key = GetStatSaveId(stats[i]);
             info.level = PlayerPrefs.GetInt(key, 0);
-            statsInfo.Add(stats[i], info);
+            statsInfo.Add(stats[i], info);          
+        }
+    }
+
+    private void Start()
+    {
+        foreach (var stat in statsInfo)
+        {
+            OnStatsUpdate?.Invoke(stat.Key,stat.Value.level);
         }
     }
 
@@ -35,6 +46,7 @@ public class StatsManager : SingletonMono<StatsManager>
             info.level += value;
             var key = GetStatSaveId(statsType);
             PlayerPrefs.SetInt(key, info.level);
+            OnStatsUpdate?.Invoke(statsType, info.level);
             return info.level;
         }
         Debug.LogError("No such stat : " + statsType.name); 
