@@ -25,7 +25,15 @@ public class RaidEntranceUI : MonoBehaviour
         while (timerTime > 0)
         {
             yield return new WaitForSeconds(1f);
-            timerText.text = Mathf.RoundToInt(timerTime).ToString();
+            int value = Mathf.RoundToInt(timerTime);
+            if (value == 0)
+            {
+                timerText.text = "GO";
+            }
+            else
+            {
+                timerText.text = value.ToString();
+            }
             timerText.transform.DOPunchScale(Vector3.one * 0.5f, 0.3f);
             
         }
