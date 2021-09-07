@@ -20,8 +20,8 @@ public class ZombieLevelStats : MonoBehaviour
 
     public void SetLevel(int level, int generation)
     {
-        meleeFighting.AttackBuff += (level * attackDamagePerLevel) + (generation * attackDamagePerGeneration);
-        unitHealth.CurrentHealth += (level * healthPerLevel) + (generation * healthPerGeneration);
-        agent.speed += (level * speedPerLevel) + (generation * speedPerGeneration);
+        //meleeFighting.AttackBuff += (level * attackDamagePerLevel) + (generation * attackDamagePerGeneration);
+        //unitHealth.CurrentHealth += (level * healthPerLevel) + (generation * healthPerGeneration);
+        //agent.speed += (level * speedPerLevel) + (generation * speedPerGeneration);
     }
 }
