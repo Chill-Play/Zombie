@@ -91,6 +91,14 @@ public class Level : SingletonMono<Level>
         {
             EndLevel();
         }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            for (int i = 0; i < enemies.Count; i++)
+            {               
+                enemies[i].GetComponent<UnitHealth>().TakeDamage(1000f, Vector3.forward); 
+            }
+        }
+
         if(comingTimerActive)
         {
             comingTimer -= Time.deltaTime;

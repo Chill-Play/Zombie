@@ -14,6 +14,7 @@ public class SpawnPoint : MonoBehaviour
 
     bool isReturningToBase = false;
     Vector3 scale;
+    Vector3 carScale;
 
     public bool IsReturningToBase { get => isReturningToBase; set { SetIsReturningToBase(value); } }
 
@@ -21,6 +22,7 @@ public class SpawnPoint : MonoBehaviour
     private void Awake()
     {
         scale = transform.localScale;
+        carScale = carTransform.localScale;
     }
 
     void SetIsReturningToBase(bool value)
@@ -38,7 +40,7 @@ public class SpawnPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(IsReturningToBase)
+        if(IsReturningToBase && (other.GetComponent<SurvivorMovement>() != null))
         {
             OnReturnedToBase?.Invoke();
             //Level.Instance.EndLevel();
@@ -47,7 +49,7 @@ public class SpawnPoint : MonoBehaviour
 
     public void SurvivorInCar()
     {
-        transform.DOKill(true);
-        carTransform.DOPunchScale(carTransform.localScale * 0.1f, 0.5f);
+        carTransform.DOKill(true);
+        carTransform.DOPunchScale(carScale * 0.1f, 0.5f);
     }
 }

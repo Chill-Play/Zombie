@@ -6,6 +6,7 @@ public class CampTutorialContent : MonoBehaviour
 {
     [SerializeField] List<GameObject> tutorialContent = new List<GameObject>();
     [SerializeField] TutorialText tutorialUIInfo;
+    [SerializeField] ResourcesInfo startResources;
 
     const string TUTORIAL_COMPLETED_KEY = "tutorial_completed";
     bool completed;
@@ -26,6 +27,7 @@ public class CampTutorialContent : MonoBehaviour
             FindObjectOfType<RaidZone>().gameObject.SetActive(false);
             tutorialUIInfo.gameObject.SetActive(true);
             tutorialUIInfo.gameObject.SetActive(false);
+            FindObjectOfType<ResourcesController>().AddResources(startResources);
         }
     }
 }
