@@ -97,25 +97,27 @@ public class Squad : MonoBehaviour, IInputReceiver
     public Dictionary<ResourceType, int> CollectResources()
     {
         Dictionary<ResourceType, int> result = new Dictionary<ResourceType, int>();
-        foreach (var unit in units)
-        {
-            var backpack = unit.GetComponent<PlayerBackpack>();
-            if (backpack != null)
-            {
-                foreach (var pair in backpack.Resources)
-                {
-                    if (result.ContainsKey(pair.Key))
-                    {
-                        result[pair.Key] += pair.Value;
-                    }
-                    else
-                    {
-                        result.Add(pair.Key, pair.Value);
-                    }
-                }
-            }
-        }
-        return result;
+        var backpack = FindObjectOfType<SquadBackpack>();
+        return backpack.Resources;
+        //foreach (var unit in units)
+        //{
+        //    var backpack = unit.GetComponent<PlayerBackpack>();
+        //    if (backpack != null)
+        //    {
+        //        foreach (var pair in backpack.Resources)
+        //        {
+        //            if (result.ContainsKey(pair.Key))
+        //            {
+        //                result[pair.Key] += pair.Value;
+        //            }
+        //            else
+        //            {
+        //                result.Add(pair.Key, pair.Value);
+        //            }
+        //        }
+        //    }
+        //}
+        //return result;
     }
 
 
