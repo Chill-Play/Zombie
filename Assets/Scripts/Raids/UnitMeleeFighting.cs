@@ -12,6 +12,7 @@ public class UnitMeleeFighting : MonoBehaviour
     [SerializeField] float attackRate = 1.5f;
     [SerializeField] float attackRadius = 1f;
     [SerializeField] float attackTime = 0.5f;
+    [SerializeField] float attackReset = 1.5f;
     [SerializeField] LayerMask attackMask;
 
     Squad squad;
@@ -23,10 +24,18 @@ public class UnitMeleeFighting : MonoBehaviour
     public float AttackBuff { get; set; }
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        
+        GetComponent<UnitHealth>().OnDead += UnitMeleeFighting_OnDead;
     }
+
+
+    private void OnDisable()
+    {
+        GetComponent<UnitHealth>().OnDead -= UnitMeleeFighting_OnDead;
+    }
+
+
 
     // Update is called once per frame
     void Update()
@@ -88,8 +97,18 @@ public class UnitMeleeFighting : MonoBehaviour
                 damagable.Damage(new DamageInfo { damage = attackDamage });
             }
         }
+        yield return new WaitForSeconds(attackReset);
         Attacking = false;
         attackCoroutine = null;
         //agent.isStopped = false;
+    }
+
+
+    private void UnitMeleeFighting_OnDead(EventMessage<Empty> obj)
+    {
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+        }
     }
 }
