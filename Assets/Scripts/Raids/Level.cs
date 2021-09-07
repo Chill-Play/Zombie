@@ -175,10 +175,11 @@ public class Level : SingletonMono<Level>
                 progress += 1 / survivorPickups.Length;
             }
         }
+        progress = Mathf.Clamp01(progress);
         return new LevelInfo()
         {
             levelNumber = LevelController.Instance.CurrentLevel,
-            levelName = SceneManager.GetActiveScene().name,
+            levelName = SceneManager.GetActiveScene().name.Replace(" ", "_"),
             levelId = LevelController.Instance.LevelId,
             loop = LevelController.Instance.Loop,
             progress = progress,
