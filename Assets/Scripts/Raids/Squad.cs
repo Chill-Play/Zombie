@@ -11,12 +11,16 @@ public class Squad : MonoBehaviour, IInputReceiver
     [SerializeField] List<UnitMovement> units;
     [SerializeField] float unitRadius;
     [SerializeField] float unitCatchingDistance = 5f;
+    [SerializeField] SubjectId movingToCarStateId;
 
     bool isMoving = false;
+    bool movingToCar = false;
+
     List<InteractivePointDetection> interactivePointDetections = new List<InteractivePointDetection>();
     List<bool> caughtUpSquad = new List<bool>();
     public bool IsMoving => isMoving;
     public List<UnitMovement> Units => units;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,6 +65,12 @@ public class Squad : MonoBehaviour, IInputReceiver
         {
             transform.position = units[0].transform.position;
         }
+
+        if (movingToCar)
+        {
+            return;
+        }
+
         for (int i = 1; i < units.Count; i++)
         {
 
@@ -168,9 +178,14 @@ public class Squad : MonoBehaviour, IInputReceiver
     }
 
     public void MoveToCar(SpawnPoint spawnPoint, System.Action inCarCallback)
-    {       
+    {
+        movingToCar = true;
         for (int i = 0; i < units.Count; i++)
         {
+            if (i > 0)
+            {
+                units[i].GetComponent<StateController>().ToState(movingToCarStateId);
+            }
             units[i].MoveTo(spawnPoint.EscapePoint.position);
         }
         StartCoroutine(ToCarMovement(spawnPoint, inCarCallback));
