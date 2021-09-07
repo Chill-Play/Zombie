@@ -27,7 +27,16 @@ public class CampTutorialContent : MonoBehaviour
             FindObjectOfType<RaidZone>().gameObject.SetActive(false);
             tutorialUIInfo.gameObject.SetActive(true);
             tutorialUIInfo.gameObject.SetActive(false);
-            FindObjectOfType<ResourcesController>().AddResources(startResources);
+        }
+    }
+
+    private void Start()
+    {
+        if (!completed)
+        {
+            ResourcesController resourcesController = FindObjectOfType<ResourcesController>();
+            resourcesController.AddResources(startResources);
+            resourcesController.UpdateResources();
         }
     }
 }
