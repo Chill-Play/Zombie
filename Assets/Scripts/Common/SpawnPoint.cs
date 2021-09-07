@@ -38,7 +38,7 @@ public class SpawnPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(IsReturningToBase)
+        if(IsReturningToBase && (other.GetComponent<SurvivorMovement>() != null))
         {
             OnReturnedToBase?.Invoke();
             //Level.Instance.EndLevel();
