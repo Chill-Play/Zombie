@@ -39,7 +39,8 @@ public class SurvivorAI : MonoBehaviour
     private void UnitHealth_OnDead(EventMessage<Empty> obj)
     {
         mainCollider.enabled = false;
-        level.OnLevelFailed -= SurvivorAI_OnLevelFailed; ;
+        GetComponent<NavMeshAgent>().enabled = false;
+        level.OnLevelFailed -= SurvivorAI_OnLevelFailed;
         ToState(deadState);
         
     }
