@@ -3,17 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BaseUI : UIScreen
 {
     //[SerializeField] Button raidButton;
     [SerializeField] Transform raidEntrance;
+    [SerializeField] TMP_Text raidEntranceTimer;
     //[SerializeField] Button globalMapButton;
     //[SerializeField] LevelPackProgressBar levelBar;
     //[SerializeField] ResourcesInfoUIPanel resourcesInfo;
     //[SerializeField] Bar completionProgressBar;
 
     CampGameplayController campGameplayController;
+    int raidTimer;
 
     private void OnEnable()
     {
@@ -66,16 +69,30 @@ public class BaseUI : UIScreen
     //    }
     //}
 
-    private void OnRaidReadiness()
+    private void OnRaidReadiness(float timeBeforeRaid)
     {
         raidEntrance.gameObject.SetActive(true);
         raidEntrance.transform.localScale = Vector3.one * 0.4f;
         raidEntrance.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.2f, 0.3f);
+        raidTimer = (int)timeBeforeRaid;
+        StartCoroutine(RunRaidTimer());
     }
 
     private void OnRaidUnpreparedness()
     {
         raidEntrance.transform.DOScale(0.5f, 0.15f).SetEase(Ease.InExpo).OnComplete(() => raidEntrance.gameObject.SetActive(false));
+    }
+
+    IEnumerator RunRaidTimer()
+    {              
+        while (raidTimer > 0)
+        {            
+            yield return new WaitForSeconds(1f);
+            raidTimer--;
+            raidEntranceTimer.text = raidTimer.ToString();
+            raidEntranceTimer.transform.DOPunchScale(Vector3.one * 0.5f, 0.3f);
+         
+        }
     }
 
 

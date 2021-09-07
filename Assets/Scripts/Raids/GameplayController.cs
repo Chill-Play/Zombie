@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class GameplayController : SingletonMono<GameplayController>
 {
+    public event System.Action OnReturnedToBase;
+
     [SerializeField] CameraController cameraController;
     [SerializeField] GameObject playerPrefab;
     [SerializeField] InputJoystick InputJoystick;
 
     public Squad SquadInstance { get; set; }
 
-    Vector3 spawnPos;
+    SpawnPoint spawnPoint;
 
     private void Awake()
     {
-        SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
-        spawnPos = Vector3.zero;
+        spawnPoint = FindObjectOfType<SpawnPoint>();
+        Vector3 spawnPos = Vector3.zero;
         if(spawnPoint != null)
         {
             spawnPos = spawnPoint.transform.position;
@@ -23,11 +25,22 @@ public class GameplayController : SingletonMono<GameplayController>
         SpawnPlayer(spawnPos, playerPrefab);
 
         Level level = FindObjectOfType<Level>();
-        level.OnLevelEnded += OnLevelEnded;
+        spawnPoint.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
         level.OnLevelFailed += OnLevelFailed;
     }
 
+    private void SpawnPoint_OnReturnedToBase()
+    {
+        spawnPoint.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
+        InputJoystick.InputReceiver = null;
+        SquadInstance.MoveToCar(spawnPoint, InCar);
+       
+    }
 
+    public void InCar()
+    {
+        OnReturnedToBase?.Invoke();
+    }
 
     public void SpawnPlayer(Vector3 point, GameObject prefab)
     {      
@@ -38,12 +51,6 @@ public class GameplayController : SingletonMono<GameplayController>
             InputJoystick.InputReceiver = squad.GetComponent<IInputReceiver>();
             SquadInstance = squad;
         }
-    }
-
-    private void OnLevelEnded()
-    {
-        InputJoystick.InputReceiver = null;
-        SquadInstance.GoToPosition(spawnPos);
     }
 
     private void OnLevelFailed()

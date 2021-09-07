@@ -19,15 +19,15 @@ public class Squad : MonoBehaviour, IInputReceiver
     public List<UnitMovement> Units => units;
     // Start is called before the first frame update
     void Start()
-    {  
+    {
         foreach (UnitMovement unit in units)
-        { 
+        {
             unit.GetComponent<UnitHealth>().OnDead += (x) => RemoveUnit(unit);
             caughtUpSquad.Add(true);
             interactivePointDetections.Add(unit.GetComponent<InteractivePointDetection>());
         }
         units[0].GetComponent<PlayerResources>().CanMoveToResources = false;
-        units[0].GetComponent<UnitHealth>().OnDead += Squad_OnDead;     
+        units[0].GetComponent<UnitHealth>().OnDead += Squad_OnDead;
     }
 
     private void Squad_OnDead(EventMessage<Empty> obj)
@@ -54,16 +54,16 @@ public class Squad : MonoBehaviour, IInputReceiver
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            units[0].GetComponent<UnitHealth>().TakeDamage(1000f,Vector3.forward);
+            units[0].GetComponent<UnitHealth>().TakeDamage(1000f, Vector3.forward);
         }
 
         if (units.Count > 0)
         {
-            transform.position = units[0].transform.position;           
-        }     
-        for(int i = 1; i < units.Count; i++)
+            transform.position = units[0].transform.position;
+        }
+        for (int i = 1; i < units.Count; i++)
         {
-            
+
             Vector3 targetPos = units[0].transform.position + GetPosition(i, unitRadius);
             Vector3 direction = targetPos - units[i].transform.position;
             if (direction.magnitude >= unitCatchingDistance && !caughtUpSquad[i])
@@ -80,21 +80,21 @@ public class Squad : MonoBehaviour, IInputReceiver
             }
             direction = Vector3.ClampMagnitude(direction * 2f, 1f);
             units[i].Input = new Vector2(direction.x, direction.z);
-        }        
+        }
     }
 
 
     public Dictionary<ResourceType, int> CollectResources()
     {
         Dictionary<ResourceType, int> result = new Dictionary<ResourceType, int>();
-        foreach(var unit in units)
+        foreach (var unit in units)
         {
             var backpack = unit.GetComponent<PlayerBackpack>();
-            if(backpack != null)
+            if (backpack != null)
             {
                 foreach (var pair in backpack.Resources)
                 {
-                    if(result.ContainsKey(pair.Key))
+                    if (result.ContainsKey(pair.Key))
                     {
                         result[pair.Key] += pair.Value;
                     }
@@ -132,7 +132,7 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     public void AddUnit(Unit unit)
     {
-        unit.GetComponent<UnitHealth>().OnDead += (x) => RemoveUnit(unit.GetComponent<UnitMovement>());       
+        unit.GetComponent<UnitHealth>().OnDead += (x) => RemoveUnit(unit.GetComponent<UnitMovement>());
         units.Add(unit.GetComponent<UnitMovement>());
         interactivePointDetections.Add(unit.GetComponent<InteractivePointDetection>());
         caughtUpSquad.Add(true);
@@ -166,4 +166,41 @@ public class Squad : MonoBehaviour, IInputReceiver
     {
         units[0].MoveTo(position);
     }
+
+    public void MoveToCar(SpawnPoint spawnPoint, System.Action inCarCallback)
+    {
+        transform.position = spawnPoint.EscapePoint.position;
+        for (int i = 0; i < units.Count; i++)
+        {
+            units[i].MoveTo(spawnPoint.EscapePoint.position);
+        }
+        StartCoroutine(ToCarMovement(spawnPoint, inCarCallback));
+    }
+
+    IEnumerator ToCarMovement(SpawnPoint spawnPoint, System.Action inCarCallback)
+    {
+        List<UnitMovement> tempUnits = new List<UnitMovement>();
+        int escapeUnitsCount = units.Count;
+        Vector3 target = spawnPoint.EscapePoint.transform.position;
+        for (int i = 0; i < units.Count; i++)
+        {
+            tempUnits.Add(units[i]);
+        }
+
+        while (tempUnits.Count > escapeUnitsCount - units.Count)
+        {
+            for (int i = tempUnits.Count - 1; i >= 0; i--)
+            {
+                if (Vector3.Distance(tempUnits[i].transform.position, target) < 1f)
+                {
+                    tempUnits[i].gameObject.SetActive(false);
+                    tempUnits.RemoveAt(i);
+                    spawnPoint.SurvivorInCar();
+                }
+            }
+            yield return null;
+        }
+        inCarCallback?.Invoke();
+    }
 }
+    

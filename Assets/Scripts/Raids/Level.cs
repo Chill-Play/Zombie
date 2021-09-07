@@ -44,7 +44,7 @@ public class Level : SingletonMono<Level>
 
     Coroutine spawnWavesCoroutine;
     Squad squad;
-    SpawnPoint spawnPoint;
+    GameplayController gameplayController;
 
     public float MaxNoiseLevel => maxNoiseLevel;
     public float ComingTimerValue => comingTimer / comingTime;
@@ -63,23 +63,23 @@ public class Level : SingletonMono<Level>
 
     void OnEnable()
     {
-        spawnPoint = FindObjectOfType<SpawnPoint>();
-        spawnPoint.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
+        gameplayController = FindObjectOfType<GameplayController>();
+        gameplayController.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
         squad.OnPlayerUnitDead += Squad_OnPlayerUnitDead;
     }
 
     private void Squad_OnPlayerUnitDead()
     {
-        spawnPoint.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
+        gameplayController.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
         OnLevelFailed?.Invoke();
     }
 
     void OnDisable()
     {
         squad.OnPlayerUnitDead -= Squad_OnPlayerUnitDead;
-        if (spawnPoint != null)
+        if (gameplayController != null)
         {
-            spawnPoint.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
+            gameplayController.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
         }
     }
 

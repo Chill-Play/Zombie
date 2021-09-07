@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class CampGameplayController : SingletonMono<CampGameplayController>
 {
-    public event System.Action OnRaidReadiness;
+    public event System.Action<float> OnRaidReadiness;
     public event System.Action OnRaidUnpreparedness;
 
     [SerializeField] CameraController cameraController;
     [SerializeField] GameObject playerPrefab;
     [SerializeField] InputJoystick InputJoystick;
-    [SerializeField] float timeBeforeRaid = 2.5f;
+    [SerializeField] float timeBeforeRaid = 3f;
 
     [HideInInspector] public Transform playerInstance;
 
@@ -41,7 +41,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     {
         if (isPlayerReturnedToRaidZone)
         {
-            OnRaidReadiness?.Invoke();
+            OnRaidReadiness?.Invoke(timeBeforeRaid);
             playerInstance.GetComponent<UnitMovement>().MoveTo(raidZone.transform.position);
             StartCoroutine(RaidCoroutine());
         }
