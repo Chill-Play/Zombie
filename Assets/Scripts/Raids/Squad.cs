@@ -191,7 +191,7 @@ public class Squad : MonoBehaviour, IInputReceiver
         {
             for (int i = tempUnits.Count - 1; i >= 0; i--)
             {
-                if (Vector3.Distance(tempUnits[i].transform.position, target) < 1f)
+                if (Vector3.Distance(tempUnits[i].transform.position, target) < 1f || tempUnits[i].IsReachDestination || tempUnits[i].VelocityActive)
                 {
                     tempUnits[i].gameObject.SetActive(false);
                     tempUnits.RemoveAt(i);
