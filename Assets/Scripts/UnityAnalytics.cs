@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,6 +81,7 @@ public class UnityAnalytics : MonoBehaviour
 
     void SendEvent(string e, Dictionary<string, object> args)
     {
+        Debug.Log("Send Unity Event : " + e + " : " + string.Join(Environment.NewLine, args));
         AnalyticsEvent.Custom(e, args);
     }
 }
