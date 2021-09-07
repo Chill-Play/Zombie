@@ -51,11 +51,11 @@ public class SquadBackpack : MonoBehaviour
 
     public void UseSpot(int count)
     {
-        var takeCount = Mathf.Min(MaxResources - totalResources, count);
-        totalResources += takeCount;
-        if (totalResources >= MaxResources)
-        {
-            IsFilled = true;
-        }
+        //var takeCount = Mathf.Min(MaxResources - totalResources, count);
+        //totalResources += takeCount;
+        //if (totalResources >= MaxResources)
+        //{
+        //    IsFilled = true;
+        //}
     }
 }
