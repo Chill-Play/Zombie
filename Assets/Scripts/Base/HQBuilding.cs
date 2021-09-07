@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HQBuilding : BaseObject
 {
+    public event System.Action OnLevelUp;
     [BaseSerialize] int level;
     [SerializeField] ResourcesInfo baseCost;
     [SerializeField] float costPower;
@@ -32,6 +33,7 @@ public class HQBuilding : BaseObject
         level += 1;
         RequireSave();
         UpdateUnlockables();
+        OnLevelUp?.Invoke();
     }
 
 

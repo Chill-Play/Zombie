@@ -11,6 +11,7 @@ public class StatInfo
 
 public class StatsManager : SingletonMono<StatsManager>
 {
+    public event System.Action<(StatsType, int)> OnStatLevelUp;
     const string SAVE_PREFS_PREFIX = "M_Stat_";
     [SerializeField] List<StatsType> stats = new List<StatsType>();
 
@@ -35,6 +36,7 @@ public class StatsManager : SingletonMono<StatsManager>
             info.level += value;
             var key = GetStatSaveId(statsType);
             PlayerPrefs.SetInt(key, info.level);
+            OnStatLevelUp?.Invoke((statsType, value));
             return info.level;
         }
         Debug.LogError("No such stat : " + statsType.name); 
