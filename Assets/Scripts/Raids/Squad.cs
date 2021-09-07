@@ -168,8 +168,7 @@ public class Squad : MonoBehaviour, IInputReceiver
     }
 
     public void MoveToCar(SpawnPoint spawnPoint, System.Action inCarCallback)
-    {
-        transform.position = spawnPoint.EscapePoint.position;
+    {       
         for (int i = 0; i < units.Count; i++)
         {
             units[i].MoveTo(spawnPoint.EscapePoint.position);
