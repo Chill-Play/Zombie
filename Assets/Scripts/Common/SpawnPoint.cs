@@ -49,7 +49,7 @@ public class SpawnPoint : MonoBehaviour
 
     public void SurvivorInCar()
     {
-        transform.DOKill(true);
+        carTransform.DOKill(true);
         carTransform.DOPunchScale(carScale * 0.1f, 0.5f);
     }
 }
