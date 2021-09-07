@@ -5343,6 +5343,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5654111587326562186, guid: 7a3abe364f2154048b023b0fed1844d8, type: 3}
+      propertyPath: raidEntrance
+      value: 
+      objectReference: {fileID: 398348207}
     - target: {fileID: 6349799829869794397, guid: 7a3abe364f2154048b023b0fed1844d8, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -5417,6 +5421,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a3abe364f2154048b023b0fed1844d8, type: 3}
+--- !u!114 &398348207 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8330199295288572735, guid: 7a3abe364f2154048b023b0fed1844d8, type: 3}
+  m_PrefabInstance: {fileID: 398348206}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0580143b99bf07b4480b9b3030401871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &400216801 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1406327267183345190, guid: 78f83ab135a79894082ef5dd5a56020a, type: 3}
@@ -5509,7 +5524,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 9
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 586673233}
 --- !u!1 &414135917
 GameObject:
   m_ObjectHideFlags: 0
@@ -6520,7 +6534,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 9
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 0}
 --- !u!1001 &490555103
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8291,7 +8304,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 9
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 1908031514}
 --- !u!4 &659312937 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 470420, guid: cbde25f024add334d9c55bd1a173ec33, type: 3}
@@ -9650,7 +9662,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 9
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 1441471885}
 --- !u!1001 &734099836
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11967,7 +11978,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 9
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 521447128}
 --- !u!1 &883793559 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8440205454523538487, guid: c0b05d4b1fd723d4eaabd2efb1cc0d36, type: 3}
@@ -12064,7 +12074,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 3
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 2049657859}
 --- !u!4 &897968884 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 470420, guid: cbde25f024add334d9c55bd1a173ec33, type: 3}
@@ -13882,7 +13891,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 9
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 795150257}
 --- !u!4 &991340901 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 470420, guid: cbde25f024add334d9c55bd1a173ec33, type: 3}
@@ -16160,7 +16168,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 9
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 1731461681}
 --- !u!4 &1198261565 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 417514f29ed463f47bb6d86219106c0b, type: 3}
@@ -21736,7 +21743,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 0
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 1118503923}
 --- !u!1001 &1578231741
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29147,7 +29153,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 3
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 1539975443}
 --- !u!1 &919132148153129565
 GameObject:
   m_ObjectHideFlags: 0
@@ -29309,7 +29314,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 3
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 2101506629}
 --- !u!1 &919132148776372310
 GameObject:
   m_ObjectHideFlags: 0
@@ -29422,7 +29426,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 9
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 913045119}
 --- !u!1 &919132149208169370
 GameObject:
   m_ObjectHideFlags: 0
@@ -29514,7 +29517,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 0
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 1610759183}
 --- !u!1 &919132149547767298
 GameObject:
   m_ObjectHideFlags: 0
@@ -30465,7 +30467,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockLevel: 9
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
-  obstacle: {fileID: 2049657859}
 --- !u!23 &1761023594687078195
 MeshRenderer:
   m_ObjectHideFlags: 0
