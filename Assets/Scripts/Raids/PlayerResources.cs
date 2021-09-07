@@ -58,6 +58,16 @@ public class PlayerResources : MonoBehaviour
     private void OnEnable()
     {
         TryToFindFreePoint();
+        interactivePointDetection.OnTargetChanged += InteractivePointDetection_OnTargetChanged;
+    }
+
+    private void InteractivePointDetection_OnTargetChanged(InteractivePoint interactivePoint)
+    {
+        if (interactivePoint != null && target.index != -1)
+        {
+            interactivePoint.FreePoint(target);
+        }
+        target = new InteractivePoint.WorkingPoint(null, -1);
     }
 
     void TryToFindFreePoint()
@@ -155,6 +165,7 @@ public class PlayerResources : MonoBehaviour
 
     private void OnDisable()
     {
+        interactivePointDetection.OnTargetChanged -= InteractivePointDetection_OnTargetChanged; 
         if (target.index != -1)
         {
             if (interactivePointDetection.Target != null)

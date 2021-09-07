@@ -5,6 +5,7 @@ using UnityEngine;
 public class HQBuilding : BaseObject
 {
     public event System.Action OnLevelUp;
+
     [BaseSerialize] int level;
     [SerializeField] ResourcesInfo baseCost;
     [SerializeField] float costPower;
