@@ -7,6 +7,7 @@ public class UnlockableBuilding : MonoBehaviour
 {
     [SerializeField] int unlockLevel;
     [SerializeField] LockerTag lockerPrefab;
+    [SerializeField] GameObject obstacle;
     BuildingProcess buildingProcess;
     Buildable buildable;
 
@@ -41,7 +42,11 @@ public class UnlockableBuilding : MonoBehaviour
 
     void SetLock(bool locked)
     {
-        if(spot.TryGetComponent<Ruins>(out var ruins))
+        if (obstacle != null)
+        {
+            obstacle.SetActive(!locked);
+        }
+        if (spot.TryGetComponent<Ruins>(out var ruins))
         {
             ruins.Show(!locked);
         }
