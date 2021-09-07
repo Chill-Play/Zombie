@@ -25,6 +25,6 @@ public class StatUpgradeCard : UpgradeCard
             icon.sprite = type.lockedIcon;
         }
         nameLabel.text = type.displayName;
-        levelLabel.text = "LVL " + statInfo.level;
+        levelLabel.text = "LVL " + (statInfo.level + 1);
     }
 }

@@ -22,6 +22,8 @@ public class LevelController : SingletonMono<LevelController>
 
     public int CurrentLevel => currentLevel;
     public int TotalLevelsInPack => totalLevelsInPack;
+    public int LevelId => currentLevel % totalLevelsInPack;
+    public int Loop => (currentLevel / totalLevelsInPack) + 1;
 
 
     private void Awake()
@@ -44,7 +46,7 @@ public class LevelController : SingletonMono<LevelController>
     {
         if (finished)
         {
-            OnRaidFinished();
+            RaidFinished();
         }
         SceneManager.LoadScene(baseLevel);
     }
@@ -55,7 +57,7 @@ public class LevelController : SingletonMono<LevelController>
     }
 
 
-    public void OnRaidFinished()
+    public void RaidFinished()
     {
         LevelPack pack = collection.GetPack(currentPack);
         currentLevel++;

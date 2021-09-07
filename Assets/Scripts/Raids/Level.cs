@@ -4,6 +4,18 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+public struct LevelInfo
+{
+    public int levelNumber;
+    public int levelId;
+    public int loop;
+    public string levelName;
+    public float progress;
+}
+
+
+
 public class Level : SingletonMono<Level>
 {
     public event System.Action<float> OnNoiseLevelChanged;
@@ -11,6 +23,8 @@ public class Level : SingletonMono<Level>
     public event System.Action OnHordeDefeated;
     public event System.Action OnLevelEnded;
     public event System.Action OnLevelFailed;
+    public event System.Action OnLevelStarted;
+
 
     [SerializeField] List<Transform> zombiesSpawnPoints;
     [SerializeField] Enemy[] zombiePrefabs;
@@ -28,6 +42,9 @@ public class Level : SingletonMono<Level>
     [SerializeField] int finalWavesBigZombiesCount = 5;
     [SerializeField] bool tutorialMode = false;
 
+
+
+    SurvivorPickup[] survivorPickups;
 
     List<ZombiesDoorSpawner> doorSpawners;
     List<ResourceSpot> resourceSpots = new List<ResourceSpot>();
@@ -48,17 +65,20 @@ public class Level : SingletonMono<Level>
 
     public float MaxNoiseLevel => maxNoiseLevel;
     public float ComingTimerValue => comingTimer / comingTime;
+    
+
 
     private void Awake()
     {
+        survivorPickups = FindObjectsOfType<SurvivorPickup>();
         squad = FindObjectOfType<Squad>();
-        
     }
 
 
     void Start()
     {
         zombieLevel = LevelController.Instance.CurrentLevel;
+        OnLevelStarted?.Invoke();
     }
 
     void OnEnable()
@@ -142,6 +162,28 @@ public class Level : SingletonMono<Level>
         hordeSize = (int)((float)hordeSize / 2.5f); //release stuff
         StartCoroutine(SpawnHordeCoroutine(hordeSize, level, generation));
 
+    }
+
+
+    public LevelInfo GetLevelInfo()
+    {
+        float progress = 0f;
+        for(int i = 0; i < survivorPickups.Length; i++)
+        {
+            if (survivorPickups[i] == null)
+            {
+                progress += 1 / survivorPickups.Length;
+            }
+        }
+        progress = Mathf.Clamp01(progress);
+        return new LevelInfo()
+        {
+            levelNumber = LevelController.Instance.CurrentLevel,
+            levelName = SceneManager.GetActiveScene().name.Replace(" ", "_"),
+            levelId = LevelController.Instance.LevelId,
+            loop = LevelController.Instance.Loop,
+            progress = progress,
+        };
     }
 
 
