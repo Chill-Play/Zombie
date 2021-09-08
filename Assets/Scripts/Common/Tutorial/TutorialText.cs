@@ -7,6 +7,8 @@ public class TutorialText : MonoBehaviour
 {
     [SerializeField] ConditionTrigger showConditionTrigger;
     [SerializeField] ConditionTrigger hideTrigger;
+    [SerializeField] Transform content;
+
 
     [SerializeField] float timeBeforeShowing = 0f;
     [SerializeField] float timeToHide = 0.3f;
@@ -15,7 +17,12 @@ public class TutorialText : MonoBehaviour
 
     private void Awake()
     {
-        scale = transform.localScale;
+        if (content == null)
+        {
+            content = transform;
+        }
+
+        scale = content.localScale;
 
         if (showConditionTrigger != null)
         {
@@ -31,17 +38,19 @@ public class TutorialText : MonoBehaviour
 
     private void HideTrigger_OnTrigger()
     {
-        transform.DOKill(true); 
-        transform.DOScale(Vector3.zero, timeToHide).SetEase(Ease.InCirc).OnComplete(() => gameObject.SetActive(false));
+        Debug.Log("HideTrigger");
+        content.DOKill(true);
+        content.DOScale(Vector3.zero, timeToHide).SetEase(Ease.InCirc).OnComplete(() => gameObject.SetActive(false));
     }
 
     private void ShowConditionTrigger_OnTrigger()
     {
+        Debug.Log("ShowConditionTrigger");
         gameObject.SetActive(true);
-        transform.DOKill(true);        
-        transform.localScale = Vector3.zero;
+        content.DOKill(true);
+        content.localScale = Vector3.zero;
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(timeBeforeShowing);
-        sequence.Append(transform.DOScale(scale, 0.3f).SetEase(Ease.OutCirc));
+        sequence.Append(content.DOScale(scale, 0.3f).SetEase(Ease.OutCirc));
     }
 }
