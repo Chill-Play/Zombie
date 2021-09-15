@@ -8,6 +8,7 @@ public class ResourceSpot : MonoBehaviour
     public const int COUNT_PER_USE = 1;
 
     public event System.Action<ResourceSpot> OnSpotUsed;
+    [SerializeField] SubjectId sectionId;
     [SerializeField] int maxUses = 3;
     [SerializeField] ResourceType resourceType;
     [SerializeField] float noisePerUse = 10f;
@@ -17,6 +18,8 @@ public class ResourceSpot : MonoBehaviour
 
     float scale = 0;
     public ResourceInteractionType InteractionType => interactionType;
+
+    public SubjectId SectionId => sectionId;
 
     int uses = 0;
 

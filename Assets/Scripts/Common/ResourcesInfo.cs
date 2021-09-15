@@ -39,6 +39,10 @@ public class ResourcesInfo : ISerializationCallbackReceiver
         }
     }
 
+    public bool ContainsResourceType(ResourceType type)
+    {
+        return idsByTypes.ContainsKey(type);
+    }
 
     public int Count(ResourceType type)
     {

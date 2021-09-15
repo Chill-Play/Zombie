@@ -18,11 +18,13 @@ public class InGameUI : UIScreen
     [SerializeField] GameObject timerGO;
     [SerializeField] Bar timerFill;
     [SerializeField] GameObject timeToRetreat;
+    [SerializeField] UseToolButton useToolButton;
     [SerializeField] ResourcesInfoUIPanel resourcesInfo;
     [SerializeField] BaseIndicatorUI baseIndicator;
     [SerializeField] bool tutorialMode = false;
 
     State state;
+    PlayerTools playerTools;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +49,32 @@ public class InGameUI : UIScreen
         {
             FindObjectOfType<TutorialHealper>().OnEscapeTrigger += Tutorial_OnEscapeTrigger;
         }
+
+        BaricadeController baricadeController = FindObjectOfType<BaricadeController>();
+        baricadeController.OnBaricadeEnter += BaricadeController_OnBaricadeEnter; 
+        baricadeController.OnBaricadeExit += BaricadeController_OnBaricadeExit;
+
+        useToolButton.gameObject.SetActive(false);
+        useToolButton.OnToolUsed += UseToolButton_OnToolUsed;
+
+        playerTools = FindObjectOfType<PlayerTools>();
     }
+
+    private void UseToolButton_OnToolUsed(ResourceType obj)
+    {
+        playerTools.UseTool(obj);
+        useToolButton.HideButton();
+    }
+
+    private void BaricadeController_OnBaricadeEnter(RaidBaricade baricade, bool usable)
+    {
+        useToolButton.ShowButton(baricade.ResourceTool, usable);
+    }
+
+    private void BaricadeController_OnBaricadeExit(RaidBaricade obj)
+    {
+        useToolButton.HideButton();
+    } 
 
     private void Tutorial_OnEscapeTrigger()
     {

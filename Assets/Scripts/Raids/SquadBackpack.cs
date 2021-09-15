@@ -48,6 +48,11 @@ public class SquadBackpack : MonoBehaviour
         }
     }
 
+    public bool HasResource(ResourceType type)
+    {        
+        return resources.ContainsKey(type);
+    }
+
 
     public void UseSpot(int count)
     {
