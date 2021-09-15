@@ -9,6 +9,7 @@ public class ResourceSpot : MonoBehaviour
 
     public event System.Action<ResourceSpot> OnSpotUsed;
     [SerializeField] SubjectId sectionId;
+    [SerializeField] bool existInOpenSection = true;
     [SerializeField] int maxUses = 3;
     [SerializeField] ResourceType resourceType;
     [SerializeField] float noisePerUse = 10f;
@@ -20,6 +21,7 @@ public class ResourceSpot : MonoBehaviour
     public ResourceInteractionType InteractionType => interactionType;
 
     public SubjectId SectionId => sectionId;
+    public bool ExistInOpenSection => existInOpenSection;
 
     int uses = 0;
 
@@ -27,6 +29,11 @@ public class ResourceSpot : MonoBehaviour
     {
         scale = transform.localScale.magnitude;
         //Level.Instance.RegisterResourceSpot(this);
+    }
+
+    public void NullNoise()
+    {
+        noisePerUse = 0f;
     }
 
     public void UseSpot(GameObject user)

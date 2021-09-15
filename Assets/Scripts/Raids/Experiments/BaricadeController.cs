@@ -74,7 +74,14 @@ public class BaricadeController : MonoBehaviour
             }
             if (!exist)
             {
-                Destroy(resourceSpots[i].gameObject);
+                if (!resourceSpots[i].ExistInOpenSection)
+                {
+                    Destroy(resourceSpots[i].gameObject);
+                }
+                else
+                {
+                    resourceSpots[i].NullNoise();
+                }
                 continue;
             }
         }
