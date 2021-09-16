@@ -18,7 +18,7 @@ public class GameplayController : SingletonMono<GameplayController>
     {
         spawnPoint = FindObjectOfType<BaricadeController>().CurrentSpawnPoint;
         Vector3 spawnPos = Vector3.zero;
-        if(spawnPoint != null)
+        if (spawnPoint != null)
         {
             spawnPos = spawnPoint.transform.position;
         }
@@ -27,6 +27,13 @@ public class GameplayController : SingletonMono<GameplayController>
         Level level = FindObjectOfType<Level>();
         spawnPoint.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
         level.OnLevelFailed += OnLevelFailed;
+        level.OnNoiseLevelChanged += Level_OnNoiseLevelChanged;
+    }
+
+    private void Level_OnNoiseLevelChanged(float obj)
+    {
+        spawnPoint = FindObjectOfType<BaricadeController>().CurrentSpawnPoint;
+        spawnPoint.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
     }
 
     private void SpawnPoint_OnReturnedToBase()

@@ -15,6 +15,7 @@ public struct DamageTakenInfo
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] SubjectId sectionId;
     [SerializeField] SubjectId wanderingState;
     [SerializeField] SubjectId aggressiveState;
     [SerializeField] SubjectId deadState;
@@ -25,6 +26,8 @@ public class Enemy : MonoBehaviour
     ZombieAgroSequence zombieAgroSequence;
 
     public bool IsDead => stateController.CurrentStateId == deadState;
+
+    public SubjectId SectionId => sectionId;
 
 
     public void SetLevel(int level)

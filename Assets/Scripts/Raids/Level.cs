@@ -91,7 +91,7 @@ public class Level : SingletonMono<Level>
     }
 
     private void Squad_OnPlayerUnitDead()
-    {
+    {      
         gameplayController.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
         OnLevelFailed?.Invoke();
     }
@@ -100,7 +100,7 @@ public class Level : SingletonMono<Level>
     {
         squad.OnPlayerUnitDead -= Squad_OnPlayerUnitDead;
         if (gameplayController != null)
-        {
+        {           
             gameplayController.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
         }
     }
@@ -257,6 +257,7 @@ public class Level : SingletonMono<Level>
     {
         if(levelEnded)
         {
+            Debug.Log("OHNO");
             return;
         }
         levelEnded = true;
@@ -279,6 +280,7 @@ public class Level : SingletonMono<Level>
                 }
             }
         }
+        Debug.Log("AZAZA");
         OnLevelEnded?.Invoke();
         for (int i = 0; i < enemies.Count; i++)
         {
@@ -330,10 +332,18 @@ public class Level : SingletonMono<Level>
 
     public void ResetNoise()
     {
+        if (spawnWavesCoroutine != null)
+        {
+            StopCoroutine(spawnWavesCoroutine);
+            spawnWavesCoroutine = null;
+        }
         noiseLevel = 0;
         noiseLevelExceeded = false;
         SectionClear = false;
+        comingTimerActive = false;
+        comingTimer = comingTime;
         OnResetNoise?.Invoke();
+        levelEnded = false;
     }
 
     public void SetZombiesSpawnPoint(List<Transform> zombiesSpawnPoints)

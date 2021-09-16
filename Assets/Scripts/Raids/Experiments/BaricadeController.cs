@@ -166,6 +166,28 @@ public class BaricadeController : MonoBehaviour
         openedSections.Add(baricade.SectionId.name);
         PlayerPrefs.SetString(SECTION_SAVE_ID, string.Join("###", openedSections));
         currentSection = baricade.NextSectionId;
+
+        CurrentSpawnPoint.IsReturningToBase = false;
+        CurrentSpawnPoint.Hide();
+
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {      
+            if (currentSection != null && spawnPoints[i].SectionId == currentSection)
+            {
+                CurrentSpawnPoint = spawnPoints[i];
+                CurrentSpawnPoint.Show();
+                break;
+            }
+        }    
+
+        for (int i = 0; i < zombieSpawnPointPacks.Length; i++)
+        {
+            if (zombieSpawnPointPacks[i].SectionId == currentSection)
+            {
+                level.SetZombiesSpawnPoint(zombieSpawnPointPacks[i].SpawnPoints);
+                break;
+            }
+        }
         level.ResetNoise();
     }
 

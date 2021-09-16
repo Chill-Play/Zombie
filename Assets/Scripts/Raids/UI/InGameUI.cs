@@ -120,7 +120,7 @@ public class InGameUI : UIScreen
             case State.ComingTimer:
                 timerFill.SetValue(Level.Instance.ComingTimerValue);
                 if (Level.Instance.ComingTimerValue <= Mathf.Epsilon)
-                {
+                {                    
                     SwitchState(State.Coming);
                 }
                 break;
@@ -139,10 +139,13 @@ public class InGameUI : UIScreen
             case State.NoiseBar:
                 timeToRetreat.SetActive(false);
                 noiseBar.gameObject.SetActive(true);
+                noiseBar.SetValue(0f);
+                noiseBar.transform.localScale = Vector3.zero;
+                noiseBar.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);
                 timerGO.gameObject.SetActive(false);
                 baseIndicator.gameObject.SetActive(false);
                 break;
-            case State.ComingTimer:
+            case State.ComingTimer:               
                 Sequence sequence = DOTween.Sequence();
                 sequence.Append(noiseBar.transform.DOScale(0.5f, 0.3f).SetEase(Ease.InCirc));
                 sequence.AppendCallback(() =>
@@ -150,6 +153,8 @@ public class InGameUI : UIScreen
                     noiseBar.gameObject.SetActive(false);
                     timerGO.transform.localScale = Vector3.one * 0.5f;
                     timerGO.gameObject.SetActive(true);
+                    timerFill.gameObject.SetActive(true);
+                    timerFill.transform.localScale = Vector3.one;
                 });
                 sequence.Append(timerGO.transform.DOScale(1f, 0.3f).SetEase(Ease.OutElastic, 1.2f, 0.25f));
                 break;
@@ -162,7 +167,7 @@ public class InGameUI : UIScreen
                 baseIndicator.gameObject.SetActive(true);
                 baseIndicator.UpdateIndicator();
                 break;
-            case State.Coming:
+            case State.Coming:               
                 timerFill.transform.DOScale(0f, 0.4f).SetEase(Ease.InCirc).OnComplete(() => timerFill.gameObject.SetActive(false));
                 break;
         }

@@ -30,6 +30,7 @@ public class SpawnPoint : MonoBehaviour
 
     void SetIsReturningToBase(bool value)
     {
+        Debug.Log(gameObject.name + " || " + value);
         isReturningToBase = value;
         if (value)
         {
@@ -42,7 +43,7 @@ public class SpawnPoint : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    {       
         if(IsReturningToBase && (other.GetComponent<SurvivorMovement>() != null))
         {
             OnReturnedToBase?.Invoke();           
@@ -58,5 +59,18 @@ public class SpawnPoint : MonoBehaviour
     public void SetVisable(bool value)
     {
         content.SetActive(value);
+    }
+
+    public void Hide()
+    {
+        content.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InCirc).OnComplete(()=> content.SetActive(false));        
+    }
+
+    public void Show()
+    {
+        content.SetActive(true);
+        content.transform.localScale = Vector3.zero;
+        content.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutCirc);
+        
     }
 }
