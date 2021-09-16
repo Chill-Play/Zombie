@@ -19,7 +19,7 @@ public class TutorialHealper : MonoBehaviour
 
     private void EscapeTrigger_OnTrigger()
     {
-        FindObjectOfType<SpawnPoint>().IsReturningToBase = true;
+        FindObjectOfType<BaricadeController>().CurrentSpawnPoint.IsReturningToBase = true;
         OnEscapeTrigger?.Invoke();
     }
 }

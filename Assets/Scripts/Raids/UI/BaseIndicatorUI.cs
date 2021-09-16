@@ -16,7 +16,7 @@ public class BaseIndicatorUI : MonoBehaviour
 
     private void OnEnable()
     {
-        spawnPoint = FindObjectOfType<SpawnPoint>();
+        spawnPoint = FindObjectOfType<BaricadeController>().CurrentSpawnPoint;
         squad = FindObjectOfType<Squad>().gameObject;
         canvas = GetComponentInParent<Canvas>();
         canvasRect = canvas.GetComponent<RectTransform>();

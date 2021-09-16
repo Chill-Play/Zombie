@@ -7,8 +7,10 @@ public class SpawnPoint : MonoBehaviour
 {
     public event System.Action OnReturnedToBase;
 
+    [SerializeField] SubjectId sectionId;
     [SerializeField] Transform carTransform;
     [SerializeField] Transform escapePoint;
+    [SerializeField] GameObject content;
 
     public Transform EscapePoint => escapePoint;
 
@@ -18,6 +20,7 @@ public class SpawnPoint : MonoBehaviour
 
     public bool IsReturningToBase { get => isReturningToBase; set { SetIsReturningToBase(value); } }
 
+    public SubjectId SectionId => sectionId;
 
     private void Awake()
     {
@@ -42,8 +45,7 @@ public class SpawnPoint : MonoBehaviour
     {
         if(IsReturningToBase && (other.GetComponent<SurvivorMovement>() != null))
         {
-            OnReturnedToBase?.Invoke();
-            //Level.Instance.EndLevel();
+            OnReturnedToBase?.Invoke();           
         }
     }
 
@@ -51,5 +53,10 @@ public class SpawnPoint : MonoBehaviour
     {
         carTransform.DOKill(true);
         carTransform.DOPunchScale(carScale * 0.1f, 0.5f);
+    }
+
+    public void SetVisable(bool value)
+    {
+        content.SetActive(value);
     }
 }

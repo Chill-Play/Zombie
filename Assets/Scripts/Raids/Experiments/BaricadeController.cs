@@ -10,36 +10,91 @@ public class BaricadeController : MonoBehaviour
     public event System.Action<RaidBaricade, bool> OnBaricadeEnter;
     public event System.Action<RaidBaricade> OnBaricadeExit;
 
+    [SerializeField] SubjectId defaultSection;
+
+
+    ZombieSpawnPointPack[] zombieSpawnPointPacks;
+
     PlayerTools playerTools;
     string[] sectionsArray;
+    Level level;
+    SpawnPoint[] spawnPoints;
+
+    SubjectId currentSection;
+
+    public SpawnPoint CurrentSpawnPoint { get; set; }
+
 
     private void Awake()
     {
         sectionsArray = PlayerPrefs.GetString(SECTION_SAVE_ID, "").Split(new[] { "###" }, StringSplitOptions.None);
-
         playerTools = FindObjectOfType<PlayerTools>();
+        spawnPoints = FindObjectsOfType<SpawnPoint>();
+        zombieSpawnPointPacks = FindObjectsOfType<ZombieSpawnPointPack>();
+
+        level = FindObjectOfType<Level>();        
+
         ////////////////////////////////////////////////////////////////////////// refactor
         RaidBaricade[] raidBaricades = FindObjectsOfType<RaidBaricade>();
         for (int i = 0; i < raidBaricades.Length; i++)
         {
-            bool exist = true;
+            bool exist = true;         
             for (int j = 0; j < sectionsArray.Length; j++)
             {
                 if (raidBaricades[i].SectionId != null && raidBaricades[i].SectionId.name == sectionsArray[j])
                 {
+                    if (j >= 1 && j == sectionsArray.Length - 1)
+                    {
+                        currentSection = raidBaricades[i].NextSectionId;
+                    }
                     exist = false;
                     break;
                 }
             }
+            
             if (!exist)
             {
-                Destroy(raidBaricades[i].gameObject);
+                Destroy(raidBaricades[i].gameObject);               
                 continue;
             }
             raidBaricades[i].OnBaricadeEnter += BaricadeController_OnBaricadeEnter;
             raidBaricades[i].OnBaricadeExit += BaricadeController_OnBaricadeExit;
             raidBaricades[i].OnDead += BaricadeController_OnDead;
         }
+
+        if (currentSection == null)
+        {
+            currentSection = defaultSection;
+        }
+        
+        for (int i = 0; i < zombieSpawnPointPacks.Length; i++)
+        {           
+            if (zombieSpawnPointPacks[i].SectionId == currentSection)
+            {
+                level.SetZombiesSpawnPoint(zombieSpawnPointPacks[i].SpawnPoints);
+                break;               
+            }
+        }
+
+
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            for (int j = 0; j < sectionsArray.Length; j++)
+            {
+                if (spawnPoints[i].SectionId != null && spawnPoints[i].SectionId.name == sectionsArray[j])
+                {                   
+                    spawnPoints[i].SetVisable(false);
+                    break;
+                }
+            }
+            if (currentSection!= null && spawnPoints[i].SectionId == currentSection)
+            {
+                CurrentSpawnPoint = spawnPoints[i];
+            }
+        }     
+
+        FindObjectOfType<Squad>().transform.position = CurrentSpawnPoint.transform.position;
+        FindObjectOfType<PlayerTools>().transform.position = CurrentSpawnPoint.transform.position;
 
         PickupItem[] pickupItems = FindObjectsOfType<PickupItem>();
         for (int i = 0; i < pickupItems.Length; i++)
@@ -55,7 +110,7 @@ public class BaricadeController : MonoBehaviour
             }
             if (!exist)
             {
-                Destroy(pickupItems[i].gameObject);
+                Destroy(pickupItems[i].gameObject);               
                 continue;
             }
         }
@@ -75,7 +130,7 @@ public class BaricadeController : MonoBehaviour
             if (!exist)
             {
                 if (!resourceSpots[i].ExistInOpenSection)
-                {
+                {                  
                     Destroy(resourceSpots[i].gameObject);
                 }
                 else
@@ -96,6 +151,8 @@ public class BaricadeController : MonoBehaviour
         RaidBaricade baricade = (RaidBaricade)obj.sender;
         openedSections.Add(baricade.SectionId.name);
         PlayerPrefs.SetString(SECTION_SAVE_ID, string.Join("###", openedSections));
+        currentSection = baricade.NextSectionId;
+        level.ResetNoise();
     }
 
     private void BaricadeController_OnBaricadeExit(RaidBaricade obj)

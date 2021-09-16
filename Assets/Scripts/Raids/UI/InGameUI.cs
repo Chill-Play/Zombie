@@ -34,6 +34,7 @@ public class InGameUI : UIScreen
             Level.Instance.OnNoiseLevelChanged += Level_OnNoiseLevelChanged;
             Level.Instance.OnNoiseLevelExceeded += Level_OnNoiseLevelExceeded;
             Level.Instance.OnHordeDefeated += Level_OnHordeDefeated;
+            Level.Instance.OnResetNoise += Level_OnResetNoise; ;
         }
         noiseBar.SetValue(0f);
         
@@ -58,6 +59,11 @@ public class InGameUI : UIScreen
         useToolButton.OnToolUsed += UseToolButton_OnToolUsed;
 
         playerTools = FindObjectOfType<PlayerTools>();
+    }
+
+    private void Level_OnResetNoise()
+    {
+        SwitchState(State.NoiseBar);
     }
 
     private void UseToolButton_OnToolUsed(ResourceType obj)
@@ -131,6 +137,10 @@ public class InGameUI : UIScreen
         switch (targetState)
         {
             case State.NoiseBar:
+                timeToRetreat.SetActive(false);
+                noiseBar.gameObject.SetActive(true);
+                timerGO.gameObject.SetActive(false);
+                baseIndicator.gameObject.SetActive(false);
                 break;
             case State.ComingTimer:
                 Sequence sequence = DOTween.Sequence();
