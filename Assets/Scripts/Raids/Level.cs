@@ -68,7 +68,7 @@ public class Level : SingletonMono<Level>
     public float MaxNoiseLevel => maxNoiseLevel;
     public float ComingTimerValue => comingTimer / comingTime;
     
-
+    public bool SectionClear { get; set; }
 
     private void Awake()
     {
@@ -234,6 +234,7 @@ public class Level : SingletonMono<Level>
         {
             OnHordeDefeated?.Invoke();
             FindObjectOfType<BaricadeController>().CurrentSpawnPoint.IsReturningToBase = true;
+            SectionClear = true;
             spawnWavesCoroutine = StartCoroutine(SpawningFinalWaves());
         }
     }
@@ -331,6 +332,7 @@ public class Level : SingletonMono<Level>
     {
         noiseLevel = 0;
         noiseLevelExceeded = false;
+        SectionClear = false;
         OnResetNoise?.Invoke();
     }
 

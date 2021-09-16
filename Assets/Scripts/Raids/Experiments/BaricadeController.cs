@@ -115,6 +115,19 @@ public class BaricadeController : MonoBehaviour
             }
         }
 
+        SurvivorPickup[] survivorPickups = FindObjectsOfType<SurvivorPickup>();
+        for (int i = 0; i < survivorPickups.Length; i++)
+        {            
+            for (int j = 0; j < sectionsArray.Length; j++)
+            {
+                if (survivorPickups[i].SectionId != null && survivorPickups[i].SectionId.name == sectionsArray[j])
+                {
+                    Destroy(survivorPickups[i].gameObject);
+                    break;
+                }
+            }
+        }
+
         ResourceSpot[] resourceSpots = FindObjectsOfType<ResourceSpot>();
         for (int i = 0; i < resourceSpots.Length; i++)
         {
@@ -162,6 +175,6 @@ public class BaricadeController : MonoBehaviour
 
     private void BaricadeController_OnBaricadeEnter(RaidBaricade obj)
     {
-        OnBaricadeEnter?.Invoke(obj, playerTools.CanUseTool(obj.ResourceTool));
+        OnBaricadeEnter?.Invoke(obj, playerTools.CanUseTool(obj.ResourceTool) && level.SectionClear);
     }
 }

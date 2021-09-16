@@ -6,10 +6,13 @@ public class SurvivorPickup : MonoBehaviour
 {
     public event System.Action<SurvivorPickup> OnPickup;
 
+    [SerializeField] SubjectId sectionId;
     [SerializeField] Unit unitPrefab;
 
     Squad squad;
     bool pickuped = false;
+
+    public SubjectId SectionId => sectionId;
 
     void Awake()
     {
