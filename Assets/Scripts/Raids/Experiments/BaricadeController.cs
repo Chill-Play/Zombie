@@ -29,8 +29,8 @@ public class BaricadeController : MonoBehaviour
     {
         sectionsArray = PlayerPrefs.GetString(SECTION_SAVE_ID, "").Split(new[] { "###" }, StringSplitOptions.None);
         playerTools = FindObjectOfType<PlayerTools>();
-        spawnPoints = FindObjectsOfType<SpawnPoint>();
-        zombieSpawnPointPacks = FindObjectsOfType<ZombieSpawnPointPack>();
+        spawnPoints = FindObjectsOfType<SpawnPoint>(true);
+        zombieSpawnPointPacks = FindObjectsOfType<ZombieSpawnPointPack>();    
 
         level = FindObjectOfType<Level>();        
 
@@ -90,6 +90,7 @@ public class BaricadeController : MonoBehaviour
             if (currentSection!= null && spawnPoints[i].SectionId == currentSection)
             {
                 CurrentSpawnPoint = spawnPoints[i];
+                spawnPoints[i].SetVisable(true);
             }
         }     
 
