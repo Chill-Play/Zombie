@@ -24,6 +24,7 @@ public class Level : SingletonMono<Level>
     public event System.Action OnLevelEnded;
     public event System.Action OnLevelFailed;
     public event System.Action OnLevelStarted;
+    public event System.Action OnResetNoise;
 
 
     [SerializeField] List<Transform> zombiesSpawnPoints;
@@ -55,6 +56,7 @@ public class Level : SingletonMono<Level>
 
     bool noiseLevelExceeded;
     bool comingTimerActive;
+    bool disableNoise = false;
 
     int zombieLevel;
     int generation;
@@ -231,7 +233,7 @@ public class Level : SingletonMono<Level>
         if (enemies.Count == 0 && spawnWavesCoroutine == null)
         {
             OnHordeDefeated?.Invoke();
-            FindObjectOfType<SpawnPoint>().IsReturningToBase = true;
+            FindObjectOfType<BaricadeController>().CurrentSpawnPoint.IsReturningToBase = true;
             spawnWavesCoroutine = StartCoroutine(SpawningFinalWaves());
         }
     }
@@ -290,10 +292,15 @@ public class Level : SingletonMono<Level>
         spot.OnSpotUsed += Spot_OnSpotUsed;
     }
 
+    public void SetNoiseActive(bool value)
+    {
+        disableNoise = !value;
+    }
 
     public void AddNoiseLevel(float noise)
     {       
-        if (noiseLevelExceeded || tutorialMode) return;
+
+        if (noiseLevelExceeded || tutorialMode || disableNoise) return;
         noiseLevel += noise;
         if(noiseLevel >= maxNoiseLevel)
         {
@@ -318,5 +325,17 @@ public class Level : SingletonMono<Level>
     void SpawnPoint_OnReturnedToBase()
     {
         EndLevel();
+    }
+
+    public void ResetNoise()
+    {
+        noiseLevel = 0;
+        noiseLevelExceeded = false;
+        OnResetNoise?.Invoke();
+    }
+
+    public void SetZombiesSpawnPoint(List<Transform> zombiesSpawnPoints)
+    {
+        this.zombiesSpawnPoints = zombiesSpawnPoints;
     }
 }

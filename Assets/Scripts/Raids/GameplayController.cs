@@ -16,7 +16,7 @@ public class GameplayController : SingletonMono<GameplayController>
 
     private void Awake()
     {
-        spawnPoint = FindObjectOfType<SpawnPoint>();
+        spawnPoint = FindObjectOfType<BaricadeController>().CurrentSpawnPoint;
         Vector3 spawnPos = Vector3.zero;
         if(spawnPoint != null)
         {

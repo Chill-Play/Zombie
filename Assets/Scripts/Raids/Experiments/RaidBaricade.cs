@@ -11,12 +11,16 @@ public class RaidBaricade : MonoBehaviour, IDamagable
     public event Action<EventMessage<Empty>> OnDead;
     public event Action<DamageTakenInfo> OnDamage;
 
+   
     [SerializeField] SubjectId sectionId;
+    [SerializeField] SubjectId nextSectionId;
     [SerializeField] ResourceType resourceTool;
     [SerializeField] float health = 200f;
+    [SerializeField] GameObject content;
 
     public ResourceType ResourceTool => resourceTool;
     public SubjectId SectionId => sectionId;
+    public SubjectId NextSectionId => nextSectionId;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -44,5 +48,10 @@ public class RaidBaricade : MonoBehaviour, IDamagable
             OnDead?.Invoke(new EventMessage<Empty>(new Empty(),this));
             Destroy(gameObject);
         }
+    }
+
+    public void HideContent()
+    {
+        content.SetActive(false);
     }
 }
