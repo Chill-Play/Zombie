@@ -17,7 +17,7 @@ public class UpgradesScreen : UIScreen
     ResourcesInfo availableResources;
     System.Action onClose;
     
-    public void Show(string name, List<(StatsType, StatInfo)> stats, ResourcesInfo availableResources, System.Action onClose = null)
+    public void Show(UpgradeZone zone, string name, List<(StatsType, StatInfo)> stats, ResourcesInfo availableResources, System.Action onClose = null)
     {
         this.onClose = onClose;
         label.text = name;
@@ -28,36 +28,88 @@ public class UpgradesScreen : UIScreen
             Debug.LogError("Wrong setup for upgrade screen");
             return;
         }
-        UpdateButtons();
+        UpdateButtons(zone);
         ShowAnimation();
     }
     
 
-    void UpdateButtons()
+    void UpdateButtons(UpgradeZone zone)
     {
+        int freeSlot = GetFreeSlotId(zone);
+
         for (int i = 0; i < cards.Count; i++)
         {
             var type = stats[i].Item1;
             var info = stats[i].Item2;
-            bool freeOption = info.level >= MINIMAL_STAT_LEVEL_TO_FREE_OPTION;
-            cards[i].Setup(info, type, availableResources, freeOption, (free) =>
+
+            cards[i].Setup(info, type, availableResources, i == freeSlot, (free) =>
             {
                 if (free)
                 {
                     AdvertisementManager.Instance.ShowRewardedVideo((result) =>
                     {
-                        if (result) UpgradeStat(info, type, free);
+                        zone.FreeUpgradeAvailable = false;
+                        if (result) UpgradeStat(zone, info, type, free);
                     });
                 }
                 else
                 {
-                    UpgradeStat(info, type, free);
-                }                
+                    UpgradeStat(zone, info, type, free);
+                }
             });
         }
     }
 
-    void UpgradeStat(StatInfo info, StatsType type, bool free)
+    int GetFreeSlotId(UpgradeZone zone)
+    {
+
+        bool upgradesAvailable = false;
+        bool equallevel = true;
+        int lowestlevelSlot = -1;
+        int lowestlevel = int.MaxValue;
+        int maxlevel = -1;
+
+        for (int i = 0; i < cards.Count; i++)
+        {
+            var type = stats[i].Item1;
+            var info = stats[i].Item2;
+
+            upgradesAvailable = upgradesAvailable || type.GetLevelCost(info.level).IsFilled(availableResources);
+
+            if (lowestlevel != info.level && lowestlevel != int.MaxValue)
+            {
+                equallevel = false;
+            }
+            if (lowestlevel > info.level)
+            {
+                lowestlevel = info.level;
+                lowestlevelSlot = i;
+            }
+
+            if (maxlevel < info.level)
+            {
+                maxlevel = info.level;
+            }
+        }
+
+        if (!zone.FreeUpgradeAvailable || upgradesAvailable || maxlevel < MINIMAL_STAT_LEVEL_TO_FREE_OPTION)
+        {
+            return -1;
+        }
+        else
+        {
+            if (equallevel)
+            {
+                return Random.Range(0, cards.Count);
+            }
+            else
+            {
+                return lowestlevelSlot;
+            }
+        }       
+    }
+
+    void UpgradeStat(UpgradeZone zone, StatInfo info, StatsType type, bool free)
     {
         if (!free)
         {
@@ -67,7 +119,7 @@ public class UpgradesScreen : UIScreen
         }
         
         FindObjectOfType<StatsManager>().AddStatLevel(type);        
-        UpdateButtons();
+        UpdateButtons(zone);
     }
 
 

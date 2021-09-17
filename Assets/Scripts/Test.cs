@@ -25,7 +25,7 @@ public class Test : MonoBehaviour
                 var info = FindObjectOfType<StatsManager>().GetStatInfo(type);
                 statsList.Add((type, info));
             }
-            screen.Show("TEST", statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => FindObjectOfType<UIController>().ShowScreen(baseScreenId));
+           // screen.Show("TEST", statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => FindObjectOfType<UIController>().ShowScreen(baseScreenId));
         }   
     }
 }

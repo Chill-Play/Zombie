@@ -11,6 +11,8 @@ public class UpgradeZone : MonoBehaviour
     [SerializeField] SubjectId screenId;
     [SerializeField] List<StatsType> stats;
 
+    public bool FreeUpgradeAvailable { get; set; } = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +31,7 @@ public class UpgradeZone : MonoBehaviour
                 var info = FindObjectOfType<StatsManager>().GetStatInfo(type);
                 statsList.Add((type, info));
             }
-            screen.Show(label, statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => { FindObjectOfType<UIController>().HideActiveScreen(); OnEndUpgrading?.Invoke(); });
+            screen.Show(this, label, statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => { FindObjectOfType<UIController>().HideActiveScreen(); OnEndUpgrading?.Invoke(); });
         }
     }
 }

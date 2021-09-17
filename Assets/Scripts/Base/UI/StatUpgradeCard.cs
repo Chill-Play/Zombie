@@ -10,12 +10,13 @@ public class StatUpgradeCard : UpgradeCard
     [SerializeField] Image icon;
     [SerializeField] TMP_Text nameLabel;
     [SerializeField] TMP_Text levelLabel;
+    [SerializeField] protected Button freeButton;
 
 
     public void Setup(StatInfo statInfo, StatsType type, ResourcesInfo resources, bool freeOption, System.Action<bool> OnClick)
     {
         var cost = type.GetLevelCost(statInfo.level);
-        Setup(cost, resources, freeOption, OnClick);
+        Setup(cost, resources, () => OnClick?.Invoke(false));
         if (cost.IsFilled(resources))
         {
             icon.sprite = type.icon;
@@ -26,5 +27,8 @@ public class StatUpgradeCard : UpgradeCard
         }
         nameLabel.text = type.displayName;
         levelLabel.text = "LVL " + (statInfo.level + 1);
+        freeButton.gameObject.SetActive(freeOption);
+        freeButton.onClick.RemoveAllListeners();
+        freeButton.onClick.AddListener(() => OnClick?.Invoke(true));
     }
 }

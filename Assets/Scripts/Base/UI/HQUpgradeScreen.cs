@@ -30,31 +30,17 @@ public class HQUpgradeScreen : UIScreen
         HQBuilding hq = FindObjectOfType<HQBuilding>();
         var cost = hq.GetCostForLevelUp();
         var level = hq.Level;
-        levelLabel.text = "LVL " + (level + 1);
-        bool freeOption = (level + 1) >= MINIMAL_HQ_LEVEL_TO_FREE_OPTION;
-        card.Setup(level + 2, cost, availableResources, freeOption, (free) =>
-        {
-            if (free)
-            {
-                AdvertisementManager.Instance.ShowRewardedVideo((result) =>
-                {
-                    if (result) LevelUp(hq, cost, free);
-                });
-            }
-            else
-            {
-                LevelUp(hq, cost, free);
-            }
+        levelLabel.text = "LVL " + (level + 1);        
+        card.Setup(level + 2, cost, availableResources, () =>
+        {           
+                LevelUp(hq, cost);           
         });
     }
 
-    void LevelUp(HQBuilding hq, ResourcesInfo cost, bool free)
+    void LevelUp(HQBuilding hq, ResourcesInfo cost)
     {
-        if (!free)
-        {
-            availableResources.Subtract(cost);
-            FindObjectOfType<ResourcesController>().UpdateResources();
-        }
+        availableResources.Subtract(cost);
+        FindObjectOfType<ResourcesController>().UpdateResources();
         hq.LevelUp();
         UpdateButton();
     }
