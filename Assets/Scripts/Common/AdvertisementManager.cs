@@ -12,7 +12,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
     [SerializeField] float interstitialCooldown = 30.0f;
 
-    const string adUnitId = "YOUR_AD_UNIT_ID";
+    const string adUnitId = "ebd4fbbdef2bad80";
     int retryAttempt;
     DateTime lastInterstitialShown;
 
@@ -22,13 +22,12 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         #if HC_ADS
         DontDestroyOnLoad(this);
         MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) => {
-            // AppLovin SDK is initialized, start loading ads
+            InitializeInterstitialAds();
         };
 
         MaxSdk.SetSdkKey("6AQkyPv9b4u7yTtMH9PT40gXg00uJOTsmBOf7hDxa_-FnNZvt_qTLnJAiKeb5-2_T8GsI_dGQKKKrtwZTlCzAR");
         MaxSdk.SetUserId("USER_ID");
         MaxSdk.InitializeSdk();
-        InitializeInterstitialAds();
         #endif
     }
 
