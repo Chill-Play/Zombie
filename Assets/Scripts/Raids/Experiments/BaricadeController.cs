@@ -24,6 +24,7 @@ public class BaricadeController : MonoBehaviour
 
     public SpawnPoint CurrentSpawnPoint { get; set; }
 
+    public SubjectId CurrentSection => currentSection;
 
     private void Awake()
     {

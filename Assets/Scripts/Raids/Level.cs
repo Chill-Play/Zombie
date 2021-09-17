@@ -64,6 +64,7 @@ public class Level : SingletonMono<Level>
     Coroutine spawnWavesCoroutine;
     Squad squad;
     GameplayController gameplayController;
+    BaricadeController baricadeController;
 
     public float MaxNoiseLevel => maxNoiseLevel;
     public float ComingTimerValue => comingTimer / comingTime;
@@ -74,6 +75,7 @@ public class Level : SingletonMono<Level>
     {
         survivorPickups = FindObjectsOfType<SurvivorPickup>();
         squad = FindObjectOfType<Squad>();
+        baricadeController = FindObjectOfType<BaricadeController>();
     }
 
 
@@ -129,7 +131,7 @@ public class Level : SingletonMono<Level>
                 var zombies = FindObjectsOfType<Enemy>();
                 foreach(var e in zombies)
                 {
-                   if(!e.IsDead)
+                   if(!e.IsDead && e.SectionId == baricadeController.CurrentSection)
                     {
                         e.GoAggressive();
                     }
@@ -256,8 +258,7 @@ public class Level : SingletonMono<Level>
     public void EndLevel()
     {
         if(levelEnded)
-        {
-            Debug.Log("OHNO");
+        {           
             return;
         }
         levelEnded = true;
@@ -279,8 +280,7 @@ public class Level : SingletonMono<Level>
                     resources.Add(pair.Key, pair.Value);
                 }
             }
-        }
-        Debug.Log("AZAZA");
+        }        
         OnLevelEnded?.Invoke();
         for (int i = 0; i < enemies.Count; i++)
         {
@@ -336,7 +336,7 @@ public class Level : SingletonMono<Level>
         {
             StopCoroutine(spawnWavesCoroutine);
             spawnWavesCoroutine = null;
-        }
+        }     
         noiseLevel = 0;
         noiseLevelExceeded = false;
         SectionClear = false;

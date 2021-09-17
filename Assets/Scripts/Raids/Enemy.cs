@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
     int level = -1;
     Squad squad;
     ZombieAgroSequence zombieAgroSequence;
+    BaricadeController baricadeController;
 
     public bool IsDead => stateController.CurrentStateId == deadState;
 
@@ -54,6 +55,7 @@ public class Enemy : MonoBehaviour
     {
         stateController = GetComponent<StateController>();
         zombieAgroSequence = GetComponent<ZombieAgroSequence>();
+        baricadeController = FindObjectOfType<BaricadeController>();
     }
 
 
@@ -72,7 +74,7 @@ public class Enemy : MonoBehaviour
     }
 
     private void Enemy_OnDamage(DamageTakenInfo obj)
-    {
+    {        
         StartAggro();
     }
 
@@ -115,7 +117,7 @@ public class Enemy : MonoBehaviour
 
     private void StartAggro()
     {
-        if (stateController.CurrentStateId == wanderingState && !zombieAgroSequence.IsPlaying)
+        if (sectionId == baricadeController.CurrentSection && stateController.CurrentStateId == wanderingState && !zombieAgroSequence.IsPlaying)
         {
             GoAggressive();
         }
@@ -123,6 +125,7 @@ public class Enemy : MonoBehaviour
 
     public void GoAggressive()
     {
+       
         float rand = Random.Range(0f, 100f);
         if (rand < 30f)
         {

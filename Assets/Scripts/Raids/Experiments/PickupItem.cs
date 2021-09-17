@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PickupItem : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class PickupItem : MonoBehaviour
     bool pickuped = false;
 
     public SubjectId SectionId => sectionId;
+
+    private void Start()
+    {
+        transform.DOLocalRotate(new Vector3(0f, 360f, 0f), 2f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
+    }
 
     void Pickup(GameObject user)
     {

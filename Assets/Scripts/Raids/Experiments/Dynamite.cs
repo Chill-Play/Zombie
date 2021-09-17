@@ -9,6 +9,7 @@ public class Dynamite : MonoBehaviour, IPlayerTool
     [SerializeField] float radius = 4f;
     [SerializeField] float damage = 200f;
     [SerializeField] LayerMask mask;
+    [SerializeField] GameObject explosionVFX;
 
     public void Detonate()
     {
@@ -48,6 +49,7 @@ public class Dynamite : MonoBehaviour, IPlayerTool
                 damagable.Damage(damageInfo);
             }
         }
+        Instantiate(explosionVFX, transform.position, Quaternion.identity);
         Destroy(gameObject);               
     }
 }
