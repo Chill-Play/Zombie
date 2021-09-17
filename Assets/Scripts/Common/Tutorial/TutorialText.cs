@@ -38,14 +38,12 @@ public class TutorialText : MonoBehaviour
 
     private void HideTrigger_OnTrigger()
     {
-        Debug.Log("HideTrigger");
         content.DOKill(true);
         content.DOScale(Vector3.zero, timeToHide).SetEase(Ease.InCirc).OnComplete(() => gameObject.SetActive(false));
     }
 
     private void ShowConditionTrigger_OnTrigger()
-    {
-        Debug.Log("ShowConditionTrigger");
+    {    
         gameObject.SetActive(true);
         content.DOKill(true);
         content.localScale = Vector3.zero;
