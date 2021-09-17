@@ -33,7 +33,7 @@ public class UnityAnalytics : MonoBehaviour
         var args = new Dictionary<string, object>();
         args.Add("stat", obj.Item1.saveId);
         args.Add("level", obj.Item2);
-        SendEvent("hq_level_up", args);
+        SendEvent("stat_level_up", args);
     }
 
     private void Hq_OnLevelUp()
