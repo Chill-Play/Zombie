@@ -47,9 +47,9 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     }
 
 
-    public void ShowRewardedVideo()
+    public void ShowRewardedVideo(System.Action<bool> callback)
     {
-
+        callback?.Invoke(true);
     }
 
 

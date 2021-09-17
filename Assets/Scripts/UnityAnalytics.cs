@@ -40,7 +40,7 @@ public class UnityAnalytics : MonoBehaviour
     {
         var hq = FindObjectOfType<HQBuilding>();
         var args = new Dictionary<string, object>();
-        args.Add("level", hq.Level);
+        args.Add("level", hq.Level + 1);
         SendEvent("hq_level_up", args);
     }
 

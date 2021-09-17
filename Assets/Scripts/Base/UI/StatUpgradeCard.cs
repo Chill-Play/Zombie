@@ -12,10 +12,10 @@ public class StatUpgradeCard : UpgradeCard
     [SerializeField] TMP_Text levelLabel;
 
 
-    public void Setup(StatInfo statInfo, StatsType type, ResourcesInfo resources, System.Action OnClick)
+    public void Setup(StatInfo statInfo, StatsType type, ResourcesInfo resources, bool freeOption, System.Action<bool> OnClick)
     {
         var cost = type.GetLevelCost(statInfo.level);
-        Setup(cost, resources, OnClick);
+        Setup(cost, resources, freeOption, OnClick);
         if (cost.IsFilled(resources))
         {
             icon.sprite = type.icon;

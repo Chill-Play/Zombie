@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class HQUpgradeScreen : UIScreen
 {
+    const int MINIMAL_HQ_LEVEL_TO_FREE_OPTION = 2;
+
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] HQUpgradeCard card;
     [SerializeField] TMP_Text levelLabel;
@@ -29,14 +31,32 @@ public class HQUpgradeScreen : UIScreen
         var cost = hq.GetCostForLevelUp();
         var level = hq.Level;
         levelLabel.text = "LVL " + (level + 1);
-        card.Setup(level + 2, cost, availableResources, () =>
+        bool freeOption = (level + 1) >= MINIMAL_HQ_LEVEL_TO_FREE_OPTION;
+        card.Setup(level + 2, cost, availableResources, freeOption, (free) =>
         {
-            hq.LevelUp();
+            if (free)
+            {
+                AdvertisementManager.Instance.ShowRewardedVideo((result) =>
+                {
+                    if (result) LevelUp(hq, cost, free);
+                });
+            }
+            else
+            {
+                LevelUp(hq, cost, free);
+            }
+        });
+    }
+
+    void LevelUp(HQBuilding hq, ResourcesInfo cost, bool free)
+    {
+        if (!free)
+        {
             availableResources.Subtract(cost);
             FindObjectOfType<ResourcesController>().UpdateResources();
-            UpdateButton();
-        });
-
+        }
+        hq.LevelUp();
+        UpdateButton();
     }
 
 

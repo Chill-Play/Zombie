@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class UpgradesScreen : UIScreen
 {
+    const int MINIMAL_STAT_LEVEL_TO_FREE_OPTION = 2;
+
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] TMP_Text label;
     [SerializeField] List<StatUpgradeCard> cards;
@@ -37,15 +39,35 @@ public class UpgradesScreen : UIScreen
         {
             var type = stats[i].Item1;
             var info = stats[i].Item2;
-            cards[i].Setup(info, type, availableResources, () =>
+            bool freeOption = info.level >= MINIMAL_STAT_LEVEL_TO_FREE_OPTION;
+            cards[i].Setup(info, type, availableResources, freeOption, (free) =>
             {
-                var cost = type.GetLevelCost(info.level);
-                availableResources.Subtract(cost);
-                FindObjectOfType<StatsManager>().AddStatLevel(type);
-                FindObjectOfType<ResourcesController>().UpdateResources();
-                UpdateButtons();
+                if (free)
+                {
+                    AdvertisementManager.Instance.ShowRewardedVideo((result) =>
+                    {
+                        if (result) UpgradeStat(info, type, free);
+                    });
+                }
+                else
+                {
+                    UpgradeStat(info, type, free);
+                }                
             });
         }
+    }
+
+    void UpgradeStat(StatInfo info, StatsType type, bool free)
+    {
+        if (!free)
+        {
+            var cost = type.GetLevelCost(info.level);
+            availableResources.Subtract(cost);
+            FindObjectOfType<ResourcesController>().UpdateResources();
+        }
+        
+        FindObjectOfType<StatsManager>().AddStatLevel(type);        
+        UpdateButtons();
     }
 
 
