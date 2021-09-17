@@ -81,6 +81,10 @@ public class Buildable : BaseObject
     {
         built = true;
         enabled = false;
+        if(!afterDeserialization)
+        {
+            AdvertisementManager.Instance.TryShowInterstitial();
+        }
         OnBuilt?.Invoke(afterDeserialization);
     }
 

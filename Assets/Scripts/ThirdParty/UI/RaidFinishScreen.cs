@@ -97,6 +97,7 @@ public class RaidFinishScreen : UIScreen
         resourceController.AddResources(info);
         resourceController.UpdateResources();
         SaveSquad();
+        AdvertisementManager.Instance.TryShowInterstitial();
         LevelController.Instance.ToBase(true);
     }
 

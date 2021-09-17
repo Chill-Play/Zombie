@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdvertismentManager : SingletonMono<AdvertismentManager>
+public class AdvertisementManager : SingletonMono<AdvertisementManager>
 {
 
 
@@ -32,7 +32,7 @@ public class AdvertismentManager : SingletonMono<AdvertismentManager>
         #endif
     }
 
-    public void ShowInterstitial()
+    public void TryShowInterstitial()
     {
         #if HC_ADS
         if (lastInterstitialShown + TimeSpan.FromSeconds(interstitialCooldown) <= DateTime.Now)
