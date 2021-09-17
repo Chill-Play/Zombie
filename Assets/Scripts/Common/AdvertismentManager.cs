@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdvertismentManager : MonoBehaviour
+public class AdvertismentManager : SingletonMono<AdvertismentManager>
 {
 
 
