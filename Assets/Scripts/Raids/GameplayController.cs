@@ -27,6 +27,12 @@ public class GameplayController : SingletonMono<GameplayController>
         Level level = FindObjectOfType<Level>();
         spawnPoint.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
         level.OnLevelFailed += OnLevelFailed;
+        level.OnRevive += Level_OnRevive;
+    }
+
+    private void Level_OnRevive()
+    {
+        InputJoystick.InputReceiver = SquadInstance;
     }
 
     private void SpawnPoint_OnReturnedToBase()

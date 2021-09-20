@@ -32,7 +32,7 @@ public class SurvivorAI : MonoBehaviour
     }
 
     private void SurvivorAI_OnLevelFailed()
-    {
+    {        
         ToState(leaderDefeatedState);
     }
 

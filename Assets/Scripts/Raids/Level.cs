@@ -24,6 +24,7 @@ public class Level : SingletonMono<Level>
     public event System.Action OnLevelEnded;
     public event System.Action OnLevelFailed;
     public event System.Action OnLevelStarted;
+    public event System.Action OnRevive;
 
 
     [SerializeField] List<Transform> zombiesSpawnPoints;
@@ -65,8 +66,8 @@ public class Level : SingletonMono<Level>
 
     public float MaxNoiseLevel => maxNoiseLevel;
     public float ComingTimerValue => comingTimer / comingTime;
-    
 
+    public bool ReviveOption { get; set; } = true;
 
     private void Awake()
     {
@@ -251,11 +252,11 @@ public class Level : SingletonMono<Level>
 
     bool levelEnded;
     public void EndLevel()
-    {
+    {       
         if(levelEnded)
-        {
+        {       
             return;
-        }
+        }       
         levelEnded = true;
         if (spawnWavesCoroutine != null)
         {
@@ -316,7 +317,39 @@ public class Level : SingletonMono<Level>
 
 
     void SpawnPoint_OnReturnedToBase()
-    {
+    {        
         EndLevel();
+    }
+
+    public void ReviveClicked()
+    {
+        AdvertisementManager.Instance.ShowRewardedVideo((result) =>
+        {
+            if (result) Revive();
+        });
+     
+    }
+
+    public void Revive()
+    {
+        ReviveOption = false;
+        levelEnded = false;
+
+        gameplayController.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
+
+        for (int i = enemies.Count - 1; i >= 0; i--)
+        {
+            enemies[i].GetComponent<UnitHealth>().OnDead -= Enemy_OnDead;
+            enemies.RemoveAt(i);
+        }
+
+        if (spawnWavesCoroutine != null)
+        {
+            StopCoroutine(spawnWavesCoroutine);
+        }
+        SpawnHorde(hordeSize, bigZombiesCount, 0, generation);
+
+        squad.Revive();
+        OnRevive?.Invoke();
     }
 }

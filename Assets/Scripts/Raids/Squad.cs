@@ -8,6 +8,10 @@ public class Squad : MonoBehaviour, IInputReceiver
     public event System.Action<Unit> OnUnitAdd;
     public event System.Action OnPlayerUnitDead;
 
+
+    [SerializeField] Bomb bombPrefab;
+    [SerializeField] Unit mainSurvivor;
+    [SerializeField] Unit pickupSurvivor;
     [SerializeField] List<UnitMovement> units;
     [SerializeField] float unitRadius;
     [SerializeField] float unitCatchingDistance = 5f;
@@ -18,6 +22,9 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     List<InteractivePointDetection> interactivePointDetections = new List<InteractivePointDetection>();
     List<bool> caughtUpSquad = new List<bool>();
+
+    public List<UnitMovement> deadUnits = new List<UnitMovement>();
+
     public bool IsMoving => isMoving;
     public List<UnitMovement> Units => units;
 
@@ -48,6 +55,8 @@ public class Squad : MonoBehaviour, IInputReceiver
                 units.RemoveAt(i);
                 interactivePointDetections.RemoveAt(i);
                 caughtUpSquad.RemoveAt(i);
+                deadUnits.Add(unit);
+                break;
             }
         }
     }
@@ -194,7 +203,7 @@ public class Squad : MonoBehaviour, IInputReceiver
     }
 
     IEnumerator ToCarMovement(SpawnPoint spawnPoint, System.Action inCarCallback)
-    {
+    {      
         List<UnitMovement> tempUnits = new List<UnitMovement>();
         int escapeUnitsCount = units.Count;
         Vector3 target = spawnPoint.EscapePoint.transform.position;
@@ -217,6 +226,39 @@ public class Squad : MonoBehaviour, IInputReceiver
             yield return null;
         }
         inCarCallback?.Invoke();
+    }
+
+    public void Revive()
+    {
+        int unitsCount = units.Count + deadUnits.Count - 1;
+
+        for (int i = 0; i < deadUnits.Count; i++)
+        {
+            Destroy(deadUnits[i].gameObject);
+        }
+        for (int i = 0; i < units.Count; i++)
+        {
+            Destroy(units[i].gameObject);
+        }
+        deadUnits.Clear();
+        units.Clear();
+        interactivePointDetections.Clear();
+        caughtUpSquad.Clear();
+
+        Unit mainDude = Instantiate(mainSurvivor, transform.position, transform.rotation);
+        AddUnit(mainDude);
+
+        for (int i = 0; i < unitsCount; i++)
+        {
+            Unit instance = Instantiate(pickupSurvivor, transform.position, transform.rotation);
+            AddUnit(instance);
+        }
+
+        units[0].GetComponent<PlayerResources>().CanMoveToResources = false;
+        units[0].GetComponent<UnitHealth>().OnDead += Squad_OnDead;
+
+        Bomb bomb = Instantiate(bombPrefab, transform.position + Vector3.up * 3f, Quaternion.identity);
+        bomb.Detonate();
     }
 }
     
