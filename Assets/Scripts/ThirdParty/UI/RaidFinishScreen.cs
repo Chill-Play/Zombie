@@ -7,6 +7,9 @@ using TMPro;
 
 public class RaidFinishScreen : UIScreen
 {
+    const int OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL = 2;
+    const int OPPORTUNITY_TO_DOUBLE_PERIODICITY = 2;
+
     [SerializeField] Image background;
     [SerializeField] Transform upperPanel;
     [SerializeField] Transform collectedPanel;
@@ -15,6 +18,7 @@ public class RaidFinishScreen : UIScreen
     [SerializeField] Transform continueButton;
     [SerializeField] Transform survivorsPanel;
     [SerializeField] TMP_Text survivorsLabel;
+    [SerializeField] Button doubleButton;
 
     Squad squad;
 
@@ -41,6 +45,7 @@ public class RaidFinishScreen : UIScreen
         collectedPanel.transform.localScale = Vector3.zero;
         continueButton.transform.localScale = Vector3.zero;
         survivorsPanel.transform.localScale = Vector3.zero;
+        doubleButton.transform.localScale = Vector3.zero;
 
         Sequence sequence = DOTween.Sequence();
         
@@ -53,6 +58,17 @@ public class RaidFinishScreen : UIScreen
         sequence.AppendInterval(resources.Count * 0.5f + 0.5f);
         sequence.Append(survivorsPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         sequence.Append(continueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+        sequence.Append(doubleButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+
+        LevelInfo levelInfo = Level.Instance.GetLevelInfo();
+        if (levelInfo.levelNumber >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && levelInfo.levelNumber % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0)
+        {
+            doubleButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            doubleButton.gameObject.SetActive(false);
+        }
     }
 
 
@@ -70,22 +86,16 @@ public class RaidFinishScreen : UIScreen
 
     public void DoubleClicked()
     {
-        var info = new ResourcesInfo();
-        var resources = FindObjectOfType<SquadBackpack>().Resources;
-        var resourceController = ResourcesController.Instance;
-        foreach(var pair in resources)
+        AdvertisementManager.Instance.ShowRewardedVideo((result) =>
         {
-            info.AddSlot(pair.Key, pair.Value);
-        }
-        resourceController.AddResources(info);
-        resourceController.AddResources(info);
-        resourceController.UpdateResources();
-        SaveSquad();
-        LevelController.Instance.ToBase(true);
+            if (result)
+            {
+                CollectResources(2);
+            }
+        }); 
     }
 
-
-    public void NoThanksClicked()
+    public void CollectResources(int multiplier = 1)
     {
         var info = new ResourcesInfo();
         var resources = FindObjectOfType<SquadBackpack>().Resources;
@@ -94,11 +104,20 @@ public class RaidFinishScreen : UIScreen
         {
             info.AddSlot(pair.Key, pair.Value);
         }
-        resourceController.AddResources(info);
+        for (int i = 0; i < multiplier; i++)
+        {
+            resourceController.AddResources(info);
+        }       
         resourceController.UpdateResources();
         SaveSquad();
-        AdvertisementManager.Instance.TryShowInterstitial();
         LevelController.Instance.ToBase(true);
+    }
+
+
+    public void NoThanksClicked()
+    {
+        CollectResources();
+        AdvertisementManager.Instance.TryShowInterstitial();  
     }
 
     void SaveSquad()
