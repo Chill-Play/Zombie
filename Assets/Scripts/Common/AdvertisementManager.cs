@@ -15,8 +15,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     const string INTERSTITIAL_UNIT = "ebd4fbbdef2bad80";
     const string REWARDED_UNIT = "4e339487e26a9c31";
     int retryAttempt;
-    double lastInterstitialShown;
-    float gameTime;
+    DateTime lastInterstitialShown;
 
     System.Action<bool> onRewardedClosed;
 
@@ -43,9 +42,8 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     public void TryShowInterstitial()
     {
         #if HC_ADS
-        if (lastInterstitialShown + (double)interstitialCooldown <= Time.timeAsDouble)
+        if (lastInterstitialShown + TimeSpan.FromSeconds(interstitialCooldown) <= DateTime.Now)
         {
-            lastInterstitialShown = Time.timeAsDouble;
             if (MaxSdk.IsInterstitialReady(INTERSTITIAL_UNIT))
             {
                 MaxSdk.ShowInterstitial(INTERSTITIAL_UNIT);
@@ -147,6 +145,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     private void OnInterstitialHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
     {
         // Interstitial ad is hidden. Pre-load the next ad.
+        lastInterstitialShown = DateTime.Now;
         LoadInterstitial();
     }
 

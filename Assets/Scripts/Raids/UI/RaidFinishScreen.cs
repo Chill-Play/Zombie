@@ -69,8 +69,8 @@ public class RaidFinishScreen : UIScreen
 
         if (doubleOpportunity)
         {
-            sequence.Append(alternativeContinueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
             sequence.Append(doubleButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+            sequence.Append(alternativeContinueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         }
         else
         {          
@@ -124,7 +124,10 @@ public class RaidFinishScreen : UIScreen
     public void NoThanksClicked()
     {
         CollectResources();
-        AdvertisementManager.Instance.TryShowInterstitial();  
+        if (LevelController.Instance.CurrentLevel > 1)
+        {
+            AdvertisementManager.Instance.TryShowInterstitial();
+        }
     }
 
     void SaveSquad()
