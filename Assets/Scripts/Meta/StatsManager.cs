@@ -28,11 +28,11 @@ public class StatsManager : SingletonMono<StatsManager>
         }
     }
 
-    public int AddStatLevel(StatsType statsType, int value = 1)
+    public int AddStatLevel(StatsType statsType, bool free, int value = 1)
     {
         if (statsInfo.ContainsKey(statsType))
         {
-            if (LevelController.Instance.CurrentLevel > 1)
+            if (LevelController.Instance.CurrentLevel > 1 && !free)
             {
                 AdvertisementManager.Instance.TryShowInterstitial();
             }

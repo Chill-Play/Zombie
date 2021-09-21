@@ -118,7 +118,7 @@ public class UpgradesScreen : UIScreen
             FindObjectOfType<ResourcesController>().UpdateResources();
         }
         
-        FindObjectOfType<StatsManager>().AddStatLevel(type);        
+        FindObjectOfType<StatsManager>().AddStatLevel(type, free);        
         UpdateButtons(zone);
     }
 
