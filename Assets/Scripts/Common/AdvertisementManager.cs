@@ -12,9 +12,16 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
     [SerializeField] float interstitialCooldown = 30.0f;
 
-    const string adUnitId = "ebd4fbbdef2bad80";
+    const string INTERSTITIAL_UNIT = "ebd4fbbdef2bad80";
+    const string REWARDED_UNIT = "4e339487e26a9c31";
     int retryAttempt;
     DateTime lastInterstitialShown;
+
+    System.Action<bool> onRewardedClosed;
+
+
+    public bool RewardedAvailable => MaxSdk.IsRewardedAdReady(REWARDED_UNIT);
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +30,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         DontDestroyOnLoad(this);
         MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) => {
             InitializeInterstitialAds();
+            InitializeRewardedAds();
         };
 
         MaxSdk.SetSdkKey("6AQkyPv9b4u7yTtMH9PT40gXg00uJOTsmBOf7hDxa_-FnNZvt_qTLnJAiKeb5-2_T8GsI_dGQKKKrtwZTlCzAR");
@@ -37,9 +45,9 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         if (lastInterstitialShown + TimeSpan.FromSeconds(interstitialCooldown) <= DateTime.Now)
         {
             lastInterstitialShown = DateTime.Now;
-            if (MaxSdk.IsInterstitialReady(adUnitId))
+            if (MaxSdk.IsInterstitialReady(INTERSTITIAL_UNIT))
             {
-                MaxSdk.ShowInterstitial(adUnitId);
+                MaxSdk.ShowInterstitial(INTERSTITIAL_UNIT);
             }
         }
         #endif
@@ -48,6 +56,15 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
     public void ShowRewardedVideo(System.Action<bool> callback)
     {
+#if HC_ADS && !UNITY_EDITOR
+        onRewardedClosed = callback;
+        if (MaxSdk.IsRewardedAdReady(REWARDED_UNIT))
+        {
+            rewardReceived = false;
+             MaxSdk.ShowRewardedAd(REWARDED_UNIT);
+        }
+        return;
+#endif
         callback?.Invoke(true);
     }
 
@@ -68,10 +85,30 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         #endif
     }
 
+
+    public void InitializeRewardedAds()
+    {
+        #if HC_ADS
+        // Attach callback
+        MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnRewardedAdLoadedEvent;
+        MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnRewardedAdLoadFailedEvent;
+        MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnRewardedAdDisplayedEvent;
+        MaxSdkCallbacks.Rewarded.OnAdClickedEvent += OnRewardedAdClickedEvent;
+        MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += OnRewardedAdRevenuePaidEvent;
+        MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnRewardedAdHiddenEvent;
+        MaxSdkCallbacks.Rewarded.OnAdDisplayFailedEvent += OnRewardedAdFailedToDisplayEvent;
+        MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnRewardedAdReceivedRewardEvent;
+
+        // Load the first rewarded ad
+        LoadRewardedAd();
+        #endif
+    }
+
+
     private void LoadInterstitial()
     {
         #if HC_ADS
-        MaxSdk.LoadInterstitial(adUnitId);
+        MaxSdk.LoadInterstitial(INTERSTITIAL_UNIT);
         #endif
     }
 
@@ -111,5 +148,65 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         // Interstitial ad is hidden. Pre-load the next ad.
         LoadInterstitial();
     }
-    #endif
+
+
+    private void LoadRewardedAd()
+    {
+        MaxSdk.LoadRewardedAd(REWARDED_UNIT);
+    }
+
+    private void OnRewardedAdLoadedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
+    {
+        // Rewarded ad is ready for you to show. MaxSdk.IsRewardedAdReady(adUnitId) now returns 'true'.
+
+        // Reset retry attempt
+        retryAttempt = 0;
+    }
+
+    private void OnRewardedAdLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)
+    {
+        // Rewarded ad failed to load 
+        // AppLovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds).
+
+        retryAttempt++;
+        double retryDelay = Math.Pow(2, Math.Min(6, retryAttempt));
+
+        Invoke("LoadRewardedAd", (float)retryDelay);
+    }
+
+    private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) { }
+
+    private void OnRewardedAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo, MaxSdkBase.AdInfo adInfo)
+    {
+        // Rewarded ad failed to display. AppLovin recommends that you load the next ad.
+        LoadRewardedAd();
+    }
+
+    private void OnRewardedAdClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) { }
+
+    private void OnRewardedAdHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
+    {
+        Debug.Log("AppLovin : Hidden");
+        if(!rewardReceived)
+        {
+            onRewardedClosed?.Invoke(false);
+        }
+        // Rewarded ad is hidden. Pre-load the next ad
+        LoadRewardedAd();
+    }
+    bool rewardReceived;
+    private void OnRewardedAdReceivedRewardEvent(string adUnitId, MaxSdk.Reward reward, MaxSdkBase.AdInfo adInfo)
+    {
+        Debug.Log("AppLovin : AdReceivedReward");
+        // The rewarded ad displayed and the user should receive the reward.
+        rewardReceived = true;
+        onRewardedClosed?.Invoke(true);
+    }
+
+    private void OnRewardedAdRevenuePaidEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
+    {
+        // Ad revenue paid. Use this callback to track user revenue.
+    }
+
+#endif
 }
