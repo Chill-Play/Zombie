@@ -15,10 +15,11 @@ public class RaidFinishScreen : UIScreen
     [SerializeField] Transform collectedPanel;
     [SerializeField] Transform colletctedContent;
     [SerializeField] ResourceBar resourceBarPrefab;
-    [SerializeField] Transform continueButton;
     [SerializeField] Transform survivorsPanel;
     [SerializeField] TMP_Text survivorsLabel;
-    [SerializeField] Button doubleButton;
+    [SerializeField] Transform doubleButton;
+    [SerializeField] Transform continueButton;
+    [SerializeField] Transform alternativeContinueButton;
 
     Squad squad;
 
@@ -37,15 +38,19 @@ public class RaidFinishScreen : UIScreen
 
     public void Show(Dictionary<ResourceType, int> resources)
     {
+        LevelInfo levelInfo = Level.Instance.GetLevelInfo();
+        bool doubleOpportunity = levelInfo.levelNumber >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && levelInfo.levelNumber % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
+
         survivorsLabel.text = "+" + (squad.Units.Count - 1);
 
 
         background.color = new Color(background.color.r, background.color.g, background.color.b, 0f);
         upperPanel.transform.localScale = Vector3.zero;
-        collectedPanel.transform.localScale = Vector3.zero;
-        continueButton.transform.localScale = Vector3.zero;
+        collectedPanel.transform.localScale = Vector3.zero; 
         survivorsPanel.transform.localScale = Vector3.zero;
         doubleButton.transform.localScale = Vector3.zero;
+        continueButton.transform.localScale = Vector3.zero;
+        alternativeContinueButton.transform.localScale = Vector3.zero;
 
         Sequence sequence = DOTween.Sequence();
         
@@ -57,18 +62,20 @@ public class RaidFinishScreen : UIScreen
         sequence.AppendCallback(() => StartCoroutine(ShowCollectedResources(resources)));
         sequence.AppendInterval(resources.Count * 0.5f + 0.5f);
         sequence.Append(survivorsPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
-        sequence.Append(continueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
-        sequence.Append(doubleButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
 
-        LevelInfo levelInfo = Level.Instance.GetLevelInfo();
-        if (levelInfo.levelNumber >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && levelInfo.levelNumber % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable)
+        continueButton.gameObject.SetActive(!doubleOpportunity);
+        doubleButton.gameObject.SetActive(doubleOpportunity);
+        alternativeContinueButton.gameObject.SetActive(doubleOpportunity);
+
+        if (doubleOpportunity)
         {
-            doubleButton.gameObject.SetActive(true);
+            sequence.Append(alternativeContinueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+            sequence.Append(doubleButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         }
         else
-        {
-            doubleButton.gameObject.SetActive(false);
-        }
+        {          
+            sequence.Append(continueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+        }     
     }
 
 
