@@ -32,7 +32,10 @@ public class StatsManager : SingletonMono<StatsManager>
     {
         if (statsInfo.ContainsKey(statsType))
         {
-            AdvertisementManager.Instance.TryShowInterstitial();
+            if (LevelController.Instance.CurrentLevel > 1)
+            {
+                AdvertisementManager.Instance.TryShowInterstitial();
+            }
             var info = statsInfo[statsType];
             info.level += value;
             var key = GetStatSaveId(statsType);

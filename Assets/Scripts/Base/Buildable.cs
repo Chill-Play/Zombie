@@ -81,7 +81,7 @@ public class Buildable : BaseObject
     {
         built = true;
         enabled = false;
-        if(!afterDeserialization)
+        if(!afterDeserialization && LevelController.Instance.CurrentLevel > 1)
         {
             AdvertisementManager.Instance.TryShowInterstitial();
         }

@@ -14,9 +14,9 @@ public class UpgradeCard : MonoBehaviour
     protected bool unlocked;
 
 
-    public virtual void Setup(ResourcesInfo cost, ResourcesInfo resources, System.Action OnClick)
+    public virtual void Setup(ResourcesInfo cost, ResourcesInfo resources, bool forceUnlock, System.Action OnClick)
     {
-        if (cost.IsFilled(resources))
+        if (cost.IsFilled(resources) || forceUnlock)
         {
             background.sprite = unlockedSprite;
             unlocked = true;
