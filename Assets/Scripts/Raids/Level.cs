@@ -321,12 +321,14 @@ public class Level : SingletonMono<Level>
         EndLevel();
     }
 
-    public void ReviveClicked()
+    public bool ReviveClicked()
     {
+        var available = AdvertisementManager.Instance.RewardedAvailable;
         AdvertisementManager.Instance.ShowRewardedVideo((result) =>
         {
             if (result) Revive();
         });
+        return available;
      
     }
 

@@ -107,7 +107,9 @@ public class AnalyticsManager : SingletonMono<AnalyticsManager>
 
     public void ReportEvent(string id, Dictionary<string, object> parameters)
     {
+#if UNITY_EDITOR
         Debug.Log("Analytics event : " + id + " : " + string.Join(Environment.NewLine, parameters));
+#endif
         AppMetrica.Instance.ReportEvent(id, parameters);
     }
 }

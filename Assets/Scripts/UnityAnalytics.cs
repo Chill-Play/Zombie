@@ -81,7 +81,9 @@ public class UnityAnalytics : MonoBehaviour
 
     void SendEvent(string e, Dictionary<string, object> args)
     {
+#if UNITY_EDITOR
         Debug.Log("Send Unity Event : " + e + " : " + string.Join(Environment.NewLine, args));
+#endif
         AnalyticsEvent.Custom(e, args);
     }
 }
