@@ -6,6 +6,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
 {
     public event System.Action<float> OnRaidReadiness;
     public event System.Action OnRaidUnpreparedness;
+    public event System.Action OnRunRaid;
 
     [SerializeField] CameraController cameraController;
     [SerializeField] GameObject playerPrefab;
@@ -50,6 +51,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     IEnumerator RaidCoroutine()
     {
         yield return new WaitForSeconds(timeBeforeRaid);
+        OnRunRaid?.Invoke();
         Game.Instance.RunRaid();
     }
 

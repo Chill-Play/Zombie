@@ -24,7 +24,7 @@ public class CampTutorialContent : MonoBehaviour
         else
         {
             PlayerPrefs.SetInt(TUTORIAL_COMPLETED_KEY, 1);
-            FindObjectOfType<RaidZone>().gameObject.SetActive(false);
+            FindObjectOfType<RaidZone>().gameObject.SetActive(false);          
             tutorialUIInfo.gameObject.SetActive(true);
             tutorialUIInfo.gameObject.SetActive(false);
         }
@@ -36,7 +36,7 @@ public class CampTutorialContent : MonoBehaviour
         {
             ResourcesController resourcesController = FindObjectOfType<ResourcesController>();
             resourcesController.AddResources(startResources);
-            resourcesController.UpdateResources();
+            resourcesController.UpdateResources();   
         }
     }
 }

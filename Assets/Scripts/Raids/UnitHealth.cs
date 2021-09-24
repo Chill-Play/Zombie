@@ -62,8 +62,7 @@ public class UnitHealth : MonoBehaviour, IDamagable
     }
 
     public void Damage(DamageInfo info)
-    {
-        
+    {        
         TakeDamage(info.damage, info.direction);
     }
 }

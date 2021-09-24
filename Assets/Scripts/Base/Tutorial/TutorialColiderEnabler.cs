@@ -8,7 +8,7 @@ public class TutorialColiderEnabler : MonoBehaviour
     [SerializeField] List<Collider> colliders = new List<Collider>();
 
 
-    private void Awake()
+    private void Start()
     {
         if (conditionTrigger != null)
         {
