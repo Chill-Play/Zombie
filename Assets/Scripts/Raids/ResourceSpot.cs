@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ResourceSpot : MonoBehaviour
 {
@@ -20,10 +21,12 @@ public class ResourceSpot : MonoBehaviour
 
     int uses = 0;
 
+     IEnumerable<INoiseListener> noiseListeners;
+
     private void Awake()
     {
         scale = transform.localScale.magnitude;
-        //Level.Instance.RegisterResourceSpot(this);
+        noiseListeners = FindObjectsOfType<MonoBehaviour>().OfType<INoiseListener>();
     }
 
     public void UseSpot(GameObject user)
@@ -35,9 +38,9 @@ public class ResourceSpot : MonoBehaviour
         SpawnResources(user);
         uses++;
 
-        if (Level.Instance != null)
+        if (noiseListeners != null)
         {
-            Level.Instance.AddNoiseLevel(noisePerUse);
+            noiseListeners.FirstOrDefault().AddNoiseLevel(noisePerUse);
         }
 
         transform.DOKill(true);

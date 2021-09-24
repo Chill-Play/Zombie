@@ -55,10 +55,10 @@ public class ReviveScreen : UIScreen
 
     public void Revive()
     {
-        var available = Level.Instance.ReviveClicked();
+       /* var available = Level.Instance.ReviveClicked();
         if(available)
         {
             stopTimer = true;
-        }
+        }*/
     }
 }

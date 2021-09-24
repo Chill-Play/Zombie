@@ -23,18 +23,20 @@ public class InGameUI : UIScreen
     [SerializeField] bool tutorialMode = false;
 
     State state;
+    NoiseController noiseController;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        if (Level.Instance != null)
-        {
-            Level.Instance.OnNoiseLevelChanged += Level_OnNoiseLevelChanged;
-            Level.Instance.OnNoiseLevelExceeded += Level_OnNoiseLevelExceeded;
-            Level.Instance.OnHordeDefeated += Level_OnHordeDefeated;
-        }
+        noiseController = FindObjectOfType<NoiseController>();
+
+        noiseController.OnNoiseLevelChanged += Level_OnNoiseLevelChanged;
+        noiseController.OnNoiseLevelExceeded += Level_OnNoiseLevelExceeded;
+        //Level.Instance.OnHordeDefeated += Level_OnHordeDefeated;
+
         noiseBar.SetValue(0f);
-        
+
         baseIndicator.gameObject.SetActive(false);
         if (tutorialMode)
         {
@@ -72,7 +74,7 @@ public class InGameUI : UIScreen
 
     private void Level_OnNoiseLevelChanged(float value)
     {
-        noiseBar.SetValue(value / Level.Instance.MaxNoiseLevel);
+        noiseBar.SetValue(value / noiseController.MaxNoiseLevel);
         noiseBar.transform.DOKill(true);
         noiseBar.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f, 3);
     }
