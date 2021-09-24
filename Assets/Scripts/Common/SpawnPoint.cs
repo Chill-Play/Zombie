@@ -9,6 +9,7 @@ public class SpawnPoint : MonoBehaviour
 
     [SerializeField] Transform carTransform;
     [SerializeField] Transform escapePoint;
+    [SerializeField] Collider collider;
 
     public Transform EscapePoint => escapePoint;
 
@@ -21,6 +22,7 @@ public class SpawnPoint : MonoBehaviour
 
     private void Awake()
     {
+        collider.enabled = false;
         scale = transform.localScale;
         carScale = carTransform.localScale;
     }
@@ -28,6 +30,7 @@ public class SpawnPoint : MonoBehaviour
     void SetIsReturningToBase(bool value)
     {
         isReturningToBase = value;
+        collider.enabled = value;
         if (value)
         {
             transform.DOPunchScale(scale * 0.1f, 0.5f, 1, 1f).SetLoops(-1);
@@ -40,10 +43,9 @@ public class SpawnPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(IsReturningToBase && (other.GetComponent<SurvivorMovement>() != null))
-        {
-            OnReturnedToBase?.Invoke();
-            //Level.Instance.EndLevel();
+        if(other.GetComponent<SurvivorMovement>() != null)
+        {            
+            OnReturnedToBase?.Invoke();          
         }
     }
 
@@ -51,5 +53,5 @@ public class SpawnPoint : MonoBehaviour
     {
         carTransform.DOKill(true);
         carTransform.DOPunchScale(carScale * 0.1f, 0.5f);
-    }
+    } 
 }
