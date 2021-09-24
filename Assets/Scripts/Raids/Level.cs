@@ -5,17 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public struct LevelInfo
-{
-    public int levelNumber;
-    public int levelId;
-    public int loop;
-    public string levelName;
-    public float progress;
-}
-
-
-
 public class Level : SingletonMono<Level>
 {
     public event System.Action<float> OnNoiseLevelChanged;
@@ -80,6 +69,7 @@ public class Level : SingletonMono<Level>
     {
         zombieLevel = LevelController.Instance.CurrentLevel;
         OnLevelStarted?.Invoke();
+        AnalyticsManager.Instance.OnLevelStarted(GetLevelInfo());
     }
 
     void OnEnable()
@@ -93,6 +83,7 @@ public class Level : SingletonMono<Level>
     {
         gameplayController.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
         OnLevelFailed?.Invoke();
+        AnalyticsManager.Instance.OnLevelFailed(GetLevelInfo());
     }
 
     void OnDisable()
@@ -278,6 +269,7 @@ public class Level : SingletonMono<Level>
             }
         }
         OnLevelEnded?.Invoke();
+        AnalyticsManager.Instance.OnLevelCompleted(GetLevelInfo());
         for (int i = 0; i < enemies.Count; i++)
         {
             enemies[i].Stop();
