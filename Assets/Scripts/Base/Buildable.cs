@@ -83,7 +83,7 @@ public class Buildable : BaseObject
         enabled = false;
         if(!afterDeserialization && LevelController.Instance.CurrentLevel > 1)
         {
-            AdvertisementManager.Instance.TryShowInterstitial();
+            AdvertisementManager.Instance.TryShowInterstitial("base_finished_building");
         }
         OnBuilt?.Invoke(afterDeserialization);
     }

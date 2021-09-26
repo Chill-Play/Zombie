@@ -56,7 +56,7 @@ public class UnityAnalytics : MonoBehaviour
     {
         var info = Level.Instance.GetLevelInfo();
         var args = new Dictionary<string, object>();
-        args.Add("raid_number", info.levelNumber);
+        args.Add("raid_number", info.levelNumber + 1);
         SendEvent("raid_completed", args);
     }
 
@@ -65,7 +65,7 @@ public class UnityAnalytics : MonoBehaviour
     {
         var info = Level.Instance.GetLevelInfo();
         var args = new Dictionary<string, object>();
-        args.Add("raid_number", info.levelNumber);
+        args.Add("raid_number", info.levelNumber + 1);
         SendEvent("raid_failed", args);
     }
 
@@ -74,7 +74,7 @@ public class UnityAnalytics : MonoBehaviour
     {
         var info = Level.Instance.GetLevelInfo();
         var args = new Dictionary<string, object>();
-        args.Add("raid_number", info.levelNumber);
+        args.Add("raid_number", info.levelNumber + 1);
         SendEvent("raid_started", args);
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public struct LevelInfo
 {
+    public int levelsPlayed;
     public int levelNumber;
     public int levelId;
     public int loop;

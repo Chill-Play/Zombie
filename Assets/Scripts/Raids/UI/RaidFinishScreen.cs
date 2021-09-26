@@ -99,10 +99,10 @@ public class RaidFinishScreen : UIScreen
             {
                 CollectResources(2);
             }
-        }); 
+        }, "raid_end_double_reward"); 
     }
 
-    public void CollectResources(int multiplier = 1)
+    public void CollectResources(int multiplier = 1) //bad method, does more that its called
     {
         var info = new ResourcesInfo();
         var resources = FindObjectOfType<SquadBackpack>().Resources;
@@ -117,6 +117,7 @@ public class RaidFinishScreen : UIScreen
         }       
         resourceController.UpdateResources();
         SaveSquad();
+        AnalyticsManager.Instance.OnLevelCompleted(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
         LevelController.Instance.ToBase(true);
     }
 
@@ -126,7 +127,7 @@ public class RaidFinishScreen : UIScreen
         CollectResources();
         if (LevelController.Instance.CurrentLevel > 1)
         {
-            AdvertisementManager.Instance.TryShowInterstitial();
+            AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
         }
     }
 

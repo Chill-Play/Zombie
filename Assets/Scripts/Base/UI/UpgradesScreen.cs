@@ -50,7 +50,7 @@ public class UpgradesScreen : UIScreen
                     {
                         zone.FreeUpgradeAvailable = false;
                         if (result) UpgradeStat(zone, info, type, free);
-                    });
+                    }, "base_shop_free_stat");
                 }
                 else
                 {

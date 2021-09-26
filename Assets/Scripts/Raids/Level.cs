@@ -57,6 +57,7 @@ public class Level : SingletonMono<Level>
     public float ComingTimerValue => comingTimer / comingTime;
 
     public bool ReviveOption { get; set; } = true;
+    public int Tries { get; set; } = 1;
 
     private void Awake()
     {
@@ -83,7 +84,6 @@ public class Level : SingletonMono<Level>
     {
         gameplayController.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
         OnLevelFailed?.Invoke();
-        AnalyticsManager.Instance.OnLevelFailed(GetLevelInfo());
     }
 
     void OnDisable()
@@ -170,6 +170,7 @@ public class Level : SingletonMono<Level>
         progress = Mathf.Clamp01(progress);
         return new LevelInfo()
         {
+            levelsPlayed = LevelController.Instance.LevelsPlayed,
             levelNumber = LevelController.Instance.CurrentLevel,
             levelName = SceneManager.GetActiveScene().name.Replace(" ", "_"),
             levelId = LevelController.Instance.LevelId,
@@ -269,7 +270,6 @@ public class Level : SingletonMono<Level>
             }
         }
         OnLevelEnded?.Invoke();
-        AnalyticsManager.Instance.OnLevelCompleted(GetLevelInfo());
         for (int i = 0; i < enemies.Count; i++)
         {
             enemies[i].Stop();
@@ -319,7 +319,7 @@ public class Level : SingletonMono<Level>
         AdvertisementManager.Instance.ShowRewardedVideo((result) =>
         {
             if (result) Revive();
-        });
+        }, "raid_revive");
         return available;
      
     }
@@ -344,6 +344,7 @@ public class Level : SingletonMono<Level>
         SpawnHorde(hordeSize, bigZombiesCount, 0, generation);
 
         squad.Revive();
+        Tries++;
         OnRevive?.Invoke();
     }
 }

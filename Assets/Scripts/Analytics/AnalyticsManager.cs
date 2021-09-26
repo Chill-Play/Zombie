@@ -36,15 +36,15 @@ public class AnalyticsManager : SingletonMono<AnalyticsManager>
     }
 
 
-    public void OnLevelCompleted(LevelInfo info)
+    public void OnLevelCompleted(LevelInfo info, int tries)
     {
-        SendLevelCompleted(info);
+        SendLevelCompleted(info, tries);
     }
 
 
-    public void OnLevelFailed(LevelInfo info)
+    public void OnLevelFailed(LevelInfo info, int tries)
     {
-        SendLevelFailed(info);
+        SendLevelFailed(info, tries);
     }
 
 
@@ -67,9 +67,9 @@ public class AnalyticsManager : SingletonMono<AnalyticsManager>
 
     void AddLevelInfoToParams(LevelInfo info, Dictionary<string, object> p)
     {
-        p.Add("level_number", info.levelId + 1);
+        p.Add("level_number", info.levelNumber + 1);
         p.Add("level_name", info.levelName);
-        p.Add("level_count", info.levelNumber + 1);
+        p.Add("level_count", info.levelsPlayed + 1);
         p.Add("level_diff", "medium");
         p.Add("level_loop", info.loop);
         p.Add("level_random", 0);
@@ -85,24 +85,26 @@ public class AnalyticsManager : SingletonMono<AnalyticsManager>
 
 
 
-    public void SendLevelFailed(LevelInfo info)
+    public void SendLevelFailed(LevelInfo info, int tries)
     {
         Dictionary<string, object> p = new Dictionary<string, object>();
         AddLevelInfoToParams(info, p);
         p.Add("result", "lose");
         p.Add("progress", 0);
+        p.Add("continue", tries);
         AddLevelInfoFinishParams(info, p);
         ReportEvent("level_finish", p);
         AppMetrica.Instance.SendEventsBuffer();
     }
 
 
-    public void SendLevelCompleted(LevelInfo info)
+    public void SendLevelCompleted(LevelInfo info, int tries)
     {
         Dictionary<string, object> p = new Dictionary<string, object>();
         AddLevelInfoToParams(info, p);
         p.Add("result", "win");
         p.Add("progress", 100);
+        p.Add("continue", tries);
         AddLevelInfoFinishParams(info, p);
         ReportEvent("level_finish", p);
         AppMetrica.Instance.SendEventsBuffer();

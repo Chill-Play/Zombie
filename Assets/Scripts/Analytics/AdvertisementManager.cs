@@ -18,6 +18,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     DateTime lastInterstitialShown;
 
     System.Action<bool> onRewardedClosed;
+    string cachedPlacement;
 
 
     public bool RewardedAvailable => MaxSdk.IsRewardedAdReady(REWARDED_UNIT);
@@ -39,7 +40,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         #endif
     }
 
-    public void TryShowInterstitial()
+    public void TryShowInterstitial(string placement)
     {
         #if HC_ADS
         if (lastInterstitialShown + TimeSpan.FromSeconds(interstitialCooldown) <= DateTime.Now)
@@ -53,15 +54,23 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     }
 
 
-    public void ShowRewardedVideo(System.Action<bool> callback)
+    public void ShowRewardedVideo(System.Action<bool> callback, string placement)
     {
-#if HC_ADS && !UNITY_EDITOR
+
+#if HC_ADS // && !UNITY_EDITOR
         onRewardedClosed = callback;
+        string result;
         if (MaxSdk.IsRewardedAdReady(REWARDED_UNIT))
         {
             rewardReceived = false;
-             MaxSdk.ShowRewardedAd(REWARDED_UNIT);
+            MaxSdk.ShowRewardedAd(REWARDED_UNIT);
+            result = "success";
         }
+        else
+        {
+            result = "not_available";
+        }
+        ReportAnalytics("video_ads_available", "rewarded", placement, result);
         return;
 #endif
         callback?.Invoke(true);
@@ -132,7 +141,10 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         Invoke("LoadInterstitial", (float)retryDelay);
     }
 
-    private void OnInterstitialDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) { }
+    private void OnInterstitialDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) 
+    {
+        ReportAnalytics("video_ads_started", "interstitial", cachedPlacement, "start");
+    }
 
     private void OnInterstitialAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo, MaxSdkBase.AdInfo adInfo)
     {
@@ -145,6 +157,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     private void OnInterstitialHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
     {
         // Interstitial ad is hidden. Pre-load the next ad.
+        ReportAnalytics("video_ads_watch", "interstitial", cachedPlacement, "watched");
         lastInterstitialShown = DateTime.Now;
         LoadInterstitial();
     }
@@ -159,7 +172,19 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     {
         // Rewarded ad is ready for you to show. MaxSdk.IsRewardedAdReady(adUnitId) now returns 'true'.
         // Reset retry attempt
+
         retryAttempt = 0;
+    }
+
+
+    void ReportAnalytics(string eventType, string adType, string placement, string result)
+    {
+        var p = new Dictionary<string, object>();
+        p.Add("ad_type", adType);
+        p.Add("placement", placement);
+        p.Add("result", result);
+        p.Add("connection", Application.internetReachability != NetworkReachability.NotReachable ? 1 : 0);
+        AnalyticsManager.Instance.ReportEvent(eventType, p);
     }
 
     private void OnRewardedAdLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)
@@ -173,7 +198,9 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         Invoke("LoadRewardedAd", (float)retryDelay);
     }
 
-    private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) { }
+    private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) {
+        ReportAnalytics("video_ads_started", "rewarded", cachedPlacement, "start");
+    }
 
     private void OnRewardedAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo, MaxSdkBase.AdInfo adInfo)
     {
@@ -190,6 +217,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         {
             onRewardedClosed?.Invoke(false);
         }
+        ReportAnalytics("video_ads_watch", "rewarded", cachedPlacement, "watched");
         // Rewarded ad is hidden. Pre-load the next ad
         LoadRewardedAd();
     }

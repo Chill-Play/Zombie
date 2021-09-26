@@ -34,7 +34,7 @@ public class StatsManager : SingletonMono<StatsManager>
         {
             if (LevelController.Instance.CurrentLevel > 1 && !free)
             {
-                AdvertisementManager.Instance.TryShowInterstitial();
+                AdvertisementManager.Instance.TryShowInterstitial("shop_bought_stat");
             }
             var info = statsInfo[statsType];
             info.level += value;
