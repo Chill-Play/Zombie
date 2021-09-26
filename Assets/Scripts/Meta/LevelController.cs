@@ -32,7 +32,7 @@ public class LevelController : SingletonMono<LevelController>
     private void Awake()
     {
         currentPack = PlayerPrefs.GetInt(PREF_CURRENT_PACK, 0);
-        currentLevel = PlayerPrefs.GetInt(PREF_CURRENT_LEVEL, -1);
+        currentLevel = PlayerPrefs.GetInt(PREF_CURRENT_LEVEL, 0);
         levelsPlayed = PlayerPrefs.GetInt(PREF_LEVELS_PLAYED, 0);
         totalLevelsInPack = collection.GetPack(currentPack).GetLevelsCount();
     }
@@ -49,7 +49,7 @@ public class LevelController : SingletonMono<LevelController>
 
     public void NextRaid()
     {
-        SceneReference scene = collection.GetPack(currentPack).GetLevel(currentLevel);
+        SceneReference scene = collection.GetPack(currentPack).GetLevel(currentLevel - 1);
         Debug.Log("Pack : " + currentPack + " Level : " + currentLevel);
         SceneManager.LoadScene(scene);
     }

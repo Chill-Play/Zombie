@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
 public class UIController : SingletonMono<UIController>
 {
     [SerializeField] List<UIScreen> screens;
     UIScreen activeScreen;
-
-    void Update()
-    {
-
-    }
-
 
     public void HideActiveScreen()
     {

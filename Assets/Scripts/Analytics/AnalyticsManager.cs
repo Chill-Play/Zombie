@@ -31,7 +31,9 @@ public class AnalyticsManager : SingletonMono<AnalyticsManager>
 
     public void SendTutorialEvent(string name)
     {
-        ReportEvent(name, null);
+        Dictionary<string, object> p = new Dictionary<string, object>();
+        p.Add("step_name", name);
+        ReportEvent("tutorial", p);
         AppMetrica.Instance.SendEventsBuffer();
     }
 

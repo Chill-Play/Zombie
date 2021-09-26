@@ -194,20 +194,23 @@ public class Level : SingletonMono<Level>
             spawnPoints.Shuffle();
             var points = spawnPoints;
             points.RemoveAll((x) => Mathf.Abs(squad.transform.position.z - x.position.z) < 30f && Mathf.Abs(squad.transform.position.x - x.position.x) < 10f);
-            for (int i = 0; i < spawnCount; i++)
+            if (points.Count > 0) // bad fix, can break game
             {
-                Transform spawnPoint = points[Random.Range(0, points.Count)];
-                Enemy prefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
-                Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-                if(enemy.TryGetComponent<ZombieLevelStats>(out var stats))
+                for (int i = 0; i < spawnCount; i++)
                 {
-                    stats.SetLevel(level, generation);
+                    Transform spawnPoint = points[Random.Range(0, points.Count)];
+                    Enemy prefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
+                    Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+                    if (enemy.TryGetComponent<ZombieLevelStats>(out var stats))
+                    {
+                        stats.SetLevel(level, generation);
+                    }
+                    enemies.Add(enemy);
+                    enemy.GoAggressive();
+                    enemy.GetComponent<IDamagable>().OnDead += Enemy_OnDead;
                 }
-                enemies.Add(enemy);
-                enemy.GoAggressive();
-                enemy.GetComponent<IDamagable>().OnDead += Enemy_OnDead;
-            }
-            spawned += spawnCount;
+
+            }            spawned += spawnCount;
             spawnPoints.Clear();
             yield return new WaitForSeconds(0.5f);
         }

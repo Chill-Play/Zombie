@@ -94,13 +94,25 @@ public class UnitMeleeFighting : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetLook), agent.angularSpeed * Time.fixedDeltaTime);
         }
         int count = Physics.OverlapSphereNonAlloc(transform.position, attackRadius, colliders, attackMask);
+        IDamagable closestDamagable = null;
+        var closestDistance = Mathf.Infinity;
         for (int i = 0; i < count; i++)
         {
-            IDamagable damagable = colliders[i].GetComponent<IDamagable>();
+            var targetCollider = colliders[i];
+            IDamagable damagable = targetCollider.GetComponent<IDamagable>();
             if (damagable != null)
             {
-                damagable.Damage(new DamageInfo { damage = attackDamage });
+                var distance = Vector3.Distance(transform.position, targetCollider.transform.position);
+                if(distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestDamagable = damagable;
+                }
             }
+        }
+        if(closestDamagable != null)
+        {
+            closestDamagable.Damage(new DamageInfo { damage = attackDamage });
         }
         yield return new WaitForSeconds(attackReset);
         Attacking = false;

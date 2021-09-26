@@ -42,12 +42,20 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
     public void TryShowInterstitial(string placement)
     {
-        #if HC_ADS
+#if HC_ADS
+        cachedPlacement = placement;
         if (lastInterstitialShown + TimeSpan.FromSeconds(interstitialCooldown) <= DateTime.Now)
         {
             if (MaxSdk.IsInterstitialReady(INTERSTITIAL_UNIT))
             {
+                var result = "success";
+                ReportAnalytics("video_ads_available", "rewarded", placement, result);
                 MaxSdk.ShowInterstitial(INTERSTITIAL_UNIT);
+            }
+            else
+            {
+                var result = "not_available";
+                ReportAnalytics("video_ads_available", "rewarded", placement, result);
             }
         }
         #endif
@@ -57,20 +65,22 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     public void ShowRewardedVideo(System.Action<bool> callback, string placement)
     {
 
-#if HC_ADS // && !UNITY_EDITOR
+#if HC_ADS  && !UNITY_EDITOR
+        cachedPlacement = placement;
         onRewardedClosed = callback;
         string result;
         if (MaxSdk.IsRewardedAdReady(REWARDED_UNIT))
         {
             rewardReceived = false;
-            MaxSdk.ShowRewardedAd(REWARDED_UNIT);
             result = "success";
+            ReportAnalytics("video_ads_available", "rewarded", placement, result);
+            MaxSdk.ShowRewardedAd(REWARDED_UNIT);
         }
         else
         {
             result = "not_available";
+            ReportAnalytics("video_ads_available", "rewarded", placement, result);
         }
-        ReportAnalytics("video_ads_available", "rewarded", placement, result);
         return;
 #endif
         callback?.Invoke(true);
