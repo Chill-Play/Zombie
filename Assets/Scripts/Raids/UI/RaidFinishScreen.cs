@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class RaidFinishScreen : UIScreen
 {
@@ -81,7 +82,9 @@ public class RaidFinishScreen : UIScreen
 
     IEnumerator ShowCollectedResources(Dictionary<ResourceType, int> resources)
     {
-        foreach (KeyValuePair<ResourceType, int> pair in resources)
+        var copiedResources = resources.ToDictionary(entry => entry.Key,
+                                               entry => entry.Value);
+        foreach (KeyValuePair<ResourceType, int> pair in copiedResources)
         {
             ResourceBar bar = Instantiate(resourceBarPrefab, colletctedContent);
             bar.Setup(pair.Key, 0);

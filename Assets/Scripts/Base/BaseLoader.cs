@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 
 public class BaseLoader : MonoBehaviour
@@ -11,6 +12,7 @@ public class BaseLoader : MonoBehaviour
 
     void Start()
     {
+        DOTween.Init();
         int levelNumber = PlayerPrefs.GetInt(LevelController.PREF_CURRENT_LEVEL, 0);
         if (levelNumber == 0)
         {

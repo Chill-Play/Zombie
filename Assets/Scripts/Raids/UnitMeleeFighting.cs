@@ -29,6 +29,11 @@ public class UnitMeleeFighting : MonoBehaviour
         GetComponent<UnitHealth>().OnDead += UnitMeleeFighting_OnDead;
     }
 
+    private void Start()
+    {
+        squad = GameplayController.Instance.SquadInstance;
+    }
+
 
     private void OnDisable()
     {
@@ -40,7 +45,7 @@ public class UnitMeleeFighting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        squad = GameplayController.Instance.SquadInstance;
+
         if((transform.position - squad.transform.position).sqrMagnitude > 50)
         {
             return;

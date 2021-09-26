@@ -5,6 +5,7 @@ using UnityEngine;
 public class ZombieMovementTester : MonoBehaviour
 {
     [SerializeField] ZombieMovement movement;
+    float nextUpdateTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +15,10 @@ public class ZombieMovementTester : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movement.MoveTo(transform.position);
+        if (Time.timeSinceLevelLoad > nextUpdateTime)
+        {
+            movement.MoveTo(transform.position);
+            nextUpdateTime = Time.timeSinceLevelLoad + Random.Range(0.5f, 1f);
+        }
     }
 }

@@ -64,8 +64,11 @@ public class InteractivePoint : MonoBehaviour
     }
 
     public void FreePoint(WorkingPoint workingPoint)
-    {       
-        workingPointFree[workingPoint.index] = true;
+    {
+        if (workingPoint.index < workingPointFree.Length && workingPoint.index > -1) //bad fix, can break game
+        {
+            workingPointFree[workingPoint.index] = true;
+        }
     }
 
     public bool HasFreePoint()

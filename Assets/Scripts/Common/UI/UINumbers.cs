@@ -48,7 +48,7 @@ public class UINumbers : MonoBehaviour
             UpdateNumberPosition(number);
             if (number.t >= scaleCurve.keys[scaleCurve.keys.Length - 1].time)
             {
-                Destroy(number.text.gameObject);
+                Spawner.ReturnObject(textPrefab, number.text);
                 numbers.RemoveAt(i);
             }
         }
@@ -95,7 +95,7 @@ public class UINumbers : MonoBehaviour
     private UINumber CreateNumberPrefab(Vector3 worldPos, string text, Vector2 offset, float randomAngle, float randomOffset)
     {
         UINumber uINumber = new UINumber();
-        uINumber.text = Instantiate(textPrefab, transform);
+        uINumber.text = Spawner.SpawnPrefab(textPrefab, transform);
         uINumber.text.transform.SetAsFirstSibling();
         uINumber.text.transform.localEulerAngles = Vector3.forward * Random.Range(-randomAngle, randomAngle);
         uINumber.offset = offset + (Random.insideUnitCircle * randomOffset);
@@ -120,7 +120,7 @@ public class UINumbers : MonoBehaviour
 
     public void ScaleToZeroAndDestroy(UINumber uINumber, float duration)
     {
-        uINumber.text.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InCirc).OnComplete(() => { uINumber.End(); Destroy(uINumber.text.gameObject); });
+        uINumber.text.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InCirc).OnComplete(() => { uINumber.End(); Spawner.ReturnObject(textPrefab, uINumber.text.gameObject); });
     }
 
     public void AttachImage(UINumber uINumber, Sprite sprite)

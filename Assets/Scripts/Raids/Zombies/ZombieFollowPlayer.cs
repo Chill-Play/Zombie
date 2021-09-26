@@ -6,13 +6,20 @@ public class ZombieFollowPlayer : MonoBehaviour
 {
     [SerializeField] UnitMovement movement;
     [SerializeField] ZombieAgroSequence agroSequence;
-    
+
+    Squad squad;
     float nextAggro = 0.0f;
+    float nextUpdateTime;
     UnitMeleeFighting meleeFighting;
 
     private void Awake()
     {
         meleeFighting = GetComponent<UnitMeleeFighting>();
+    }
+
+    private void Start()
+    {
+        squad = GameplayController.Instance.SquadInstance;
     }
 
 
@@ -51,10 +58,13 @@ public class ZombieFollowPlayer : MonoBehaviour
         //}
         //else
         {
-            var squad = GameplayController.Instance.SquadInstance;
-            if (squad != null && !meleeFighting.Attacking)
+            if (Time.timeSinceLevelLoad > nextUpdateTime)
             {
-                movement.MoveTo(squad.transform.position);
+                if (squad != null && !meleeFighting.Attacking)
+                {
+                    nextUpdateTime = Time.timeSinceLevelLoad + Random.Range(0.2f, 0.6f);
+                    movement.MoveTo(squad.transform.position);
+                }
             }
         }
     }
