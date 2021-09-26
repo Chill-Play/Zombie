@@ -19,7 +19,7 @@ public class PlayerResourceCombo : MonoBehaviour, IResourceStore
 
     private void Start()
     {
-        uiNumbers = FindObjectOfType<UINumbers>();
+        uiNumbers = FindObjectOfType<UINumbers>();        
     }
 
     private void OnEnable()
@@ -64,6 +64,12 @@ public class PlayerResourceCombo : MonoBehaviour, IResourceStore
         if (playerBackpack != null)
         {
             playerBackpack.OnPickupResource -= PlayerResourceCombo_OnPickupResource;
+        }
+        if (uiNumber != null)
+        {
+            uiNumbers.ScaleToZeroAndDestroy(uiNumber, 0.2f);
+            uiNumber = null;
+            resourceCombo = 0;
         }
     }
 

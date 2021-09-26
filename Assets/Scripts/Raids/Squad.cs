@@ -216,11 +216,15 @@ public class Squad : MonoBehaviour, IInputReceiver
         {
             for (int i = tempUnits.Count - 1; i >= 0; i--)
             {
-                if (Vector3.Distance(tempUnits[i].transform.position, target) < 1f || tempUnits[i].IsReachDestination || tempUnits[i].VelocityActive)
+                if (Vector3.Distance(tempUnits[i].transform.position, target) < 1f || tempUnits[i].IsReachDestination)
                 {
                     tempUnits[i].gameObject.SetActive(false);
                     tempUnits.RemoveAt(i);
                     spawnPoint.SurvivorInCar();
+                }
+                else if (!tempUnits[i].VelocityActive)
+                {
+                    tempUnits[i].MoveTo(spawnPoint.EscapePoint.position);
                 }
             }
             yield return null;

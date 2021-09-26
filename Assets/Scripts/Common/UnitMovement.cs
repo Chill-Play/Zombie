@@ -12,7 +12,7 @@ public abstract class UnitMovement : MonoBehaviour
 
     public bool IsReachDestination => agent.hasPath && agent.remainingDistance <= agent.stoppingDistance;    
 
-    public bool VelocityActive => agent.velocity.magnitude <= 0.05f;
+    public bool VelocityActive => agent.velocity.magnitude >= 0.05f;
 
     public abstract void MoveTo(Vector3 target);
 

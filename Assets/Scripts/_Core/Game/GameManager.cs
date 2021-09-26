@@ -18,7 +18,7 @@ namespace GameFramework.Core
 
         void Awake()
         {
-            GenerateContext();
+            //GenerateContext();
             Application.targetFrameRate = 60;                       
         }
 
