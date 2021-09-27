@@ -118,9 +118,15 @@ public class UINumbers : MonoBehaviour
         number.text.transform.position = screenPos + number.offset;
     }
 
+    Tween scaleTween;
+
     public void ScaleToZeroAndDestroy(UINumber uINumber, float duration)
     {
-        uINumber.text.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InCirc).OnComplete(() => { uINumber.End(); Destroy(uINumber.text.gameObject); });
+        if(scaleTween != null)
+        {
+            scaleTween.Complete(false);
+        }
+        scaleTween = uINumber.text.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InCirc).OnComplete(() => { uINumber.End(); Destroy(uINumber.text.gameObject); });
     }
 
     public void AttachImage(UINumber uINumber, Sprite sprite)
