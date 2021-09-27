@@ -49,13 +49,13 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
             if (MaxSdk.IsInterstitialReady(INTERSTITIAL_UNIT))
             {
                 var result = "success";
-                ReportAnalytics("video_ads_available", "rewarded", placement, result);
+                ReportAnalytics("video_ads_available", "interstitial", placement, result);
                 MaxSdk.ShowInterstitial(INTERSTITIAL_UNIT);
             }
             else
             {
                 var result = "not_available";
-                ReportAnalytics("video_ads_available", "rewarded", placement, result);
+                ReportAnalytics("video_ads_available", "interstitial", placement, result);
             }
         }
         #endif

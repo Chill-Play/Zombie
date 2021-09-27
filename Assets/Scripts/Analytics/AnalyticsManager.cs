@@ -69,9 +69,9 @@ public class AnalyticsManager : SingletonMono<AnalyticsManager>
 
     void AddLevelInfoToParams(LevelInfo info, Dictionary<string, object> p)
     {
-        p.Add("level_number", info.levelNumber + 1);
+        p.Add("level_number", info.levelNumber);
         p.Add("level_name", info.levelName);
-        p.Add("level_count", info.levelsPlayed + 1);
+        p.Add("level_count", info.levelsPlayed);
         p.Add("level_diff", "medium");
         p.Add("level_loop", info.loop);
         p.Add("level_random", 0);

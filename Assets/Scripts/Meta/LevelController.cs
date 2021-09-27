@@ -25,7 +25,7 @@ public class LevelController : SingletonMono<LevelController>
     public int CurrentLevel => currentLevel;
     public int TotalLevelsInPack => totalLevelsInPack;
     public int LevelId => currentLevel % totalLevelsInPack;
-    public int Loop => (currentLevel / totalLevelsInPack) + 1;
+    public int Loop => ((currentLevel - 1) / totalLevelsInPack) + 1;
     public int LevelsPlayed => levelsPlayed;
 
 

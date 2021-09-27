@@ -29,7 +29,10 @@ public class FailedUI : UIScreen
 
     public void ToBase()
     {
-        AnalyticsManager.Instance.OnLevelFailed(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
+        if (!Level.Instance.Tutorial)
+        {
+            AnalyticsManager.Instance.OnLevelFailed(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
+        }
         LevelController.Instance.ToBase(false);
     }
 }

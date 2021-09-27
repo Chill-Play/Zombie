@@ -120,7 +120,10 @@ public class RaidFinishScreen : UIScreen
         }       
         resourceController.UpdateResources();
         SaveSquad();
-        AnalyticsManager.Instance.OnLevelCompleted(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
+        if (!Level.Instance.Tutorial)
+        {
+            AnalyticsManager.Instance.OnLevelCompleted(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
+        }
         LevelController.Instance.ToBase(true);
     }
 

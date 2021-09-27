@@ -58,6 +58,7 @@ public class Level : SingletonMono<Level>
 
     public bool ReviveOption { get; set; } = true;
     public int Tries { get; set; } = 1;
+    public bool Tutorial => tutorialMode;
 
     private void Awake()
     {
@@ -70,7 +71,10 @@ public class Level : SingletonMono<Level>
     {
         zombieLevel = LevelController.Instance.CurrentLevel;
         OnLevelStarted?.Invoke();
-        AnalyticsManager.Instance.OnLevelStarted(GetLevelInfo());
+        if (!tutorialMode)
+        {
+            AnalyticsManager.Instance.OnLevelStarted(GetLevelInfo());
+        }
     }
 
     void OnEnable()
