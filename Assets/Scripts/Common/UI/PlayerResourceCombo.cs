@@ -51,8 +51,8 @@ public class PlayerResourceCombo : MonoBehaviour, IResourceStore
             uiNumbers.FollowPosition(uiNumber, transform.position + Vector3.up * upOffset);
         }
 
-        if (resourceCombo > 0 && nextCheckCombo < Time.time)
-        {
+        if (uiNumber != null && resourceCombo > 0 && nextCheckCombo < Time.time)
+        {         
             uiNumbers.ScaleToZeroAndDestroy(uiNumber, 0.4f);
             uiNumber = null;
             resourceCombo = 0;
@@ -60,7 +60,7 @@ public class PlayerResourceCombo : MonoBehaviour, IResourceStore
     }
 
     private void OnDisable()
-    {
+    {       
         if (playerBackpack != null)
         {
             playerBackpack.OnPickupResource -= PlayerResourceCombo_OnPickupResource;
