@@ -27,12 +27,12 @@ public class RaidsUIEvents : MonoBehaviour
 
     private void Level_OnLevelFailed()
     {
-        if (AdvertisementManager.Instance.RewardedAvailable)
-        {
-            var screen = (ReviveScreen)uiController.ShowScreen(reviveScreenId);
-            screen.OnTimerEnd += () => uiController.ShowScreen(failedScreenId);
-        }
-        else
+        //if (AdvertisementManager.Instance.RewardedAvailable)
+        //{
+        //    var screen = (ReviveScreen)uiController.ShowScreen(reviveScreenId);
+        //    screen.OnTimerEnd += () => uiController.ShowScreen(failedScreenId);
+        //}
+        //else
         {
             uiController.ShowScreen(failedScreenId);
         }

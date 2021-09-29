@@ -1,4 +1,4 @@
-#define HC_ADS
+//#define HC_ADS
 
 
 using System;

@@ -35,7 +35,7 @@ public class UpgradesScreen : UIScreen
 
     void UpdateButtons(UpgradeZone zone)
     {
-        int freeSlot = GetFreeSlotId(zone);
+        int freeSlot = -1;//GetFreeSlotId(zone);
 
         for (int i = 0; i < cards.Count; i++)
         {

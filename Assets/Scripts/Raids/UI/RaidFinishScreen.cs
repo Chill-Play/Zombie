@@ -40,7 +40,7 @@ public class RaidFinishScreen : UIScreen
     public void Show(Dictionary<ResourceType, int> resources)
     {
         LevelInfo levelInfo = Level.Instance.GetLevelInfo();
-        bool doubleOpportunity = levelInfo.levelNumber >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && levelInfo.levelNumber % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
+        bool doubleOpportunity = false;//levelInfo.levelNumber >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && levelInfo.levelNumber % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
 
         survivorsLabel.text = "+" + (squad.Units.Count - 1);
 
