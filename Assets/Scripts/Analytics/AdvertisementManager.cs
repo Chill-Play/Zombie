@@ -35,8 +35,8 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     // Start is called before the first frame update
     void Start()
     {
-        #if HC_ADS
         DontDestroyOnLoad(this);
+#if HC_ADS
         MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) => {
             InitializeInterstitialAds();
             InitializeRewardedAds();
@@ -45,7 +45,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         MaxSdk.SetSdkKey("6AQkyPv9b4u7yTtMH9PT40gXg00uJOTsmBOf7hDxa_-FnNZvt_qTLnJAiKeb5-2_T8GsI_dGQKKKrtwZTlCzAR");
         MaxSdk.SetUserId("USER_ID");
         MaxSdk.InitializeSdk();
-        #endif
+#endif
     }
 
     public void TryShowInterstitial(string placement)
