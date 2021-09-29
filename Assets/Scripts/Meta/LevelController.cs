@@ -55,10 +55,15 @@ public class LevelController : SingletonMono<LevelController>
     }
 
 
-    public void ToBase(bool finished)
+    public void RaidStarted()
     {
         levelsPlayed++;
         PlayerPrefs.SetInt(PREF_LEVELS_PLAYED, levelsPlayed);
+    }
+
+
+    public void ToBase(bool finished)
+    {
         if (finished)
         {
             RaidFinished();

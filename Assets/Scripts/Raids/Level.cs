@@ -57,7 +57,7 @@ public class Level : SingletonMono<Level>
     public float ComingTimerValue => comingTimer / comingTime;
 
     public bool ReviveOption { get; set; } = true;
-    public int Tries { get; set; } = 1;
+    public int Tries { get; set; } = 0;
     public bool Tutorial => tutorialMode;
 
     private void Awake()
@@ -73,6 +73,7 @@ public class Level : SingletonMono<Level>
         OnLevelStarted?.Invoke();
         if (!tutorialMode)
         {
+            LevelController.Instance.RaidStarted();
             AnalyticsManager.Instance.OnLevelStarted(GetLevelInfo());
         }
     }
