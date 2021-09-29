@@ -15,7 +15,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     const string INTERSTITIAL_UNIT = "ebd4fbbdef2bad80";
     const string REWARDED_UNIT = "4e339487e26a9c31";
     int retryAttempt;
-    DateTime lastInterstitialShown;
+    DateTime lastAdShown;
 
     System.Action<bool> onRewardedClosed;
     string cachedPlacement;
@@ -52,7 +52,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     {
 #if HC_ADS
         cachedPlacement = placement;
-        if (lastInterstitialShown + TimeSpan.FromSeconds(interstitialCooldown) <= DateTime.Now)
+        if (lastAdShown + TimeSpan.FromSeconds(interstitialCooldown) <= DateTime.Now)
         {
             if (MaxSdk.IsInterstitialReady(INTERSTITIAL_UNIT))
             {
@@ -198,7 +198,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
         // Interstitial ad is hidden. Pre-load the next ad.
         ReportAnalytics("video_ads_watch", "interstitial", cachedPlacement, result);
-        lastInterstitialShown = DateTime.Now;
+        lastAdShown = DateTime.Now;
         LoadInterstitial();
     }
 
@@ -272,6 +272,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         }
         ReportAnalytics("video_ads_watch", "rewarded", cachedPlacement, result);
         onRewardedClosed?.Invoke(rewardReceived);
+        lastAdShown = DateTime.Now;
         // Rewarded ad is hidden. Pre-load the next ad
         LoadRewardedAd();
     }
