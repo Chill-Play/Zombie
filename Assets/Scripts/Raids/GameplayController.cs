@@ -13,12 +13,13 @@ public class GameplayController : SingletonMono<GameplayController>
     public Squad SquadInstance { get; set; }
 
     SpawnPoint spawnPoint;
+    ReviveController reviveController;
 
     private void Awake()
     {
         spawnPoint = FindObjectOfType<SpawnPoint>();
         Vector3 spawnPos = Vector3.zero;
-        if(spawnPoint != null)
+        if (spawnPoint != null)
         {
             spawnPos = spawnPoint.transform.position;
         }
@@ -27,7 +28,8 @@ public class GameplayController : SingletonMono<GameplayController>
         Level level = FindObjectOfType<Level>();
         spawnPoint.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
         level.OnLevelFailed += OnLevelFailed;
-        level.OnRevive += Level_OnRevive;
+        reviveController = FindObjectOfType<ReviveController>();
+        reviveController.OnRevive += Level_OnRevive;
     }
 
     private void Level_OnRevive()

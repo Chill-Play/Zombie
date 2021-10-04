@@ -11,6 +11,8 @@ public class FailedUI : UIScreen
     [SerializeField] Transform middlePanel;
     [SerializeField] Transform toBaseButton;
 
+    bool tutorialMode = false;   
+
     void OnEnable()
     {
         background.color = new Color(background.color.r, background.color.g, background.color.b, 0f);
@@ -24,12 +26,14 @@ public class FailedUI : UIScreen
         sequence.Append(middlePanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         sequence.AppendInterval(0.1f);
         sequence.Append(toBaseButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+
+        tutorialMode = FindObjectOfType<Tutorial>() != null;
     }
 
 
     public void ToBase()
     {
-        if (!Level.Instance.Tutorial)
+        if (!tutorialMode)
         {
             AnalyticsManager.Instance.OnLevelFailed(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
         }

@@ -22,6 +22,8 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     List<InteractivePointDetection> interactivePointDetections = new List<InteractivePointDetection>();
     List<bool> caughtUpSquad = new List<bool>();
+    ReviveController reviveController;
+
 
     public List<UnitMovement> deadUnits = new List<UnitMovement>();
 
@@ -39,6 +41,8 @@ public class Squad : MonoBehaviour, IInputReceiver
         }
         units[0].GetComponent<PlayerResources>().CanMoveToResources = false;
         units[0].GetComponent<UnitHealth>().OnDead += Squad_OnDead;
+        reviveController = FindObjectOfType<ReviveController>();
+        reviveController.OnRevive += Revive;
     }
 
     private void Squad_OnDead(EventMessage<Empty> obj)

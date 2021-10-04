@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Weapon : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class Weapon : MonoBehaviour
     bool firing;
     float nextFire;
     Transform target;
+    IEnumerable<INoiseListener> noiseListeners;
 
     public bool Firing => firing;
     public float Damage { get; set; }
@@ -28,6 +30,7 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        noiseListeners = FindObjectsOfType<MonoBehaviour>().OfType<INoiseListener>();
         Damage += bulletDamage;
         FireRate += fireRate;
     }
@@ -78,7 +81,13 @@ public class Weapon : MonoBehaviour
                         bullet.InstantHit(target);
                     }
                 }
-                Level.Instance.AddNoiseLevel(noisePerShoot);
+
+                INoiseListener noiseListener = noiseListeners.FirstOrDefault();
+                if (noiseListener != null)
+                {
+                    noiseListener.AddNoiseLevel(noisePerShoot);
+                }          
+
                 if (muzzleFx != null)
                 {
                     muzzleFx.Play();

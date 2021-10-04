@@ -16,8 +16,12 @@ public class ReviveScreen : UIScreen
     float timerTime;
     bool stopTimer;
 
+    ReviveController reviveController;
 
-
+    private void Awake()
+    {
+        reviveController = FindObjectOfType<ReviveController>();
+    }
 
     void OnEnable()
     {
@@ -55,7 +59,7 @@ public class ReviveScreen : UIScreen
 
     public void Revive()
     {
-        var available = Level.Instance.ReviveClicked();
+        var available = reviveController.ReviveClicked();
         if(available)
         {
             stopTimer = true;

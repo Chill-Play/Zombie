@@ -23,6 +23,7 @@ public class RaidFinishScreen : UIScreen
     [SerializeField] Transform alternativeContinueButton;
 
     Squad squad;
+    bool tutorialMode = false;
 
     //const string SURVIVORS_COUNT_PREFS = "M_Survivors_Count";
 
@@ -76,7 +77,9 @@ public class RaidFinishScreen : UIScreen
         else
         {          
             sequence.Append(continueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
-        }     
+        }
+
+        tutorialMode = FindObjectOfType<Tutorial>() != null;
     }
 
 
@@ -120,7 +123,7 @@ public class RaidFinishScreen : UIScreen
         }       
         resourceController.UpdateResources();
         SaveSquad();
-        if (!Level.Instance.Tutorial)
+        if (!tutorialMode)
         {
             AnalyticsManager.Instance.OnLevelCompleted(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
         }
