@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Horde
-{
+{   
     public event System.Action OnHordeDefeated;
 
     List<Enemy> enemies = new List<Enemy>();
+
+    public List<Enemy> Enemies => enemies;
 
     public void AddEnemy(Enemy enemy)
     {
@@ -33,14 +35,23 @@ public class ZombieWaveSpawner : MonoBehaviour
     [SerializeField] Enemy[] zombiePrefabs;
     [SerializeField] Enemy[] bigZombiesPrefabs;
 
-    Coroutine spawnWavesCoroutine;
+    List<Horde> hordes = new List<Horde>();
+
+    Coroutine spawnHordeCoroutine;
 
     public Horde SpawnHorde(int hordeSize, int level, int generation)
     {
         Horde horde = new Horde();
         hordeSize = (int)((float)hordeSize / 2.5f); //release stuff
-        StartCoroutine(SpawnHordeCoroutine(horde, hordeSize, level, generation));
+        spawnHordeCoroutine = StartCoroutine(SpawnHordeCoroutine(horde, hordeSize, level, generation));
+        hordes.Add(horde);
+        horde.OnHordeDefeated += (() => Horde_OnHordeDefeated(horde));
         return horde;
+    }
+
+    private void Horde_OnHordeDefeated(Horde horde)
+    {
+        hordes.Remove(horde);
     }
 
     IEnumerator SpawnHordeCoroutine(Horde horde, int hordeSize, int level, int generation)
@@ -77,5 +88,29 @@ public class ZombieWaveSpawner : MonoBehaviour
             spawnPoints.Clear();
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    public void StopSpawning()
+    {
+        if (spawnHordeCoroutine != null)
+        {
+            StopAllCoroutines();
+        }
+    }
+
+    public void ExecudeHorde(Horde horde)
+    {
+        for (int i = 0; i < horde.Enemies.Count; i++)
+        {      
+            horde.Enemies[i].GetComponent<UnitHealth>().Damage(new DamageInfo(Vector3.forward, 999999f));
+        }
+    }
+
+    public void ExecudeAll()
+    {
+        for (int i = 0; i < hordes.Count; i++)
+        {
+            ExecudeHorde(hordes[i]);
+        }    
     }
 }

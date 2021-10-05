@@ -27,7 +27,7 @@ public class SquadBackpack : MonoBehaviour
         backpack.OnPickupResource += Backpack_OnPickupResource;
 
         Squad squad = FindObjectOfType<Squad>();
-        squad.OnUnitAdd += Squad_OnUnitAdd;
+        squad.OnUnitAdd += Squad_OnUnitAdd;    
     }
 
 

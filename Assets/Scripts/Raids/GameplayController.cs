@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameplayController : SingletonMono<GameplayController>
 {
     public event System.Action OnReturnedToBase;
+    public event System.Action OnPlayerUnitDead;
 
     [SerializeField] CameraController cameraController;
     [SerializeField] GameObject playerPrefab;
@@ -30,6 +31,12 @@ public class GameplayController : SingletonMono<GameplayController>
         level.OnLevelFailed += OnLevelFailed;
         reviveController = FindObjectOfType<ReviveController>();
         reviveController.OnRevive += Level_OnRevive;
+        SquadInstance.OnPlayerUnitDead += SquadInstance_OnPlayerUnitDead;
+    }
+
+    private void SquadInstance_OnPlayerUnitDead()
+    {
+        OnPlayerUnitDead?.Invoke();      
     }
 
     private void Level_OnRevive()

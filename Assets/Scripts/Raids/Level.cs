@@ -14,7 +14,6 @@ public class Level : SingletonMono<Level>
 
     SurvivorPickup[] survivorPickups;
 
-    Squad squad;
     GameplayController gameplayController;
     ReviveController reviveController;
     bool levelEnded;
@@ -24,8 +23,7 @@ public class Level : SingletonMono<Level>
 
     private void Awake()
     {
-        survivorPickups = FindObjectsOfType<SurvivorPickup>();
-        squad = FindObjectOfType<Squad>();
+        survivorPickups = FindObjectsOfType<SurvivorPickup>();        
         reviveController = FindObjectOfType<ReviveController>();
         reviveController.OnRevive += ReviveController_OnRevive;
     }
@@ -40,10 +38,10 @@ public class Level : SingletonMono<Level>
     {
         gameplayController = FindObjectOfType<GameplayController>();
         gameplayController.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
-        squad.OnPlayerUnitDead += Squad_OnPlayerUnitDead;
+        gameplayController.OnPlayerUnitDead += GameplayController_OnPlayerUnitDead;
     }
 
-    private void Squad_OnPlayerUnitDead()
+    private void GameplayController_OnPlayerUnitDead()
     {
         gameplayController.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
         OnLevelFailed?.Invoke();
@@ -51,10 +49,10 @@ public class Level : SingletonMono<Level>
 
     void OnDisable()
     {
-        squad.OnPlayerUnitDead -= Squad_OnPlayerUnitDead;
         if (gameplayController != null)
         {
             gameplayController.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
+            gameplayController.OnPlayerUnitDead -= GameplayController_OnPlayerUnitDead;
         }
     }
 
@@ -100,6 +98,7 @@ public class Level : SingletonMono<Level>
     {
         levelEnded = false;
         gameplayController.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
+        gameplayController.OnPlayerUnitDead += GameplayController_OnPlayerUnitDead;
         Tries++;
     }
 

@@ -101,4 +101,13 @@ public class Raid : MonoBehaviour
         mainHorde = zombieWaveSpawner.SpawnHorde(hordeSize, 0, generation);
         mainHorde.OnHordeDefeated += MainHorde_OnHordeDefeated;
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            zombieWaveSpawner.StopSpawning();
+            zombieWaveSpawner.ExecudeAll();
+        }
+    }
 }
