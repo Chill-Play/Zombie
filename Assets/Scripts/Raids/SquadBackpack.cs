@@ -6,22 +6,23 @@ public class SquadBackpack : MonoBehaviour
 {
     public event System.Action<ResourceType, int, int> OnPickupResource;
 
-    [SerializeField] int maxResources = 50;
-    [SerializeField] int resourcesPerLevel = 5;
-    [SerializeField] StatsType resourcesStat;
+   /*[SerializeField] int maxResources = 50;
+     [SerializeField] int resourcesPerLevel = 5;
+     [SerializeField] StatsType resourcesStat;*/
 
-    Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
+    ResourcesInfo resources = new ResourcesInfo();
 
-    public Dictionary<ResourceType, int> Resources => resources;
+    public ResourcesInfo Resources => resources;
+
     public bool IsFilled { get; set; }
 
-    public int MaxResources { get; set; }
+    //public int MaxResources { get; set; }
 
     int totalResources = 0;
 
     private void Start()
     {
-        MaxResources = maxResources + (FindObjectOfType<StatsManager>().GetStatInfo(resourcesStat).level * resourcesPerLevel);
+        //MaxResources = maxResources + (FindObjectOfType<StatsManager>().GetStatInfo(resourcesStat).level * resourcesPerLevel);
         PlayerBackpack backpack = FindObjectOfType<PlayerBackpack>();
         backpack.OnPickupResource += Backpack_OnPickupResource;
 
@@ -37,14 +38,11 @@ public class SquadBackpack : MonoBehaviour
 
     public void Backpack_OnPickupResource(ResourceType type, int totalCount, int count)
     {
-        if (!resources.ContainsKey(type))
-        {
-            resources.Add(type, 0);
-        }
-        resources[type] += count;
+        resources.Add(type, count);
+
         //if (totalResources > 0)
         {
-            OnPickupResource?.Invoke(type, resources[type], count);
+            OnPickupResource?.Invoke(type, resources.Count(type), count);
         }
     }
 

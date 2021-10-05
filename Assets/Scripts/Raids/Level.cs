@@ -88,21 +88,6 @@ public class Level : SingletonMono<Level>
             return;
         }       
         levelEnded = true;
-        Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
-        foreach(PlayerBackpack backpack in FindObjectsOfType<PlayerBackpack>())
-        {
-            foreach(var pair in backpack.Resources)
-            {
-                if(resources.ContainsKey(pair.Key))
-                {
-                    resources[pair.Key] += pair.Value;
-                }
-                else
-                {
-                    resources.Add(pair.Key, pair.Value);
-                }
-            }
-        }
         OnLevelEnded?.Invoke();
     }
 

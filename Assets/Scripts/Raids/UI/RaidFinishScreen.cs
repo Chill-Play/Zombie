@@ -38,7 +38,7 @@ public class RaidFinishScreen : UIScreen
         Show(resources);
     }
 
-    public void Show(Dictionary<ResourceType, int> resources)
+    public void Show(ResourcesInfo resources)
     {
         LevelInfo levelInfo = Level.Instance.GetLevelInfo();
         bool doubleOpportunity = levelInfo.levelNumber >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && levelInfo.levelNumber % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
@@ -62,7 +62,7 @@ public class RaidFinishScreen : UIScreen
         sequence.AppendInterval(0.1f);
         sequence.Append(collectedPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         sequence.AppendCallback(() => StartCoroutine(ShowCollectedResources(resources)));
-        sequence.AppendInterval(resources.Count * 0.5f + 0.5f);
+        sequence.AppendInterval(resources.Slots.Count * 0.5f + 0.5f);
         sequence.Append(survivorsPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
 
         continueButton.gameObject.SetActive(!doubleOpportunity);
@@ -83,15 +83,13 @@ public class RaidFinishScreen : UIScreen
     }
 
 
-    IEnumerator ShowCollectedResources(Dictionary<ResourceType, int> resources)
+    IEnumerator ShowCollectedResources(ResourcesInfo resources)
     {
-        var copiedResources = resources.ToDictionary(entry => entry.Key,
-                                               entry => entry.Value);
-        foreach (KeyValuePair<ResourceType, int> pair in copiedResources)
+        foreach (ResourceSlot slot in resources.Slots)
         {
             ResourceBar bar = Instantiate(resourceBarPrefab, colletctedContent);
-            bar.Setup(pair.Key, 0);
-            bar.UpdateValue(pair.Value);
+            bar.Setup(slot.type, 0);
+            bar.UpdateValue(slot.count);
             yield return new WaitForSeconds(0.5f);
         }
     }
@@ -104,32 +102,31 @@ public class RaidFinishScreen : UIScreen
             if (result)
             {
                 CollectResources(2);
+                ToBase();
             }
         }, "raid_end_double_reward"); 
     }
 
-    public void CollectResources(int multiplier = 1) //bad method, does more that its called
+    public void CollectResources(int multiplier = 1) 
     {
-        var info = new ResourcesInfo();
-        var resources = FindObjectOfType<SquadBackpack>().Resources;
+        var resources = squad.CollectResources();
         var resourceController = ResourcesController.Instance;
-        foreach (var pair in resources)
-        {
-            info.AddSlot(pair.Key, pair.Value);
-        }
         for (int i = 0; i < multiplier; i++)
         {
-            resourceController.AddResources(info);
-        }       
+            resourceController.AddResources(resources);
+        }
         resourceController.UpdateResources();
-        SaveSquad();
+        SaveSquad();       
+    }
+
+    void ToBase()
+    {
         if (!tutorialMode)
         {
             AnalyticsManager.Instance.OnLevelCompleted(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
         }
         LevelController.Instance.ToBase(true);
     }
-
 
     public void NoThanksClicked()
     {
@@ -138,6 +135,7 @@ public class RaidFinishScreen : UIScreen
         {
             AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
         }
+        ToBase();
     }
 
     void SaveSquad()
