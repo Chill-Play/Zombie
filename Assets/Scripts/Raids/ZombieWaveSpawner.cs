@@ -30,14 +30,21 @@ public class Horde
 }
 
 public class ZombieWaveSpawner : MonoBehaviour
-{
-    [SerializeField] List<Transform> zombiesSpawnPoints;
+{   
     [SerializeField] Enemy[] zombiePrefabs;
     [SerializeField] Enemy[] bigZombiesPrefabs;
 
+    ZombiesSpawnPoint[] zombiesSpawnPoints;
     List<Horde> hordes = new List<Horde>();
 
     Coroutine spawnHordeCoroutine;
+
+    
+
+    private void Awake()
+    {
+        zombiesSpawnPoints = FindObjectsOfType<ZombiesSpawnPoint>();
+    }
 
     public Horde SpawnHorde(int hordeSize, int level, int generation)
     {
@@ -58,7 +65,7 @@ public class ZombieWaveSpawner : MonoBehaviour
     {
         var spawnGroup = 10;
         var spawned = 0;
-        List<Transform> spawnPoints = new List<Transform>(zombiesSpawnPoints.Count);
+        List<ZombiesSpawnPoint> spawnPoints = new List<ZombiesSpawnPoint>(zombiesSpawnPoints.Length);
 
         while (spawned < hordeSize)
         {
@@ -67,14 +74,14 @@ public class ZombieWaveSpawner : MonoBehaviour
             spawnPoints.AddRange(zombiesSpawnPoints);
             spawnPoints.Shuffle();
             var points = spawnPoints;
-            points.RemoveAll((x) => Mathf.Abs(squad.transform.position.z - x.position.z) < 30f && Mathf.Abs(squad.transform.position.x - x.position.x) < 10f);
+            points.RemoveAll((x) => Mathf.Abs(squad.transform.position.z - x.transform.position.z) < 30f && Mathf.Abs(squad.transform.position.x - x.transform.position.x) < 10f);
             if (points.Count > 0) // bad fix, can break game
             {
                 for (int i = 0; i < spawnCount; i++)
                 {
-                    Transform spawnPoint = points[Random.Range(0, points.Count)];
+                    ZombiesSpawnPoint spawnPoint = points[Random.Range(0, points.Count)];
                     Enemy prefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
-                    Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+                    Enemy enemy = Instantiate(prefab, spawnPoint.transform.position, Quaternion.identity);
                     if (enemy.TryGetComponent<ZombieLevelStats>(out var stats))
                     {
                         stats.SetLevel(level, generation);

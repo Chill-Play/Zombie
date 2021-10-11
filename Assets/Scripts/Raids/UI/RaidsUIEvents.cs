@@ -14,9 +14,13 @@ public class RaidsUIEvents : MonoBehaviour
     void Start()
     {
         Level level = FindObjectOfType<Level>();
+        ReviveController reviveController = FindObjectOfType<ReviveController>();
         level.OnLevelEnded += Level_OnLevelEnded;
         level.OnLevelFailed += Level_OnLevelFailed;
-        //level.OnRevive += Level_OnRevive;//////////////////////////////////////////////////////////////////////////
+        if (reviveController != null)
+        {
+            reviveController.OnRevive += Level_OnRevive;
+        }
         uiController.ShowScreen(inGameScreenId);
     }
 

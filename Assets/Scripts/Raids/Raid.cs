@@ -92,7 +92,7 @@ public class Raid : MonoBehaviour
     }
 
     private void ReviveController_OnRevive()
-    {
+    {       
         mainHorde.OnHordeDefeated -= MainHorde_OnHordeDefeated;
         if (spawnWavesCoroutine != null)
         {
