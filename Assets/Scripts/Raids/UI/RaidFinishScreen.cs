@@ -125,7 +125,7 @@ public class RaidFinishScreen : UIScreen
         {
             AnalyticsManager.Instance.OnLevelCompleted(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
         }
-        LevelController.Instance.ToBase(true);
+        ZombiesLevelController.Instance.ToBase(true);
     }
 
     public void NoThanksClicked()

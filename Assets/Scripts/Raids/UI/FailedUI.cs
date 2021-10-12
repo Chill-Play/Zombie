@@ -37,6 +37,6 @@ public class FailedUI : UIScreen
         {
             AnalyticsManager.Instance.OnLevelFailed(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
         }
-        LevelController.Instance.ToBase(false);
+        ZombiesLevelController.Instance.ToBase(false);
     }
 }
