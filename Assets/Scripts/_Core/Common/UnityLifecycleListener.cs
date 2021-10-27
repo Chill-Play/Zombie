@@ -39,6 +39,12 @@ namespace GameFramework.Core
             ObjectsLifecycleSystem.Instance.CallGlobal<FixedUpdateEvent>();
         }
 
+        [LifecycleEvent(typeof(FixedUpdateEvent))]
+        void FU()
+        {
+        }
+
+
         public class PreUpdateEvent : ILifecycleEventType { }
 
         public class UpdateEvent : ILifecycleEventType { }

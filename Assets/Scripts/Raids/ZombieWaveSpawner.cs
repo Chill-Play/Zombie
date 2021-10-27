@@ -74,7 +74,7 @@ public class ZombieWaveSpawner : MonoBehaviour
             spawnPoints.AddRange(zombiesSpawnPoints);
             spawnPoints.Shuffle();
             var points = spawnPoints;
-            points.RemoveAll((x) => Mathf.Abs(squad.transform.position.z - x.transform.position.z) < 30f && Mathf.Abs(squad.transform.position.x - x.transform.position.x) < 10f);
+            points.RemoveAll((x) => Mathf.Abs(squad.transform.position.z - x.transform.position.z) < 25f && Mathf.Abs(squad.transform.position.x - x.transform.position.x) < 10f);
             if (points.Count > 0) // bad fix, can break game
             {
                 for (int i = 0; i < spawnCount; i++)
@@ -86,12 +86,12 @@ public class ZombieWaveSpawner : MonoBehaviour
                     {
                         stats.SetLevel(level, generation);
                     }
+                    spawned += spawnCount;
                     horde.AddEnemy(enemy);
                     enemy.GoAggressive();                    
                 }
 
             }
-            spawned += spawnCount;
             spawnPoints.Clear();
             yield return new WaitForSeconds(0.5f);
         }

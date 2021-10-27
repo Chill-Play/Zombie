@@ -141,7 +141,7 @@
                 float NdotL = dot(_WorldSpaceLightPos0, normal);
                 float shadow = SHADOW_ATTENUATION(i);
                 float lightIntensity = clamp(NdotL * shadow, 0, 1);
-                diffuse = lerp(GetShadowColor(diffuse, lightIntensity), diffuse, lightIntensity);
+                diffuse = lerp(GetShadowColor(diffuse, lightIntensity), diffuse * _LightColor0, lightIntensity);
 
                 half4 reflection =  half4(0, 0, 0, 0);
 

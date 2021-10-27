@@ -2,8 +2,8 @@
 {
     Properties
     {
+                _MainColor("Main Color", Color) = (0.5,0.5,0.5,1)
         _ShadowColor("Shadow Color", Color) = (0.5,0.5,0.5,1)
-        _TopLight("Top Light Color", Color) = (0.2,0.2,0.2,1)
         _ShadowSoftness("Shadow Softness", Range(0, 1)) = 0.5
         _FogColor("Fog Color", Color) = (0.5,0.5,0.5,0.5)
         [NoScaleOffset] _MainTex("Texture", 2D) = "white" {}
@@ -74,7 +74,7 @@
                 float shadow = SHADOW_ATTENUATION(i);
                 float lightIntensity = smoothstep(0, _ShadowSoftness, NdotL * shadow);
                 // sample the texture
-                float4 col = tex2D(_MainTex, i.uv);
+                float4 col = _MainColor * tex2D(_MainTex, i.uv);
                 // apply fog
 
                 float fog = (-i.worldPos.y / 40);

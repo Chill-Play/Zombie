@@ -31,7 +31,7 @@ public class UpgradeZone : MonoBehaviour
                 var info = FindObjectOfType<StatsManager>().GetStatInfo(type);
                 statsList.Add((type, info));
             }
-            screen.Show(this, label, statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => { FindObjectOfType<UIController>().HideActiveScreen(); OnEndUpgrading?.Invoke(); });
+            screen.Show(this, label, statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => { FindObjectOfType<UIController>().ReturnToDefaultScreen(); OnEndUpgrading?.Invoke(); });
         }
     }
 }

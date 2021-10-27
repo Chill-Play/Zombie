@@ -219,12 +219,14 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
     void ReportAnalytics(string eventType, string adType, string placement, string result)
     {
+        int connection = Application.internetReachability != NetworkReachability.NotReachable ? 1 : 0;
         var p = new Dictionary<string, object>();
         p.Add("ad_type", adType);
         p.Add("placement", placement);
         p.Add("result", result);
-        p.Add("connection", Application.internetReachability != NetworkReachability.NotReachable ? 1 : 0);
+        p.Add("connection", connection);
         AnalyticsManager.Instance.ReportEvent(eventType, p);
+        UnityAnalytics.Instance.AdsEvent(eventType, adType, placement, result, connection);
     }
 
     private void OnRewardedAdLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)

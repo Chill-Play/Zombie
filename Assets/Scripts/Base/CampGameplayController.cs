@@ -72,7 +72,14 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
          FindObjectOfType<CampSquad>().SpawnSquad(playerInstance.transform.position);
     }
 
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerPrefs.SetInt("M_Survivors_Count", 10);
+            FindObjectOfType<CampSquad>().SpawnSquad(playerInstance.transform.position);
+        }
+    }
 
     public void SpawnPlayer(Vector3 point, GameObject prefab)
     {

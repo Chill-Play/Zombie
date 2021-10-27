@@ -123,6 +123,7 @@ public class RaidFinishScreen : UIScreen
     {
         if (!tutorialMode)
         {
+            UnityAnalytics.Instance.OnLevelCompleted(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
             AnalyticsManager.Instance.OnLevelCompleted(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
         }
         LevelController.Instance.ToBase(true);

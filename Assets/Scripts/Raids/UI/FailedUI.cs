@@ -36,6 +36,7 @@ public class FailedUI : UIScreen
         if (!tutorialMode)
         {
             AnalyticsManager.Instance.OnLevelFailed(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
+            UnityAnalytics.Instance.OnLevelFailed(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
         }
         LevelController.Instance.ToBase(false);
     }

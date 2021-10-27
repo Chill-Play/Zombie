@@ -1,5 +1,188 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &202309612
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 202309613}
+  - component: {fileID: 202309614}
+  m_Layer: 0
+  m_Name: ReviveController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &202309613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202309612}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2500323879695940198}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &202309614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202309612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb58a4cf64bac64d87aca82e3b5966b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &470442588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 470442589}
+  - component: {fileID: 470442590}
+  m_Layer: 0
+  m_Name: Raid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &470442589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470442588}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2500323879695940198}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &470442590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470442588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de6ae5c4bd705d8438f0eb9acfd3ad95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comingTime: 10
+  hordeSize: 30
+  timeBeforeFinalWaves: 1
+  finalWavesRate: 5
+  finalWavesHordeSize: 5
+--- !u!1 &1344948146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1344948147}
+  - component: {fileID: 1344948148}
+  m_Layer: 0
+  m_Name: ZombieWaveSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1344948147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344948146}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2500323879695940198}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1344948148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344948146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa26f152b2e2c4849930400a158739ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombiePrefabs:
+  - {fileID: 6534483266655531792, guid: b59ce4fc1a090274fad212bfea741013, type: 3}
+  - {fileID: 4211768781946934380, guid: e5eeabca4205efe439b04499d035c499, type: 3}
+  bigZombiesPrefabs:
+  - {fileID: 6534483266655531792, guid: e841dcec95a16744eb94aca63dbbacc5, type: 3}
+--- !u!1 &1530487209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1530487210}
+  - component: {fileID: 1530487211}
+  m_Layer: 0
+  m_Name: NoiseController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1530487210
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530487209}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2500323879695940198}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1530487211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530487209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d63df502a5c273d4987010e22458a302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxNoiseLevel: 100
 --- !u!1 &2500323879695940197
 GameObject:
   m_ObjectHideFlags: 0
@@ -35,7 +218,11 @@ Transform:
   - {fileID: 3129322214140367927}
   - {fileID: 6218057609480950208}
   - {fileID: 4935137230433038055}
+  - {fileID: 1530487210}
+  - {fileID: 470442589}
+  - {fileID: 202309613}
   - {fileID: 7385550718715661948}
+  - {fileID: 1344948147}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -80,7 +267,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2500323879695940198}
-  m_RootOrder: 7
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8037564405685601065
 MonoBehaviour:
@@ -331,11 +518,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f4ca5687cf273449bfb49a4a12d0d55, type: 3}
---- !u!224 &4457100057067572924 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8013661248034262031, guid: 6f4ca5687cf273449bfb49a4a12d0d55, type: 3}
-  m_PrefabInstance: {fileID: 5975417512253686451}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8752637264214829861 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3142227926458083734, guid: 6f4ca5687cf273449bfb49a4a12d0d55, type: 3}
@@ -347,6 +529,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59c9d8fe3d5beae4eb235ebbe90dd269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &4457100057067572924 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8013661248034262031, guid: 6f4ca5687cf273449bfb49a4a12d0d55, type: 3}
+  m_PrefabInstance: {fileID: 5975417512253686451}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6080709414534782170
 PrefabInstance:
   m_ObjectHideFlags: 0
