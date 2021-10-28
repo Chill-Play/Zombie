@@ -9,7 +9,7 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
 
     public void RaidStarted()
     {
-        LevelController.Instance.LevelStarted();
+        LevelService.Instance.LevelStarted();
     }
 
     public void ToBase(bool finished)
@@ -23,7 +23,7 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
 
     public void RaidFinished()
     {
-        LevelController.Instance.LevelFinished();
+        LevelService.Instance.LevelFinished();
     }
 
 }

@@ -113,28 +113,6 @@ public class Squad : MonoBehaviour, IInputReceiver
         return backpack.Resources;
     }
 
-
-    public void SetInput(Vector2 input)
-    {
-        if (input.magnitude < 0.1f)
-        {
-            isMoving = false;
-        }
-        else
-        {
-            for (int i = 1; i < caughtUpSquad.Count; i++)
-            {
-                caughtUpSquad[i] = false;
-            }
-            isMoving = true;
-        }
-        if (units.Count > 0)
-        {
-            units[0].Input = input;
-        }
-    }
-
-
     public void AddUnit(Unit unit)
     {
         unit.GetComponent<UnitHealth>().OnDead += (x) => RemoveUnit(unit.GetComponent<UnitMovement>());
@@ -247,6 +225,26 @@ public class Squad : MonoBehaviour, IInputReceiver
 
         Bomb bomb = Instantiate(bombPrefab, transform.position + Vector3.up * 3f, Quaternion.identity);
         bomb.Detonate();
+    }
+
+    public void UpdateInput(Vector2 input)
+    {
+        if (input.magnitude < 0.1f)
+        {
+            isMoving = false;
+        }
+        else
+        {
+            for (int i = 1; i < caughtUpSquad.Count; i++)
+            {
+                caughtUpSquad[i] = false;
+            }
+            isMoving = true;
+        }
+        if (units.Count > 0)
+        {
+            units[0].Input = input;
+        }
     }
 }
     

@@ -32,7 +32,7 @@ public class StatsManager : SingletonMono<StatsManager>
     {
         if (statsInfo.ContainsKey(statsType))
         {
-            if (LevelController.Instance.CurrentLevel > 1 && !free)
+            if (LevelService.Instance.CurrentSequenceInfo.levelsPlayed > 1 && !free)
             {
                 AdvertisementManager.Instance.TryShowInterstitial("shop_bought_stat");
             }

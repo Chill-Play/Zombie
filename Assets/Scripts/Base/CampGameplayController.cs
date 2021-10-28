@@ -10,7 +10,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
 
     [SerializeField] CameraController cameraController;
     [SerializeField] GameObject playerPrefab;
-    [SerializeField] InputJoystick InputJoystick;
+    [SerializeField] InputPanel inputPanel;
     [SerializeField] float timeBeforeRaid = 3f;
 
     [HideInInspector] public Transform playerInstance;
@@ -52,7 +52,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     {
         yield return new WaitForSeconds(timeBeforeRaid);
         OnRunRaid?.Invoke();
-        Game.Instance.RunRaid();
+        //Game.Instance.RunRaid();
     }
 
     private void RaidZone_OnExitZone()
@@ -78,7 +78,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     {
         playerInstance = Instantiate(prefab, point, Quaternion.identity).transform;
         cameraController.SetTarget(playerInstance);
-        InputJoystick.InputReceiver = playerInstance.GetComponent<IInputReceiver>();           
-        
+        //InputJoystick.InputReceiver = playerInstance.GetComponent<IInputReceiver>();           
+        inputPanel.Receiver = playerInstance.GetComponent<IInputReceiver>();
     }
 }

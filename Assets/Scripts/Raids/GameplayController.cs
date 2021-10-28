@@ -9,7 +9,7 @@ public class GameplayController : SingletonMono<GameplayController>
 
     [SerializeField] CameraController cameraController;
     [SerializeField] GameObject playerPrefab;
-    [SerializeField] InputJoystick InputJoystick;
+    [SerializeField] InputPanel inputPanel;
 
     public Squad SquadInstance { get; set; }
 
@@ -41,13 +41,13 @@ public class GameplayController : SingletonMono<GameplayController>
 
     private void Level_OnRevive()
     {
-        InputJoystick.InputReceiver = SquadInstance;
+        inputPanel.EnableInput();
     }
 
     private void SpawnPoint_OnReturnedToBase()
     {
         spawnPoint.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
-        InputJoystick.InputReceiver = null;
+        inputPanel.DisableInput();
         SquadInstance.MoveToCar(spawnPoint, InCar);
        
     }
@@ -63,14 +63,14 @@ public class GameplayController : SingletonMono<GameplayController>
         if (squad != null)
         {
             cameraController.SetTarget(squad.transform);
-            InputJoystick.InputReceiver = squad.GetComponent<IInputReceiver>();
+            inputPanel.Receiver = squad.GetComponent<IInputReceiver>();
             SquadInstance = squad;
         }
     }
 
     private void OnLevelFailed()
     {
-        InputJoystick.InputReceiver = null;      
+        inputPanel.DisableInput();
     }
 
 }

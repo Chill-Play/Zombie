@@ -18,7 +18,7 @@ public class UIController : SingletonMono<UIController>
 
     public UIScreen ShowScreen(SubjectId screenId)
     {
-        FindObjectOfType<InputJoystick>().ResetInput();
+        //FindObjectOfType<InputJoystick>().ResetInput();
         UIScreen screen = screens.FirstOrDefault((x) => x.Id == screenId);
         if(screen != null)
         {

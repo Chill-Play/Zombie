@@ -81,7 +81,7 @@ public class Buildable : BaseObject
     {
         built = true;
         enabled = false;
-        if(!afterDeserialization && LevelController.Instance.CurrentLevel > 1)
+        if(!afterDeserialization && LevelService.Instance.CurrentSequenceInfo.levelsPlayed > 1)
         {
             AdvertisementManager.Instance.TryShowInterstitial("base_finished_building");
         }
