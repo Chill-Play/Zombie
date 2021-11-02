@@ -49,7 +49,6 @@ public class ZombieWaveSpawner : MonoBehaviour
     public Horde SpawnHorde(int hordeSize, int level, int generation)
     {
         Horde horde = new Horde();
-        hordeSize = (int)((float)hordeSize / 2.5f); //release stuff
         spawnHordeCoroutine = StartCoroutine(SpawnHordeCoroutine(horde, hordeSize, level, generation));
         hordes.Add(horde);
         horde.OnHordeDefeated += (() => Horde_OnHordeDefeated(horde));

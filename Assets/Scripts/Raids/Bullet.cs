@@ -31,16 +31,24 @@ public class Bullet : MonoBehaviour
 
     private void Hit(Transform target)
     {
+        bool destroy = true;
         if (target.TryGetComponent(out IDamagable damagable))
         {
+            if(target.TryGetComponent(out Enemy enemy))
+            {
+                destroy = !enemy.IsDead;
+            }
             DamageInfo damageInfo = new DamageInfo()
             {
                 direction = transform.forward,
                 damage = Damage,
             };
-            damagable.Damage(damageInfo);
+            damagable.Damage(damageInfo);            
         }
-        Destroy(gameObject);
+        if (destroy)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void InstantHit(Transform target)
