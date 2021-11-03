@@ -123,11 +123,11 @@
             fixed4 frag(v2f i) : SV_Target
             {
 
-                float3 normal = normalize(i.worldNormal);
-                float3 viewDir = normalize(i.viewDir);
+                half3 normal = normalize(i.worldNormal);
+                half3 viewDir = normalize(i.viewDir);
 
-                float3 halfVector = normalize(_WorldSpaceLightPos0 + viewDir);
-                float NdotH = dot(normal, halfVector);
+                half3 halfVector = normalize(_WorldSpaceLightPos0 + viewDir);
+                half NdotH = dot(normal, halfVector);
 
                 half4 diffuse = _MainColor;
 
@@ -138,21 +138,21 @@
 
 
                 //lighting
-                float NdotL = dot(_WorldSpaceLightPos0, normal);
-                float shadow = SHADOW_ATTENUATION(i);
-                float lightIntensity = clamp(NdotL * shadow, 0, 1);
+                half NdotL = dot(_WorldSpaceLightPos0, normal);
+                half shadow = SHADOW_ATTENUATION(i);
+                half lightIntensity = clamp(NdotL * shadow, 0, 1);
                 diffuse = lerp(GetShadowColor(diffuse, lightIntensity), diffuse * _LightColor0, lightIntensity);
 
                 half4 reflection =  half4(0, 0, 0, 0);
 
                 //Specular
-                float specularIntensity = pow(NdotH, 1500.0 * _Glossiness);
+                half specularIntensity = pow(NdotH, 1500.0 * _Glossiness);
                 specularIntensity = clamp(specularIntensity, 0, 1);
                 specularIntensity *= pow(_Glossiness, 0.5) * lightIntensity;
                 reflection += specularIntensity;
 
 
-                float4 rimDot = 1 - dot(viewDir, normal);
+                half4 rimDot = 1 - dot(viewDir, normal);
                 rimDot = pow(rimDot, 10 * ((_Glossiness * 0.8)));
                 rimDot *= _Glossiness;
                 reflection += _RimColor * rimDot;
