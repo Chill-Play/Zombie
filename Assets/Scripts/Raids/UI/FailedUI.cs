@@ -35,8 +35,8 @@ public class FailedUI : UIScreen
     {
         if (!tutorialMode)
         {
-            AnalyticsManager.Instance.OnLevelFailed(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
+            ZombiesLevelController.Instance.RaidFailed();
         }
-        ZombiesLevelController.Instance.ToBase(false);
+        ZombiesLevelController.Instance.ToBase();
     }
 }

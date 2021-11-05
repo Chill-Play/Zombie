@@ -54,30 +54,7 @@ public class Level : SingletonMono<Level>
             gameplayController.OnReturnedToBase -= SpawnPoint_OnReturnedToBase;
             gameplayController.OnPlayerUnitDead -= GameplayController_OnPlayerUnitDead;
         }
-    }
-
-
-    public LevelInfo GetLevelInfo()
-    {
-        float progress = 0f;
-        for(int i = 0; i < survivorPickups.Length; i++)
-        {
-            if (survivorPickups[i] == null)
-            {
-                progress += 1 / survivorPickups.Length;
-            }
-        }
-        progress = Mathf.Clamp01(progress);
-        return new LevelInfo()
-        {
-            levelsPlayed = LevelController.Instance.LevelsPlayed,
-            levelNumber = LevelController.Instance.CurrentLevel,
-            levelName = SceneManager.GetActiveScene().name.Replace(" ", "_"),
-            levelId = LevelController.Instance.LevelId,
-            loop = LevelController.Instance.Loop,
-            progress = progress,
-        };
-    }   
+    } 
    
     public void EndLevel()
     {       

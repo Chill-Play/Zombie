@@ -39,9 +39,8 @@ public class RaidFinishScreen : UIScreen
     }
 
     public void Show(ResourcesInfo resources)
-    {
-        LevelInfo levelInfo = Level.Instance.GetLevelInfo();
-        bool doubleOpportunity = levelInfo.levelNumber >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && levelInfo.levelNumber % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
+    {       
+        bool doubleOpportunity = ZombiesLevelController.Instance.LevelsPlayed >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && ZombiesLevelController.Instance.LevelsPlayed % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
 
         survivorsLabel.text = "+" + (squad.Units.Count - 1);
 
@@ -123,15 +122,15 @@ public class RaidFinishScreen : UIScreen
     {
         if (!tutorialMode)
         {
-            AnalyticsManager.Instance.OnLevelCompleted(Level.Instance.GetLevelInfo(), Level.Instance.Tries);
+            ZombiesLevelController.Instance.RaidFinished();
         }
-        ZombiesLevelController.Instance.ToBase(true);
+        ZombiesLevelController.Instance.ToBase();
     }
 
     public void NoThanksClicked()
     {
         CollectResources();
-        if (LevelController.Instance.CurrentLevel > 1)
+        if (ZombiesLevelController.Instance.LevelsPlayed > 1)
         {
             AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
         }

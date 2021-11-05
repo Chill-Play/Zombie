@@ -92,7 +92,7 @@ public class BaseUI : UIScreen
 
     void RaidButton_OnClick()
     {
-       Game.Instance.RunRaid();
+        ZombiesLevelController.Instance.NextRaid();
     }
 
     //void GlobalMap_OnClick()

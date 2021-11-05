@@ -35,10 +35,9 @@ public class Raid : MonoBehaviour
     }
 
     private void Instance_OnLevelStarted()
-    {
-        zombieLevel = LevelController.Instance.CurrentLevel;
-        ZombiesLevelController.Instance.RaidStarted(); 
-        AnalyticsManager.Instance.OnLevelStarted(Level.Instance.GetLevelInfo());
+    {       
+        zombieLevel = ZombiesLevelController.Instance.LevelsPlayed;
+        ZombiesLevelController.Instance.RaidStarted();        
 
         noiseController = FindObjectOfType<NoiseController>();
         noiseController.OnNoiseLevelExceeded += NoiseController_OnNoiseLevelExceeded;

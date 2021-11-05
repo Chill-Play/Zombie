@@ -13,7 +13,7 @@ public class RaiseTutorialStageEvent : MonoBehaviour
 
     private void RaiseTutorialStageEvent_OnTrigger()
     {
-        AnalyticsManager.Instance.SendTutorialEvent(stage);
+        //AnalyticsManager.Instance.SendTutorialEvent(stage);
     }
 
     // Update is called once per frame
