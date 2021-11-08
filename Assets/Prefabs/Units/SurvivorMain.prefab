@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 2686923902671980476}
   - component: {fileID: 2686923902671980474}
   - component: {fileID: 2686923902855824508}
+  - component: {fileID: 354554735237575175}
   m_Layer: 7
   m_Name: SurvivorMain
   m_TagString: Untagged
@@ -58,7 +59,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 5
+  m_Speed: 6.5
   m_Acceleration: 16
   avoidancePriority: 2
   m_AngularSpeed: 320
@@ -356,6 +357,19 @@ MonoBehaviour:
   healthPerLevel: 5
   attackRatePerLevel: -0.05
   miningUseRatePerLevel: -0.05
+--- !u!114 &354554735237575175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2686923902671980477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e94fa7b9666760b4db076f1b455d1e9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dynamit: {fileID: 11400000, guid: 75253f93bc7a48d4bb939972425db878, type: 2}
 --- !u!1 &2686923902688170861
 GameObject:
   m_ObjectHideFlags: 0

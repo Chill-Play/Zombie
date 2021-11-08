@@ -5,7 +5,9 @@ using UnityEngine;
 public class ResourcesInfoUIPanel : MonoBehaviour
 {
     [SerializeField] ResourceBar barPrefab;
+    [SerializeField] DynamitController dynamitController;
     Dictionary<ResourceType, ResourceBar> barsByType = new Dictionary<ResourceType, ResourceBar>();
+
 
     private void Start()
     {
@@ -14,7 +16,12 @@ public class ResourcesInfoUIPanel : MonoBehaviour
 
 
     public void UpdateBar(ResourceType type, int totalCount)
-    {       
+    {
+        if(type.name == "Dynamite")
+        {
+            dynamitController.ShowButton(totalCount);
+        }
+
         ResourceBar bar = null;
         if (barsByType.ContainsKey(type))
         {
