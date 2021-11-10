@@ -7,7 +7,7 @@ public class LevelPack : ScriptableObject , ILevelPack
 {
     [SerializeField] List<SceneReference> levels;
 
-    public int LevelsCount => throw new System.NotImplementedException();
+    public int LevelsCount => levels.Count;
 
     public int GetLevelsCount()
     {

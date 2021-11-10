@@ -22,7 +22,7 @@ public class Raid : MonoBehaviour
     Coroutine spawnWavesCoroutine;
 
 
-    public float ComingTimerValue => timer.RemainingTime / timer.TimerTime;
+    public float ComingTimerValue => timer != null ? timer.RemainingTime / timer.TimerTime : 0f;
 
 
     private void Awake()
