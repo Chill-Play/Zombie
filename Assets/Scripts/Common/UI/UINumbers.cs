@@ -68,9 +68,13 @@ public class UINumbers : MonoBehaviour
         number.text.transform.localScale = Vector3.one * scaleCurve.Evaluate(number.t);
     }
 
-    public void SpawnNumber(Vector3 worldPos, string text, Vector2 offset, float randomAngle, float randomOffset, float lifeTime = 0.4f)
+    public void SpawnNumber(Vector3 worldPos, string text, Vector2 offset, float randomAngle, float randomOffset, float lifeTime = 0.4f, Sprite sprite = null)
     {
         UINumber uINumber = CreateNumberPrefab(worldPos, text, offset, randomAngle, randomOffset);
+        if (sprite != null)
+        {
+            AttachImage(uINumber, sprite);
+        }
         uINumber.lifeTime = lifeTime;
         numbers.Add(uINumber);
         UpdateNumberPosition(uINumber);
