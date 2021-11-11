@@ -26,6 +26,8 @@ GameObject:
   - component: {fileID: 2686923902671980476}
   - component: {fileID: 2686923902671980474}
   - component: {fileID: 2686923902855824508}
+  - component: {fileID: 2686923902855824505}
+  - component: {fileID: 2686923902855824523}
   m_Layer: 7
   m_Name: SurvivorMain
   m_TagString: Untagged
@@ -247,7 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18923db9141a9bc43894ed51ae93dc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
+  health: 999
   bloodVfx: {fileID: 0}
   bloodVfxScale: 0.2
 --- !u!114 &2686923902671980460
@@ -356,6 +358,44 @@ MonoBehaviour:
   healthPerLevel: 5
   attackRatePerLevel: -0.05
   miningUseRatePerLevel: -0.05
+--- !u!114 &2686923902855824505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2686923902671980477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8527353c85d86499457f5c2537d252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useRadius: 2
+  useMask:
+    serializedVersion: 2
+    m_Bits: 65536
+  useRate: 1
+  noisePerUse: 10
+  constructValue: 10
+--- !u!114 &2686923902855824523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2686923902671980477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d48b6d9ad420a4d82db0cf50b359d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useRadius: 2
+  useMask:
+    serializedVersion: 2
+    m_Bits: 65536
+  useRate: 1
+  noisePerUse: 10
+  repairValue: 10
 --- !u!1 &2686923902688170861
 GameObject:
   m_ObjectHideFlags: 0

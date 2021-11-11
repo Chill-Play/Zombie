@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Construction))]
 public class Repairable : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Construction construction;
+
+    public bool CanRepair => construction.Constructed;
+
+    private void Awake()
     {
-        
+        construction = GetComponent<Construction>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Repair(float value)
     {
-        
+        construction.Repair(value);
     }
 }

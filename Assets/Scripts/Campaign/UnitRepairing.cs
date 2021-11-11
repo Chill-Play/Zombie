@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitRepairing : MonoBehaviour
+public class UnitRepairing : UnitInstrument
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] float repairValue = 10f;
 
-    // Update is called once per frame
-    void Update()
+    protected override bool Use()
     {
-        
+        base.Use();
+        Repairable target = useSpots[0].GetComponent<Repairable>();
+        if (target != null && target.CanRepair)
+        {
+            target.Repair(repairValue);
+            return true;
+        }
+        return false;
     }
 }
