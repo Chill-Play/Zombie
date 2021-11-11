@@ -15,7 +15,9 @@ public class UnitMeleeFighting : MonoBehaviour
     [SerializeField] float attackReset = 1.5f;
     [SerializeField] LayerMask attackMask;
 
+    
     Squad squad;
+    ZombiesTarget zombiesTarget;
     float nextAttack;
     bool attackStarted;
     Collider[] attackColliders = new Collider[5];
@@ -46,21 +48,29 @@ public class UnitMeleeFighting : MonoBehaviour
     void Update()
     {
 
-        if((transform.position - squad.transform.position).sqrMagnitude > 50)
+        if((transform.position - squad.transform.position).sqrMagnitude > 50f && (zombiesTarget == null 
+            || (transform.position - zombiesTarget.transform.position).sqrMagnitude > 50f))
         {
             return;
         }
         if (squad != null && agent.enabled)
         {
             Transform target = null;
-            float closestDistance = 0f;
+            float closestDistance = float.MaxValue;
             for (int i = 0; i < squad.Units.Count; i++)
             {
                 float distance = Vector3.Distance(transform.position, squad.Units[i].transform.position);
-                if (closestDistance < distance)
+                if (closestDistance > distance)
                 {
+                    closestDistance = distance;
                     target = squad.Units[i].transform;
                 }
+            }
+            
+            
+            if (zombiesTarget != null && zombiesTarget.enabled && Vector3.Distance(transform.position, zombiesTarget.transform.position) < closestDistance)
+            {                
+                target = zombiesTarget.transform;
             }
             if (nextAttack < Time.time)
             {
@@ -127,5 +137,10 @@ public class UnitMeleeFighting : MonoBehaviour
         {
             StopCoroutine(attackCoroutine);
         }
+    }
+
+    public void SetTarget(ZombiesTarget target)
+    {
+        zombiesTarget = target;
     }
 }
