@@ -20,10 +20,10 @@ public class ZombiesTarget : MonoBehaviour
             enabled = false;
         }
         construction.OnBuild += Construction_OnBuild;
-        construction.OnDead += Construction_OnDead;
+        construction.OnBreak += Construction_OnBreak;
     }
 
-    private void Construction_OnDead(EventMessage<Empty> obj)
+    private void Construction_OnBreak()
     {
         enabled = false;
     }

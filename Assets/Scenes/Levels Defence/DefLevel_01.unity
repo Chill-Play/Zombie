@@ -6660,6 +6660,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e8124068b2b6cde4f8453241e47f2a36, type: 3}
   m_PrefabInstance: {fileID: 1208189826}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1216225328 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 354662173816351520, guid: 7b91f0897a7c59b4c91505259a806ec7, type: 3}
+  m_PrefabInstance: {fileID: 8695042629723478054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1216225330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216225328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2759e59f5dbef9a42a00ba80883902b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 50
 --- !u!224 &1236239164
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9098,7 +9116,7 @@ PrefabInstance:
     - target: {fileID: 1849474791038654764, guid: 4576ba778cdecc943a7bbbbf90a45133, type: 3}
       propertyPath: carTransform
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8955122441418309570}
     - target: {fileID: 1849474791038654766, guid: 4576ba778cdecc943a7bbbbf90a45133, type: 3}
       propertyPath: m_Icon
       value: 
@@ -17566,6 +17584,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8955122442441741662}
     m_Modifications:
+    - target: {fileID: 354662173204569903, guid: 7b91f0897a7c59b4c91505259a806ec7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.4379964
+      objectReference: {fileID: 0}
+    - target: {fileID: 354662173204569903, guid: 7b91f0897a7c59b4c91505259a806ec7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.3689998
+      objectReference: {fileID: 0}
+    - target: {fileID: 354662173204880009, guid: 7b91f0897a7c59b4c91505259a806ec7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 354662173816351520, guid: 7b91f0897a7c59b4c91505259a806ec7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 354662173821579098, guid: 7b91f0897a7c59b4c91505259a806ec7, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -17614,7 +17648,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: BrokenFence_Small
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 354662174068288957, guid: 7b91f0897a7c59b4c91505259a806ec7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 354662174068288957, guid: 7b91f0897a7c59b4c91505259a806ec7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 354662174068500507, guid: 7b91f0897a7c59b4c91505259a806ec7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6504832619508043443, guid: 7b91f0897a7c59b4c91505259a806ec7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7b91f0897a7c59b4c91505259a806ec7, type: 3}
 --- !u!4 &8695042629723478055 stripped
 Transform:

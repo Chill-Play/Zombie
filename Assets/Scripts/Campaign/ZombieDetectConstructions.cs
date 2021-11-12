@@ -10,12 +10,13 @@ public class ZombieDetectConstructions : MonoBehaviour
     protected Collider[] targets = new Collider[3];
     protected int count = 0;
 
-    ZombiesTarget target;
+    [SerializeField] ZombiesTarget target;
 
     public ZombiesTarget Target => target;
 
     protected virtual void FixedUpdate()
     {
+        target = null;
         count = Physics.OverlapSphereNonAlloc(transform.position, detectionRadius, targets, targetMask);
         if (count > 0 && (target == null || !target.enabled))
         {

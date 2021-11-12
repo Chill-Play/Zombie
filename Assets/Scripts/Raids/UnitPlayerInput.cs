@@ -8,7 +8,7 @@ public class UnitPlayerInput : MonoBehaviour, IInputReceiver
     [SerializeField] UnitMovement unitMovement;
 
     public void UpdateInput(Vector2 input)
-    {
+    {        
         unitMovement.Input = input;
     }
 }

@@ -20,7 +20,7 @@ public class UnitMeleeFighting : MonoBehaviour
     ZombiesTarget zombiesTarget;
     float nextAttack;
     bool attackStarted;
-    Collider[] attackColliders = new Collider[5];
+   [SerializeField] Collider[] attackColliders = new Collider[5];
     Coroutine attackCoroutine;
     public bool Attacking { get; set; }
     public float AttackBuff { get; set; }
@@ -48,7 +48,7 @@ public class UnitMeleeFighting : MonoBehaviour
     void Update()
     {
 
-        if((transform.position - squad.transform.position).sqrMagnitude > 50f && (zombiesTarget == null 
+        if((transform.position - squad.transform.position).sqrMagnitude > 50f && (zombiesTarget == null || !zombiesTarget.enabled
             || (transform.position - zombiesTarget.transform.position).sqrMagnitude > 50f))
         {
             return;
@@ -60,25 +60,24 @@ public class UnitMeleeFighting : MonoBehaviour
             for (int i = 0; i < squad.Units.Count; i++)
             {
                 float distance = Vector3.Distance(transform.position, squad.Units[i].transform.position);
-                if (closestDistance > distance)
+                if (distance < closestDistance)
                 {
                     closestDistance = distance;
                     target = squad.Units[i].transform;
                 }
-            }
-            
-            
-            if (zombiesTarget != null && zombiesTarget.enabled && Vector3.Distance(transform.position, zombiesTarget.transform.position) < closestDistance)
+            }            
+           
+            if (zombiesTarget != null && zombiesTarget.enabled)
             {                
                 target = zombiesTarget.transform;
             }
             if (nextAttack < Time.time)
             {
-                int count = Physics.OverlapSphereNonAlloc(transform.position, attackRadius, attackColliders, attackMask);
-                if (count > 0 && attackCoroutine == null)
-                {
+                int count = Physics.OverlapSphereNonAlloc(transform.position, attackRadius, attackColliders, attackMask);                
+                if (count > 0 && attackCoroutine == null)                {
+
                     nextAttack = Time.time + attackRate;
-                    attackCoroutine = StartCoroutine(AttackCoroutine(attackColliders));
+                    attackCoroutine = StartCoroutine(AttackCoroutine(attackColliders, target));
                 }
             }
         }
@@ -87,7 +86,7 @@ public class UnitMeleeFighting : MonoBehaviour
 
 
 
-    private IEnumerator AttackCoroutine(Collider[] colliders)
+    private IEnumerator AttackCoroutine(Collider[] colliders, Transform forceTarget = null)
     {
         OnAttack?.Invoke();
         //agent.isStopped = true;
@@ -95,6 +94,10 @@ public class UnitMeleeFighting : MonoBehaviour
         zombieMovement.StopMoving();
         float t = 0f;
         Vector3 targetLook = colliders[0].transform.position - transform.position;
+        if (forceTarget != null)
+        {
+            targetLook = forceTarget.position - transform.position;
+        }
         targetLook.y = 0.0f;
         targetLook.Normalize();
         while(t < 1.0f)
