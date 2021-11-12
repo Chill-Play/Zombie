@@ -10,7 +10,7 @@ public class ZombieBreaksthroughToPlayer : MonoBehaviour
     ZombieDetectConstructions detectConstructions;
     float nextUpdateTime;
     Squad squad;
-    [SerializeField] ZombiesTarget zombiesTarget;
+    ZombiesTarget zombiesTarget;
 
     private void Awake()
     {
@@ -56,6 +56,13 @@ public class ZombieBreaksthroughToPlayer : MonoBehaviour
                 unitMovement.MoveTo(targetTransform.position);
             }
         }
+    }
+
+    public void ForceTarget(ZombiesTarget target)
+    {
+        zombiesTarget = target;
+        zombiesTarget.AddZombie(gameObject);
+        meleeFighting.SetTarget(zombiesTarget);
     }
 
     private void OnDisable()

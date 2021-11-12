@@ -13,7 +13,7 @@ public class BaseLoader : MonoBehaviour
     void Start()
     {
         DOTween.Init();
-        int levelNumber = LevelService.Instance.CurrentSequenceInfo.levelsPlayed;
+        int levelNumber = 1;
         if (levelNumber == 0)
         {
             SceneManager.LoadScene(tutorialLevel);
@@ -22,5 +22,6 @@ public class BaseLoader : MonoBehaviour
         {
             SceneManager.LoadScene(baseLevel);
         }
+       
     }
 }

@@ -39,8 +39,8 @@ public class RaidFinishScreen : UIScreen
     }
 
     public void Show(ResourcesInfo resources)
-    {       
-        bool doubleOpportunity = ZombiesLevelController.Instance.LevelsPlayed >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && ZombiesLevelController.Instance.LevelsPlayed % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
+    {
+        bool doubleOpportunity = false;// ZombiesLevelController.Instance.LevelsPlayed >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && ZombiesLevelController.Instance.LevelsPlayed % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
 
         survivorsLabel.text = "+" + (squad.Units.Count - 1);
 
@@ -68,16 +68,16 @@ public class RaidFinishScreen : UIScreen
         doubleButton.gameObject.SetActive(doubleOpportunity);
         alternativeContinueButton.gameObject.SetActive(doubleOpportunity);
 
-        if (doubleOpportunity)
+        /*if (doubleOpportunity)
         {
             sequence.Append(doubleButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
             sequence.Append(alternativeContinueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         }
         else
         {          
-            sequence.Append(continueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
-        }
-
+           
+        }*/
+        sequence.Append(continueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         tutorialMode = FindObjectOfType<Tutorial>() != null;
     }
 
@@ -129,12 +129,13 @@ public class RaidFinishScreen : UIScreen
 
     public void NoThanksClicked()
     {
-        CollectResources();
+        ZombiesLevelController.Instance.ToBase();
+        /*CollectResources();
         if (ZombiesLevelController.Instance.LevelsPlayed > 1)
         {
             AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
         }
-        ToBase();
+        ToBase();*/
     }
 
     void SaveSquad()

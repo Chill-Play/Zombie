@@ -75,7 +75,9 @@ public class Construction : MonoBehaviour
     {
         if (constructed)
         {
-            return constructionHealth.AddHealth(value);
+            float dH = constructionHealth.AddHealth(value);            
+            uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f);
+            return dH;
         }
         return 0f;
     }

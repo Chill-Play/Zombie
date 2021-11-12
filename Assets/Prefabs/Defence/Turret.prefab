@@ -743,6 +743,8 @@ GameObject:
   - component: {fileID: 5153949406580066645}
   - component: {fileID: 5153949406580066640}
   - component: {fileID: 6572764937635198017}
+  - component: {fileID: 7144926082678976842}
+  - component: {fileID: 4302255226266723296}
   m_Layer: 16
   m_Name: Turret
   m_TagString: Untagged
@@ -836,6 +838,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxZombies: 5
+--- !u!114 &7144926082678976842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5153949406580066644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52f366a035e991449241460c2b9bd40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4302255226266723296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5153949406580066644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5983e6ced4b645a4c9c009bdd0ac8514, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constructionHealth: {fileID: 6482313486146858481}
 --- !u!1 &5153949407063047418
 GameObject:
   m_ObjectHideFlags: 0

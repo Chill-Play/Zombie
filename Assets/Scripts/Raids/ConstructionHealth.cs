@@ -13,6 +13,9 @@ public class ConstructionHealth : MonoBehaviour, IDamagable
     float currentHealth = 0f;
     UINumbers uiNumbers;
 
+    public float Health => health;
+    public float CurrentHealth => currentHealth;
+
     private void Awake()
     {       
         uiNumbers = FindObjectOfType<UINumbers>();
@@ -20,24 +23,41 @@ public class ConstructionHealth : MonoBehaviour, IDamagable
 
     public void Damage(DamageInfo info)
     {
-        currentHealth -= info.damage;
-        uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "-" + info.damage, Vector2.zero, 15f, 10f, 0.4f);
-        if (currentHealth < 0f)
-        {           
-            currentHealth = 0f;
-            OnDead?.Invoke(new EventMessage<Empty>());
+        if (currentHealth > 0f)
+        {
+            currentHealth = Mathf.Clamp(currentHealth - info.damage, 0f, health);
+            uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "-" + info.damage, Vector2.zero, 15f, 10f, 0.4f);
+            DamageTakenInfo damageTakenInfo = new DamageTakenInfo();
+            damageTakenInfo.damage = info.damage;
+            damageTakenInfo.currentHealth = currentHealth;
+            damageTakenInfo.maxHealth = health;
+            OnDamage?.Invoke(damageTakenInfo);
+            if (currentHealth <= 0f)
+            {
+                OnDead?.Invoke(new EventMessage<Empty>());
+            }
         }
+       
     }
 
     public float AddHealth(float value)
     {
-        float dH = Mathf.Min(health - currentHealth, value);
-        currentHealth += dH;
-        if (currentHealth >= health)
+        if (currentHealth < health)
         {
-            currentHealth = health;
-            OnConstructed?.Invoke();
+            float dH = Mathf.Min(health - currentHealth, value);
+            currentHealth += dH;
+            if (currentHealth >= health)
+            {
+                currentHealth = health;
+                OnConstructed?.Invoke();
+            }
+            DamageTakenInfo damageTakenInfo = new DamageTakenInfo();
+            damageTakenInfo.damage = value;
+            damageTakenInfo.currentHealth = currentHealth;
+            damageTakenInfo.maxHealth = health;
+            OnDamage?.Invoke(damageTakenInfo);
+            return dH;
         }
-        return dH;
+        return 0f;
     }
 }
