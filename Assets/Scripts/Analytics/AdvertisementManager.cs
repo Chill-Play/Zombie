@@ -8,8 +8,6 @@ using UnityEngine;
 
 public class AdvertisementManager : SingletonMono<AdvertisementManager>
 {
-
-
     [SerializeField] float interstitialCooldown = 30.0f;
 
     const string INTERSTITIAL_UNIT = "ebd4fbbdef2bad80";
@@ -19,6 +17,8 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
     System.Action<bool> onRewardedClosed;
     string cachedPlacement;
+
+    bool advertisementLocked = false;
 
     enum AdResult
     {
@@ -35,9 +35,10 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     // Start is called before the first frame update
     void Start()
     {
-        #if HC_ADS
+#if HC_ADS
         DontDestroyOnLoad(this);
-        MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) => {
+        MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) =>
+        {
             InitializeInterstitialAds();
             InitializeRewardedAds();
         };
@@ -45,53 +46,60 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         MaxSdk.SetSdkKey("6AQkyPv9b4u7yTtMH9PT40gXg00uJOTsmBOf7hDxa_-FnNZvt_qTLnJAiKeb5-2_T8GsI_dGQKKKrtwZTlCzAR");
         MaxSdk.SetUserId("USER_ID");
         MaxSdk.InitializeSdk();
-        #endif
+#endif
     }
 
     public void TryShowInterstitial(string placement)
     {
 #if HC_ADS
-        cachedPlacement = placement;
-        if (lastAdShown + TimeSpan.FromSeconds(interstitialCooldown) <= DateTime.Now)
+        if (!advertisementLocked)
         {
-            if (MaxSdk.IsInterstitialReady(INTERSTITIAL_UNIT))
+            cachedPlacement = placement;
+            if (lastAdShown + TimeSpan.FromSeconds(interstitialCooldown) <= DateTime.Now)
             {
-                adResult = AdResult.Watched;
-                var result = "success";
-                ReportAnalytics("video_ads_available", "interstitial", placement, result);
-                ReportAnalytics("video_ads_started", "interstitial", cachedPlacement, "start");
-                MaxSdk.ShowInterstitial(INTERSTITIAL_UNIT);
-            }
-            else
-            {
-                var result = "not_available";
-                ReportAnalytics("video_ads_available", "interstitial", placement, result);
+                if (MaxSdk.IsInterstitialReady(INTERSTITIAL_UNIT))
+                {
+                    adResult = AdResult.Watched;
+                    var result = "success";
+                    advertisementLocked = true;
+                    ReportAnalytics("video_ads_available", "interstitial", placement, result);
+                    ReportAnalytics("video_ads_started", "interstitial", cachedPlacement, "start");
+                    MaxSdk.ShowInterstitial(INTERSTITIAL_UNIT);
+                }
+                else
+                {
+                    var result = "not_available";
+                    ReportAnalytics("video_ads_available", "interstitial", placement, result);
+                }
             }
         }
-        #endif
+#endif
     }
 
 
     public void ShowRewardedVideo(System.Action<bool> callback, string placement)
     {
-
-#if HC_ADS  && !UNITY_EDITOR
-        adResult = AdResult.Canceled;
-        cachedPlacement = placement;
-        onRewardedClosed = callback;
-        string result;
-        if (MaxSdk.IsRewardedAdReady(REWARDED_UNIT))
+#if HC_ADS && !UNITY_EDITOR
+        if (!advertisementLocked)
         {
-            rewardReceived = false;
-            result = "success";
-            ReportAnalytics("video_ads_available", "rewarded", placement, result);
-            ReportAnalytics("video_ads_started", "rewarded", cachedPlacement, "start");
-            MaxSdk.ShowRewardedAd(REWARDED_UNIT);
-        }
-        else
-        {
-            result = "not_available";
-            ReportAnalytics("video_ads_available", "rewarded", placement, result);
+            adResult = AdResult.Canceled;
+            cachedPlacement = placement;
+            onRewardedClosed = callback;
+            string result;
+            if (MaxSdk.IsRewardedAdReady(REWARDED_UNIT))
+            {
+                rewardReceived = false;
+                result = "success";
+                advertisementLocked = true;
+                ReportAnalytics("video_ads_available", "rewarded", placement, result);
+                ReportAnalytics("video_ads_started", "rewarded", cachedPlacement, "start");
+                MaxSdk.ShowRewardedAd(REWARDED_UNIT);
+            }
+            else
+            {
+                result = "not_available";
+                ReportAnalytics("video_ads_available", "rewarded", placement, result);
+            }
         }
         return;
 #endif
@@ -101,7 +109,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
     public void InitializeInterstitialAds()
     {
-        #if HC_ADS
+#if HC_ADS
         // Attach callback
         MaxSdkCallbacks.Interstitial.OnAdLoadedEvent += OnInterstitialLoadedEvent;
         MaxSdkCallbacks.Interstitial.OnAdLoadFailedEvent += OnInterstitialLoadFailedEvent;
@@ -112,13 +120,13 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
         // Load the first interstitial
         LoadInterstitial();
-        #endif
+#endif
     }
 
 
     public void InitializeRewardedAds()
     {
-        #if HC_ADS
+#if HC_ADS
         // Attach callback
         MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnRewardedAdLoadedEvent;
         MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnRewardedAdLoadFailedEvent;
@@ -131,19 +139,19 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
         // Load the first rewarded ad
         LoadRewardedAd();
-        #endif
+#endif
     }
 
 
     private void LoadInterstitial()
     {
-        #if HC_ADS
+#if HC_ADS
         MaxSdk.LoadInterstitial(INTERSTITIAL_UNIT);
-        #endif
+#endif
     }
 
 
-    #if HC_ADS
+#if HC_ADS
     private void OnInterstitialLoadedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
     {
         // Interstitial ad is ready for you to show. MaxSdk.IsInterstitialReady(adUnitId) now returns 'true'
@@ -163,7 +171,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         Invoke("LoadInterstitial", (float)retryDelay);
     }
 
-    private void OnInterstitialDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) 
+    private void OnInterstitialDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
     {
     }
 
@@ -173,7 +181,8 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         LoadInterstitial();
     }
 
-    private void OnInterstitialClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) {
+    private void OnInterstitialClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
+    {
         adResult = AdResult.Clicked;
     }
 
@@ -189,7 +198,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
                 result = "clicked";
                 break;
             case AdResult.Canceled:
-                result = "canceled";
+                result = "watched";
                 break;
             default:
                 result = "";
@@ -197,6 +206,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         }
 
         // Interstitial ad is hidden. Pre-load the next ad.
+        advertisementLocked = false;
         ReportAnalytics("video_ads_watch", "interstitial", cachedPlacement, result);
         lastAdShown = DateTime.Now;
         LoadInterstitial();
@@ -240,7 +250,8 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         Invoke("LoadRewardedAd", (float)retryDelay);
     }
 
-    private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) {
+    private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
+    {
     }
 
     private void OnRewardedAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo, MaxSdkBase.AdInfo adInfo)
@@ -249,7 +260,8 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         LoadRewardedAd();
     }
 
-    private void OnRewardedAdClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) {
+    private void OnRewardedAdClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
+    {
         Debug.Log("Appmetrica : Clicked");
         adResult = AdResult.Clicked;
     }
@@ -272,6 +284,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
                 result = "";
                 break;
         }
+        advertisementLocked = false;
         ReportAnalytics("video_ads_watch", "rewarded", cachedPlacement, result);
         onRewardedClosed?.Invoke(rewardReceived);
         lastAdShown = DateTime.Now;
