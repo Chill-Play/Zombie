@@ -15,7 +15,7 @@ public class TutorialText : MonoBehaviour
 
     Vector3 scale;
 
-    private void Awake()
+    private void Start()
     {
         if (content == null)
         {
