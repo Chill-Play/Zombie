@@ -5,9 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Construction))]
 public class Repairable : MonoBehaviour
 {
+    [SerializeField] ConstructionHealth constructionHealth;
     Construction construction;
 
-    public bool CanRepair => construction.Constructed;
+    public bool CanRepair => construction.Constructed && constructionHealth.CurrentHealth < constructionHealth.Health;
 
     private void Awake()
     {

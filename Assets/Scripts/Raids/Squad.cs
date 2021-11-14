@@ -229,6 +229,7 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     public void UpdateInput(Vector2 input)
     {
+        input.Normalize();
         if (input.magnitude < 0.1f)
         {
             isMoving = false;

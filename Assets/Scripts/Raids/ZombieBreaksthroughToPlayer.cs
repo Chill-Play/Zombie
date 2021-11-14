@@ -29,13 +29,19 @@ public class ZombieBreaksthroughToPlayer : MonoBehaviour
         if (Time.timeSinceLevelLoad > nextUpdateTime)
         {
             Transform targetTransform = transform;
+
+            if (zombiesTarget != null && !zombiesTarget.enabled)
+            {
+                zombiesTarget = null;
+                meleeFighting.SetTarget(null);
+            }
             if (zombiesTarget == null && detectConstructions.Target != null)
             {
                 zombiesTarget = detectConstructions.Target;
                 zombiesTarget.AddZombie(gameObject);
                 meleeFighting.SetTarget(zombiesTarget);
             }
-            if (zombiesTarget != null)
+            if (zombiesTarget != null && Vector3.Distance(transform.position,squad.transform.position) >= Vector3.Distance(transform.position, zombiesTarget.transform.position))
             {
                 targetTransform = zombiesTarget.transform;
             }
@@ -50,6 +56,13 @@ public class ZombieBreaksthroughToPlayer : MonoBehaviour
                 unitMovement.MoveTo(targetTransform.position);
             }
         }
+    }
+
+    public void ForceTarget(ZombiesTarget target)
+    {
+        zombiesTarget = target;
+        zombiesTarget.AddZombie(gameObject);
+        meleeFighting.SetTarget(zombiesTarget);
     }
 
     private void OnDisable()

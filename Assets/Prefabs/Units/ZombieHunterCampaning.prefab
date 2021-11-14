@@ -298,7 +298,13 @@ MonoBehaviour:
   attackReset: 1.5
   attackMask:
     serializedVersion: 2
-    m_Bits: 65664
+    m_Bits: 131200
+  attackColliders:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &4096667769111837358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,10 +417,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e547decafc7f5e4abbf37c8a7a34f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 10
+  detectionRadius: 5
   targetMask:
     serializedVersion: 2
     m_Bits: 65536
+  target: {fileID: 0}
 --- !u!114 &6682464184804450385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,6 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df72470d93185f40954f3f836d38fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zombiesTarget: {fileID: 0}
 --- !u!1001 &2532931867462314593
 PrefabInstance:
   m_ObjectHideFlags: 0

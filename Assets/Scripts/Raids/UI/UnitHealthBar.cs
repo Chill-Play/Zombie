@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitHealthBar : MonoBehaviour
-{
-   
+{ 
     void OnEnable()
     {
         FindObjectOfType<UIUnitHealthBars>().CreateHealthBar(this);

@@ -86,6 +86,13 @@ public class ZombieWaveSpawner : MonoBehaviour
                     {
                         stats.SetLevel(level, generation);
                     }
+                    if (spawnPoint.Target != null && spawnPoint.Target.enabled)
+                    {
+                        if (enemy.TryGetComponent<ZombieBreaksthroughToPlayer>(out var zombieAI))
+                        {
+                            zombieAI.ForceTarget(spawnPoint.Target);
+                        }
+                    }
                     horde.AddEnemy(enemy);
                     enemy.GoAggressive();                    
                 }

@@ -62,7 +62,7 @@ public class UIUnitHealthBar : MonoBehaviour
     public void Setup(UnitHealthBar unit, float upOffset)
     {
         this.unit = unit;
-        unit.GetComponent<IDamagable>().OnDamage += Unit_OnDamage;
+        unit.GetComponentInChildren<IDamagable>().OnDamage += Unit_OnDamage;
         this.upOffset = upOffset;
         barFill.fillAmount = 1f;
         group.alpha = 0.0f;
@@ -110,8 +110,16 @@ public class UIUnitHealthBar : MonoBehaviour
 
     public void Remove()
     {
-        unit.GetComponent<IDamagable>().OnDamage -= Unit_OnDamage;
-        unit = null;
-        barTransform.DOScale(0f, 0.3f).SetEase(Ease.InCirc).OnComplete(() => Destroy(gameObject));
+        if (unit != null)
+        {
+            IDamagable damagable = unit.GetComponentInChildren<IDamagable>();
+            if (damagable != null)
+            {
+                damagable.OnDamage -= Unit_OnDamage;
+                unit = null;
+                barTransform.DOScale(0f, 0.3f).SetEase(Ease.InCirc).OnComplete(() => Destroy(gameObject));
+            }
+        }
+        
     }
 }

@@ -9,6 +9,7 @@ public class UnitPlayerInput : MonoBehaviour, IInputReceiver
 
     public void UpdateInput(Vector2 input)
     {
+        input.Normalize();
         unitMovement.Input = input;
     }
 }
