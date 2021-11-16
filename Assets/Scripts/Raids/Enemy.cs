@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
 
 
     public void SetLevel(int level)
-    {
+    {       
         //agent.speed = baseSpeed + (speedPerLevel * level);
         this.level = level;
     }

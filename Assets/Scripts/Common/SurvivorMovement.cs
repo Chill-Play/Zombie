@@ -6,10 +6,10 @@ using UnityEngine.AI;
 public class SurvivorMovement : UnitMovement
 {
     public bool InputActive => Input.magnitude > 0.05f;
-    public bool goToDestination;   
+    public bool goToDestination;
 
     void Update()
-    {
+    {    
         if (!goToDestination)
         {
             if (InputActive)
@@ -25,7 +25,7 @@ public class SurvivorMovement : UnitMovement
 
 
     public override void MoveTo(Vector3 target)
-    {
+    {       
         goToDestination = true;
         Input = Vector2.zero;
         agent.SetDestination(target);

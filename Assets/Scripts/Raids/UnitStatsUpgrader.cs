@@ -26,7 +26,10 @@ public class UnitStatsUpgrader : MonoBehaviour
         health.AddMaxHealth(healthPerLevel * manager.GetStatInfo(healthStat).level);
         shooting.AddDamage(damagePerLevel * manager.GetStatInfo(damageStat).level);
         shooting.AddAttackRate(attackRatePerLevel * manager.GetStatInfo(attackSpeedStat).level);
-        resources.AddUseRate(miningUseRatePerLevel * manager.GetStatInfo(miningSpeedStat).level);
+        if (resources != null)
+        {
+            resources.AddUseRate(miningUseRatePerLevel * manager.GetStatInfo(miningSpeedStat).level);
+        }
     }
 
     // Update is called once per frame

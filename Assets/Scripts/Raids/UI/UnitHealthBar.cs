@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitHealthBar : MonoBehaviour
-{ 
+{
+    [SerializeField] GameObject damagable;
+
+    public GameObject Damagable => damagable;
+
     void OnEnable()
     {
         FindObjectOfType<UIUnitHealthBars>().CreateHealthBar(this);

@@ -15,12 +15,25 @@ public class ZombiesTarget : MonoBehaviour
     private void Awake()
     {
         construction = GetComponent<Construction>();
-        if (!construction.Constructed)
+        if (construction != null)
         {
-            enabled = false;
+            if (!construction.Constructed)
+            {
+                enabled = false;
+            }
+
+            construction.OnBuild += Construction_OnBuild;
+            construction.OnBreak += Construction_OnBreak;
         }
-        construction.OnBuild += Construction_OnBuild;
-        construction.OnBreak += Construction_OnBreak;
+        else
+        {
+            GetComponent<IDamagable>().OnDead += ZombiesTarget_OnDead;
+        }
+    }
+
+    private void ZombiesTarget_OnDead(EventMessage<Empty> obj)
+    {
+        enabled = false;
     }
 
     private void Construction_OnBreak()

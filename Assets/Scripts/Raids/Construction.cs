@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 
-public class Construction : MonoBehaviour
+public class Construction : MonoBehaviour , IZombiesLevelPhases
 {   
     public event System.Action OnBuild;
     public event System.Action OnBreak;
@@ -18,7 +18,7 @@ public class Construction : MonoBehaviour
 
     public bool Constructed => constructed;
 
-   
+    public bool LockConstruction { get; set; } = false; 
 
     private void Awake()
     {
@@ -32,7 +32,8 @@ public class Construction : MonoBehaviour
 
     private void ConstructionHealth_OnDead(EventMessage<Empty> obj)
     {     
-        constructed = false;     
+        constructed = false;
+        LockConstruction = true;
         Sequence sequence = DOTween.Sequence();
         sequence.Append(content.DOScale(Vector3.zero, 0.3f).SetEase(Ease.OutCirc));
         sequence.AppendCallback(() =>
@@ -62,7 +63,7 @@ public class Construction : MonoBehaviour
 
     public float Construct(float value)
     {
-        if (!constructed)
+        if (!constructed && !LockConstruction)
         {
             float dH = constructionHealth.AddHealth(value);
             uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f);
@@ -73,12 +74,32 @@ public class Construction : MonoBehaviour
 
     public float Repair(float value)
     {
-        if (constructed)
+        if (constructed && !LockConstruction)
         {
             float dH = constructionHealth.AddHealth(value);            
             uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f);
             return dH;
         }
         return 0f;
+    }
+
+    public void OnLevelStarted()
+    {
+        
+    }
+
+    public void OnLevelEnded()
+    {
+        
+    }
+
+    public void OnLevelFailed()
+    {
+        
+    }
+
+    public void OnHordeDefeated()
+    {
+        LockConstruction = true;
     }
 }

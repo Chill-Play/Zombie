@@ -62,10 +62,11 @@ public class UIUnitHealthBar : MonoBehaviour
     public void Setup(UnitHealthBar unit, float upOffset)
     {
         this.unit = unit;
-        unit.GetComponentInChildren<IDamagable>().OnDamage += Unit_OnDamage;
+        unit.Damagable.GetComponent<IDamagable>().OnDamage += Unit_OnDamage;
         this.upOffset = upOffset;
         barFill.fillAmount = 1f;
         group.alpha = 0.0f;
+        Hide();
     }
 
 
@@ -73,6 +74,7 @@ public class UIUnitHealthBar : MonoBehaviour
     {
         appeared = true;
         SmoothGroupAlpha(1f);
+        
     }
 
 
@@ -85,12 +87,12 @@ public class UIUnitHealthBar : MonoBehaviour
 
     void SmoothGroupAlpha(float target)
     {
-
-        if(alphaTween != null)
+        group.alpha = target;
+        /*if(alphaTween != null)
         {
             alphaTween.Complete();
         }
-        alphaTween = DOTween.To(() => group.alpha, (x) => group.alpha = x, target, 0.3f);
+        alphaTween = DOTween.To(() => group.alpha, (x) => group.alpha = x, target, 0.3f);*/
     }
 
 
@@ -112,7 +114,7 @@ public class UIUnitHealthBar : MonoBehaviour
     {
         if (unit != null)
         {
-            IDamagable damagable = unit.GetComponentInChildren<IDamagable>();
+            IDamagable damagable = unit.Damagable.GetComponent<IDamagable>();
             if (damagable != null)
             {
                 damagable.OnDamage -= Unit_OnDamage;
