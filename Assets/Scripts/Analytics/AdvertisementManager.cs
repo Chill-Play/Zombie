@@ -168,7 +168,13 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
         retryAttempt++;
         double retryDelay = Math.Pow(2, Math.Min(6, retryAttempt));
 
-        Invoke("LoadInterstitial", (float)retryDelay);
+        Invoke("LoadNewInterstitialAfterLoadFailed", (float)retryDelay);
+    }
+
+    private void LoadNewInterstitialAfterLoadFailed()
+    {
+        advertisementLocked = false;
+        LoadInterstitial();
     }
 
     private void OnInterstitialDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -178,6 +184,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     private void OnInterstitialAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo, MaxSdkBase.AdInfo adInfo)
     {
         // Interstitial ad failed to display. AppLovin recommends that you load the next ad.
+        advertisementLocked = false;
         LoadInterstitial();
     }
 
@@ -242,12 +249,18 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
     private void OnRewardedAdLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)
     {
         // Rewarded ad failed to load 
-        // AppLovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds).
+        // AppLovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds).        
 
         retryAttempt++;
         double retryDelay = Math.Pow(2, Math.Min(6, retryAttempt));
 
-        Invoke("LoadRewardedAd", (float)retryDelay);
+        Invoke("LoadNewRewardedAdAfterLoadFailed", (float)retryDelay);
+    }
+
+    private void LoadNewRewardedAdAfterLoadFailed()
+    {
+        advertisementLocked = false;
+        LoadRewardedAd();
     }
 
     private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -256,6 +269,7 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
     private void OnRewardedAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo, MaxSdkBase.AdInfo adInfo)
     {
+        advertisementLocked = false;
         // Rewarded ad failed to display. AppLovin recommends that you load the next ad.
         LoadRewardedAd();
     }
