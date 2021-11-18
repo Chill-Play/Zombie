@@ -8,7 +8,7 @@ public class UnitConstructing : UnitInstrument
 
     protected override bool Use()
     {
-        base.Use();
+        base.Use();    
         Constructive target = useSpots[0].GetComponent<Constructive>();
         if (target != null && target.CanConstruct)
         {

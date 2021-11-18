@@ -31,7 +31,7 @@ public class InteractivePointDetection : MonoBehaviour
                 if (interactivePoints[i] != null)
                 {
                     InteractivePoint possibleTarget = interactivePoints[i].GetComponent<InteractivePoint>();
-                    if (possibleTarget.HasFreePoint())
+                    if (possibleTarget != null && possibleTarget.HasFreePoint())
                     {
                         float dist = Vector3.Distance(interactivePoints[i].transform.position, transform.position);
                         if (minDist > dist)

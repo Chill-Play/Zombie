@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class SurvivorMovement : UnitMovement
 {
-    public bool InputActive => Input.magnitude > 0.05f;
+    public override bool InputActive => goToDestination ? VelocityActive : base.InputActive;
     public bool goToDestination;
 
     void Update()
