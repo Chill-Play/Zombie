@@ -51,59 +51,59 @@ public class AdvertisementManager : SingletonMono<AdvertisementManager>
 
     public void TryShowInterstitial(string placement)
     {
-#if HC_ADS
-        if (!advertisementLocked)
-        {
-            cachedPlacement = placement;
-            if (lastAdShown + TimeSpan.FromSeconds(interstitialCooldown) <= DateTime.Now)
-            {
-                if (MaxSdk.IsInterstitialReady(INTERSTITIAL_UNIT))
-                {
-                    adResult = AdResult.Watched;
-                    var result = "success";
-                    advertisementLocked = true;
-                    ReportAnalytics("video_ads_available", "interstitial", placement, result);
-                    ReportAnalytics("video_ads_started", "interstitial", cachedPlacement, "start");
-                    MaxSdk.ShowInterstitial(INTERSTITIAL_UNIT);
-                }
-                else
-                {
-                    var result = "not_available";
-                    ReportAnalytics("video_ads_available", "interstitial", placement, result);
-                }
-            }
-        }
-#endif
+// #if HC_ADS
+//         if (!advertisementLocked)
+//         {
+//             cachedPlacement = placement;
+//             if (lastAdShown + TimeSpan.FromSeconds(interstitialCooldown) <= DateTime.Now)
+//             {
+//                 if (MaxSdk.IsInterstitialReady(INTERSTITIAL_UNIT))
+//                 {
+//                     adResult = AdResult.Watched;
+//                     var result = "success";
+//                     advertisementLocked = true;
+//                     ReportAnalytics("video_ads_available", "interstitial", placement, result);
+//                     ReportAnalytics("video_ads_started", "interstitial", cachedPlacement, "start");
+//                     MaxSdk.ShowInterstitial(INTERSTITIAL_UNIT);
+//                 }
+//                 else
+//                 {
+//                     var result = "not_available";
+//                     ReportAnalytics("video_ads_available", "interstitial", placement, result);
+//                 }
+//             }
+//         }
+// #endif
     }
 
 
     public void ShowRewardedVideo(System.Action<bool> callback, string placement)
     {
-#if HC_ADS && !UNITY_EDITOR
-        if (!advertisementLocked)
-        {
-            adResult = AdResult.Canceled;
-            cachedPlacement = placement;
-            onRewardedClosed = callback;
-            string result;
-            if (MaxSdk.IsRewardedAdReady(REWARDED_UNIT))
-            {
-                rewardReceived = false;
-                result = "success";
-                advertisementLocked = true;
-                ReportAnalytics("video_ads_available", "rewarded", placement, result);
-                ReportAnalytics("video_ads_started", "rewarded", cachedPlacement, "start");
-                MaxSdk.ShowRewardedAd(REWARDED_UNIT);
-            }
-            else
-            {
-                result = "not_available";
-                ReportAnalytics("video_ads_available", "rewarded", placement, result);
-            }
-        }
-        return;
-#endif
-        callback?.Invoke(true);
+// #if HC_ADS && !UNITY_EDITOR
+//         if (!advertisementLocked)
+//         {
+//             adResult = AdResult.Canceled;
+//             cachedPlacement = placement;
+//             onRewardedClosed = callback;
+//             string result;
+//             if (MaxSdk.IsRewardedAdReady(REWARDED_UNIT))
+//             {
+//                 rewardReceived = false;
+//                 result = "success";
+//                 advertisementLocked = true;
+//                 ReportAnalytics("video_ads_available", "rewarded", placement, result);
+//                 ReportAnalytics("video_ads_started", "rewarded", cachedPlacement, "start");
+//                 MaxSdk.ShowRewardedAd(REWARDED_UNIT);
+//             }
+//             else
+//             {
+//                 result = "not_available";
+//                 ReportAnalytics("video_ads_available", "rewarded", placement, result);
+//             }
+//         }
+//         return;
+// #endif
+//         callback?.Invoke(true);
     }
 
 

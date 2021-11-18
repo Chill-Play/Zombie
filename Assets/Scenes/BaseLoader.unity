@@ -314,6 +314,7 @@ GameObject:
   - component: {fileID: 946858515}
   - component: {fileID: 946858514}
   - component: {fileID: 946858513}
+  - component: {fileID: 946858516}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -386,6 +387,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &946858516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946858512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1001 &1416842852
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -485,8 +518,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseLevel:
-    sceneAsset: {fileID: 102900000, guid: 5f422292fd257d14cbcb3c8992fb2d2d, type: 3}
-    scenePath: Assets/Scenes/Base Visuals.unity
+    sceneAsset: {fileID: 102900000, guid: 7e9c9796d52a0cc41971f14487a66c5f, type: 3}
+    scenePath: Assets/Scenes/Base Visuals Toony Colors.unity
   tutorialLevel:
     sceneAsset: {fileID: 102900000, guid: fcc8c0b7ba07b4447bbae52d61f44d32, type: 3}
     scenePath: Assets/Scenes/Levels Raid/RaidLevel_00_Tutorial.unity

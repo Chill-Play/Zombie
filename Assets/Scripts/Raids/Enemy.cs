@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] SubjectId wanderingState;
     [SerializeField] SubjectId aggressiveState;
     [SerializeField] SubjectId deadState;
+    [SerializeField] Color deadColor = Color.gray;
 
     StateController stateController;
     int level = -1;
@@ -81,7 +82,8 @@ public class Enemy : MonoBehaviour
         GetComponent<NavMeshAgent>().enabled = false;
         GetComponent<Collider>().enabled = false;
         var renderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        renderer.material.DOColor(Color.gray, "_MainColor", 0.5f);
+        renderer.material.DOColor(deadColor, "_BaseColor", 0.5f);
+        //renderer.material.DOColor(Color.gray, "_MainColor", 0.5f);
         StartCoroutine(OnDeadCoroutine());
     }
 
