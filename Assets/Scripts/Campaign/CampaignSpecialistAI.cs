@@ -35,7 +35,7 @@ public class CampaignSpecialistAI : MonoBehaviour
 
     private void InteractivePointDetection_OnTargetChanged(InteractivePoint lastPoint, InteractivePoint point)
     {      
-        if (point.gameObject != null)
+        if (point != null)
         {
             constructive = point.gameObject.GetComponent<Constructive>();
             repairable = point.gameObject.GetComponent<Repairable>();           
