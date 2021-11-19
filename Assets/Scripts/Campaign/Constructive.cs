@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Construction))]
 public class Constructive : MonoBehaviour
 {
-    Construction construction;
+    Construction construction;   
 
     public bool CanConstruct => !construction.Constructed && !construction.LockConstruction;
 

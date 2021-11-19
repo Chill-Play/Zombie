@@ -29,7 +29,7 @@ public class Bullet : MonoBehaviour
         lastPosition = transform.position;
     }
 
-    private void Hit(Transform target)
+    protected virtual void Hit(Transform target)
     {
         if (target.TryGetComponent(out IDamagable damagable))
         {
