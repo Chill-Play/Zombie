@@ -61,7 +61,7 @@ public class PlayerResources : MonoBehaviour
         interactivePointDetection.OnTargetChanged += InteractivePointDetection_OnTargetChanged;
     }
 
-    private void InteractivePointDetection_OnTargetChanged(InteractivePoint interactivePoint)
+    private void InteractivePointDetection_OnTargetChanged(InteractivePoint interactivePoint, InteractivePoint newInteractivePoint)
     {
         if (interactivePoint != null && target.index != -1)
         {

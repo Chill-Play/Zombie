@@ -17,7 +17,7 @@ public class CampaignSpecialistAI : MonoBehaviour
     [SerializeField] SubjectId shootingState;
     [SerializeField] SubjectId interactingState;
     [SerializeField] SubjectId deadState;
-    [SerializeField] SubjectId leaderDefeatedState;
+    [SerializeField] SubjectId leaderDefeatedState;  
 
     Squad squad;
     Level level;
@@ -33,12 +33,12 @@ public class CampaignSpecialistAI : MonoBehaviour
         interactivePointDetection.OnTargetChanged += InteractivePointDetection_OnTargetChanged;
     }
 
-    private void InteractivePointDetection_OnTargetChanged(InteractivePoint obj)
-    {
-        if (obj != null)
+    private void InteractivePointDetection_OnTargetChanged(InteractivePoint lastPoint, InteractivePoint point)
+    {      
+        if (point.gameObject != null)
         {
-            constructive = obj.GetComponent<Constructive>();
-            repairable = obj.GetComponent<Repairable>();
+            constructive = point.gameObject.GetComponent<Constructive>();
+            repairable = point.gameObject.GetComponent<Repairable>();           
         }
     }
 
@@ -65,7 +65,7 @@ public class CampaignSpecialistAI : MonoBehaviour
                 RotateToTarget();
             }
             return;
-        }
+        }      
 
         if (interactivePointDetection.Target != null && !squad.IsMoving && targetDetection.Target == null
             && ((constructive == null || constructive.CanConstruct) || (repairable == null || repairable.CanRepair)))

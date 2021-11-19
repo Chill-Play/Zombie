@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractivePointDetection : MonoBehaviour
 {
-    public event System.Action<InteractivePoint> OnTargetChanged;
+    public event System.Action<InteractivePoint, InteractivePoint> OnTargetChanged;
 
     [SerializeField] float detectionRadius = 2f;
     [SerializeField] LayerMask interactivePointMask;
@@ -42,7 +42,7 @@ public class InteractivePointDetection : MonoBehaviour
                             {
                                 if (lastTarget != null)
                                 {
-                                    OnTargetChanged?.Invoke(lastTarget);
+                                    OnTargetChanged?.Invoke(lastTarget, target);
                                 }
                                 lastTarget = target;
                             }
@@ -60,7 +60,7 @@ public class InteractivePointDetection : MonoBehaviour
             {
                 if (lastTarget != null)
                 {
-                    OnTargetChanged?.Invoke(lastTarget);
+                    OnTargetChanged?.Invoke(lastTarget, target);
                 }
                 lastTarget = target;
             }
@@ -75,7 +75,7 @@ public class InteractivePointDetection : MonoBehaviour
         {
             if (lastTarget != null)
             {
-                OnTargetChanged?.Invoke(lastTarget);
+                OnTargetChanged?.Invoke(lastTarget, null);
             }
             lastTarget = target;
         }
