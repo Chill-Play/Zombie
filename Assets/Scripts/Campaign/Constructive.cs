@@ -7,7 +7,7 @@ public class Constructive : MonoBehaviour
 {
     Construction construction;
 
-    public bool CanConstruct => !construction.Constructed;
+    public bool CanConstruct => !construction.Constructed && !construction.LockConstruction;
 
     private void Awake()
     {

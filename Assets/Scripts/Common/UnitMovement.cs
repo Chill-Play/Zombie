@@ -7,7 +7,7 @@ public abstract class UnitMovement : MonoBehaviour
 {
     [SerializeField] protected NavMeshAgent agent;
 
-    public bool InputActive => Input.magnitude > 0.05f;
+    public virtual bool InputActive => Input.magnitude > 0.05f;
     public Vector2 Input { get; set; }
 
     public bool IsReachDestination => agent.hasPath && agent.remainingDistance <= agent.stoppingDistance;    

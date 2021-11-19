@@ -8,7 +8,7 @@ public class Repairable : MonoBehaviour
     [SerializeField] ConstructionHealth constructionHealth;
     Construction construction;
 
-    public bool CanRepair => construction.Constructed && constructionHealth.CurrentHealth < constructionHealth.Health;
+    public bool CanRepair => construction.Constructed && constructionHealth.CurrentHealth < constructionHealth.Health && !construction.LockConstruction;
 
     private void Awake()
     {
