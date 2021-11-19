@@ -65,7 +65,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
     {
         if (!constructed && !LockConstruction)
         {
-            float dH = constructionHealth.AddHealth(value);
+            float dH = constructionHealth.AddHealth(value, true);
             uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f);
             return dH;
         }

@@ -40,7 +40,7 @@ public class ConstructionHealth : MonoBehaviour, IDamagable
        
     }
 
-    public float AddHealth(float value)
+    public float AddHealth(float value, bool canBeConstructed = false)
     {
         if (currentHealth < health)
         {
@@ -49,7 +49,10 @@ public class ConstructionHealth : MonoBehaviour, IDamagable
             if (currentHealth >= health)
             {
                 currentHealth = health;
-                OnConstructed?.Invoke();
+                if (canBeConstructed)
+                {
+                    OnConstructed?.Invoke();
+                }
             }
             DamageTakenInfo damageTakenInfo = new DamageTakenInfo();
             damageTakenInfo.damage = value;
