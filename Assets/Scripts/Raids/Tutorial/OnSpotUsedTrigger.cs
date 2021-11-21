@@ -8,7 +8,7 @@ public class OnSpotUsedTrigger : ConditionTrigger
 
     int resourceSpotsCount = 0;
 
-    private void Awake()
+    private void Start()
     {
         for (int i = 0; i < resourceSpots.Count; i++)
         {

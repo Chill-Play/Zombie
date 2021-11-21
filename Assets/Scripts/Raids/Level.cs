@@ -72,7 +72,7 @@ public class Level : SingletonMono<Level>
         {
             levelsPlayed = LevelController.Instance.LevelsPlayed,
             levelNumber = LevelController.Instance.CurrentLevel,
-            levelName = SceneManager.GetActiveScene().name.Replace(" ", "_"),
+            levelName = SceneManager.GetActiveScene().name.ToSnakeCase(),
             levelId = LevelController.Instance.LevelId,
             loop = LevelController.Instance.Loop,
             progress = progress,

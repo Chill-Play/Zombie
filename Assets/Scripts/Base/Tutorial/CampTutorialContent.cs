@@ -26,7 +26,7 @@ public class CampTutorialContent : MonoBehaviour
             PlayerPrefs.SetInt(TUTORIAL_COMPLETED_KEY, 1);
             FindObjectOfType<RaidZone>().gameObject.SetActive(false);          
             tutorialUIInfo.gameObject.SetActive(true);
-            tutorialUIInfo.gameObject.SetActive(false);
+            //tutorialUIInfo.gameObject.SetActive(false);
         }
     }
 
