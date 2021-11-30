@@ -7,13 +7,13 @@ public class Weapon : MonoBehaviour
 {
     public event System.Action OnShoot;
 
-    [SerializeField] float bulletDamage = 10f;
+    [SerializeField] protected float bulletDamage = 10f;
     [SerializeField] float fireRate = 0.3f;
-    [SerializeField] float spread = 0f;
+    [SerializeField] protected float spread = 0f;
     [SerializeField] bool uniformSpread = false;
     [SerializeField] int bulletsPerShot = 1;
-    [SerializeField] Bullet bulletPrefab;
-    [SerializeField] Transform shootPoint;
+    [SerializeField] protected Bullet bulletPrefab;
+    [SerializeField] protected Transform shootPoint;
     [SerializeField] ParticleSystem muzzleFx;
     [SerializeField] ParticleSystem shellsFx;
     [SerializeField] float noisePerShoot;
@@ -59,27 +59,7 @@ public class Weapon : MonoBehaviour
                     {
                         spreadRot = Quaternion.Euler(new Vector3(0f, Random.Range(-spread, spread)));
                     }
-                    Vector3 targetDirection = target.position - shootPoint.position;
-                    targetDirection.y = 0.0f;
-                    targetDirection.Normalize();
-                    Vector3 shootPointForward = new Vector3(shootPoint.forward.x, 0f, shootPoint.forward.z);
-                    Quaternion weaponDirection;
-                    if (Vector3.Angle(targetDirection, shootPointForward) < 10.0f)
-                    {
-                        weaponDirection = Quaternion.LookRotation(targetDirection);
-                    }
-                    else
-                    {
-                        weaponDirection = Quaternion.LookRotation(shootPointForward);
-                    }
-                    Bullet bullet = Instantiate(bulletPrefab, shootPoint.position, spreadRot * weaponDirection);
-                    bullet.Damage = Damage;
-                    Vector3 checkPos = shootPoint.position;
-                    checkPos.y = target.position.y;
-                    if (Vector3.Distance(checkPos, target.position) < 2.5f)
-                    {
-                        bullet.InstantHit(target);
-                    }
+                    ShootBullet(target, spreadRot);
                 }
 
                 INoiseListener noiseListener = noiseListeners.FirstOrDefault();
@@ -99,6 +79,11 @@ public class Weapon : MonoBehaviour
                 OnShoot?.Invoke();
             }
         }
+    }
+
+    protected virtual void ShootBullet(Transform target, Quaternion spreadRot)
+    {
+
     }
 
 

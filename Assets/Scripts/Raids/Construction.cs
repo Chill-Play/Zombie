@@ -11,6 +11,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
 
     [SerializeField] Transform ruins;
     [SerializeField] Transform content;
+    [SerializeField] Transform destroyed;
     [SerializeField] bool constructed = false;
 
     UINumbers uiNumbers;
@@ -23,7 +24,8 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
     private void Awake()
     {
         content.gameObject.SetActive(constructed);
-        ruins.gameObject.SetActive(!constructed);       
+        ruins.gameObject.SetActive(!constructed);
+        destroyed.gameObject.SetActive(false);
         uiNumbers = FindObjectOfType<UINumbers>();
         constructionHealth = content.GetComponent<ConstructionHealth>();      
         constructionHealth.OnConstructed += ConstructionHealth_OnConstructed;
@@ -39,11 +41,11 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
         sequence.AppendCallback(() =>
         {
             content.gameObject.SetActive(false);
-            ruins.localScale = Vector3.zero;
-            ruins.gameObject.SetActive(true);
+            destroyed.localScale = Vector3.zero;
+            destroyed.gameObject.SetActive(true);
             OnBreak?.Invoke();
         });
-        sequence.Append(ruins.DOScale(Vector3.one, 0.3f).SetEase(Ease.InCirc));
+        sequence.Append(destroyed.DOScale(Vector3.one, 0.3f).SetEase(Ease.InCirc));
     }
 
     private void ConstructionHealth_OnConstructed()

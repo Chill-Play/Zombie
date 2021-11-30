@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4717072179054280445}
-  - component: {fileID: 9064676954617565157}
+  - component: {fileID: 1751424421131558420}
   m_Layer: 0
   m_Name: Crossbow
   m_TagString: Untagged
@@ -63,7 +63,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -135, y: 15, z: 135}
---- !u!114 &9064676954617565157
+--- !u!114 &1751424421131558420
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8836381619606548992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd316ec3716a9954fbc309b386ce9f20, type: 3}
+  m_Script: {fileID: 11500000, guid: 4de1d29767b80bb499294df0022313f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bulletDamage: 10
@@ -80,10 +80,11 @@ MonoBehaviour:
   spread: 3
   uniformSpread: 0
   bulletsPerShot: 1
-  bulletPrefab: {fileID: 4499265678727622789, guid: c350f2f5c7de41f40b66475bdc2c5336, type: 3}
+  bulletPrefab: {fileID: -2324044252007002612, guid: 7d0f418c5007f844ea6e3112ac8b649d, type: 3}
   shootPoint: {fileID: 7148286636472676761}
   muzzleFx: {fileID: 0}
   shellsFx: {fileID: 0}
+  noisePerShoot: 0
 --- !u!1001 &86822893120327898
 PrefabInstance:
   m_ObjectHideFlags: 0
