@@ -7,8 +7,7 @@ public class Turret : MonoBehaviour
     [SerializeField] float rotateSpead = 1f;
     [SerializeField] UnitShooting unitShooting;
     [SerializeField] UnitTargetDetection targetDetection;  
-    [SerializeField] Transform modelPivot;
-    [SerializeField] bool yRotation = false;
+    [SerializeField] Transform modelPivot;    
 
 
     private void Awake()
@@ -27,10 +26,8 @@ public class Turret : MonoBehaviour
     void RotateToTarget()
     {
         Vector3 direction = targetDetection.Target.transform.position - modelPivot.position;
-        if (!yRotation)
-        {
-            direction.y = 0;
-        }
+        direction.y = 0;
+
         direction.Normalize();
         modelPivot.rotation = Quaternion.RotateTowards(modelPivot.rotation, Quaternion.LookRotation(direction), rotateSpead * Time.deltaTime);
         unitShooting.AllowShooting = Vector3.Angle(modelPivot.transform.forward, direction) < 15f;
