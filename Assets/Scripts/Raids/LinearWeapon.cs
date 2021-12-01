@@ -11,12 +11,16 @@ public class LinearWeapon : Weapon
         base.ShootBullet(target, spreadRot);
 
         Vector3 targetDirection = target.position - shootPoint.position;
+       
+        targetDirection.Normalize();
+        Vector3 shootPointForward = new Vector3(shootPoint.forward.x, targetDirection.y, shootPoint.forward.z);
+
         if (!aimingAtY)
         {
             targetDirection.y = 0.0f;
+            shootPointForward = shootPointForward.SetY(0f);
         }
-        targetDirection.Normalize();
-        Vector3 shootPointForward = new Vector3(shootPoint.forward.x, 0f, shootPoint.forward.z);
+    
         Quaternion weaponDirection;
         if (Vector3.Angle(targetDirection, shootPointForward) < 10.0f)
         {

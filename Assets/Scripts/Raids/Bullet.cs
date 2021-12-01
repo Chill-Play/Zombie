@@ -43,7 +43,7 @@ public class Bullet : MonoBehaviour
 
     protected virtual void Hit(Transform target)
     {
-        if (target.TryGetComponent(out IDamagable damagable))
+        if (target!= null && target.TryGetComponent(out IDamagable damagable))
         {
             DamageInfo damageInfo = new DamageInfo()
             {

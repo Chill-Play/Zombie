@@ -23,9 +23,9 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
 
     private void Awake()
     {
-        content.gameObject.SetActive(constructed);
-        ruins.gameObject.SetActive(!constructed);
         destroyed.gameObject.SetActive(false);
+        content.gameObject.SetActive(constructed);
+        ruins.gameObject.SetActive(!constructed);  
         uiNumbers = FindObjectOfType<UINumbers>();
         constructionHealth = content.GetComponent<ConstructionHealth>();      
         constructionHealth.OnConstructed += ConstructionHealth_OnConstructed;
