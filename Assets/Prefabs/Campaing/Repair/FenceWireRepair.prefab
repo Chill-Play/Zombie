@@ -205,7 +205,6 @@ GameObject:
   - component: {fileID: 4550867008322800462}
   - component: {fileID: 4550867008322800463}
   - component: {fileID: 4550867008322800461}
-  - component: {fileID: 4953565668132691940}
   - component: {fileID: 6954616467109653063}
   - component: {fileID: 5197895896844223415}
   - component: {fileID: 519021025292640958}
@@ -250,6 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ruins: {fileID: 4550867007650376056}
   content: {fileID: 4550867008325963577}
+  destroyed: {fileID: 4550867007650376056}
   constructed: 0
 --- !u!114 &4550867008322800463
 MonoBehaviour:
@@ -276,19 +276,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.886507, y: 4.6299133, z: 10.181907}
   m_Center: {x: 0.09889126, y: 1.8149567, z: -0.021983624}
---- !u!114 &4953565668132691940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4550867008322800449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9931dfb449a57f44a65a15926215970, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxZombies: 5
 --- !u!114 &6954616467109653063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,14 +636,14 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e0bcfcdddec461f47937d9b04387f5e6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f47819c22098eed46bce7ca490056c03, type: 3}
---- !u!1 &5051626737706738488 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 126874, guid: f47819c22098eed46bce7ca490056c03, type: 3}
-  m_PrefabInstance: {fileID: 5051626737706847394}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5051626737707196834 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 453888, guid: f47819c22098eed46bce7ca490056c03, type: 3}
+  m_PrefabInstance: {fileID: 5051626737706847394}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5051626737706738488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 126874, guid: f47819c22098eed46bce7ca490056c03, type: 3}
   m_PrefabInstance: {fileID: 5051626737706847394}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7472590268085223796

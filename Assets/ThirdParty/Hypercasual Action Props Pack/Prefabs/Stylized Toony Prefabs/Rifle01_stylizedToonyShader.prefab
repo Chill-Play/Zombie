@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 5909119941474979417}
   - component: {fileID: 4922352109282426625}
   - component: {fileID: 2432756866651660308}
+  - component: {fileID: 3440119090326216000}
   m_Layer: 0
-  m_Name: Rifle01
+  m_Name: Rifle01_stylizedToonyShader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,6 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,3 +81,27 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3440119090326216000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250310509703039199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb90a7e309a9a1449edc0a276129645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletDamage: 10
+  fireRate: 0.3
+  spread: 0
+  uniformSpread: 0
+  bulletsPerShot: 1
+  bulletPrefab: {fileID: 0}
+  shootPoint: {fileID: 0}
+  muzzleFx: {fileID: 0}
+  shellsFx: {fileID: 0}
+  noisePerShoot: 0
+  aimingAtY: 0

@@ -38,7 +38,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607868344746828696}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd316ec3716a9954fbc309b386ce9f20, type: 3}
   m_Name: 
@@ -472,7 +472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3346936833982169915, guid: a89eee0bdb32f5045801a1cb989ff759, type: 3}
       propertyPath: m_Name
-      value: TestSpecialist_Purple
+      value: TestSpecialist_Yellow
       objectReference: {fileID: 0}
     - target: {fileID: 4116337782520419124, guid: a89eee0bdb32f5045801a1cb989ff759, type: 3}
       propertyPath: weaponModel
@@ -489,7 +489,7 @@ PrefabInstance:
     - target: {fileID: 6724815731642420078, guid: a89eee0bdb32f5045801a1cb989ff759, type: 3}
       propertyPath: weapons.Array.data[0]
       value: 
-      objectReference: {fileID: 8558243578039921938}
+      objectReference: {fileID: 8064449054203557050}
     - target: {fileID: 7855072193917052936, guid: a89eee0bdb32f5045801a1cb989ff759, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -564,6 +564,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 146.131
       objectReference: {fileID: 0}
+    - target: {fileID: 3281743816423392696, guid: 2797cf4c3f93c8a43bf062b222a31cb4, type: 3}
+      propertyPath: spread
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281743816423392696, guid: 2797cf4c3f93c8a43bf062b222a31cb4, type: 3}
+      propertyPath: fireRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281743816423392696, guid: 2797cf4c3f93c8a43bf062b222a31cb4, type: 3}
+      propertyPath: muzzleFx
+      value: 
+      objectReference: {fileID: 1294737598425045509}
+    - target: {fileID: 3281743816423392696, guid: 2797cf4c3f93c8a43bf062b222a31cb4, type: 3}
+      propertyPath: shellsFx
+      value: 
+      objectReference: {fileID: 2940782853206753665}
+    - target: {fileID: 3281743816423392696, guid: 2797cf4c3f93c8a43bf062b222a31cb4, type: 3}
+      propertyPath: shootPoint
+      value: 
+      objectReference: {fileID: 6530048137759849259}
+    - target: {fileID: 3281743816423392696, guid: 2797cf4c3f93c8a43bf062b222a31cb4, type: 3}
+      propertyPath: bulletDamage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281743816423392696, guid: 2797cf4c3f93c8a43bf062b222a31cb4, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 4499265678727622789, guid: c350f2f5c7de41f40b66475bdc2c5336, type: 3}
+    - target: {fileID: 3281743816423392696, guid: 2797cf4c3f93c8a43bf062b222a31cb4, type: 3}
+      propertyPath: noisePerShoot
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6066910069804700314, guid: 2797cf4c3f93c8a43bf062b222a31cb4, type: 3}
       propertyPath: m_Name
       value: Rifle03_stylizedToonyShader
@@ -580,3 +612,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 966565526115945268, guid: 2797cf4c3f93c8a43bf062b222a31cb4, type: 3}
   m_PrefabInstance: {fileID: 4783303484471111938}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8064449054203557050 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3281743816423392696, guid: 2797cf4c3f93c8a43bf062b222a31cb4, type: 3}
+  m_PrefabInstance: {fileID: 4783303484471111938}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607868344746828696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb90a7e309a9a1449edc0a276129645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

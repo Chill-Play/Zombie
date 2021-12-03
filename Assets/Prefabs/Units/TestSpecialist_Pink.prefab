@@ -38,7 +38,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6119233192655136014}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd316ec3716a9954fbc309b386ce9f20, type: 3}
   m_Name: 
@@ -228,6 +228,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 146.582
       objectReference: {fileID: 0}
+    - target: {fileID: 6384505241301795837, guid: 2d95d4453e0255243b5c07991800e162, type: 3}
+      propertyPath: spread
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6384505241301795837, guid: 2d95d4453e0255243b5c07991800e162, type: 3}
+      propertyPath: fireRate
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6384505241301795837, guid: 2d95d4453e0255243b5c07991800e162, type: 3}
+      propertyPath: muzzleFx
+      value: 
+      objectReference: {fileID: 1294737598425045509}
+    - target: {fileID: 6384505241301795837, guid: 2d95d4453e0255243b5c07991800e162, type: 3}
+      propertyPath: shellsFx
+      value: 
+      objectReference: {fileID: 2940782853206753665}
+    - target: {fileID: 6384505241301795837, guid: 2d95d4453e0255243b5c07991800e162, type: 3}
+      propertyPath: shootPoint
+      value: 
+      objectReference: {fileID: 6530048137759849259}
+    - target: {fileID: 6384505241301795837, guid: 2d95d4453e0255243b5c07991800e162, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 4499265678727622789, guid: c350f2f5c7de41f40b66475bdc2c5336, type: 3}
+    - target: {fileID: 6384505241301795837, guid: 2d95d4453e0255243b5c07991800e162, type: 3}
+      propertyPath: noisePerShoot
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8293312345437257020, guid: 2d95d4453e0255243b5c07991800e162, type: 3}
       propertyPath: m_Name
       value: Shotgun02_stylizedToonyShader
@@ -244,6 +272,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 624923861451982588, guid: 2d95d4453e0255243b5c07991800e162, type: 3}
   m_PrefabInstance: {fileID: 2881214736066353202}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9180148281608690639 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6384505241301795837, guid: 2d95d4453e0255243b5c07991800e162, type: 3}
+  m_PrefabInstance: {fileID: 2881214736066353202}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6119233192655136014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb90a7e309a9a1449edc0a276129645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2940782853222096449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -564,7 +603,7 @@ PrefabInstance:
     - target: {fileID: 6724815731642420078, guid: a89eee0bdb32f5045801a1cb989ff759, type: 3}
       propertyPath: weapons.Array.data[0]
       value: 
-      objectReference: {fileID: 7176027611324457487}
+      objectReference: {fileID: 9180148281608690639}
     - target: {fileID: 7855072193917052936, guid: a89eee0bdb32f5045801a1cb989ff759, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
