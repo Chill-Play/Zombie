@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: -2081598960699626631}
   - component: {fileID: -6313351657332070488}
   - component: {fileID: 6682464184804450385}
+  - component: {fileID: 277307364581116343}
   m_Layer: 6
   m_Name: ZombieHunterCampaning
   m_TagString: Untagged
@@ -202,7 +203,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.4
-  m_Speed: 6
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 25
   m_AngularSpeed: 36000
@@ -434,6 +435,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df72470d93185f40954f3f836d38fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &277307364581116343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6874705624150676110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb3eb69143a78a4e9e06f9336f6a2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agroSpeed: 6
 --- !u!1001 &2532931867462314593
 PrefabInstance:
   m_ObjectHideFlags: 0

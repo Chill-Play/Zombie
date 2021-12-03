@@ -52,7 +52,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     {
         yield return new WaitForSeconds(timeBeforeRaid);
         OnRunRaid?.Invoke();
-        //Game.Instance.RunRaid();
+        ZombiesLevelController.Instance.NextRaid();
     }
 
     private void RaidZone_OnExitZone()

@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class ZombiesSpawnPoint : MonoBehaviour
 {
-    [SerializeField] ZombiesTarget zombiesTarget;
+    [SerializeField] Enemy[] zombiePrefabs;
+    [SerializeField] Construction spawnPointBarricade;
 
-    public ZombiesTarget Target => zombiesTarget;
+
+    public Construction SpawnPointBarricade => spawnPointBarricade;
+
+
+    public Enemy GetPrefab()
+    {
+        return zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
+    }
+
 
 }

@@ -31,8 +31,7 @@ public class Horde
 
 public class ZombieWaveSpawner : MonoBehaviour
 {   
-    [SerializeField] Enemy[] zombiePrefabs;
-    [SerializeField] Enemy[] bigZombiesPrefabs;
+    [SerializeField] Enemy[] zombiePrefabs;  
 
     ZombiesSpawnPoint[] zombiesSpawnPoints;
     List<Horde> hordes = new List<Horde>();
@@ -49,7 +48,7 @@ public class ZombieWaveSpawner : MonoBehaviour
     public Horde SpawnHorde(int hordeSize, int level, int generation)
     {
         Horde horde = new Horde();
-        hordeSize = (int)((float)hordeSize / 2.5f); //release stuff
+        hordeSize = (int)((float)hordeSize); 
         spawnHordeCoroutine = StartCoroutine(SpawnHordeCoroutine(horde, hordeSize, level, generation));
         hordes.Add(horde);
         horde.OnHordeDefeated += (() => Horde_OnHordeDefeated(horde));
@@ -74,27 +73,29 @@ public class ZombieWaveSpawner : MonoBehaviour
             spawnPoints.AddRange(zombiesSpawnPoints);
             spawnPoints.Shuffle();
             var points = spawnPoints;
-            points.RemoveAll((x) => Mathf.Abs(squad.transform.position.z - x.transform.position.z) < 30f && Mathf.Abs(squad.transform.position.x - x.transform.position.x) < 10f);
+            points.RemoveAll((x) => (Mathf.Abs(squad.transform.position.z - x.transform.position.z) < 30f 
+            && Mathf.Abs(squad.transform.position.x - x.transform.position.x) < 10f) || (x.SpawnPointBarricade != null && x.SpawnPointBarricade.Constructed));
             if (points.Count > 0) // bad fix, can break game
             {
                 for (int i = 0; i < spawnCount; i++)
                 {
                     ZombiesSpawnPoint spawnPoint = points[Random.Range(0, points.Count)];
-                    Enemy prefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
+                    Enemy prefab = spawnPoint.GetPrefab();
                     Enemy enemy = Instantiate(prefab, spawnPoint.transform.position, Quaternion.identity);
                     if (enemy.TryGetComponent<ZombieLevelStats>(out var stats))
                     {
                         stats.SetLevel(level, generation);
-                    }
-                    if (spawnPoint.Target != null && spawnPoint.Target.enabled)
+                    }                  
+                    horde.AddEnemy(enemy);
+                    enemy.GoAggressive();
+                    AgroActivator agroActivator = enemy.GetComponent<AgroActivator>();
+                    if (agroActivator != null)
                     {
-                        if (enemy.TryGetComponent<ZombieBreaksthroughToPlayer>(out var zombieAI))
+                        if (spawnPoint.SpawnPointBarricade != null)
                         {
-                            zombieAI.ForceTarget(spawnPoint.Target);
+                            
                         }
                     }
-                    horde.AddEnemy(enemy);
-                    enemy.GoAggressive();                    
                 }
 
             }

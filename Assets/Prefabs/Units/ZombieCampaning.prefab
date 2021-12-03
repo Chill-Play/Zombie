@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: -5188270208827750686}
   - component: {fileID: 3386729979812665122}
   - component: {fileID: 6744142752824089743}
+  - component: {fileID: -1191134249368523285}
   m_Layer: 6
   m_Name: ZombieCampaning
   m_TagString: Untagged
@@ -202,7 +203,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.4
-  m_Speed: 2.2
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 36000
@@ -434,6 +435,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 65664
   target: {fileID: 0}
+--- !u!114 &-1191134249368523285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592489489785157106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb3eb69143a78a4e9e06f9336f6a2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agroSpeed: 3
 --- !u!1001 &1070384967353939567
 PrefabInstance:
   m_ObjectHideFlags: 0
