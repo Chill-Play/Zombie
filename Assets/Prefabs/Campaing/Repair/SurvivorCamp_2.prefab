@@ -2270,8 +2270,9 @@ GameObject:
   - component: {fileID: 56445146284429662}
   - component: {fileID: 56445146284429601}
   - component: {fileID: 56445146284429600}
+  - component: {fileID: 4637927961263943154}
   m_Layer: 13
-  m_Name: Cylinder
+  m_Name: Propeller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2284,7 +2285,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 56445146284429602}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.0000006407499}
+  m_LocalRotation: {x: -0, y: -0.50526345, z: -0, w: -0.86296517}
   m_LocalPosition: {x: 0.007998476, y: 0.009177743, z: 0.0070011513}
   m_LocalScale: {x: 0.07597761, y: 0.44675738, z: 0.07597761}
   m_Children:
@@ -2295,7 +2296,7 @@ Transform:
   - {fileID: 56445146671401480}
   m_Father: {fileID: 56445147296163268}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -299.302, z: 0}
 --- !u!33 &56445146284429662
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2359,6 +2360,25 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!95 &4637927961263943154
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56445146284429602}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0df9e6116fe93dc469ea1f1f53fef798, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &56445146312729689
 GameObject:
   m_ObjectHideFlags: 0
@@ -6206,7 +6226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3552845816226635960
 Transform:
   m_ObjectHideFlags: 0
@@ -6243,7 +6263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3552845817060301553
 Transform:
   m_ObjectHideFlags: 0
