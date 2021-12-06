@@ -13,7 +13,7 @@ public class CampTutorialContent : MonoBehaviour
 
     private void Awake()
     {
-        completed = PlayerPrefs.GetInt(TUTORIAL_COMPLETED_KEY, 0) == 1;
+        completed = PlayerPrefs.GetInt(TUTORIAL_COMPLETED_KEY, 1) == 1;
         if (completed)
         {
             for (int i = 0; i < tutorialContent.Count; i++)

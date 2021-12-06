@@ -129,7 +129,7 @@ public class RaidFinishScreen : UIScreen
 
     public void NoThanksClicked()
     {
-        ZombiesLevelController.Instance.ToBase();
+        ToBase();
         /*CollectResources();
         if (ZombiesLevelController.Instance.LevelsPlayed > 1)
         {

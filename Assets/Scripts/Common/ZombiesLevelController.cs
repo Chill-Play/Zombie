@@ -25,7 +25,7 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
 
     public void NextRaid()
     {
-        SceneReference scene = (levelCollection.GetPack(currentPack) as LevelPack).GetLevel(levelInPack - 1);      
+        SceneReference scene = (levelCollection.GetPack(currentPack) as LevelPack).GetLevel(levelInPack);      
         SceneManager.LoadScene(scene);
     }
 
