@@ -37,12 +37,13 @@ public class ZombieWaveSpawner : MonoBehaviour
     List<Horde> hordes = new List<Horde>();
 
     Coroutine spawnHordeCoroutine;
-
+    HordeController hordeController;
     
 
     private void Awake()
     {
         zombiesSpawnPoints = FindObjectsOfType<ZombiesSpawnPoint>();
+        hordeController = FindObjectOfType<HordeController>();
     }
 
     public Horde SpawnHorde(int hordeSize, int level, int generation)
@@ -87,6 +88,7 @@ public class ZombieWaveSpawner : MonoBehaviour
                         stats.SetLevel(level, generation);
                     }                  
                     horde.AddEnemy(enemy);
+                    hordeController.AddAgent(enemy); ///////////////////////
                     enemy.GoAggressive();
                     AgroActivator agroActivator = enemy.GetComponent<AgroActivator>();
                     if (agroActivator != null)

@@ -21,7 +21,7 @@ public class ZombieMovement : UnitMovement
 
     public override void MoveTo(Vector3 target)
     {
-        agent.SetDestination(target);
+        agent.SetDestination(target);      
     }
 
     public override void StopMoving()

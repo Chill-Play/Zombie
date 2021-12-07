@@ -10,6 +10,8 @@ public abstract class UnitMovement : MonoBehaviour
     public virtual bool InputActive => Input.magnitude > 0.05f;
     public Vector2 Input { get; set; }
 
+    public NavMeshAgent Agent => agent;
+
     public bool IsReachDestination => agent.hasPath && agent.remainingDistance <= agent.stoppingDistance;    
 
     public bool VelocityActive => agent.velocity.magnitude >= 0.05f;
