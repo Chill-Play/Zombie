@@ -74,13 +74,13 @@ public class ZombieWaveSpawner : MonoBehaviour
             spawnPoints.AddRange(zombiesSpawnPoints);
             spawnPoints.Shuffle();
             var points = spawnPoints;
-            points.RemoveAll((x) => (Mathf.Abs(squad.transform.position.z - x.transform.position.z) < 30f 
+            points.RemoveAll((x) => (Mathf.Abs(squad.transform.position.z - x.transform.position.z) < 10f 
             && Mathf.Abs(squad.transform.position.x - x.transform.position.x) < 10f) || (x.SpawnPointBarricade != null && x.SpawnPointBarricade.Constructed));
             if (points.Count > 0) // bad fix, can break game
             {
                 for (int i = 0; i < spawnCount; i++)
                 {
-                    ZombiesSpawnPoint spawnPoint = points[Random.Range(0, points.Count)];
+                    ZombiesSpawnPoint spawnPoint = points[ProbabilityHelper.Choose(points as IEnumerable<IProbability>)];
                     Enemy prefab = spawnPoint.GetPrefab();
                     Enemy enemy = Instantiate(prefab, spawnPoint.transform.position, Quaternion.identity);
                     if (enemy.TryGetComponent<ZombieLevelStats>(out var stats))
