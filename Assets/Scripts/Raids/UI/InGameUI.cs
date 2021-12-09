@@ -135,7 +135,10 @@ public class InGameUI : UIScreen
                 baseIndicator.UpdateIndicator();
                 break;
             case State.Coming:
-                timerFill.transform.DOScale(0f, 0.4f).SetEase(Ease.InCirc).OnComplete(() => timerFill.gameObject.SetActive(false));
+                timerFill.transform.DOScale(0f, 0.4f).SetEase(Ease.InCirc).OnComplete(() => {
+                    timerFill.gameObject.SetActive(false);
+                    timerGO.transform.DOScale(Vector3.zero, 1.5f).SetEase(Ease.InElastic, 1.2f, 0.8f);
+                    });
                 break;
         }
         state = targetState;
