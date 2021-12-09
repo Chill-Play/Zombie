@@ -10,6 +10,8 @@ public class Horde
 
     public List<Enemy> Enemies => enemies;
 
+    
+
     public void AddEnemy(Enemy enemy)
     {
         enemies.Add(enemy);
@@ -30,21 +32,27 @@ public class Horde
 }
 
 public class ZombieWaveSpawner : MonoBehaviour
-{   
-    [SerializeField] Enemy[] zombiePrefabs;  
-
+{  
     ZombiesSpawnPoint[] zombiesSpawnPoints;
     List<Horde> hordes = new List<Horde>();
 
     Coroutine spawnHordeCoroutine;
     HordeController hordeController;
-    
 
     private void Awake()
     {
         zombiesSpawnPoints = FindObjectsOfType<ZombiesSpawnPoint>();
         hordeController = FindObjectOfType<HordeController>();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            FindObjectOfType<NoiseController>().AddNoiseLevel(99999f);
+        }
+    }
+
 
     public Horde SpawnHorde(int hordeSize, int level, int generation)
     {

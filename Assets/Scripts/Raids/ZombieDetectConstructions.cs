@@ -10,7 +10,7 @@ public class ZombieDetectConstructions : MonoBehaviour
     protected Collider[] targets = new Collider[3];
     protected int count = 0;
 
-    [SerializeField] ZombiesTarget target;
+    ZombiesTarget target;
 
     public ZombiesTarget Target => target;
 

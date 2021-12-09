@@ -2,9 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+class ZombieSpawnSettings : IProbability
+{
+    public Enemy zombiePrefabs;
+    public float probability = 1f;
+
+    public float Probability => probability;
+}
+
 public class ZombiesSpawnPoint : MonoBehaviour , IProbability
 {
-    [SerializeField] Enemy[] zombiePrefabs;
+    [SerializeField] List<ZombieSpawnSettings> zombieSpawnSettings = new List<ZombieSpawnSettings>();
     [SerializeField] Construction spawnPointBarricade;
     [SerializeField] float probability = 1f;
 
@@ -14,7 +23,7 @@ public class ZombiesSpawnPoint : MonoBehaviour , IProbability
 
     public Enemy GetPrefab()
     {
-        return zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
+        return zombieSpawnSettings[ProbabilityHelper.Choose(zombieSpawnSettings as IEnumerable<IProbability>)].zombiePrefabs;
     }
 
 
