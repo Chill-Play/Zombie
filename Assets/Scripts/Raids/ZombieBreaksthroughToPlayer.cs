@@ -6,7 +6,7 @@ using UnityEngine;
 public class ZombieBreaksthroughToPlayer : MonoBehaviour
 {
     UnitMovement unitMovement;
-    UnitMeleeFighting meleeFighting;
+    UnitFighting unitFighting;
     ZombieDetectConstructions detectConstructions;
     float nextUpdateTime;
     Squad squad;
@@ -14,7 +14,7 @@ public class ZombieBreaksthroughToPlayer : MonoBehaviour
 
     private void Awake()
     {
-        meleeFighting = GetComponent<UnitMeleeFighting>();
+        unitFighting = GetComponent<UnitFighting>();
         unitMovement = GetComponent<UnitMovement>();
         detectConstructions = GetComponent<ZombieDetectConstructions>();
     }
@@ -33,13 +33,13 @@ public class ZombieBreaksthroughToPlayer : MonoBehaviour
             if (zombiesTarget != null && !zombiesTarget.enabled)
             {
                 zombiesTarget = null;
-                meleeFighting.SetTarget(null);
+                unitFighting.SetTarget(null);
             }
             if (zombiesTarget == null && detectConstructions.Target != null)
             {
                 zombiesTarget = detectConstructions.Target;
                 zombiesTarget.AddZombie(gameObject);
-                meleeFighting.SetTarget(zombiesTarget);
+                unitFighting.SetTarget(zombiesTarget);
             }
             if (zombiesTarget != null && Vector3.Distance(transform.position,squad.transform.position) >= Vector3.Distance(transform.position, zombiesTarget.transform.position))
             {
@@ -50,19 +50,16 @@ public class ZombieBreaksthroughToPlayer : MonoBehaviour
                 targetTransform = squad.transform;
             }
 
-            if (!meleeFighting.Attacking)
+            if (!unitFighting.Attacking)
             {
                 nextUpdateTime = Time.timeSinceLevelLoad + Random.Range(0.2f, 0.6f);
                 unitMovement.MoveTo(targetTransform.position);
             }
+            if (unitFighting.Attacking)
+            {
+                unitMovement.StopMoving();
+            }
         }
-    }
-
-    public void ForceTarget(ZombiesTarget target)
-    {
-        zombiesTarget = target;
-        zombiesTarget.AddZombie(gameObject);
-        meleeFighting.SetTarget(zombiesTarget);
     }
 
     private void OnDisable()

@@ -20,7 +20,8 @@ public class ZombieAnimation : MonoBehaviour
     {
         randomSpeedOffset = Random.Range(0.0f, 0.3f);
         health.OnDead += Health_OnDead;
-        unitMeleeFighting.OnAttack += ZombieAnimation_OnAttack;
+        if (unitMeleeFighting != null)
+            unitMeleeFighting.OnAttack += ZombieAnimation_OnAttack;
     }
 
 

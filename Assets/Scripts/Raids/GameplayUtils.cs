@@ -20,7 +20,7 @@ public static class GameplayUtils
             float angle = Vector3.SignedAngle(transform.forward, target.position - transform.position, Vector3.up);
             float distance = Vector3.Distance(transform.position, target.position);
             if (!Physics.Linecast(transform.position + Vector3.up * 0.5f, target.transform.position + Vector3.up * 0.5f, OBSTACLE_MASK))
-            {
+            {               
                 if (side != 0 && Mathf.Sign(angle) != side)
                 {
                     continue;

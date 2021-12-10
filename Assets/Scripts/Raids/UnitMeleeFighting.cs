@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class UnitMeleeFighting : MonoBehaviour
+public class UnitMeleeFighting : UnitFighting
 {
     public event System.Action OnAttack;
     [SerializeField] NavMeshAgent agent;
@@ -20,9 +20,9 @@ public class UnitMeleeFighting : MonoBehaviour
     ZombiesTarget zombiesTarget;
     float nextAttack;
     bool attackStarted;
-   [SerializeField] Collider[] attackColliders = new Collider[5];
+    Collider[] attackColliders = new Collider[5];
     Coroutine attackCoroutine;
-    public bool Attacking { get; set; }
+
     public float AttackBuff { get; set; }
 
     // Start is called before the first frame update
@@ -142,8 +142,9 @@ public class UnitMeleeFighting : MonoBehaviour
         }
     }
 
-    public void SetTarget(ZombiesTarget target)
+    public override void SetTarget(ZombiesTarget target)
     {
+        base.SetTarget(target);
         zombiesTarget = target;
     }
 }

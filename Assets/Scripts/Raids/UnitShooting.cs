@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitShooting : MonoBehaviour
+public class UnitShooting : UnitFighting
 {
     public event System.Action OnShoot;
-    [SerializeField] UnitTargetDetection unitTargetDetection;
+    [SerializeField] UnitTargetDetection unitTargetDetection;  
     [SerializeField] Weapon[] weapons;
+    [SerializeField] bool allowShooting = false;
+
 
     public bool AllowShooting { get; set; } = false;
 
     // Start is called before the first frame update
-    void OnEnable()
+    private void Awake()
     {
+        AllowShooting = allowShooting;
+    }
+
+    void OnEnable()
+    {        
         for (int i = 0; i < weapons.Length; i++)
         {
             weapons[i].OnShoot += UnitShooting_OnShoot;
@@ -26,6 +33,7 @@ public class UnitShooting : MonoBehaviour
         {
             if (weapons[i].Firing)
             {
+                Attacking = false;
                 weapons[i].StopFire();
             }
             weapons[i].OnShoot -= UnitShooting_OnShoot;
@@ -66,7 +74,8 @@ public class UnitShooting : MonoBehaviour
             {
                 if (!weapons[i].Firing)
                 {
-                    weapons[i].StartFire(unitTargetDetection.Target);
+                    Attacking = true;
+                    weapons[i].StartFire(unitTargetDetection.Target);                   
                 }
             }
         }
@@ -76,7 +85,8 @@ public class UnitShooting : MonoBehaviour
             {
                 if (weapons[i].Firing)
                 {
-                    weapons[i].StopFire();
+                    Attacking = false;
+                    weapons[i].StopFire();                  
                 }
             }
         }

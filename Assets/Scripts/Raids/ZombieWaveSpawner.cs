@@ -91,19 +91,20 @@ public class ZombieWaveSpawner : MonoBehaviour
                     ZombiesSpawnPoint spawnPoint = points[ProbabilityHelper.Choose(points as IEnumerable<IProbability>)];
                     Enemy prefab = spawnPoint.GetPrefab();
                     Enemy enemy = Instantiate(prefab, spawnPoint.transform.position, Quaternion.identity);
+                    spawnPoint.ApplyPenalty();
                     if (enemy.TryGetComponent<ZombieLevelStats>(out var stats))
                     {
                         stats.SetLevel(level, generation);
                     }                  
                     horde.AddEnemy(enemy);
-                    hordeController.AddAgent(enemy); ///////////////////////
+                    hordeController.AddAgent(enemy); 
                     enemy.GoAggressive();
                     AgroActivator agroActivator = enemy.GetComponent<AgroActivator>();
                     if (agroActivator != null)
                     {
                         if (spawnPoint.SpawnPointBarricade != null)
                         {
-                            
+                            agroActivator.SubscribeToBarricade(spawnPoint.SpawnPointBarricade);
                         }
                     }
                 }
