@@ -147,9 +147,9 @@ GameObject:
   - component: {fileID: 639535438788106408}
   - component: {fileID: 1161802625546439016}
   - component: {fileID: 7099814543671640773}
-  - component: {fileID: 5793779877291226017}
   - component: {fileID: 8508966267970239488}
   - component: {fileID: 3269431380917885874}
+  - component: {fileID: 7407207956286416993}
   m_Layer: 6
   m_Name: ZombieCampaningGuard
   m_TagString: Untagged
@@ -185,7 +185,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 46255869787270072}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.4
+  m_Radius: 0.73
   m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18923db9141a9bc43894ed51ae93dc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 500
   bloodVfx: {fileID: 0}
   bloodVfxScale: 0.2
 --- !u!114 &4548523113059937748
@@ -390,19 +390,6 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 65664
---- !u!114 &5793779877291226017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 46255869787270072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcb3eb69143a78a4e9e06f9336f6a2cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agroSpeed: 3
 --- !u!114 &8508966267970239488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,6 +424,19 @@ MonoBehaviour:
   weapons:
   - {fileID: 6259325780295835084}
   allowShooting: 1
+--- !u!114 &7407207956286416993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46255869787270072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb3eb69143a78a4e9e06f9336f6a2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agroSpeed: 0.5
 --- !u!1 &377638165639722225
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletDamage: 25
-  fireRate: 1
+  fireRate: 4
   spread: 3
   uniformSpread: 0
   bulletsPerShot: 1
@@ -2412,15 +2412,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ab329efbc681b8e488341e859e0b6e81, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.2041
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ab329efbc681b8e488341e859e0b6e81, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.2041
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ab329efbc681b8e488341e859e0b6e81, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.2041
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ab329efbc681b8e488341e859e0b6e81, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2477,7 +2477,7 @@ PrefabInstance:
     - target: {fileID: 8376543597032010516, guid: ab329efbc681b8e488341e859e0b6e81, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c32313d636cd91046a371e5de52c9a58, type: 2}
+      objectReference: {fileID: 2100000, guid: 6a47431c5e80951478318c742699d7f7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab329efbc681b8e488341e859e0b6e81, type: 3}
 --- !u!4 &2968042128959217966 stripped
