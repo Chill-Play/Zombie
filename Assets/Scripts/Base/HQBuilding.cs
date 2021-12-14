@@ -35,6 +35,7 @@ public class HQBuilding : BaseObject
         RequireSave();
         UpdateUnlockables();
         OnLevelUp?.Invoke();
+        UnityAnalytics.Instance.OnHQLevelUp(level);
     }
 
 

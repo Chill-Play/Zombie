@@ -18,7 +18,7 @@ public class UpgradeHQZone : MonoBehaviour
         if (collider.TryGetComponent(out PlayerBuilding playerBuilding))
         {
             var screen = (HQUpgradeScreen)FindObjectOfType<UIController>().ShowScreen(screenId);
-            screen.Show(FindObjectOfType<ResourcesController>().ResourcesCount, () => FindObjectOfType<UIController>().HideActiveScreen());
+            screen.Show(FindObjectOfType<ResourcesController>().ResourcesCount, () => FindObjectOfType<UIController>().ReturnToDefaultScreen());
         }
     }
 }
