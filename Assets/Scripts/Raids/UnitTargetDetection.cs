@@ -30,7 +30,6 @@ public class UnitTargetDetection : MonoBehaviour ///// REWORK
             {
                 collidersFound = Physics.OverlapSphereNonAlloc(transform.position, radius, attackColliders, GameplayUtils.ATTACK_MASK);
             }
-            Debug.Log(collidersFound);
             target = GameplayUtils.GetAttackTarget(0, collidersFound, transform, attackColliders);
         }
     }

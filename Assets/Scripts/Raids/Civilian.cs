@@ -1,0 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(CivilianAnimation), typeof(UnitMovement))]
+public class Civilian : MonoBehaviour
+{   
+    [SerializeField] Vector2 idleTime = new Vector2(3f, 5f);
+    [SerializeField] List<Transform> points = new List<Transform>();
+
+    [SerializeField] UnitMovement unitMovement;
+    [SerializeField] CivilianAnimation civilianAnimation;
+    int idx = 0;
+
+    public void GoIdle()
+    {
+        float idleTimer = Random.Range(idleTime.x, idleTime.y);
+        StartCoroutine(Idle(idleTimer));
+    }
+
+    IEnumerator Idle(float time)
+    {
+        civilianAnimation.GoIdle();
+        yield return new WaitForSeconds(time);
+        TryMoveToNextPoint();
+    }
+
+    void TryMoveToNextPoint()
+    {
+        if (points.Count > 0)
+        {
+            idx++;
+            if (idx >= points.Count)
+            {
+                idx = 0;
+            }
+            civilianAnimation.GoWalk();
+            StartCoroutine(GoToPoint(points[idx],() => GoIdle()));
+        }
+    }
+
+    IEnumerator GoToPoint(Transform point, System.Action callback = null)
+    {        
+        unitMovement.MoveTo(point.position);
+        while (Vector3.Distance(transform.position, point.position) > 0.2f)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        callback?.Invoke();
+    }
+
+    public void GoToBuilding(CivilianBuilding civilianBuilding)
+    {
+        StopAllCoroutines();
+        civilianAnimation.GoRun();
+        StartCoroutine(GoToPoint(civilianBuilding.DoorPoint, () => Destroy(gameObject)));
+    }
+
+    public void GoDance(Transform point)
+    {        
+        civilianAnimation.GoRun();
+        StartCoroutine(GoToPoint(point, () => civilianAnimation.GoDance()));
+    }
+
+}

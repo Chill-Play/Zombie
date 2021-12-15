@@ -5,6 +5,7 @@ using UnityEngine;
 public class Raid : MonoBehaviour
 {
     public event System.Action OnHordeDefeated;
+    public event System.Action OnHordeBegin;
 
     [SerializeField] float comingTime = 10f;
     [SerializeField] int hordeSize = 30;
@@ -67,8 +68,10 @@ public class Raid : MonoBehaviour
                 e.GoAggressive();
             }
         }
+        OnHordeBegin?.Invoke();
         mainHorde = zombieWaveSpawner.SpawnHorde(hordeSize, 0, generation);
-        mainHorde.OnHordeDefeated += MainHorde_OnHordeDefeated;    
+        mainHorde.OnHordeDefeated += MainHorde_OnHordeDefeated;  
+        
     }
 
     private void MainHorde_OnHordeDefeated()
