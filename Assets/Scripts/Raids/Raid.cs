@@ -41,7 +41,7 @@ public class Raid : MonoBehaviour
 
         noiseController = FindObjectOfType<NoiseController>();
         noiseController.OnNoiseLevelExceeded += NoiseController_OnNoiseLevelExceeded;
-
+        
         zombieWaveSpawner = FindObjectOfType<ZombieWaveSpawner>();
     }
     private void Instance_OnLevelEnded()

@@ -8,7 +8,7 @@ public class OnBuildTrigger : ConditionTrigger
 
     int buildableCount = 0;
 
-    private void Awake()
+    private void Start()
     {
         for (int i = 0; i < buildables.Count; i++)
         {

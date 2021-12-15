@@ -8,7 +8,7 @@ public class EndUpgradingTrigger : ConditionTrigger
     [SerializeField] bool doOnce = false;
 
 
-    private void Awake()
+    private void Start()
     {
         upgradeZone.OnEndUpgrading += UpgradeZone_OnEndUpgrading;
     }

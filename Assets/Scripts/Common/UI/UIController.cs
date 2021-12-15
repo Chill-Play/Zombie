@@ -7,12 +7,11 @@ using TMPro;
 public class UIController : SingletonMono<UIController>
 {
     [SerializeField] List<UIScreen> screens;
-    UIScreen activeScreen;
+    static SubjectId activeScreen;
 
-    public void HideActiveScreen()
+    public void ReturnToDefaultScreen()
     {
-        activeScreen.gameObject.SetActive(false);
-        activeScreen = null;
+        ShowScreen(screens[0].Id);
     }
 
 
@@ -20,28 +19,42 @@ public class UIController : SingletonMono<UIController>
     {
         //FindObjectOfType<InputJoystick>().ResetInput();
         UIScreen screen = screens.FirstOrDefault((x) => x.Id == screenId);
-        if(screen != null)
+        if (screen != null)
         {
-            if(activeScreen != null)
+            if (activeScreen != null)
             {
                 HideScreen(activeScreen);
+                UnityAnalytics.Instance.OnScreenSwitched(activeScreen.name);
+            }
+            else
+            {
+                UnityAnalytics.Instance.OnScreenSwitched(screenId.name);
             }
             screen.gameObject.SetActive(true);
-            activeScreen = screen;
+            activeScreen = screen.Id;
         }
         else
         {
             Debug.LogError("No screen found with id : " + screenId.name);
         }
-        return activeScreen;
+        return screen;
     }
 
 
-    void HideScreen(UIScreen screen)
+    void HideScreen(SubjectId id)
     {
-        screen.gameObject.SetActive(false);
+        var screen = GetScreenById(id);
+        if (screen != null)
+        {
+            screen.gameObject.SetActive(false);
+        }
     }
 
+
+    UIScreen GetScreenById(SubjectId id)
+    {
+        return screens.FirstOrDefault((x) => x.Id == id);
+    }
 
 
 }

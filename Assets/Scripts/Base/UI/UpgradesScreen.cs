@@ -92,7 +92,7 @@ public class UpgradesScreen : UIScreen
             }
         }
 
-        if (!zone.FreeUpgradeAvailable || upgradesAvailable || maxlevel < MINIMAL_STAT_LEVEL_TO_FREE_OPTION)
+        if (!zone.FreeUpgradeAvailable || upgradesAvailable || maxlevel < MINIMAL_STAT_LEVEL_TO_FREE_OPTION || !AdvertisementManager.Instance.RewardedAvailable)
         {
             return -1;
         }
