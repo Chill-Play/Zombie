@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(CivilianAnimation), typeof(UnitMovement))]
 public class Civilian : MonoBehaviour
@@ -13,7 +14,7 @@ public class Civilian : MonoBehaviour
     int idx = 0;
 
     public void GoIdle()
-    {
+    {   
         float idleTimer = Random.Range(idleTime.x, idleTime.y);
         StartCoroutine(Idle(idleTimer));
     }
@@ -35,7 +36,7 @@ public class Civilian : MonoBehaviour
                 idx = 0;
             }
             civilianAnimation.GoWalk();
-            StartCoroutine(GoToPoint(points[idx],() => GoIdle()));
+            StartCoroutine(GoToPoint(points[idx], () => transform.DORotate(points[idx].eulerAngles, 0.5f).OnComplete(() => GoIdle())));
         }
     }
 
@@ -59,7 +60,7 @@ public class Civilian : MonoBehaviour
     public void GoDance(Transform point)
     {        
         civilianAnimation.GoRun();
-        StartCoroutine(GoToPoint(point, () => civilianAnimation.GoDance()));
+        StartCoroutine(GoToPoint(point, () => transform.DORotate(point.eulerAngles, 0.5f).OnComplete(() => civilianAnimation.GoDance())));
     }
 
 }
