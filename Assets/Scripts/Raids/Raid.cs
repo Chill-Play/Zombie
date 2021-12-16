@@ -75,10 +75,17 @@ public class Raid : MonoBehaviour
     }
 
     private void MainHorde_OnHordeDefeated()
-    {        
-        FindObjectOfType<SpawnPoint>().IsReturningToBase = true;
+    {
         OnHordeDefeated?.Invoke();
-        spawnWavesCoroutine = StartCoroutine(SpawningFinalWaves());
+        StarsChest starsChest = FindObjectOfType<StarsChest>(true);
+        starsChest.gameObject.SetActive(true);
+        starsChest.OnStarsCollected += StarsChest_OnStarsCollected;        
+    }
+
+    private void StarsChest_OnStarsCollected()
+    {
+        FindObjectOfType<SpawnPoint>().IsReturningToBase = true;      
+        spawnWavesCoroutine = StartCoroutine(SpawningFinalWaves());      
     }
 
     IEnumerator SpawningFinalWaves()
