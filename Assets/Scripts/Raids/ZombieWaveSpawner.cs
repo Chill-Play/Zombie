@@ -5,6 +5,7 @@ using UnityEngine;
 public class Horde
 {   
     public event System.Action OnHordeDefeated;
+    public event System.Action OnEnemyDead;
 
     List<Enemy> enemies = new List<Enemy>();
 
@@ -23,7 +24,7 @@ public class Horde
         var health = message.sender as UnitHealth;
         health.OnDead -= Enemy_OnDead;
         enemies.Remove(health.GetComponent<Enemy>());
-
+        OnEnemyDead?.Invoke();
         if (enemies.Count == 0)
         {
             OnHordeDefeated?.Invoke();
@@ -32,7 +33,10 @@ public class Horde
 }
 
 public class ZombieWaveSpawner : MonoBehaviour
-{  
+{
+    public event System.Action<int> OnEnemySpawned;
+    public event System.Action<int> OnEnemyDead;
+
     ZombiesSpawnPoint[] zombiesSpawnPoints;
     List<Horde> hordes = new List<Horde>();
 
@@ -57,11 +61,17 @@ public class ZombieWaveSpawner : MonoBehaviour
     public Horde SpawnHorde(int hordeSize, int level, int generation)
     {
         Horde horde = new Horde();
+        horde.OnEnemyDead += Horde_OnEnemyDead;
         hordeSize = (int)((float)hordeSize); 
         spawnHordeCoroutine = StartCoroutine(SpawnHordeCoroutine(horde, hordeSize, level, generation));
         hordes.Add(horde);
         horde.OnHordeDefeated += (() => Horde_OnHordeDefeated(horde));
         return horde;
+    }
+
+    private void Horde_OnEnemyDead()
+    {
+        OnEnemyDead?.Invoke(GetEnemyCount());
     }
 
     private void Horde_OnHordeDefeated(Horde horde)
@@ -99,6 +109,7 @@ public class ZombieWaveSpawner : MonoBehaviour
                     horde.AddEnemy(enemy);
                     hordeController.AddAgent(enemy); 
                     enemy.GoAggressive();
+                    OnEnemySpawned?.Invoke(GetEnemyCount());
                     AgroActivator agroActivator = enemy.GetComponent<AgroActivator>();
                     if (agroActivator != null)
                     {
@@ -138,5 +149,15 @@ public class ZombieWaveSpawner : MonoBehaviour
         {
             ExecudeHorde(hordes[i]);
         }    
+    }
+
+    int GetEnemyCount()
+    {
+        int summ = 0;
+        for (int i = 0; i < hordes.Count; i++)
+        {
+            summ += hordes[i].Enemies.Count;
+        }
+        return summ;
     }
 }

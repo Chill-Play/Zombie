@@ -164,6 +164,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 8
+  customAttackMaskEnabled: 0
+  customAttackMask:
+    serializedVersion: 2
+    m_Bits: 0
+  target: {fileID: 0}
 --- !u!114 &2686923902671980450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +184,7 @@ MonoBehaviour:
   unitTargetDetection: {fileID: 2686923902671980449}
   weapons:
   - {fileID: 1514459740236945140}
+  allowShooting: 0
 --- !u!114 &2686923902671980451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f52f366a035e991449241460c2b9bd40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiHealthBarId: {fileID: 2419723626561386784, guid: 2a79f958af731734797a2795493c0cd6, type: 2}
   damagable: {fileID: 2686923902671980477}
 --- !u!114 &2686923902671980455
 MonoBehaviour:
@@ -553,7 +560,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 5763908357229053904}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6911052120440098448}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bb90a7e309a9a1449edc0a276129645, type: 3}
   m_Name: 

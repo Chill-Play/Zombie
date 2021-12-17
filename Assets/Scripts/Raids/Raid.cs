@@ -21,6 +21,7 @@ public class Raid : MonoBehaviour
     HC_Timer timer;
     Horde mainHorde;
     Coroutine spawnWavesCoroutine;
+    Helicopter helicopter;
 
 
     public float ComingTimerValue => timer != null ? timer.RemainingTime / timer.TimerTime : 0f;
@@ -33,6 +34,12 @@ public class Raid : MonoBehaviour
         Level.Instance.OnLevelFailed += Instance_OnLevelEnded;
         reviveController = FindObjectOfType<ReviveController>();
         reviveController.OnRevive += ReviveController_OnRevive;
+    }
+
+    private void Start()
+    {
+        helicopter = FindObjectOfType<Helicopter>();
+        helicopter.FlyAway();
     }
 
     private void Instance_OnLevelStarted()
@@ -84,8 +91,14 @@ public class Raid : MonoBehaviour
 
     private void StarsChest_OnStarsCollected()
     {
-        FindObjectOfType<SpawnPoint>().IsReturningToBase = true;      
-        spawnWavesCoroutine = StartCoroutine(SpawningFinalWaves());      
+        helicopter.OnArrived += Helicopter_OnArrived;
+        helicopter.FlyBack();           
+    }
+
+    private void Helicopter_OnArrived()
+    {
+        FindObjectOfType<SpawnPoint>().IsReturningToBase = true;
+        spawnWavesCoroutine = StartCoroutine(SpawningFinalWaves());
     }
 
     IEnumerator SpawningFinalWaves()

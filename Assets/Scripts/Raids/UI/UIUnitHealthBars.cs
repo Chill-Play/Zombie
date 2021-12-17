@@ -4,21 +4,38 @@ using UnityEngine;
 
 public class UIUnitHealthBars : MonoBehaviour
 {
-    [SerializeField] UIUnitHealthBar healthBarPrefab;
-    Dictionary<UnitHealthBar, UIUnitHealthBar> healthBars = new Dictionary<UnitHealthBar, UIUnitHealthBar>();
-
-
-    public void CreateHealthBar(UnitHealthBar enemy)
+    [System.Serializable]
+    struct UIUnitHealthBarSettings
     {
-        UIUnitHealthBar instance = Instantiate(healthBarPrefab, transform);
-        instance.Setup(enemy, 3.5f);
-        healthBars.Add(enemy, instance);
+        public SubjectId uiHealthBarId;
+        public UIUnitHealthBar healthBarPrefab;
     }
 
 
-    public void RemoveHealthBar(UnitHealthBar enemy)
+    [SerializeField] List<UIUnitHealthBarSettings> healthBarSettings = new List<UIUnitHealthBarSettings>();
+
+    Dictionary<UnitHealthBar, UIUnitHealthBar> healthBars = new Dictionary<UnitHealthBar, UIUnitHealthBar>();
+
+
+    public void CreateHealthBar(UnitHealthBar unit)
     {
-        healthBars[enemy].Remove();
-        healthBars.Remove(enemy);
+        for (int i = 0; i < healthBarSettings.Count; i++)
+        {
+            if (healthBarSettings[i].uiHealthBarId == unit.UIHealthBarId)
+            {
+                UIUnitHealthBar instance = Instantiate(healthBarSettings[i].healthBarPrefab, transform);
+                instance.Setup(unit, 3.5f);
+                healthBars.Add(unit, instance);
+                break;
+            }
+        }
+       
+    }
+
+
+    public void RemoveHealthBar(UnitHealthBar unit)
+    {
+        healthBars[unit].Remove();
+        healthBars.Remove(unit);
     }
 }

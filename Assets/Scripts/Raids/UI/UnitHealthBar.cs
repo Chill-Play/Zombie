@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class UnitHealthBar : MonoBehaviour
 {
+    [SerializeField] SubjectId uiHealthBarId;
     [SerializeField] GameObject damagable;
 
     public GameObject Damagable => damagable;
+    public SubjectId UIHealthBarId => uiHealthBarId;
 
     void OnEnable()
     {

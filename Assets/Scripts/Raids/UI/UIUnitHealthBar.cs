@@ -6,18 +6,19 @@ using UnityEngine.UI;
 
 public class UIUnitHealthBar : MonoBehaviour
 {
-    const float HIDE_TIME = 2.0f;
 
     [SerializeField] Transform barTransform;
     [SerializeField] Transform barPivot;
     [SerializeField] Image barFill;
     [SerializeField] Image barBackFill;
     [SerializeField] CanvasGroup group;
+    [SerializeField] float hideTimer = 2f;
+    [SerializeField] bool unmovable = false;
 
     float backFillVelocity;
     UnitHealthBar unit;
     float upOffset;
-    float hideTimer;
+    float currentHideTimer;
     bool appeared;
 
     Tween alphaTween;
@@ -41,18 +42,22 @@ public class UIUnitHealthBar : MonoBehaviour
     {
         if (appeared)
         {
-            hideTimer -= Time.deltaTime;
-            if (hideTimer <= 0.0f)
+            currentHideTimer -= Time.deltaTime;
+            if (currentHideTimer <= 0.0f)
             {
                 Hide();
             }
         }
         if (unit != null)
         {
-            Vector3 playerWorldPosition = unit.transform.position;
-            playerWorldPosition += Vector3.up * upOffset;
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(playerWorldPosition);
-            barPivot.transform.position = Vector3.SmoothDamp(barPivot.transform.position, screenPosition, ref smoothVelocity, smoothTime);
+            Vector3 unitWorldPosition = unit.transform.position;
+            unitWorldPosition += Vector3.up * upOffset;
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(unitWorldPosition);
+            barPivot.transform.position = screenPosition;
+            if (!unmovable)
+            {
+                barPivot.transform.position = Vector3.SmoothDamp(barPivot.transform.position, screenPosition, ref smoothVelocity, smoothTime);
+            }
         }
         barBackFill.fillAmount = Mathf.SmoothDamp(barBackFill.fillAmount, barFill.fillAmount, ref backFillVelocity, 0.3f);
 
@@ -72,9 +77,12 @@ public class UIUnitHealthBar : MonoBehaviour
 
     public void Appear()
     {
-        appeared = true;
+        appeared = true;       
+        Vector3 unitWorldPosition = unit.transform.position;
+        unitWorldPosition += Vector3.up * upOffset;
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(unitWorldPosition);
+        barPivot.transform.position = screenPosition;
         SmoothGroupAlpha(1f);
-        
     }
 
 
@@ -88,11 +96,11 @@ public class UIUnitHealthBar : MonoBehaviour
     void SmoothGroupAlpha(float target)
     {
         group.alpha = target;
-        /*if(alphaTween != null)
+        if(alphaTween != null)
         {
             alphaTween.Complete();
         }
-        alphaTween = DOTween.To(() => group.alpha, (x) => group.alpha = x, target, 0.3f);*/
+        alphaTween = DOTween.To(() => group.alpha, (x) => group.alpha = x, target, 0.3f);
     }
 
 
@@ -101,7 +109,7 @@ public class UIUnitHealthBar : MonoBehaviour
         if (!appeared)
         {
             appeared = true;
-            hideTimer = HIDE_TIME;
+            currentHideTimer = hideTimer;
             Appear();
         }
         barFill.fillAmount = obj.currentHealth / obj.maxHealth;
