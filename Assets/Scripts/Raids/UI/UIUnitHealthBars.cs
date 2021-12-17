@@ -35,7 +35,10 @@ public class UIUnitHealthBars : MonoBehaviour
 
     public void RemoveHealthBar(UnitHealthBar unit)
     {
-        healthBars[unit].Remove();
-        healthBars.Remove(unit);
+        if (healthBars.ContainsKey(unit))
+        {
+            healthBars[unit].Remove();
+            healthBars.Remove(unit);
+        }
     }
 }

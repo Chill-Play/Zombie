@@ -11,6 +11,7 @@ public class Civilian : MonoBehaviour
 
     [SerializeField] UnitMovement unitMovement;
     [SerializeField] CivilianAnimation civilianAnimation;
+    [SerializeField] float rotationSpeed = 40f;
     int idx = 0;
 
     public void GoIdle()
@@ -60,7 +61,8 @@ public class Civilian : MonoBehaviour
     public void GoDance(Transform point)
     {        
         civilianAnimation.GoRun();
-        StartCoroutine(GoToPoint(point, () => transform.DORotate(point.eulerAngles, 0.5f).OnComplete(() => civilianAnimation.GoDance())));
+        float deltaRot = (point.eulerAngles - transform.eulerAngles).magnitude;
+        StartCoroutine(GoToPoint(point, () => transform.DORotate(point.eulerAngles, deltaRot/rotationSpeed).OnComplete(() => civilianAnimation.GoDance())));
     }
 
 }
