@@ -185,8 +185,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 46255869787270072}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.73
-  m_Speed: 3
+  m_Radius: 0.4
+  m_Speed: 2.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 36000
@@ -227,6 +227,7 @@ MonoBehaviour:
   wanderingState: {fileID: -2769955253899925341, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
   aggressiveState: {fileID: -4556111188870099931, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
   deadState: {fileID: 1337734200025154110, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
+  lonewolf: 1
 --- !u!114 &8872976924459933970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18923db9141a9bc43894ed51ae93dc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 500
+  health: 100
   bloodVfx: {fileID: 0}
   bloodVfxScale: 0.2
 --- !u!114 &4548523113059937748
@@ -2412,15 +2413,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ab329efbc681b8e488341e859e0b6e81, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 1.2041
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ab329efbc681b8e488341e859e0b6e81, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 1.2041
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ab329efbc681b8e488341e859e0b6e81, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3
+      value: 1.2041
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ab329efbc681b8e488341e859e0b6e81, type: 3}
       propertyPath: m_LocalPosition.x

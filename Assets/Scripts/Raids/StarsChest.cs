@@ -10,6 +10,7 @@ public class StarsChest : MonoBehaviour
     [SerializeField] RewardStar starPrefab;
     [SerializeField] Vector2 radius;
     [SerializeField] float starsSpeed = 10f;
+    [SerializeField] Animator animator;
 
     Rigidbody body;
     bool spawned = false;
@@ -28,6 +29,7 @@ public class StarsChest : MonoBehaviour
             transform.position = transform.position.SetY(0f);
             body.isKinematic = true;
             body.velocity = Vector3.zero;
+            animator.SetTrigger("Open");
             SpawnStars();
             spawned = true;
         }
