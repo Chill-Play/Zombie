@@ -49,9 +49,12 @@ public class HordeController : MonoBehaviour
 
     public void AddAgent(Enemy enemy)
     {
-        ZombieMovement zombieMovement = enemy.GetComponent<ZombieMovement>();
-        zombieMovements.Add(zombieMovement);
-        enemy.GetComponent<UnitHealth>().OnDead += (x) => OnAgentDead(zombieMovement);
+        if (!enemy.Lonewolf)
+        {
+            ZombieMovement zombieMovement = enemy.GetComponent<ZombieMovement>();
+            zombieMovements.Add(zombieMovement);
+            enemy.GetComponent<UnitHealth>().OnDead += (x) => OnAgentDead(zombieMovement);
+        }
     }
 
     void OnAgentDead(ZombieMovement zombieMovement)

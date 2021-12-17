@@ -20,7 +20,7 @@ public class PickupableResource : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {      
-        if (other.GetComponent<PlayerResources>() != null && !pickuped)
+        if (other.GetComponent<PlayerBackpack>() != null && !pickuped)
         {
             pickuped = true;
             body.useGravity = true;

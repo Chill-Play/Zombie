@@ -34,11 +34,16 @@ public class CampaignSpecialistAI : MonoBehaviour
     }
 
     private void InteractivePointDetection_OnTargetChanged(InteractivePoint lastPoint, InteractivePoint point)
-    {      
+    {
         if (point != null)
         {
             constructive = point.gameObject.GetComponent<Constructive>();
-            repairable = point.gameObject.GetComponent<Repairable>();           
+            repairable = point.gameObject.GetComponent<Repairable>();
+        }
+        else
+        {
+            constructive = null;
+            repairable = null;
         }
     }
 
@@ -68,8 +73,8 @@ public class CampaignSpecialistAI : MonoBehaviour
         }      
 
         if (interactivePointDetection.Target != null && !squad.IsMoving && targetDetection.Target == null
-            && ((constructive == null || constructive.CanConstruct) || (repairable == null || repairable.CanRepair)))
-        {
+            && ((constructive != null && constructive.CanConstruct) || (repairable != null && repairable.CanRepair)))
+        {           
             ToState(interactingState);
             RotateToward();
         }

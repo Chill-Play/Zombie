@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 1555253044}
   - component: {fileID: 1555253046}
   - component: {fileID: 7102109612129048549}
-  - component: {fileID: 5912361285102528020}
   - component: {fileID: 1555253045}
   - component: {fileID: 3412838976713829729}
   - component: {fileID: 790408206}
@@ -182,6 +181,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 8
+  customAttackMaskEnabled: 0
+  customAttackMask:
+    serializedVersion: 2
+    m_Bits: 0
+  target: {fileID: 0}
 --- !u!114 &6724815731642420078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +201,7 @@ MonoBehaviour:
   unitTargetDetection: {fileID: 4805048125854226984}
   weapons:
   - {fileID: 1911129262744522981}
+  allowShooting: 0
 --- !u!114 &9153932022786451599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,18 +266,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damagable: {fileID: 3346936833982169915}
---- !u!114 &5912361285102528020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3346936833982169915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dfb9979ad89b9a4a9e6be91df49a96e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &1555253045
 CapsuleCollider:
   m_ObjectHideFlags: 0

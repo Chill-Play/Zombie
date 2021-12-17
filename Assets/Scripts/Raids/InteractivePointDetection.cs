@@ -38,18 +38,16 @@ public class InteractivePointDetection : MonoBehaviour
                         {
                             minDist = dist;                           
                             target = possibleTarget;
-                            if (lastTarget != target)
-                            {
-                                if (lastTarget != null)
-                                {
-                                    OnTargetChanged?.Invoke(lastTarget, target);
-                                }
-                                lastTarget = target;
-                            }
+                            
                         }
 
                     }
                 }
+            }
+            if (lastTarget != target)
+            {
+                OnTargetChanged?.Invoke(lastTarget, target);
+                lastTarget = target;
             }
             //}
         }

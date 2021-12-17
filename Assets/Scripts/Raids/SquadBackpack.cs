@@ -33,7 +33,10 @@ public class SquadBackpack : MonoBehaviour
 
     private void Squad_OnUnitAdd(Unit unit)
     {
-        unit.GetComponent<PlayerBackpack>().OnPickupResource += Backpack_OnPickupResource;
+        if (unit.TryGetComponent<PlayerBackpack>(out PlayerBackpack playerBackpack))
+        {
+            playerBackpack.OnPickupResource += Backpack_OnPickupResource;
+        }
     }
 
     public void Backpack_OnPickupResource(ResourceType type, int totalCount, int count)

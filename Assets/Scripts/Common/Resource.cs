@@ -35,7 +35,7 @@ public class Resource : MonoBehaviour
         PlayerBackpack playerBackpack = picker.GetComponent<PlayerBackpack>();
         if (playerBackpack != null)
         {
-            picker.GetComponent<PlayerBackpack>().PickUp(type, count);
+            playerBackpack.PickUp(type, count);
         }
         else
         {

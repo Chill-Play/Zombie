@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] SubjectId wanderingState;
     [SerializeField] SubjectId aggressiveState;
     [SerializeField] SubjectId deadState;
+    [SerializeField] bool lonewolf = false;
 
     StateController stateController;
     int level = -1;
@@ -25,6 +26,7 @@ public class Enemy : MonoBehaviour
     ZombieAgroSequence zombieAgroSequence;
 
     public bool IsDead => stateController.CurrentStateId == deadState;
+    public bool Lonewolf => lonewolf;
 
 
     public void SetLevel(int level)
