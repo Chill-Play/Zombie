@@ -21,6 +21,11 @@ public class ConstructionHealth : MonoBehaviour, IDamagable
         uiNumbers = FindObjectOfType<UINumbers>();
     }
 
+    public void SetHealth(float value)
+    {
+        currentHealth = value;
+    }
+
     public void Damage(DamageInfo info)
     {
         if (currentHealth > 0f)
