@@ -8,6 +8,7 @@ public class CivilianAnimation : MonoBehaviour
     const string WALK_ANIMATION_KEY = "Walk";
     const string RUN_ANIMATION_KEY = "Run";
     const string DANCE_ANIMATION_KEY = "Dance";
+    const string DANCEID_ANIMATION_KEY = "DanceId";
 
     [SerializeField] Animator animator;
 
@@ -37,9 +38,10 @@ public class CivilianAnimation : MonoBehaviour
 
     public void GoDance()
     {
-        animator.SetBool(WALK_ANIMATION_KEY, false);
-        animator.SetBool(RUN_ANIMATION_KEY, false);
+        animator.SetInteger(DANCEID_ANIMATION_KEY, Random.Range(0, 5));
+        //animator.SetBool(WALK_ANIMATION_KEY, false);
+        //animator.SetBool(RUN_ANIMATION_KEY, false);
         animator.SetBool(DANCE_ANIMATION_KEY, true);
-        animator.SetBool(IDLE_ANIMATION_KEY, false);
+        //animator.SetBool(IDLE_ANIMATION_KEY, false);
     }
 }
