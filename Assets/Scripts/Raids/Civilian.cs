@@ -40,7 +40,7 @@ public class Civilian : MonoBehaviour
             StartCoroutine(GoToPoint(points[idx], () =>
             {
                 float eularDif = Mathf.DeltaAngle(points[idx].eulerAngles.y, transform.eulerAngles.y);
-                transform.DORotate(points[idx].eulerAngles, eularDif/rotationSpeed).OnComplete(() => GoIdle());
+                transform.DORotate(new Vector3(0f, eularDif, 0f), eularDif/rotationSpeed).OnComplete(() => GoIdle());
             }));
         }
     }
@@ -66,7 +66,7 @@ public class Civilian : MonoBehaviour
     {        
         civilianAnimation.GoRun();
         float eularDif = Mathf.DeltaAngle(point.eulerAngles.y, transform.eulerAngles.y);    
-        StartCoroutine(GoToPoint(point, () => transform.DORotate(point.eulerAngles, eularDif / rotationSpeed).OnComplete(() => civilianAnimation.GoDance())));
+        StartCoroutine(GoToPoint(point, () => transform.DORotate(new Vector3(0f, eularDif, 0f), eularDif / rotationSpeed).OnComplete(() => civilianAnimation.GoDance())));
     }
 
 }

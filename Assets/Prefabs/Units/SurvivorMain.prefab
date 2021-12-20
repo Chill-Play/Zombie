@@ -340,7 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 378eabd7a8952294aafa60bf86dfc214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comboTime: 0.7
+  comboTime: 1.5
   showingTime: 1
   upOffset: 2
 --- !u!114 &2686923902855824508
@@ -444,6 +444,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2686923902688170860}
     m_Modifications:
+    - target: {fileID: 686671141159406297, guid: 42d4ee656b68f1b4f84fc2236897c34f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0008
+      objectReference: {fileID: 0}
+    - target: {fileID: 686671141159406297, guid: 42d4ee656b68f1b4f84fc2236897c34f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0704
+      objectReference: {fileID: 0}
+    - target: {fileID: 686671141159406297, guid: 42d4ee656b68f1b4f84fc2236897c34f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.4672
+      objectReference: {fileID: 0}
     - target: {fileID: 1691216801881912485, guid: 42d4ee656b68f1b4f84fc2236897c34f, type: 3}
       propertyPath: bulletDamage
       value: 50
@@ -479,6 +491,10 @@ PrefabInstance:
     - target: {fileID: 5904523979293464504, guid: 42d4ee656b68f1b4f84fc2236897c34f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 82.351
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555540116687753508, guid: 42d4ee656b68f1b4f84fc2236897c34f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7339838588537988650, guid: 42d4ee656b68f1b4f84fc2236897c34f, type: 3}
       propertyPath: m_RootOrder
@@ -560,7 +576,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 5763908357229053904}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6911052120440098448}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bb90a7e309a9a1449edc0a276129645, type: 3}
   m_Name: 

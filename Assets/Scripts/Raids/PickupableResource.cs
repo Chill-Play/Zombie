@@ -22,13 +22,18 @@ public class PickupableResource : MonoBehaviour
     {      
         if (other.GetComponent<PlayerBackpack>() != null && !pickuped)
         {
-            pickuped = true;
-            body.useGravity = true;
-            body.velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(3f, 6f), Random.Range(-1f, 1f)) * resourcesVelocity;
-            body.angularVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * 360f;
-            resource.PickUp(other.transform);
-            OnPickup?.Invoke();
+            Pickup(other.transform);
         }
+    }
+
+    public void Pickup(Transform picker)
+    {
+        pickuped = true;
+        body.useGravity = true;
+        body.velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(3f, 6f), Random.Range(-1f, 1f)) * resourcesVelocity;
+        body.angularVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * 360f;
+        resource.Pickup(picker);
+        OnPickup?.Invoke();
     }
 
 }

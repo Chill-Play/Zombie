@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerResourceCombo : MonoBehaviour, IResourceStore
+public class PlayerResourceCombo : MonoBehaviour
 {
     [SerializeField] float comboTime = 0.2f;
     [SerializeField] float showingTime = 0.8f;
     [SerializeField] float upOffset = 2f;
-
+  
 
     int resourceCombo = 0;
     float nextCheckCombo;
@@ -15,30 +15,33 @@ public class PlayerResourceCombo : MonoBehaviour, IResourceStore
     UINumbers uiNumbers;
     UINumber uiNumber;
 
-    PlayerBackpack playerBackpack;
+    IComboCounter[] comboCounters;
 
-    private void Start()
+    private void Awake()
     {
-        uiNumbers = FindObjectOfType<UINumbers>();        
+        uiNumbers = FindObjectOfType<UINumbers>();
+        comboCounters = GetComponents<IComboCounter>();
     }
 
     private void OnEnable()
     {
-        playerBackpack = GetComponent<PlayerBackpack>();
-        if (playerBackpack != null)
+        for (int i = 0; i < comboCounters.Length; i++)
         {
-            playerBackpack.OnPickupResource += PlayerResourceCombo_OnPickupResource;
-        }
+            comboCounters[i].OnAddingPoints += OnAddingPoints;
+        }       
     }
-    
-    private void PlayerResourceCombo_OnPickupResource(ResourceType type, int lastCount, int addCount)
+
+    private void OnAddingPoints(Sprite icon, int addCount)
     {
         resourceCombo += addCount;
         nextCheckCombo = Time.time + comboTime;
         if (uiNumber == null)
         {
             uiNumber = uiNumbers.GetNumber(transform.position + Vector3.up * upOffset, "+" + resourceCombo.ToString(), Vector2.zero, 0f, 0f, false);
-            uiNumbers.AttachImage(uiNumber, type.icon);
+            if (icon != null)
+            {
+                uiNumbers.AttachImage(uiNumber, icon);
+            }
         }
         uiNumber.text.text = "+" + resourceCombo.ToString();
         uiNumbers.PunchScaleNumber(uiNumber, 0.2f, 0.4f);
@@ -52,29 +55,25 @@ public class PlayerResourceCombo : MonoBehaviour, IResourceStore
         }
 
         if (uiNumber != null && resourceCombo > 0 && nextCheckCombo < Time.time)
-        {         
+        {
             uiNumbers.ScaleToZeroAndDestroy(uiNumber, 0.4f);
             uiNumber = null;
             resourceCombo = 0;
-        }   
+        }
     }
 
     private void OnDisable()
-    {       
-        if (playerBackpack != null)
+    {
+        for (int i = 0; i < comboCounters.Length; i++)
         {
-            playerBackpack.OnPickupResource -= PlayerResourceCombo_OnPickupResource;
+            comboCounters[i].OnAddingPoints += OnAddingPoints;
         }
+
         if (uiNumber != null)
         {
             uiNumbers.ScaleToZeroAndDestroy(uiNumber, 0.2f);
             uiNumber = null;
             resourceCombo = 0;
         }
-    }
-
-    public void OnPickupResource(ResourceType type, int lastCount, int addCount)
-    {
-        PlayerResourceCombo_OnPickupResource(type, lastCount, addCount);
     }
 }

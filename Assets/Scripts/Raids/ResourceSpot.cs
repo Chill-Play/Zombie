@@ -60,7 +60,7 @@ public class ResourceSpot : MonoBehaviour
         for (int i = 0; i < COUNT_PER_USE; i++)
         {
             Resource instance = Instantiate(resourceType.defaultPrefab, transform.position + resourceSpawnOffset, transform.rotation);
-            instance.PickUp(user.transform);
+            instance.Pickup(user.transform);
             Rigidbody body = instance.GetComponent<Rigidbody>();
             body.velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(3f, 6f), Random.Range(-1f, 1f)) * resourcesVelocity;
             body.angularVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * 360f;

@@ -22,6 +22,7 @@ public class Raid : MonoBehaviour
     Horde mainHorde;
     Coroutine spawnWavesCoroutine;
     Helicopter helicopter;
+    StarsChest starsChest;
 
 
     public float ComingTimerValue => timer != null ? timer.RemainingTime / timer.TimerTime : 0f;
@@ -34,6 +35,7 @@ public class Raid : MonoBehaviour
         Level.Instance.OnLevelFailed += Instance_OnLevelEnded;
         reviveController = FindObjectOfType<ReviveController>();
         reviveController.OnRevive += ReviveController_OnRevive;
+        starsChest = FindObjectOfType<StarsChest>(true);
     }
 
     private void Start()
@@ -83,21 +85,20 @@ public class Raid : MonoBehaviour
 
     private void MainHorde_OnHordeDefeated()
     {
-        OnHordeDefeated?.Invoke();
-        StarsChest starsChest = FindObjectOfType<StarsChest>(true);
-        starsChest.gameObject.SetActive(true);
-        starsChest.OnStarsCollected += StarsChest_OnStarsCollected;        
+        OnHordeDefeated?.Invoke();        
+        starsChest.gameObject.SetActive(true);        
+        helicopter.OnArrived += Helicopter_OnArrived;
+        helicopter.FlyBack();
     }
 
-    private void StarsChest_OnStarsCollected()
-    {
-        helicopter.OnArrived += Helicopter_OnArrived;
-        helicopter.FlyBack();           
-    }
+
 
     private void Helicopter_OnArrived()
     {
-        FindObjectOfType<SpawnPoint>().IsReturningToBase = true;
+        Squad squad = FindObjectOfType<Squad>();        
+        starsChest.PickupAll(squad.Units[0].transform);
+        SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
+        spawnPoint.IsReturningToBase = true;
         spawnWavesCoroutine = StartCoroutine(SpawningFinalWaves());
     }
 

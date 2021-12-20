@@ -13,13 +13,12 @@ public class StarsChest : MonoBehaviour
     [SerializeField] Animator animator;
 
     Rigidbody body;
-    bool spawned = false;
-    int currentStarCount;
+    bool spawned = false;   
+   [SerializeField] List<RewardStar> rewardStars = new List<RewardStar>();
 
     private void Awake()
     {
-        body = GetComponent<Rigidbody>();
-        currentStarCount = starCount;
+        body = GetComponent<Rigidbody>();        
     }
 
     private void FixedUpdate()
@@ -47,15 +46,24 @@ public class StarsChest : MonoBehaviour
             Vector3 vel = BallisticHelper.CalculateVelocity(transform.position, newPos, starsSpeed);
             star.GetComponent<Rigidbody>().velocity = vel;
             star.OnStarCollected += Star_OnStarCollected;
+            rewardStars.Add(star);
         }
     }
 
-    private void Star_OnStarCollected()
+    private void Star_OnStarCollected(RewardStar rewardStar)
     {
-        currentStarCount--;
-        if (currentStarCount == 0)
+        rewardStars.Remove(rewardStar);
+        if (rewardStars.Count <= 0)
         {
             OnStarsCollected?.Invoke();
+        }
+    }
+
+    public void PickupAll(Transform picker)
+    {
+        for (int i = rewardStars.Count - 1; i >= 0; i--)
+        {
+            rewardStars[i].PickupStar(picker);
         }
     }
 }

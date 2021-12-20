@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBackpack : MonoBehaviour
+public class PlayerBackpack : MonoBehaviour, IComboCounter
 {
-    public event System.Action<ResourceType, int, int> OnPickupResource;  
+    public event System.Action<ResourceType, int, int> OnPickupResource;
+
+    public event Action<Sprite, int> OnAddingPoints;
 
     Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
 
@@ -17,6 +20,7 @@ public class PlayerBackpack : MonoBehaviour
             resources.Add(type, 0);
         }
         resources[type] += count;   
-        OnPickupResource?.Invoke(type, resources[type], count);        
+        OnPickupResource?.Invoke(type, resources[type], count);
+        OnAddingPoints?.Invoke(type.icon, count);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIUnitHealthBar : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class UIUnitHealthBar : MonoBehaviour
     [SerializeField] Image barFill;
     [SerializeField] Image barBackFill;
     [SerializeField] CanvasGroup group;
+    [SerializeField] TMP_Text healthCountText;
     [SerializeField] float hideTimer = 2f;
     [SerializeField] bool unmovable = false;
 
@@ -32,12 +34,6 @@ public class UIUnitHealthBar : MonoBehaviour
         barFill.fillAmount = 1f;
     }
 
-    private void PlayerInstance_OnTakeDamage(DamageTakenInfo info)
-    {      
-        barFill.fillAmount = info.currentHealth / info.maxHealth;
-       // barTransform.DOShakePosition(0.2f, 30f, 50);
-    }
-
     void Update()
     {
         if (appeared)
@@ -53,8 +49,11 @@ public class UIUnitHealthBar : MonoBehaviour
             Vector3 unitWorldPosition = unit.transform.position;
             unitWorldPosition += Vector3.up * upOffset;
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(unitWorldPosition);
-            barPivot.transform.position = screenPosition;
-            if (!unmovable)
+            if (unmovable)
+            {
+                barPivot.transform.position = screenPosition;
+            }
+            else
             {
                 barPivot.transform.position = Vector3.SmoothDamp(barPivot.transform.position, screenPosition, ref smoothVelocity, smoothTime);
             }
@@ -104,7 +103,7 @@ public class UIUnitHealthBar : MonoBehaviour
     }
 
 
-    private void Unit_OnDamage(DamageTakenInfo obj)
+    private void Unit_OnDamage(DamageTakenInfo damageTakenInfo)
     {      
         if (!appeared)
         {
@@ -112,9 +111,11 @@ public class UIUnitHealthBar : MonoBehaviour
             currentHideTimer = hideTimer;
             Appear();
         }
-        barFill.fillAmount = obj.currentHealth / obj.maxHealth;
-        //barTransform.DOShakePosition(0.2f, 1f * obj.damage, 50);
-       // barTransform.DOShakePosition(0.2f, 30f, 50);
+        barFill.fillAmount = damageTakenInfo.currentHealth / damageTakenInfo.maxHealth;
+        if (healthCountText != null)
+        {
+            healthCountText.text = damageTakenInfo.currentHealth.ToString() + "/" + damageTakenInfo.maxHealth.ToString();
+        }
     }
 
 

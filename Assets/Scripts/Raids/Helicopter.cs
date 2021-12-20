@@ -29,9 +29,9 @@ public class Helicopter : MonoBehaviour
         Vector3 dir = endPoint.position.SetY(0) - transform.position.SetY(0);
         float dist = dir.magnitude;
         dir.Normalize();
-        Quaternion rot = Quaternion.LookRotation(dir, Vector3.up);        
-        float eularDif = Mathf.DeltaAngle(rot.eulerAngles.y,transform.eulerAngles.y);        
-        sequence.Append(transform.DORotate(rot.eulerAngles, Mathf.Abs(eularDif) / rotateSpeed, RotateMode.LocalAxisAdd).SetEase(Ease.Linear));
+        Quaternion rot = Quaternion.LookRotation(dir, transform.eulerAngles);        
+        float eularDif = Mathf.DeltaAngle(transform.eulerAngles.y, rot.eulerAngles.y);        
+        sequence.Append(transform.DORotate(new Vector3(0f, eularDif, 0f), Mathf.Abs(eularDif) / rotateSpeed, RotateMode.LocalAxisAdd).SetEase(Ease.Linear));
         sequence.Append(transform.DOMove(endPoint.position.SetY(yValue), dist/awaySpeed));
         sequence.AppendCallback(() => gameObject.SetActive(false));
     }

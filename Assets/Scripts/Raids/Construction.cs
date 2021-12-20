@@ -9,23 +9,30 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
     public event System.Action OnBuild;
     public event System.Action OnBreak;
 
-    [SerializeField] Transform ruins;
-    [SerializeField] Transform content;
-    [SerializeField] Transform destroyed;
+    [SerializeField] MeshBounds ruins;
+    [SerializeField] MeshBounds content;
+    [SerializeField] MeshBounds destroyed;
     [SerializeField] bool constructed = false;
 
     UINumbers uiNumbers;
-   ConstructionHealth constructionHealth;
+    ConstructionHealth constructionHealth;
 
     public bool Constructed => constructed;
 
     public bool LockConstruction { get; set; } = false; 
 
     private void Awake()
-    {
+    {       
+        MeshBounds[] meshBounds = GetComponentsInChildren<MeshBounds>(true);
+        foreach (var meshBound in meshBounds)
+        {
+            meshBound.CalculateBounds();
+        }
+
         destroyed.gameObject.SetActive(false);
         content.gameObject.SetActive(constructed);
-        ruins.gameObject.SetActive(!constructed);  
+        ruins.gameObject.SetActive(!constructed);
+
         uiNumbers = FindObjectOfType<UINumbers>();        
         constructionHealth = content.GetComponent<ConstructionHealth>();
         if (constructed)
@@ -40,31 +47,31 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
     {     
         constructed = false;
         LockConstruction = true;
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(content.DOScale(Vector3.zero, 0.3f).SetEase(Ease.OutCirc));
+        Sequence sequence = DOTween.Sequence();    
+        sequence.Append(content.transform.DOMoveY(content.transform.position.y - content.Bounds.size.y, 0.3f).SetEase(Ease.OutCirc));
         sequence.AppendCallback(() =>
         {
             content.gameObject.SetActive(false);
-            destroyed.localScale = Vector3.zero;
+            destroyed.transform.position = destroyed.transform.position.SetY(destroyed.transform.position.y - destroyed.Bounds.size.y);
             destroyed.gameObject.SetActive(true);
             OnBreak?.Invoke();
         });
-        sequence.Append(destroyed.DOScale(Vector3.one, 0.3f).SetEase(Ease.InCirc));
+        sequence.Append(destroyed.transform.DOMoveY(0f, 0.3f).SetEase(Ease.InCirc));
     }
 
     private void ConstructionHealth_OnConstructed()
     {       
         constructed = true;
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(ruins.DOScale(Vector3.zero, 0.3f).SetEase(Ease.OutCirc));
+        sequence.Append(ruins.transform.DOMoveY(ruins.transform.position.y - ruins.Bounds.size.y, 0.3f).SetEase(Ease.OutCirc));
         sequence.AppendCallback(() =>
         {
             ruins.gameObject.SetActive(false);
-            content.localScale = Vector3.zero;
+            content.transform.position = content.transform.position.SetY(content.transform.position.y - content.Bounds.size.y);
             content.gameObject.SetActive(true);
             OnBuild?.Invoke();
         });
-        sequence.Append(content.DOScale(Vector3.one, 0.3f).SetEase(Ease.InCirc));      
+        sequence.Append(content.transform.DOMoveY(0f, 0.3f).SetEase(Ease.InCirc));
     }
 
     public float Construct(float value)
@@ -72,7 +79,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
         if (!constructed && !LockConstruction)
         {
             float dH = constructionHealth.AddHealth(value, true);
-            uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f);
+           // uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f);
             return dH;
         }
         return 0f;
@@ -83,7 +90,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
         if (constructed && !LockConstruction)
         {
             float dH = constructionHealth.AddHealth(value);            
-            uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f);
+            //uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f);
             return dH;
         }
         return 0f;

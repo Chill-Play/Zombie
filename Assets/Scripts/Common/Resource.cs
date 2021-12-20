@@ -14,7 +14,7 @@ public class Resource : MonoBehaviour
         body = GetComponent<Rigidbody>();
     }  
 
-    public void PickUp(Transform picker)
+    public void Pickup(Transform picker)
     {
         StartCoroutine(PickUpCoroutine(picker));
     }

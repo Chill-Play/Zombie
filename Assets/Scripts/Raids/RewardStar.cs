@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class RewardStar : MonoBehaviour
 {
-    public event System.Action OnStarCollected;
+    public event System.Action<RewardStar> OnStarCollected;
 
     [SerializeField] PickupableResource pickupableResource; 
 
@@ -22,7 +22,7 @@ public class RewardStar : MonoBehaviour
 
     private void PickupableResource_OnPickup()
     {
-        OnStarCollected?.Invoke();
+        OnStarCollected?.Invoke(this);
         rotationTween.Kill(false);
     }
 
@@ -36,8 +36,11 @@ public class RewardStar : MonoBehaviour
             rotationTween = transform.DOLocalRotate(new Vector3(0f, 360f, 0f), 3f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1);
             transform.position = transform.position.SetY(0f);
             pickupableResource.enabled = true;
-        }
-        
+        }        
     }
 
+    public void PickupStar(Transform picker)
+    {
+        pickupableResource.Pickup(picker);
+    }
 }
