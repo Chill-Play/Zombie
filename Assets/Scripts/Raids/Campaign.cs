@@ -5,11 +5,6 @@ using UnityEngine;
 public class Campaign : MonoBehaviour
 {
     [SerializeField] List<Unit> units = new List<Unit>();
-    [SerializeField] Sprite constructionIcon;
-    [SerializeField] Sprite repairIcon;
-
-    public Sprite ConstructionIcon => constructionIcon;
-    public Sprite RepairIcon => repairIcon;
 
     void Start()
     {

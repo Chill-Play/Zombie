@@ -14,7 +14,7 @@ public class UnitConstructing : UnitInstrument, IComboCounter
     protected override void Awake()
     {
         base.Awake();
-        icon = FindObjectOfType<Campaign>().ConstructionIcon;
+        icon = FindObjectOfType<ConstructionManager>().ConstructionIcon;
     }
 
     protected override bool Use()
