@@ -40,7 +40,6 @@ public class Civilian : MonoBehaviour
             StartCoroutine(GoToPoint(points[idx], () =>
             {
                 float eularDif = Mathf.DeltaAngle(transform.eulerAngles.y, points[idx].eulerAngles.y);
-                Debug.Log(eularDif);
                 transform.DORotate(new Vector3(0f, eularDif, 0f), Mathf.Abs(eularDif) / rotationSpeed, RotateMode.LocalAxisAdd).OnComplete(() => GoIdle());
             }));
         }

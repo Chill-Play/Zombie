@@ -13,7 +13,6 @@ public class MeshBounds : MonoBehaviour
         if (meshRenderers.Length > 0)
         {
             var bounds = meshRenderers[0].bounds;
-            Debug.Log(meshRenderers[0].bounds);
             foreach (var meshRenderer in meshRenderers)
             {
                 bounds.Encapsulate(meshRenderer.bounds);

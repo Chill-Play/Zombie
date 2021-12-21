@@ -13,26 +13,22 @@ public class Helicopter : MonoBehaviour
     [SerializeField] float upSpeed = 2f;
     [SerializeField] float awaySpeed = 3f;
     [SerializeField] float rotateSpeed = 80f;
-    [SerializeField] float bladesRotateSpeed = 800f;
-    [SerializeField] Transform blades;
-
-    Vector3 beginPoint;
-
-    
+    [SerializeField] float waitTime = 1.5f;
+    Vector3 beginPoint;    
 
     public void FlyAway()
-    {
-        blades.DOLocalRotate(new Vector3(0f, 360f, 0f), 360f/ bladesRotateSpeed, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1);
+    {       
         beginPoint = transform.position;
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(transform.DOMoveY(yValue, yValue/upSpeed));
+        sequence.AppendInterval(waitTime);
+        sequence.Append(transform.DOMoveY(yValue, yValue/upSpeed).SetEase(Ease.InCubic));
         Vector3 dir = endPoint.position.SetY(0) - transform.position.SetY(0);
         float dist = dir.magnitude;
         dir.Normalize();
         Quaternion rot = Quaternion.LookRotation(dir, transform.eulerAngles);        
         float eularDif = Mathf.DeltaAngle(transform.eulerAngles.y, rot.eulerAngles.y);        
         sequence.Append(transform.DORotate(new Vector3(0f, eularDif, 0f), Mathf.Abs(eularDif) / rotateSpeed, RotateMode.LocalAxisAdd).SetEase(Ease.Linear));
-        sequence.Append(transform.DOMove(endPoint.position.SetY(yValue), dist/awaySpeed));
+        sequence.Append(transform.DOMove(endPoint.position.SetY(yValue), dist/awaySpeed).SetEase(Ease.Linear));
         sequence.AppendCallback(() => gameObject.SetActive(false));
     }
 
