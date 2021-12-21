@@ -5,7 +5,7 @@ using DG.Tweening;
 
 [RequireComponent(typeof(CivilianAnimation), typeof(UnitMovement))]
 public class Civilian : MonoBehaviour
-{   
+{
     [SerializeField] Vector2 idleTime = new Vector2(3f, 5f);
     [SerializeField] List<Transform> points = new List<Transform>();
 
@@ -15,7 +15,7 @@ public class Civilian : MonoBehaviour
     int idx = 0;
 
     public void GoIdle()
-    {   
+    {
         float idleTimer = Random.Range(idleTime.x, idleTime.y);
         StartCoroutine(Idle(idleTimer));
     }
@@ -39,14 +39,15 @@ public class Civilian : MonoBehaviour
             civilianAnimation.GoWalk();
             StartCoroutine(GoToPoint(points[idx], () =>
             {
-                float eularDif = Mathf.DeltaAngle(points[idx].eulerAngles.y, transform.eulerAngles.y);
-                transform.DORotate(new Vector3(0f, eularDif, 0f), eularDif/rotationSpeed).OnComplete(() => GoIdle());
+                float eularDif = Mathf.DeltaAngle(transform.eulerAngles.y, points[idx].eulerAngles.y);
+                Debug.Log(eularDif);
+                transform.DORotate(new Vector3(0f, eularDif, 0f), Mathf.Abs(eularDif) / rotationSpeed, RotateMode.LocalAxisAdd).OnComplete(() => GoIdle());
             }));
         }
     }
 
     IEnumerator GoToPoint(Transform point, System.Action callback = null)
-    {        
+    {
         unitMovement.MoveTo(point.position);
         while (Vector3.Distance(transform.position, point.position) > 0.2f)
         {
@@ -63,10 +64,10 @@ public class Civilian : MonoBehaviour
     }
 
     public void GoDance(Transform point)
-    {        
+    {
         civilianAnimation.GoRun();
-        float eularDif = Mathf.DeltaAngle(point.eulerAngles.y, transform.eulerAngles.y);    
-        StartCoroutine(GoToPoint(point, () => transform.DORotate(new Vector3(0f, eularDif, 0f), eularDif / rotationSpeed).OnComplete(() => civilianAnimation.GoDance())));
+        float eularDif = Mathf.DeltaAngle(transform.eulerAngles.y, point.eulerAngles.y);
+        StartCoroutine(GoToPoint(point, () => transform.DORotate(new Vector3(0f, eularDif, 0f), Mathf.Abs(eularDif) / rotationSpeed).OnComplete(() => civilianAnimation.GoDance())));
     }
 
 }
