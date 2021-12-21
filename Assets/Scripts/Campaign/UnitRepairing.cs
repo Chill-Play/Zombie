@@ -13,7 +13,7 @@ public class UnitRepairing : UnitInstrument, IComboCounter
 
     protected override void Awake()
     {
-        base.Awake();
+        base.Awake();      
         icon = FindObjectOfType<ConstructionManager>().ConstructionIcon;
     }
 
