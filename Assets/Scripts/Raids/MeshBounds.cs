@@ -23,4 +23,9 @@ public class MeshBounds : MonoBehaviour
        
        
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(Bounds.center, Bounds.size);
+    }
 }
