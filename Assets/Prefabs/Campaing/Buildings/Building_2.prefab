@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 7717897791614006304}
   - component: {fileID: 6972406036943457103}
   - component: {fileID: 2715842755919735707}
+  - component: {fileID: 1631522078239985966}
   m_Layer: 17
   m_Name: Content
   m_TagString: Untagged
@@ -179,6 +180,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 50
+--- !u!114 &1631522078239985966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904311937832735344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1245965391081630182
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,6 +768,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1972417205813515802}
+  - component: {fileID: 3038600738123123151}
   m_Layer: 0
   m_Name: Ruins
   m_TagString: Untagged
@@ -776,6 +790,18 @@ Transform:
   m_Father: {fileID: 6410593723060819506}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3038600738123123151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3367744331080937774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3522790545036553480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2367,6 +2393,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5561780691740677810}
+  - component: {fileID: 1391755131688478997}
   m_Layer: 0
   m_Name: Destroyed
   m_TagString: Untagged
@@ -2389,6 +2416,18 @@ Transform:
   m_Father: {fileID: 6410593723060819506}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1391755131688478997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7670476374500951941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7679221739351232351
 GameObject:
   m_ObjectHideFlags: 0
@@ -2809,9 +2848,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1db4f393c1f8941b35644215d9ef37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ruins: {fileID: 1972417205813515802}
-  content: {fileID: 7717897791614006304}
-  destroyed: {fileID: 5561780691740677810}
+  ruins: {fileID: 3038600738123123151}
+  content: {fileID: 1631522078239985966}
+  destroyed: {fileID: 1391755131688478997}
   constructed: 1
 --- !u!114 &2595554896564097338
 MonoBehaviour:

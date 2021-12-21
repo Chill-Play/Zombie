@@ -219,6 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6913624835371240490}
   - component: {fileID: 1171255875428505794}
+  - component: {fileID: 2007870025828965616}
   m_Layer: 0
   m_Name: Destroyed
   m_TagString: Untagged
@@ -242,6 +243,18 @@ Transform:
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1171255875428505794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389578587527188910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2007870025828965616
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -893,6 +906,7 @@ GameObject:
   - component: {fileID: 6433252662352584169}
   - component: {fileID: 6589396062833020197}
   - component: {fileID: 1710200025}
+  - component: {fileID: 4243293349326439172}
   m_Layer: 17
   m_Name: Content
   m_TagString: Untagged
@@ -962,6 +976,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4243293349326439172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6293031618635018422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6922693073701296341
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,6 +1044,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4618160373803696296}
+  - component: {fileID: 6869794878849117062}
   m_Layer: 16
   m_Name: Ruins
   m_TagString: Untagged
@@ -1039,6 +1066,18 @@ Transform:
   m_Father: {fileID: 7544654199064949494}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6869794878849117062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7048100389820527919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7120162819504482924
 GameObject:
   m_ObjectHideFlags: 0
@@ -4884,7 +4923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1db4f393c1f8941b35644215d9ef37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ruins: {fileID: 0}
+  ruins: {fileID: 6869794878849117062}
   content: {fileID: 1710200025}
   destroyed: {fileID: 1171255875428505794}
   constructed: 1

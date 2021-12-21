@@ -39,6 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 318208797003726203}
+  - component: {fileID: 5860431673744274148}
   m_Layer: 0
   m_Name: Ruins
   m_TagString: Untagged
@@ -64,6 +65,18 @@ Transform:
   m_Father: {fileID: 318208797583700609}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5860431673744274148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318208797003726200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &318208797583700637
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,9 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1db4f393c1f8941b35644215d9ef37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ruins: {fileID: 318208797003726203}
-  content: {fileID: 318208798377953074}
-  destroyed: {fileID: 3885541922425348583}
+  ruins: {fileID: 5860431673744274148}
+  content: {fileID: 3144974906879102298}
+  destroyed: {fileID: 3085495478647593190}
   constructed: 0
 --- !u!114 &318208797583700639
 MonoBehaviour:
@@ -230,6 +243,7 @@ GameObject:
   - component: {fileID: 1880760130554484280}
   - component: {fileID: 318208798377953073}
   - component: {fileID: 1253966223394518801}
+  - component: {fileID: 3144974906879102298}
   m_Layer: 17
   m_Name: Content
   m_TagString: Untagged
@@ -301,6 +315,18 @@ MonoBehaviour:
   - {fileID: 5230612327101708538}
   - {fileID: 5463948804802576134}
   spawnRate: 0.5
+--- !u!114 &3144974906879102298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318208798377953075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &425142761364736168
 GameObject:
   m_ObjectHideFlags: 0
@@ -3480,6 +3506,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3885541922425348583}
+  - component: {fileID: 3085495478647593190}
   m_Layer: 0
   m_Name: Destroyed
   m_TagString: Untagged
@@ -3504,6 +3531,18 @@ Transform:
   m_Father: {fileID: 318208797583700609}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3085495478647593190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3885541922425348580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3885541922452312722
 GameObject:
   m_ObjectHideFlags: 0
