@@ -24,7 +24,7 @@ public static class BallisticHelper
         Vector3 distanceXZ = distance.SetY(0f);
 
         float sY = distance.y;
-        float sXZ = distance.magnitude;
+        float sXZ = distanceXZ.magnitude;
         float time = sXZ / initialVelocity;
         float yVelocity = sY / time + 0.5f * Mathf.Abs(Physics.gravity.y) * time;
         Vector3 result = distanceXZ.normalized;
@@ -32,6 +32,13 @@ public static class BallisticHelper
         result.y = yVelocity;
 
         return result;
+    }
+
+    public static float CalculateTime(Vector3 begin, Vector3 end, float initialVelocity)
+    {
+        Vector3 distance = end - begin;
+        Vector3 distanceXZ = distance.SetY(0f);
+        return distanceXZ.magnitude / initialVelocity;
     }
 
     public static Vector3 CalculateVelocityWithFixedY(Vector3 begin, Vector3 end, float initialVelocity, float y)

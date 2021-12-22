@@ -6,9 +6,9 @@ public class LinearWeapon : Weapon
 {
     [SerializeField] bool aimingAtY = false;
 
-    protected override void ShootBullet(Transform target, Quaternion spreadRot)
+    protected override void ShootBullet(Transform target)
     {
-        base.ShootBullet(target, spreadRot);
+        base.ShootBullet(target);
 
         Vector3 targetDirection = target.position - shootPoint.position;
        
@@ -30,6 +30,7 @@ public class LinearWeapon : Weapon
         {
             weaponDirection = Quaternion.LookRotation(shootPointForward);
         }
+
         Bullet bullet = Instantiate(bulletPrefab, shootPoint.position, spreadRot * weaponDirection);
         bullet.Damage = Damage;
         Vector3 checkPos = shootPoint.position;

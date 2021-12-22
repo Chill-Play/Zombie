@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class BallisticWeapon : Weapon
 {
-    protected override void ShootBullet(Transform target, Quaternion spreadRot)
+    [SerializeField] TargetMarker targetMarkerPrefab;
+
+    protected override void ShootBullet(Transform target)
     {
-        base.ShootBullet(target, spreadRot);   
+        base.ShootBullet(target);       
+        Debug.Log(shootPoint.position);
         Bullet bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
-        Vector3 bulletVellosity = BallisticHelper.CalculateVelocity(shootPoint.position, target.position, bullet.Speed);       
-        bulletVellosity = spreadRot * bulletVellosity;
+        Vector2 rInCircle = Random.insideUnitCircle;
+        Vector3 spreadPosition = target.position + new Vector3(rInCircle.x * spread, 0f, rInCircle.y * spread);
+        if (targetMarkerPrefab != null)
+        {
+            TargetMarker targetMarker = Instantiate<TargetMarker>(targetMarkerPrefab, spreadPosition, Quaternion.identity);            
+            targetMarker.Scale(BallisticHelper.CalculateTime(shootPoint.position, spreadPosition, bullet.Speed));
+        }
+        Vector3 bulletVellosity = BallisticHelper.CalculateVelocity(shootPoint.position, spreadPosition, bullet.Speed);      
         bullet.SetVelocity(bulletVellosity);
         bullet.Damage = Damage;
         Vector3 checkPos = shootPoint.position;

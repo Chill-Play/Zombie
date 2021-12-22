@@ -20,6 +20,7 @@ public class Weapon : MonoBehaviour
 
     bool firing;
     float nextFire;
+    protected Quaternion spreadRot = Quaternion.identity;
     Transform target;
     IEnumerable<INoiseListener> noiseListeners;
 
@@ -50,8 +51,7 @@ public class Weapon : MonoBehaviour
                 nextFire = Time.time + FireRate;
                 for (int i = 0; i < bulletsPerShot; i++)
                 {
-                    Quaternion spreadRot = Quaternion.identity;
-                    if(uniformSpread)
+                    if (uniformSpread)
                     {
                         spreadRot = Quaternion.Euler(new Vector3(0f, ((float)i / bulletsPerShot) - 0.5f) * 2f * spread);
                     }
@@ -59,7 +59,7 @@ public class Weapon : MonoBehaviour
                     {
                         spreadRot = Quaternion.Euler(new Vector3(0f, Random.Range(-spread, spread)));
                     }
-                    ShootBullet(target, spreadRot);
+                    ShootBullet(target);
                 }
 
                 INoiseListener noiseListener = noiseListeners.FirstOrDefault();
@@ -81,7 +81,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    protected virtual void ShootBullet(Transform target, Quaternion spreadRot)
+    protected virtual void ShootBullet(Transform target)
     {
 
     }
