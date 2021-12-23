@@ -40,6 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 318208797003726203}
   - component: {fileID: 5860431673744274148}
+  - component: {fileID: 322405830866195038}
   m_Layer: 0
   m_Name: Ruins
   m_TagString: Untagged
@@ -77,6 +78,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &322405830866195038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318208797003726200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52f366a035e991449241460c2b9bd40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiHealthBarId: {fileID: -8163262487355493844, guid: 2a79f958af731734797a2795493c0cd6, type: 2}
+  damagable: {fileID: 318208798377953075}
 --- !u!1 &318208797583700637
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,7 +104,6 @@ GameObject:
   - component: {fileID: 318208797583700638}
   - component: {fileID: 318208797583700639}
   - component: {fileID: 1791067580527038344}
-  - component: {fileID: 2363229751577660035}
   - component: {fileID: 8671873290464729129}
   - component: {fileID: 318208797583700636}
   - component: {fileID: 2895399257267407661}
@@ -165,20 +179,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxZombies: 5
---- !u!114 &2363229751577660035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 318208797583700637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f52f366a035e991449241460c2b9bd40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiHealthBarId: {fileID: -8163262487355493844, guid: 2a79f958af731734797a2795493c0cd6, type: 2}
-  damagable: {fileID: 318208798377953075}
 --- !u!114 &8671873290464729129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 318208798377953073}
   - component: {fileID: 1253966223394518801}
   - component: {fileID: 3144974906879102298}
+  - component: {fileID: 1509920982107498795}
   m_Layer: 17
   m_Name: Content
   m_TagString: Untagged
@@ -325,6 +326,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1509920982107498795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318208798377953075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52f366a035e991449241460c2b9bd40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiHealthBarId: {fileID: -5296183150102678510, guid: 2a79f958af731734797a2795493c0cd6, type: 2}
+  damagable: {fileID: 318208798377953075}
 --- !u!1 &1258783802219569666
 GameObject:
   m_ObjectHideFlags: 0

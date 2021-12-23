@@ -20,6 +20,7 @@ public class UnitTargetDetection : MonoBehaviour ///// REWORK
     {
         if (Time.timeSinceLevelLoad > nextCheck)
         {
+            target = null;
             nextCheck = Time.timeSinceLevelLoad + Random.Range(0.3f, 0.5f);
             int collidersFound = 0;
             if (customAttackMaskEnabled)

@@ -12,7 +12,7 @@ public class Resource : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody>();
-    }  
+    }
 
     public void Pickup(Transform picker)
     {
