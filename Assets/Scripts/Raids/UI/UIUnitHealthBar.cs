@@ -104,17 +104,20 @@ public class UIUnitHealthBar : MonoBehaviour
 
 
     private void Unit_OnDamage(DamageTakenInfo damageTakenInfo)
-    {      
-        if (!appeared)
+    {
+        if (unit.enabled)
         {
-            appeared = true;
-            currentHideTimer = hideTimer;
-            Appear();
-        }
-        barFill.fillAmount = damageTakenInfo.currentHealth / damageTakenInfo.maxHealth;
-        if (healthCountText != null)
-        {
-            healthCountText.text = damageTakenInfo.currentHealth.ToString() + "/" + damageTakenInfo.maxHealth.ToString();
+            if (!appeared)
+            {
+                appeared = true;
+                currentHideTimer = hideTimer;
+                Appear();
+            }
+            barFill.fillAmount = damageTakenInfo.currentHealth / damageTakenInfo.maxHealth;
+            if (healthCountText != null)
+            {
+                healthCountText.text = damageTakenInfo.currentHealth.ToString() + "/" + damageTakenInfo.maxHealth.ToString();
+            }
         }
     }
 

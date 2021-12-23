@@ -12,6 +12,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
     [SerializeField] MeshBounds ruins;
     [SerializeField] MeshBounds content;
     [SerializeField] MeshBounds destroyed;
+    [SerializeField] int starsCount = 2;
     [SerializeField] bool constructed = false;
 
     UINumbers uiNumbers;
@@ -71,7 +72,17 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
             content.gameObject.SetActive(true);
             OnBuild?.Invoke();
         });
-        sequence.Append(content.transform.DOMoveY(0f, 0.3f).SetEase(Ease.OutCirc));
+        sequence.Append(content.transform.DOMoveY(0f, 0.3f).SetEase(Ease.OutCirc)).OnComplete(() =>
+        {
+            ConstructionManager constructionManager = FindObjectOfType<ConstructionManager>();
+            Squad squad = FindObjectOfType<Squad>();
+            for (int i = 0; i < starsCount; i++)
+            {
+                PickupableResource star = Instantiate<PickupableResource>(constructionManager.RewardStarPrefab, transform.position + Vector3.up * (content.Bounds.max.y + 1f), transform.rotation);
+                star.Pickup(squad.Units[0].transform);
+            }
+        }
+        );
     }
 
     public float Construct(float value)
