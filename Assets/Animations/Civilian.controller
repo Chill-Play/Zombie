@@ -320,9 +320,6 @@ AnimatorStateMachine:
     m_State: {fileID: 5347072696037200120}
     m_Position: {x: 410, y: 10, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 2985509371888762529}
-    m_Position: {x: 700, y: -80, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 1845448929994643361}
     m_Position: {x: 700, y: 0, z: 0}
   - serializedVersion: 1
@@ -333,7 +330,7 @@ AnimatorStateMachine:
     m_Position: {x: 700, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1719189116902475753}
-    m_Position: {x: 690, y: -170, z: 0}
+    m_Position: {x: 700, y: -90, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -827,31 +824,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Walk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Idle
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Dance
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: DanceId
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1007,7 +1004,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: DanceId
-    m_EventTreshold: 4
+    m_EventTreshold: 3
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8690191645553582691}
   m_Solo: 0
@@ -1546,7 +1543,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: DanceId
-    m_EventTreshold: 3
+    m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4567305554789785616}
   m_Solo: 0
@@ -1675,7 +1672,6 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: -7079636308308414478}
   - {fileID: 5567202949104834718}
   - {fileID: 4691675292364194031}
   - {fileID: 1217209833814595668}
@@ -1705,7 +1701,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: DanceId
-    m_EventTreshold: 2
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1845448929994643361}
   m_Solo: 0
