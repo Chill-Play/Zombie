@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class InteractivePoint : MonoBehaviour
 {    
+    [System.Serializable]
     public struct WorkingPoint
     {
         public Transform transform;

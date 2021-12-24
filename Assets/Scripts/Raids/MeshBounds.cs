@@ -9,7 +9,6 @@ public class MeshBounds : MonoBehaviour
     public void CalculateBounds()
     {
         var meshRenderers = GetComponentsInChildren<MeshRenderer>(true);
-        Debug.Log(meshRenderers.Length);
         if (meshRenderers.Length > 0)
         {
             var bounds = meshRenderers[0].bounds;

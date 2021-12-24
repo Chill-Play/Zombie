@@ -20,12 +20,18 @@ public class UnitRepairing : UnitInstrument, IComboCounter
     protected override bool Use()
     {
         base.Use();
-        Repairable target = useSpots[0].GetComponent<Repairable>();
-        if (target != null && target.CanRepair)
+        for (int i = 0; i < useSpots.Length; i++)
         {
-            target.Repair(repairValue);
-            OnAddingPoints?.Invoke(icon, (int)repairValue);
-            return true;
+            if (useSpots[i] != null)
+            {
+                Repairable target = useSpots[i].GetComponent<Repairable>();
+                if (target != null && target.CanRepair)
+                {
+                    target.Repair(repairValue);
+                    OnAddingPoints?.Invoke(icon, (int)repairValue);
+                    return true;
+                }
+            }
         }
         return false;
     }

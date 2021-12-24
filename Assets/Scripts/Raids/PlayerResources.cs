@@ -19,10 +19,7 @@ public class PlayerResources : MonoBehaviour
     bool interacting;
     UnitAnimation animation;
     SquadBackpack squadBackpack;
-
-
-    InteractivePoint.WorkingPoint target;
-
+   InteractivePoint.WorkingPoint target;  
 
     public bool CanMoveToResources { get; set; } = true;
     public float UseRate { get; set; }
@@ -37,11 +34,9 @@ public class PlayerResources : MonoBehaviour
             axeModel.SetActive(false);
             weaponModel.SetActive(true);
         }
-        if (!inCamp)
-        {
-            enabled = false;
-        }
-        else
+
+        
+        if(inCamp)
         {
             CanMoveToResources = false;
         }
@@ -56,7 +51,7 @@ public class PlayerResources : MonoBehaviour
 
 
     private void OnEnable()
-    {
+    {    
         TryToFindFreePoint();
         interactivePointDetection.OnTargetChanged += InteractivePointDetection_OnTargetChanged;
     }
@@ -68,6 +63,7 @@ public class PlayerResources : MonoBehaviour
             interactivePoint.FreePoint(target);
         }
         target = new InteractivePoint.WorkingPoint(null, -1);
+        TryToFindFreePoint();
     }
 
     void TryToFindFreePoint()
@@ -118,7 +114,7 @@ public class PlayerResources : MonoBehaviour
                 transform.rotation = target.transform.rotation;
             }
             atTarget = true;
-        }      
+        }
 
         int count = Physics.OverlapSphereNonAlloc(transform.position, useSpotRadius, resourceSpots, resourceSpotsMask);     
         if (count > 0 && atTarget)
@@ -182,5 +178,6 @@ public class PlayerResources : MonoBehaviour
         interacting = false;
         animation.ResetInteraction();
         unitMovement.StopMoving();
-    }
+    }    
+
 }
