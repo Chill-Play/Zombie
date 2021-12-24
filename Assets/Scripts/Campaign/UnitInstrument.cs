@@ -5,8 +5,7 @@ using UnityEngine;
 public class UnitInstrument : UnitActivity
 {
     [SerializeField] float useRate = 1f;
-    [SerializeField] float noisePerUse = 10f;
-    [SerializeField] bool debug = false;
+    [SerializeField] float noisePerUse = 10f; 
 
     float nextUse;
     NoiseController noiseController;
@@ -22,16 +21,14 @@ public class UnitInstrument : UnitActivity
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (debug)
-        {
-            Debug.Log("count " + count.ToString() + " unitMovement.VelocityActive " + unitMovement.VelocityActive.ToString());
-        }
+
         if (count > 0 && (unitMovement == null || !unitMovement.InputActive))
         {
             if (nextUse < Time.time)
-            {
+            {       
                 if (Use())
                 {
+                    
                     noiseController.AddNoiseLevel(noisePerUse);
                     nextUse = Time.time + useRate;
                 }

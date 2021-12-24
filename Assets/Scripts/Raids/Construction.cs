@@ -17,6 +17,10 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
 
     UINumbers uiNumbers;
     ConstructionHealth constructionHealth;
+    InteractivePoint interactivePoint;
+    Constructive constructive;
+    Repairable repairable;
+
 
     public bool Constructed => constructed;
 
@@ -42,6 +46,17 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
         }    
         constructionHealth.OnConstructed += ConstructionHealth_OnConstructed;
         constructionHealth.OnDead += ConstructionHealth_OnDead;
+
+        interactivePoint = GetComponent<InteractivePoint>();
+        constructive = GetComponent<Constructive>();
+        repairable = GetComponent<Repairable>();
+        constructionHealth.OnDamage += ConstructionHealth_OnDamage;
+    }
+
+    private void ConstructionHealth_OnDamage(DamageTakenInfo obj)
+    {
+        bool canInteract = (constructive != null && constructive.CanConstruct) || (repairable != null && repairable.CanRepair);
+        interactivePoint.enabled = canInteract;
     }
 
     private void ConstructionHealth_OnDead(EventMessage<Empty> obj)
@@ -89,7 +104,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
     {
         if (!constructed && !LockConstruction)
         {
-            float dH = constructionHealth.AddHealth(value, true);
+            float dH = constructionHealth.AddHealth(value, true);          
            // uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f);
             return dH;
         }

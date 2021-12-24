@@ -22,16 +22,26 @@ public class InteractivePointDetection : MonoBehaviour
 
         float minDist = float.MaxValue;
 
-        if (count > 0)
+        if (target != null && !target.enabled)
         {
+            target = null;
+            if (lastTarget != target)
+            {
+                OnTargetChanged?.Invoke(lastTarget, target);
+                lastTarget = target;
+            }
+        }
+
+        if (count > 0)
+        {            
             //if (target == null)
             //{
             for (int i = 0; i < interactivePoints.Length; i++)
             {
                 if (interactivePoints[i] != null)
-                {
+                {                    
                     InteractivePoint possibleTarget = interactivePoints[i].GetComponent<InteractivePoint>();
-                    if (possibleTarget != null && possibleTarget.HasFreePoint())
+                    if (possibleTarget != null && possibleTarget.enabled && possibleTarget.HasFreePoint())
                     {
                         float dist = Vector3.Distance(interactivePoints[i].transform.position, transform.position);
                         if (minDist > dist)

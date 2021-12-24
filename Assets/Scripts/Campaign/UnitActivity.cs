@@ -7,7 +7,7 @@ public class UnitActivity : MonoBehaviour
     [SerializeField] float useRadius = 2f;
     [SerializeField] LayerMask useMask;
 
-    protected Collider[] useSpots = new Collider[1];
+    protected Collider[] useSpots = new Collider[3];
     protected int count = 0;
 
 

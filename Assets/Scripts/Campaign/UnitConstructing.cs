@@ -19,13 +19,19 @@ public class UnitConstructing : UnitInstrument, IComboCounter
 
     protected override bool Use()
     {
-        base.Use();    
-        Constructive target = useSpots[0].GetComponent<Constructive>();
-        if (target != null && target.CanConstruct)
+        base.Use();   
+        for (int i = 0; i < useSpots.Length; i++)
         {
-            target.Construct(constructValue);
-            OnAddingPoints?.Invoke(icon, (int)constructValue);
-            return true;
+            if (useSpots[i] != null)
+            {
+                Constructive target = useSpots[i].GetComponent<Constructive>();
+                if (target != null && target.CanConstruct)
+                {
+                    target.Construct(constructValue);
+                    OnAddingPoints?.Invoke(icon, (int)constructValue);
+                    return true;
+                }
+            }
         }
         return false;
     }
