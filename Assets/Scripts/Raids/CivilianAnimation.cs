@@ -11,6 +11,7 @@ public class CivilianAnimation : MonoBehaviour
     const string DANCEID_ANIMATION_KEY = "DanceId";
 
     [SerializeField] Animator animator;
+    [SerializeField] int danceAnimationCount = 1;
 
     public void GoIdle()
     {
@@ -38,7 +39,7 @@ public class CivilianAnimation : MonoBehaviour
 
     public void GoDance()
     {
-        animator.SetInteger(DANCEID_ANIMATION_KEY, Random.Range(0, 5));
+        animator.SetInteger(DANCEID_ANIMATION_KEY, Random.Range(0, danceAnimationCount));
         //animator.SetBool(WALK_ANIMATION_KEY, false);
         //animator.SetBool(RUN_ANIMATION_KEY, false);
         animator.SetBool(DANCE_ANIMATION_KEY, true);
