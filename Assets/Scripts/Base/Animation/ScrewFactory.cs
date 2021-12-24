@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrewFactory : MonoBehaviour
+public class ScrewFactory : ResourceFactory
 {
-    [SerializeField] List<GameObject> screwBoxLod = new List<GameObject>();
-    [SerializeField] float workTime = 20f;
+    [SerializeField] List<GameObject> screwBoxLod = new List<GameObject>(); 
     [SerializeField] Animator transporter1;
     [SerializeField] Animator transporter2;
     [SerializeField] Animator button;
@@ -16,15 +15,15 @@ public class ScrewFactory : MonoBehaviour
     int currentScrewLod = -1;
     List<GameObject> screws = new List<GameObject>();
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         StartWork();
     }
 
     public void StartWork()
     {
-        StartCoroutine(CreateScrews());
-        //StartCoroutine(SwitchLod());
+        StartCoroutine(CreateScrews());        
     }
 
     public void StopWork()
@@ -64,33 +63,21 @@ public class ScrewFactory : MonoBehaviour
         }
     }
 
-    public void StartSwichLod()
+    protected override void AddResource(int count = 1)
     {
-        if(currentScrewLod == -1)
-        {
-            StartCoroutine(SwitchLod());
-        }
+        base.AddResource(count);
+        UpdateSwichLod();
     }
 
-    IEnumerator SwitchLod()
+    public void UpdateSwichLod()
     {
-        while(currentScrewLod < screwBoxLod.Count - 1)
+        int screwLod = Mathf.FloorToInt((float)currentResourcesCount / (float)resourcesLimit * (float)(screwBoxLod.Count - 1));       
+        if (currentScrewLod != -1)
         {
-            if(currentScrewLod == -1)
-            {
-                currentScrewLod = 0;
-                screwBoxLod[currentScrewLod].SetActive(true);
-            }
-            else
-            {
-                screwBoxLod[currentScrewLod].SetActive(false);
-                currentScrewLod++;
-                screwBoxLod[currentScrewLod].SetActive(true);
-            }
-            yield return new WaitForSeconds(workTime / screwBoxLod.Count);
+            screwBoxLod[currentScrewLod].SetActive(false);
         }
-
-        StopWork();
+        screwBoxLod[screwLod].SetActive(true);
+        currentScrewLod = screwLod;
     }
 
     IEnumerator StopWorkAnimation()

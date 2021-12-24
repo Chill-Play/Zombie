@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Screw : MonoBehaviour
+public class UnloadingArea : MonoBehaviour
 {
-    ScrewFactory factory;
     // Start is called before the first frame update
     void Start()
     {
-        factory = FindObjectOfType<ScrewFactory>();
+        
     }
 
-    void SwitchFactoryLod()
+    // Update is called once per frame
+    void Update()
     {
-        //factory.StartSwichLod();
+        
     }
 }

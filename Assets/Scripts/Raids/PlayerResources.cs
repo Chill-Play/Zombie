@@ -167,9 +167,9 @@ public class PlayerResources : MonoBehaviour
             if (interactivePointDetection.Target != null)
             {
                 interactivePointDetection.Target.FreePoint(target);
-            }
-            target = new InteractivePoint.WorkingPoint(null, -1);           
+            }                    
         }
+        target = new InteractivePoint.WorkingPoint(null, -1);
         if (axeModel.activeSelf)
         {
             axeModel.SetActive(false);

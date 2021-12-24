@@ -64,7 +64,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
         constructed = false;
         LockConstruction = true;
         Sequence sequence = DOTween.Sequence();    
-        sequence.Append(content.transform.DOMoveY(content.transform.position.y - content.Bounds.size.y, 0.3f).SetEase(Ease.InCirc));
+        sequence.Append(content.transform.DOLocalMoveY(content.transform.position.y - content.Bounds.size.y, 0.3f).SetEase(Ease.InCirc));
         sequence.AppendCallback(() =>
         {
             content.gameObject.SetActive(false);
@@ -72,14 +72,14 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
             destroyed.gameObject.SetActive(true);
             OnBreak?.Invoke();
         });
-        sequence.Append(destroyed.transform.DOMoveY(0f, 0.3f).SetEase(Ease.OutCirc));
+        sequence.Append(destroyed.transform.DOLocalMoveY(0f, 0.3f).SetEase(Ease.OutCirc));
     }
 
     private void ConstructionHealth_OnConstructed()
     {       
         constructed = true;
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(ruins.transform.DOMoveY(ruins.transform.position.y - ruins.Bounds.size.y, 0.3f).SetEase(Ease.InCirc));
+        sequence.Append(ruins.transform.DOLocalMoveY(ruins.transform.position.y - ruins.Bounds.size.y, 0.3f).SetEase(Ease.InCirc));
         sequence.AppendCallback(() =>
         {
             ruins.gameObject.SetActive(false);
@@ -87,7 +87,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
             content.gameObject.SetActive(true);
             OnBuild?.Invoke();
         });
-        sequence.Append(content.transform.DOMoveY(0f, 0.3f).SetEase(Ease.OutCirc)).OnComplete(() =>
+        sequence.Append(content.transform.DOLocalMoveY(0f, 0.3f).SetEase(Ease.OutCirc)).OnComplete(() =>
         {
             ConstructionManager constructionManager = FindObjectOfType<ConstructionManager>();
             Squad squad = FindObjectOfType<Squad>();
