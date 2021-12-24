@@ -225,7 +225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6913624835371240490
 Transform:
   m_ObjectHideFlags: 0
@@ -900,13 +900,14 @@ GameObject:
   - component: {fileID: 6589396062833020197}
   - component: {fileID: 1710200025}
   - component: {fileID: 8563074305547058836}
+  - component: {fileID: 7460192753772322089}
   m_Layer: 17
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8951259761435444538
 Transform:
   m_ObjectHideFlags: 0
@@ -982,6 +983,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.7746053, y: 3.9954448, z: 2.9387393}
   m_Center: {x: -0.055989746, y: 1.4977293, z: 0.854703}
+--- !u!114 &7460192753772322089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6293031618635018422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52f366a035e991449241460c2b9bd40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiHealthBarId: {fileID: -5296183150102678510, guid: 2a79f958af731734797a2795493c0cd6, type: 2}
+  damagable: {fileID: 6293031618635018422}
 --- !u!1 &6922693073701296341
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,6 +1054,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4618160373803696296}
   - component: {fileID: 6869794878849117062}
+  - component: {fileID: 7519317976066956974}
   m_Layer: 16
   m_Name: Ruins
   m_TagString: Untagged
@@ -1072,6 +1088,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7519317976066956974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7048100389820527919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52f366a035e991449241460c2b9bd40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiHealthBarId: {fileID: -8163262487355493844, guid: 2a79f958af731734797a2795493c0cd6, type: 2}
+  damagable: {fileID: 6293031618635018422}
 --- !u!1 &7120162819504482924
 GameObject:
   m_ObjectHideFlags: 0
@@ -4880,7 +4910,6 @@ GameObject:
   - component: {fileID: 7544654199064949494}
   - component: {fileID: 1050987776918044518}
   - component: {fileID: 100464652540859543}
-  - component: {fileID: 154223226182480308}
   - component: {fileID: 8712156343700873573}
   - component: {fileID: 7800589806581176790}
   m_Layer: 16
@@ -4935,6 +4964,7 @@ MonoBehaviour:
   ruins: {fileID: 6869794878849117062}
   content: {fileID: 1710200025}
   destroyed: {fileID: 1171255875428505794}
+  starsCount: 2
   constructed: 1
 --- !u!114 &100464652540859543
 MonoBehaviour:
@@ -4949,20 +4979,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxZombies: 5
---- !u!114 &154223226182480308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7544654199064949495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f52f366a035e991449241460c2b9bd40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiHealthBarId: {fileID: -8163262487355493844, guid: 2a79f958af731734797a2795493c0cd6, type: 2}
-  damagable: {fileID: 6293031618635018422}
 --- !u!114 &8712156343700873573
 MonoBehaviour:
   m_ObjectHideFlags: 0

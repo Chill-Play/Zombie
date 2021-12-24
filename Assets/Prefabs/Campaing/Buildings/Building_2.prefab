@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 2715842755919735707}
   - component: {fileID: 1631522078239985966}
   - component: {fileID: 1735633222341869702}
+  - component: {fileID: 7877166346153429774}
   m_Layer: 17
   m_Name: Content
   m_TagString: Untagged
@@ -206,6 +207,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.8674338, y: 4.370734, z: 2.4863617}
   m_Center: {x: 0.22575605, y: 1.6854007, z: 0.45591286}
+--- !u!114 &7877166346153429774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904311937832735344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52f366a035e991449241460c2b9bd40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiHealthBarId: {fileID: -5296183150102678510, guid: 2a79f958af731734797a2795493c0cd6, type: 2}
+  damagable: {fileID: 904311937832735344}
 --- !u!1 &1245965391081630182
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +798,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1972417205813515802}
   - component: {fileID: 3038600738123123151}
+  - component: {fileID: 5494453503336662221}
   m_Layer: 0
   m_Name: Ruins
   m_TagString: Untagged
@@ -816,6 +832,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4aa697327fab64284524f5a8b1441d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5494453503336662221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3367744331080937774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52f366a035e991449241460c2b9bd40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiHealthBarId: {fileID: -8163262487355493844, guid: 2a79f958af731734797a2795493c0cd6, type: 2}
+  damagable: {fileID: 904311937832735344}
 --- !u!1 &3522790545036553480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2759,7 +2789,6 @@ GameObject:
   - component: {fileID: 6410593723060819506}
   - component: {fileID: 8317908025147096828}
   - component: {fileID: 2595554896564097338}
-  - component: {fileID: 1272873898400012200}
   - component: {fileID: 8751676140567695952}
   - component: {fileID: 1974480546009908683}
   - component: {fileID: 5264857492525703905}
@@ -2814,6 +2843,7 @@ MonoBehaviour:
   ruins: {fileID: 3038600738123123151}
   content: {fileID: 1631522078239985966}
   destroyed: {fileID: 1391755131688478997}
+  starsCount: 2
   constructed: 1
 --- !u!114 &2595554896564097338
 MonoBehaviour:
@@ -2828,20 +2858,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxZombies: 5
---- !u!114 &1272873898400012200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8788270984632349441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f52f366a035e991449241460c2b9bd40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiHealthBarId: {fileID: -8163262487355493844, guid: 2a79f958af731734797a2795493c0cd6, type: 2}
-  damagable: {fileID: 904311937832735344}
 --- !u!114 &8751676140567695952
 MonoBehaviour:
   m_ObjectHideFlags: 0
