@@ -3963,7 +3963,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14754c1a3610f764fa863eb1b0bbfb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelCollection: {fileID: 11400000, guid: 79df5ab074a3b5b40802f411b402c396, type: 2}
+  raidLevelCollection: {fileID: 11400000, guid: e02979f0f0a311d46af535c413e5269b, type: 2}
+  campaignLevelCollection: {fileID: 11400000, guid: 79df5ab074a3b5b40802f411b402c396, type: 2}
   baseLevel:
     sceneAsset: {fileID: 102900000, guid: 5f422292fd257d14cbcb3c8992fb2d2d, type: 3}
     scenePath: Assets/Scenes/Base Visuals.unity
@@ -7140,6 +7141,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2042971003067219901, guid: b51e6bc0e6f6b7049b341c82dba06e45, type: 3}
+      propertyPath: resourceTypes.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042971003067219901, guid: b51e6bc0e6f6b7049b341c82dba06e45, type: 3}
+      propertyPath: resourceTypes.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: a70fcb5467b4bb641aa25f2064873628, type: 2}
     - target: {fileID: 2042971003067219903, guid: b51e6bc0e6f6b7049b341c82dba06e45, type: 3}
       propertyPath: m_Name
       value: ResourcesController

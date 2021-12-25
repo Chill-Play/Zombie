@@ -23,6 +23,7 @@ public class Raid : MonoBehaviour
     Coroutine spawnWavesCoroutine;
     Helicopter helicopter;
     StarsChest starsChest;
+    bool campaign = false; // temp
 
 
     public float ComingTimerValue => timer != null ? timer.RemainingTime / timer.TimerTime : 0f;
@@ -36,19 +37,28 @@ public class Raid : MonoBehaviour
         reviveController = FindObjectOfType<ReviveController>();
         reviveController.OnRevive += ReviveController_OnRevive;
         starsChest = FindObjectOfType<StarsChest>(true);
+        campaign = FindObjectOfType<Campaign>() != null;
     }
 
     private void Start()
     {
         helicopter = FindObjectOfType<Helicopter>();
-        helicopter.FlyAway();
+        if (helicopter != null)
+        {           
+            helicopter.FlyAway();
+        }
     }
 
     private void Instance_OnLevelStarted()
-    {       
-        zombieLevel = ZombiesLevelController.Instance.LevelsPlayed;
-        ZombiesLevelController.Instance.RaidStarted();        
-
+    {
+        if (campaign) 
+        {
+            ZombiesLevelController.Instance.CampaignStarted();
+        }
+        else
+        {
+            ZombiesLevelController.Instance.RaidStarted();
+        }
         noiseController = FindObjectOfType<NoiseController>();
         noiseController.OnNoiseLevelExceeded += NoiseController_OnNoiseLevelExceeded;
         
@@ -85,10 +95,19 @@ public class Raid : MonoBehaviour
 
     private void MainHorde_OnHordeDefeated()
     {
-        OnHordeDefeated?.Invoke();        
-        starsChest.gameObject.SetActive(true);        
-        helicopter.OnArrived += Helicopter_OnArrived;
-        helicopter.FlyBack();
+        OnHordeDefeated?.Invoke();  
+        if (helicopter != null)
+        {
+            starsChest.gameObject.SetActive(true);
+            helicopter.OnArrived += Helicopter_OnArrived;
+            helicopter.FlyBack();
+        }
+        else
+        {
+            SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
+            spawnPoint.IsReturningToBase = true;
+            spawnWavesCoroutine = StartCoroutine(SpawningFinalWaves());
+        }
     }
 
 

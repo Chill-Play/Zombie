@@ -17,6 +17,10 @@ public class BaseIndicatorUI : MonoBehaviour
     private void OnEnable()
     {
         spawnPoint = FindObjectOfType<SpawnPoint>();
+        if (FindObjectOfType<Squad>() == null)
+        {
+            Debug.Log("WTF");
+        }
         squad = FindObjectOfType<Squad>().gameObject;
         canvas = GetComponentInParent<Canvas>();
         canvasRect = canvas.GetComponent<RectTransform>();

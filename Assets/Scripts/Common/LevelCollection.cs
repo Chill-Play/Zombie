@@ -6,10 +6,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game/Level Collection")]
 public class LevelCollection : ScriptableObject, ILevelCollection
 {
+    [SerializeField] string id;
     [SerializeField] List<LevelPack> packs;
 
     public int PacksCount => packs.Count;
 
+    public string Id => id;
 
     public ILevelPack GetPack(int i)
     {

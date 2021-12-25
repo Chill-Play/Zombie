@@ -24,11 +24,15 @@ public class RaidFinishScreen : UIScreen
 
     Squad squad;
     bool tutorialMode = false;
+    bool isCampaign = false; // temp
+    Campaign campaign;
 
     //const string SURVIVORS_COUNT_PREFS = "M_Survivors_Count";
 
     private void Awake()
     {
+        campaign = FindObjectOfType<Campaign>();
+        isCampaign = campaign != null;
         squad = FindObjectOfType<Squad>();
     }
 
@@ -42,7 +46,14 @@ public class RaidFinishScreen : UIScreen
     {
         bool doubleOpportunity = false;// ZombiesLevelController.Instance.LevelsPlayed >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && ZombiesLevelController.Instance.LevelsPlayed % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
 
-        survivorsLabel.text = "+" + (squad.Units.Count - 1);
+        if (isCampaign)
+        {
+            survivorsLabel.text = "+" + (squad.Units.Count - campaign.SpecialistCount - 1);
+        }
+        else
+        {
+            survivorsLabel.text = "+" + (squad.Units.Count - 1);
+        }
 
 
         background.color = new Color(background.color.r, background.color.g, background.color.b, 0f);
@@ -122,15 +133,23 @@ public class RaidFinishScreen : UIScreen
     {
         if (!tutorialMode)
         {
-            ZombiesLevelController.Instance.RaidFinished();
+            if (isCampaign)
+            {
+                ZombiesLevelController.Instance.CampaignFinished();
+            }
+            else
+            {
+                ZombiesLevelController.Instance.RaidFinished();
+            }
         }
         ZombiesLevelController.Instance.ToBase();
     }
 
     public void NoThanksClicked()
     {
+        CollectResources();
         ToBase();
-        /*CollectResources();
+        /*
         if (ZombiesLevelController.Instance.LevelsPlayed > 1)
         {
             AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
@@ -140,6 +159,15 @@ public class RaidFinishScreen : UIScreen
 
     void SaveSquad()
     {
-        PlayerPrefs.SetInt("M_Survivors_Count", squad.Units.Count - 1);        
+        int count;
+        if (isCampaign)
+        {
+            count = squad.Units.Count - campaign.SpecialistCount - 1;
+        }
+        else
+        {
+            count = squad.Units.Count - 1;
+        }
+        PlayerPrefs.SetInt("M_Survivors_Count", count);        
     }
 }

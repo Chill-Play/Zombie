@@ -15,6 +15,7 @@ public class Buildable : BaseObject
     [BaseSerialize] bool built;
 
     PlayerBuilding player;
+    ZombiesLevelController zombiesLevelController;
 
     public ResourcesInfo Cost => cost;
     public ResourcesInfo ResourcesSpent => resourcesSpent;
@@ -24,7 +25,8 @@ public class Buildable : BaseObject
 
     public void Awake()
     {
-        if(resourcesSpent.Slots.Count < cost.Slots.Count)
+        zombiesLevelController = FindObjectOfType<ZombiesLevelController>();
+        if (resourcesSpent.Slots.Count < cost.Slots.Count)
         {
             resourcesSpent.ApplyTypes(cost);
         }
@@ -81,7 +83,7 @@ public class Buildable : BaseObject
     {
         built = true;
         enabled = false;
-        if(!afterDeserialization && LevelService.Instance.CurrentSequenceInfo.levelsPlayed > 1)
+        if(!afterDeserialization && zombiesLevelController.RaidIsPlayed > 1)
         {
             AdvertisementManager.Instance.TryShowInterstitial("base_finished_building");
         }

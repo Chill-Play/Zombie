@@ -5,34 +5,46 @@ using UnityEngine.SceneManagement;
 
 public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
 {
-    [SerializeField] LevelCollection levelCollection;
+    [SerializeField] LevelCollection raidLevelCollection;
+    [SerializeField] LevelCollection campaignLevelCollection;
     [SerializeField] SceneReference baseLevel;
 
-    int levelsPlayed;
-    int currentPack;   
-    int levelInPack;
+    LevelService raidLevelService;
+    LevelService campaignLevelService;
 
-    public int LevelsPlayed => levelsPlayed;
+    public int RaidIsPlayed { get; private set; }
 
     private void Awake()
     {
-        LevelService.Instance.Setup(levelCollection);
-        var info = LevelService.Instance.CurrentSequenceInfo;
-        currentPack = info.pack;
-        levelInPack = info.levelInPack;
-        levelsPlayed = info.levelsPlayed;
+        raidLevelService = LevelService.Get(raidLevelCollection);
+        campaignLevelService = LevelService.Get(campaignLevelCollection);        
+        RaidIsPlayed = raidLevelService.CurrentSequenceInfo.levelsPlayed;
     }
 
     public void NextRaid()
     {
-        SceneReference scene = (levelCollection.GetPack(currentPack) as LevelPack).GetLevel(levelInPack);      
+        LevelSequenceInfo info = raidLevelService.CurrentSequenceInfo;
+        SceneReference scene = (raidLevelCollection.GetPack(info.pack) as LevelPack).GetLevel(info.levelInPack);      
+        SceneManager.LoadScene(scene);
+    }
+
+    public void NextState()
+    {
+        LevelSequenceInfo info = campaignLevelService.CurrentSequenceInfo;
+        Debug.Log("info.levelInPack " + info.levelInPack);
+        SceneReference scene = (campaignLevelCollection.GetPack(info.pack) as LevelPack).GetLevel(info.levelInPack);
         SceneManager.LoadScene(scene);
     }
 
 
     public void RaidStarted()
     {
-        LevelService.Instance.LevelStarted();
+        raidLevelService.LevelStarted();
+    }
+
+    public void CampaignStarted()
+    {
+        campaignLevelService.LevelStarted();
     }
 
     public void ToBase()
@@ -42,12 +54,22 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
 
     public void RaidFinished()
     {
-        LevelService.Instance.LevelFinished();
+        raidLevelService.LevelFinished();
+    }
+
+    public void CampaignFinished()
+    {
+        campaignLevelService.LevelFinished();
     }
 
     public void RaidFailed()
     {
-        LevelService.Instance.LevelFailed(0f);
+        raidLevelService.LevelFailed(0f);
+    }
+
+    public void CampaignFailed()
+    {
+        campaignLevelService.LevelFinished();
     }
 
 }

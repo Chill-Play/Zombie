@@ -11,7 +11,8 @@ public class FailedUI : UIScreen
     [SerializeField] Transform middlePanel;
     [SerializeField] Transform toBaseButton;
 
-    bool tutorialMode = false;   
+    bool tutorialMode = false;
+    bool campaign = false; // temp
 
     void OnEnable()
     {
@@ -28,6 +29,7 @@ public class FailedUI : UIScreen
         sequence.Append(toBaseButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
 
         tutorialMode = FindObjectOfType<Tutorial>() != null;
+        campaign = FindObjectOfType<Campaign>() != null;
     }
 
 
@@ -35,7 +37,14 @@ public class FailedUI : UIScreen
     {
         if (!tutorialMode)
         {
-            ZombiesLevelController.Instance.RaidFailed();          
+            if (campaign)
+            {
+                ZombiesLevelController.Instance.CampaignFailed();
+            }
+            else
+            {
+                ZombiesLevelController.Instance.RaidFailed();
+            }
         }
         ZombiesLevelController.Instance.ToBase();
     }

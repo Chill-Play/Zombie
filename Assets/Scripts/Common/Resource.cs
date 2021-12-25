@@ -8,6 +8,7 @@ public class Resource : MonoBehaviour
     [SerializeField] ResourceType type;
 
     Rigidbody body;
+    bool picked = false;
 
     private void Awake()
     {
@@ -32,19 +33,23 @@ public class Resource : MonoBehaviour
             transform.position = Vector3.Lerp(startPos, picker.transform.position, t);
             yield return new WaitForEndOfFrame();
         }
-        PlayerBackpack playerBackpack = picker.GetComponent<PlayerBackpack>();
-        if (playerBackpack != null)
+        if (!picked)
         {
-            playerBackpack.PickUp(type, count);
+            PlayerBackpack playerBackpack = picker.GetComponent<PlayerBackpack>();
+            if (playerBackpack != null)
+            {
+                playerBackpack.PickUp(type, count);
+            }
+            else
+            {
+                ResourcesInfo resourcesInfo = new ResourcesInfo();
+                resourcesInfo.AddSlot(type, count);
+                picker.GetComponent<IResourceStore>().OnPickupResource(type, 0, count);
+                FindObjectOfType<ResourcesController>().AddResources(resourcesInfo);
+                FindObjectOfType<ResourcesController>().UpdateResources();
+            }
+            picked = true;
+            Destroy(gameObject);
         }
-        else
-        {
-            ResourcesInfo resourcesInfo = new ResourcesInfo();
-            resourcesInfo.AddSlot(type, count);
-            picker.GetComponent<IResourceStore>().OnPickupResource(type, 0, count);
-            FindObjectOfType<ResourcesController>().AddResources(resourcesInfo);
-            FindObjectOfType<ResourcesController>().UpdateResources();
-        }
-        Destroy(gameObject);
     }
 }

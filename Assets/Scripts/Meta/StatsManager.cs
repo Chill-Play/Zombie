@@ -16,23 +16,25 @@ public class StatsManager : SingletonMono<StatsManager>
     [SerializeField] List<StatsType> stats = new List<StatsType>();
 
     Dictionary<StatsType, StatInfo> statsInfo = new Dictionary<StatsType, StatInfo>();
+    ZombiesLevelController zombiesLevelController;
 
     private void Awake()
     {
+        zombiesLevelController = FindObjectOfType<ZombiesLevelController>();
         for (int i = 0; i < stats.Count; i++)
         {
             var info = new StatInfo();
             var key = GetStatSaveId(stats[i]);
             info.level = PlayerPrefs.GetInt(key, 0);
             statsInfo.Add(stats[i], info);
-        }
+        }      
     }
 
     public int AddStatLevel(StatsType statsType, bool free, int value = 1)
     {
         if (statsInfo.ContainsKey(statsType))
         {
-            if (LevelService.Instance.CurrentSequenceInfo.levelsPlayed > 1 && !free)
+            if (zombiesLevelController.RaidIsPlayed > 1 && !free)
             {
                 AdvertisementManager.Instance.TryShowInterstitial("shop_bought_stat");
             }
