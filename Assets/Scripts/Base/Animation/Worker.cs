@@ -35,6 +35,11 @@ public class Worker : MonoBehaviour
         carrot.SetActive(false);
     }
 
+    public void Waving(bool value)
+    {       
+        animator.SetBool("Waving", value);        
+    }
+
     public void Carring(bool isCarring)
     {
         animator.SetBool("Carring", isCarring);

@@ -2,21 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Farm : MonoBehaviour
+public class Farm : ResourceFactory
 {
     [SerializeField] List<GameObject> carrotBoxLod = new List<GameObject>();
     [SerializeField] List<Carrot> carrots = new List<Carrot>();
     [SerializeField] Transform toBoxPos;
     [SerializeField] Transform waitPos;
     [SerializeField] Worker worker;
-    [SerializeField] float workTime = 10f;
 
     int currentCarrotIndex = 0;
     int currentCarrotLod = -1;
     bool canWork = false;
+    Coroutine workCoroutine;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         foreach (var item in carrots)
         {
             item.Grow();
@@ -24,18 +25,31 @@ public class Farm : MonoBehaviour
         worker.GoToPosition(waitPos.position);
     }
 
-    void Update() 
-    {
-        if(!canWork && carrots[currentCarrotIndex].isGrows)
-        {
-            canWork = true;
-            StartWork();
-        }
-    }
+    //protected override void Update() 
+    //{
+    //    base.Update();
+    //    if (!canWork && carrots[currentCarrotIndex].isGrows)
+    //    {
+    //        canWork = true;
+    //        StartWork();
+    //    }
+    //}
 
-    public void StartWork()
+    protected override void StartWork()
     {
-        StartCoroutine(Work());
+        base.StartWork();
+        if (workCoroutine != null)
+        {
+            StopCoroutine(workCoroutine);
+        }
+        for (int i = 0; i < carrots.Count; i++)
+        {
+            if (carrots[i].isGrows)
+            {
+                currentCarrotIndex = i;
+            }
+        }
+        workCoroutine = StartCoroutine(Work());
     }
 
     [ContextMenu("Restart")]
@@ -44,25 +58,22 @@ public class Farm : MonoBehaviour
         StartWork();
         carrotBoxLod[currentCarrotIndex].SetActive(false);
         currentCarrotLod = -1;
-
-        // foreach (var item in carrotBoxLod)
-        // {
-        //     item.SetActive(false);
-        // }
     }
 
     IEnumerator Work()
     {
-        float timer = 0;
-        float startWorkTime = Time.time;
-
-        while(timer < workTime)
+        while (true)
         {
+            worker.Waving(false);
+            while (!carrots[currentCarrotIndex].isGrows)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
             worker.GoToPosition(carrots[currentCarrotIndex].transform.position);
             worker.Work(true);
-            yield return new WaitForEndOfFrame();
 
-            while(worker.IsMoving())
+            while (worker.IsMoving())
             {
                 yield return new WaitForEndOfFrame();
             }
@@ -71,21 +82,35 @@ public class Farm : MonoBehaviour
             worker.GoToPosition(toBoxPos.position);
             worker.Carring(true);
 
-            while(worker.IsMoving())
+            while (worker.IsMoving())
             {
                 yield return new WaitForEndOfFrame();
             }
-            
-            if(currentCarrotLod == -1)
-            {
-                StartCoroutine(SwitchLod());
-            }
+            worker.Carring(false);
             NextCarrot();
-
-            timer = Time.time - startWorkTime;
         }
+    }
 
+    protected override void StopWork()
+    {
+        base.StopWork();
+        if (workCoroutine != null)
+        {
+            StopCoroutine(workCoroutine);
+        }
+        workCoroutine =  StartCoroutine(StopWorkCoroutine());
+    }
+
+    IEnumerator StopWorkCoroutine()
+    {
+        worker.GoToPosition(waitPos.position);
+        worker.Work(true);    
+        while (worker.IsMoving())
+        {
+            yield return new WaitForEndOfFrame();
+        }
         worker.Work(false);
+        worker.Waving(true);
     }
 
     void NextCarrot()
@@ -93,24 +118,27 @@ public class Farm : MonoBehaviour
         currentCarrotIndex += currentCarrotIndex < carrots.Count - 1 ? 1 : -currentCarrotIndex;
     }
 
-    IEnumerator SwitchLod()
+    protected override void AddResource(int count = 1)
     {
-        while(currentCarrotLod < carrotBoxLod.Count - 1)
-        {
-            if(currentCarrotLod == -1)
-            {
-                currentCarrotLod = 0;
-                carrotBoxLod[(int)currentCarrotLod].SetActive(true);
-            }
-            else
-            {
-                carrotBoxLod[(int)currentCarrotLod].SetActive(false);
-                currentCarrotLod++;
-                carrotBoxLod[(int)currentCarrotLod].SetActive(true);
-            }
+        base.AddResource(count);
+        UpdateSwichLod();
+    }
 
-            yield return new WaitForSeconds(workTime / carrotBoxLod.Count);
+    public override void Unload(int count)
+    {
+        base.Unload(count);
+        UpdateSwichLod();
+    }
+
+    public void UpdateSwichLod()
+    {
+        int screwLod = Mathf.FloorToInt((float)currentResourcesCount / (float)resourcesLimit * (float)(carrotBoxLod.Count - 1));
+        if (currentCarrotLod != -1)
+        {
+            carrotBoxLod[currentCarrotLod].SetActive(false);
         }
+        carrotBoxLod[screwLod].SetActive(true);
+        currentCarrotLod = screwLod;
     }
 
 }

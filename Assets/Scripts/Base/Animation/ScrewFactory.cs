@@ -14,21 +14,31 @@ public class ScrewFactory : ResourceFactory
 
     int currentScrewLod = -1;
     List<GameObject> screws = new List<GameObject>();
+    Coroutine workCoroutine;
 
     protected override void Start()
     {
-        base.Start();
-        StartWork();
+        base.Start();       
     }
 
-    public void StartWork()
+    protected override void StartWork()
     {
-        StartCoroutine(CreateScrews());        
+        base.StartWork();
+        if (workCoroutine != null)
+        {
+            StopCoroutine(workCoroutine);
+        }
+        workCoroutine = StartCoroutine(CreateScrews());        
     }
 
-    public void StopWork()
+    protected override void StopWork()
     {
-        StartCoroutine(StopWorkAnimation());
+        base.StopWork();
+        if (workCoroutine != null)
+        {
+            StopCoroutine(workCoroutine);
+        }
+        workCoroutine = StartCoroutine(StopWorkAnimation());
     }
 
     [ContextMenu("Restart")]
@@ -66,6 +76,12 @@ public class ScrewFactory : ResourceFactory
     protected override void AddResource(int count = 1)
     {
         base.AddResource(count);
+        UpdateSwichLod();
+    }
+
+    public override void Unload(int count)
+    {
+        base.Unload(count);
         UpdateSwichLod();
     }
 
