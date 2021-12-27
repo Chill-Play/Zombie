@@ -25,16 +25,6 @@ public class Farm : ResourceFactory
         worker.GoToPosition(waitPos.position);
     }
 
-    //protected override void Update() 
-    //{
-    //    base.Update();
-    //    if (!canWork && carrots[currentCarrotIndex].isGrows)
-    //    {
-    //        canWork = true;
-    //        StartWork();
-    //    }
-    //}
-
     protected override void StartWork()
     {
         base.StartWork();

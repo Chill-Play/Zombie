@@ -47,8 +47,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
         if (nextResourceTime < Time.time && currentResourcesCount < resourcesLimit)
         {
             AddResource();
-            nextResourceTime = Time.time + productionTime;
-            lastResourcesUpdate = DateTime.UtcNow.ToBinary().ToString();
+            nextResourceTime = Time.time + productionTime;          
         }
     }
 
@@ -60,6 +59,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
         {
             StopWork();
         }
+        lastResourcesUpdate = DateTime.UtcNow.ToBinary().ToString();
     }
 
     void UpdateCountText()
@@ -86,5 +86,6 @@ public class ResourceFactory : BaseObject, IUnloadingResources
         {
             StartWork();
         }
+        lastResourcesUpdate = DateTime.UtcNow.ToBinary().ToString();
     }
 }

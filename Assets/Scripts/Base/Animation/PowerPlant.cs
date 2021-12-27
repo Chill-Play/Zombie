@@ -13,6 +13,7 @@ public class PowerPlant : ResourceFactory
 
    protected override void Start()
     {
+        base.Start();
         plant.SetFloat("FillSpeed", batteryFillSpeed);       
     }
 
@@ -48,7 +49,7 @@ public class PowerPlant : ResourceFactory
         UpdateSwichLod();
     }
 
-    void SwitchBatteryBoxLod()
+    public void SwitchBatteryBoxLod()
     {
 
     }
