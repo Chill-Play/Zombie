@@ -107,7 +107,10 @@ public class ZombieWaveSpawner : MonoBehaviour
                         stats.SetLevel(level, generation);
                     }                  
                     horde.AddEnemy(enemy);
-                    hordeController.AddAgent(enemy); 
+                    if (hordeController != null)
+                    {
+                        hordeController.AddAgent(enemy);
+                    }
                     enemy.GoAggressive();
                     OnEnemySpawned?.Invoke(GetEnemyCount());
                     AgroActivator agroActivator = enemy.GetComponent<AgroActivator>();

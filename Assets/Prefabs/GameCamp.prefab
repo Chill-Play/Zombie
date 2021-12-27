@@ -3973,6 +3973,9 @@ MonoBehaviour:
   playerPrefab: {fileID: 3346936833982169915, guid: f5cb1e8888d89aa4e888d3f118bac427, type: 3}
   inputPanel: {fileID: 2278893497497449129}
   timeBeforeRaid: 3
+  timeBeforeCampaign: 3
+  raidZone: {fileID: 0}
+  campaignZone: {fileID: 0}
   playerInstance: {fileID: 0}
 --- !u!1 &6349799829869794398
 GameObject:
@@ -4116,7 +4119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14754c1a3610f764fa863eb1b0bbfb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelCollection: {fileID: 0}
+  raidLevelCollection: {fileID: 11400000, guid: e02979f0f0a311d46af535c413e5269b, type: 2}
+  campaignLevelCollection: {fileID: 11400000, guid: 79df5ab074a3b5b40802f411b402c396, type: 2}
   baseLevel:
     sceneAsset: {fileID: 102900000, guid: 5f422292fd257d14cbcb3c8992fb2d2d, type: 3}
     scenePath: Assets/Scenes/Base Visuals.unity

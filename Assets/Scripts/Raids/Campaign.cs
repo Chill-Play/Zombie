@@ -6,6 +6,8 @@ public class Campaign : MonoBehaviour
 {
     [SerializeField] List<Unit> units = new List<Unit>();
 
+    public int SpecialistCount => units.Count;
+
     void Start()
     {
         for (int i = 0; i < units.Count; i++)

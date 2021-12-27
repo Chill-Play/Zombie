@@ -14,7 +14,7 @@ public class PlayerBackpack : MonoBehaviour, IComboCounter
     public Dictionary<ResourceType, int> Resources => resources;
 
     public void PickUp(ResourceType type, int count)
-    {
+    {           
         if (!resources.ContainsKey(type))
         {
             resources.Add(type, 0);

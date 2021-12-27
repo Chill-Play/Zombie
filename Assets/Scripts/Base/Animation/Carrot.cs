@@ -29,7 +29,7 @@ public class Carrot : MonoBehaviour
     IEnumerator GrowAnimation()
     {
         yield return new WaitForSeconds(deltaGrowTime);
-
+        
         for (int i = 0; i < 3; i++)
         {
             string growState = "Grow" + i;

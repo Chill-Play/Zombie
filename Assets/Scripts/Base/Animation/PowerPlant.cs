@@ -2,29 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerPlant : MonoBehaviour
+public class PowerPlant : ResourceFactory
 {
-    [SerializeField] List<GameObject> batteryBoxLod = new List<GameObject>();
-    [SerializeField] float workTime = 20f;
+    [SerializeField] List<GameObject> batteryBoxLod = new List<GameObject>();  
     [SerializeField] float batteryFillSpeed = 0.5f;
     [SerializeField] Animator generator;
     [SerializeField] Animator plant;
 
     int currentBatteryLod = -1;
 
-    void Start()
+   protected override void Start()
     {
-        plant.SetFloat("FillSpeed", batteryFillSpeed);
-        StartWork();
+        base.Start();
+        plant.SetFloat("FillSpeed", batteryFillSpeed);       
     }
 
-    public void StartWork()
+    protected override void StartWork()
     {
         plant.SetBool("Work", true);
         generator.SetBool("Work", true);
     }
 
-    public void StopWork()
+    protected override void StopWork()
     {
         generator.SetBool("Work", false);
         plant.SetBool("Work", false);
@@ -38,34 +37,31 @@ public class PowerPlant : MonoBehaviour
         StartWork();
     }
 
-    IEnumerator SwitchLod()
+    protected override void AddResource(int count = 1)
     {
-        while(currentBatteryLod < batteryBoxLod.Count - 1)
-        {
-            if(currentBatteryLod == -1)
-            {
-                currentBatteryLod = 0;
-                batteryBoxLod[currentBatteryLod].SetActive(true);
-            } 
-            else
-            {
-                batteryBoxLod[currentBatteryLod].SetActive(false);
-                currentBatteryLod++;
-                batteryBoxLod[currentBatteryLod].SetActive(true);
-            }
+        base.AddResource(count);
+        UpdateSwichLod();
+    }
 
-            yield return new WaitForSeconds(workTime / batteryBoxLod.Count);
-        }
-
-        StopWork();
+    public override void Unload(int count)
+    {
+        base.Unload(count);
+        UpdateSwichLod();
     }
 
     public void SwitchBatteryBoxLod()
     {
-        if(currentBatteryLod == -1)
-        {
-            StartCoroutine(SwitchLod());
-        }
+
     }
 
+    public void UpdateSwichLod()
+    {
+        int screwLod = Mathf.FloorToInt((float)currentResourcesCount / (float)resourcesLimit * (float)(batteryBoxLod.Count - 1));
+        if (currentBatteryLod != -1)
+        {
+            batteryBoxLod[currentBatteryLod].SetActive(false);
+        }
+        batteryBoxLod[screwLod].SetActive(true);
+        currentBatteryLod = screwLod;
+    }
 }

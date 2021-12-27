@@ -46,11 +46,14 @@ public class InGameUI : UIScreen
         ZombieWaveSpawner zombieWaveSpawner = FindObjectOfType<ZombieWaveSpawner>();
         if (zombieWaveSpawner != null)
         {
-            zombieWaveSpawner.OnEnemySpawned += ZombieWaveSpawner_OnEnemySpawned;
-            zombieWaveSpawner.OnEnemyDead += ZombieWaveSpawner_OnEnemyDead;
-        }
-        zombieCountUI.SetupCount(0);
-        zombieCountUI.gameObject.SetActive(false);
+            if (zombieCountUI != null)
+            {
+                zombieCountUI.SetupCount(0);
+                zombieCountUI.gameObject.SetActive(false);
+                zombieWaveSpawner.OnEnemySpawned += ZombieWaveSpawner_OnEnemySpawned;
+                zombieWaveSpawner.OnEnemyDead += ZombieWaveSpawner_OnEnemyDead;
+            }
+        }       
 
         noiseBar.SetValue(0f);
         
@@ -141,17 +144,20 @@ public class InGameUI : UIScreen
                 {
                     noiseBar.gameObject.SetActive(false);
                     timerGO.transform.localScale = Vector3.one * 0.5f;
-                    timerGO.gameObject.SetActive(true);                    
+                    timerGO.gameObject.SetActive(true);     
+                    if(zombieCountUI != null)
                     zombieCountUI.gameObject.SetActive(true);
                 });
                 sequence.Append(timerGO.transform.DOScale(1f, 0.3f).SetEase(Ease.OutElastic, 1.2f, 0.25f));
-                sequence.Append(zombieCountUI.transform.DOScale(1f, 0.3f).SetEase(Ease.OutElastic, 1.2f, 0.25f));
+                if (zombieCountUI != null)
+                    sequence.Append(zombieCountUI.transform.DOScale(1f, 0.3f).SetEase(Ease.OutElastic, 1.2f, 0.25f));
                 break;
             case State.TimeToRetreat:
                 timeToRetreat.transform.localScale = Vector3.zero;
                 Sequence sequence1 = DOTween.Sequence();
                 sequence1.Append(timerGO.transform.DOScale(0f, 0.3f).SetEase(Ease.InCirc).OnComplete(() => timerGO.gameObject.SetActive(false)));
-                sequence1.Append(zombieCountUI.transform.DOScale(0f, 0.3f).SetEase(Ease.InCirc).OnComplete(() => zombieCountUI.gameObject.SetActive(false)));
+                if (zombieCountUI != null)
+                    sequence1.Append(zombieCountUI.transform.DOScale(0f, 0.3f).SetEase(Ease.InCirc).OnComplete(() => zombieCountUI.gameObject.SetActive(false)));
                 sequence1.AppendCallback(() => timeToRetreat.SetActive(true));
                 sequence1.Append(timeToRetreat.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.2f, 0.3f));
                 baseIndicator.gameObject.SetActive(true);

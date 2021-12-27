@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class ResourceFactory : BaseObject
+public class ResourceFactory : BaseObject, IUnloadingResources
 {
     [SerializeField] TMP_Text countText;
     [SerializeField] ResourceType resourceType;
@@ -15,6 +15,11 @@ public class ResourceFactory : BaseObject
     [BaseSerialize] protected int currentResourcesCount;
     [BaseSerialize] protected string lastResourcesUpdate;
     float nextResourceTime;
+    bool working = false;
+
+    public ResourceType ResourcesType => resourceType;
+
+    public int CurrentCount => currentResourcesCount;
 
     protected virtual void Start()
     {
@@ -23,10 +28,18 @@ public class ResourceFactory : BaseObject
             DateTime dateTime = DateTime.FromBinary(Convert.ToInt64(lastResourcesUpdate));
             TimeSpan delta = DateTime.UtcNow - dateTime;
             int deltaCount = (int)(delta.TotalSeconds / productionTime);
-            currentResourcesCount += deltaCount;
+            AddResource(deltaCount);
         }
         nextResourceTime = Time.time + productionTime;
         UpdateCountText();
+        if (currentResourcesCount < resourcesLimit)
+        {
+            StartWork();
+        }
+        else
+        {
+            StopWork();
+        }
     }
 
     protected virtual void Update()
@@ -34,15 +47,19 @@ public class ResourceFactory : BaseObject
         if (nextResourceTime < Time.time && currentResourcesCount < resourcesLimit)
         {
             AddResource();
-            nextResourceTime = Time.time + productionTime;
-            lastResourcesUpdate = DateTime.UtcNow.ToBinary().ToString();           
+            nextResourceTime = Time.time + productionTime;          
         }
     }
 
     protected virtual void AddResource(int count = 1)
-    {       
-        currentResourcesCount += count;
+    {
+        currentResourcesCount = Mathf.Clamp(currentResourcesCount + count, 0, resourcesLimit);
         UpdateCountText();
+        if (currentResourcesCount == resourcesLimit)
+        {
+            StopWork();
+        }
+        lastResourcesUpdate = DateTime.UtcNow.ToBinary().ToString();
     }
 
     void UpdateCountText()
@@ -50,4 +67,25 @@ public class ResourceFactory : BaseObject
         countText.text = currentResourcesCount.ToString() + "/" + resourcesLimit.ToString();
     }
 
+    protected virtual void StartWork()
+    {
+        working = true;
+    }
+
+
+    protected virtual void StopWork()
+    {
+        working = false;
+    }
+
+    public virtual void Unload(int count)
+    {
+        currentResourcesCount = Mathf.Clamp(currentResourcesCount - count, 0, resourcesLimit);
+        UpdateCountText();
+        if (!working)
+        {
+            StartWork();
+        }
+        lastResourcesUpdate = DateTime.UtcNow.ToBinary().ToString();
+    }
 }

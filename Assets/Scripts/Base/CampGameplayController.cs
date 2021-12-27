@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CampGameplayController : SingletonMono<CampGameplayController>
 {
+    const string LAST_RAID_TYPE_PREFS = "M_Last_Raid_Type";
+
+
     public event System.Action<float> OnRaidReadiness;
     public event System.Action OnRaidUnpreparedness;
     public event System.Action OnRunRaid;
@@ -12,25 +15,58 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     [SerializeField] GameObject playerPrefab;
     [SerializeField] InputPanel inputPanel;
     [SerializeField] float timeBeforeRaid = 3f;
+    [SerializeField] float timeBeforeCampaign = 3f;
+    [SerializeField] RaidZone raidZone;
+    [SerializeField] RaidZone campaignZone;
 
     [HideInInspector] public Transform playerInstance;
 
     bool isPlayerReturnedToRaidZone = false;
 
-    RaidZone raidZone;
+   
 
     private void Awake()
-    {
-        raidZone = FindObjectOfType<RaidZone>(true);
+    {     
         raidZone.OnEnterZone += RaidZone_OnEnterZone; 
         raidZone.OnExitZone += RaidZone_OnExitZone;
+        campaignZone.OnEnterZone += CampaignZone_OnEnterZone;
+        campaignZone.OnExitZone += CampaignZone_OnExitZone;
 
-        Vector3 spawnPos = Vector3.zero;
-        if (raidZone != null)
+        int lastRaidType = PlayerPrefs.GetInt(LAST_RAID_TYPE_PREFS, 0);
+        switch (lastRaidType)
         {
-            spawnPos = raidZone.transform.position;
+            case 0:
+                SpawnPlayer(raidZone.SpawnPoint, playerPrefab);
+                break;
+            case 1:
+                SpawnPlayer(campaignZone.SpawnPoint, playerPrefab);
+                break;
         }
-        SpawnPlayer(spawnPos, playerPrefab);
+        
+      
+    }
+
+    private void CampaignZone_OnExitZone()
+    {
+        if (!isPlayerReturnedToRaidZone)
+        {
+            isPlayerReturnedToRaidZone = true;
+        }
+        else
+        {
+            OnRaidUnpreparedness?.Invoke();
+        }
+    }
+
+    private void CampaignZone_OnEnterZone()
+    {
+
+        if (isPlayerReturnedToRaidZone)
+        {
+            OnRaidReadiness?.Invoke(timeBeforeRaid);
+            playerInstance.GetComponent<UnitMovement>().MoveTo(campaignZone.transform.position);
+            StartCoroutine(CampaignCoroutine());
+        }
     }
 
     public void SetPlayerReturnedToRaidZone(bool value)
@@ -52,8 +88,19 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     {
         yield return new WaitForSeconds(timeBeforeRaid);
         OnRunRaid?.Invoke();
+        PlayerPrefs.SetInt(LAST_RAID_TYPE_PREFS, 0);
         ZombiesLevelController.Instance.NextRaid();
     }
+
+
+    IEnumerator CampaignCoroutine()
+    {
+        yield return new WaitForSeconds(timeBeforeCampaign);
+        OnRunRaid?.Invoke();
+        PlayerPrefs.SetInt(LAST_RAID_TYPE_PREFS, 1);
+        ZombiesLevelController.Instance.NextState();
+    }
+
 
     private void RaidZone_OnExitZone()
     {
@@ -74,11 +121,10 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
 
 
 
-    public void SpawnPlayer(Vector3 point, GameObject prefab)
+    public void SpawnPlayer(Transform point, GameObject prefab)
     {
-        playerInstance = Instantiate(prefab, point, Quaternion.identity).transform;
-        cameraController.SetTarget(playerInstance);
-        //InputJoystick.InputReceiver = playerInstance.GetComponent<IInputReceiver>();           
+        playerInstance = Instantiate(prefab, point.position, point.rotation).transform;
+        cameraController.SetTarget(playerInstance);                
         inputPanel.Receiver = playerInstance.GetComponent<IInputReceiver>();
     }
 }

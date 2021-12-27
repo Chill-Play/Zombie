@@ -66,7 +66,7 @@ public class PlayerResourceCombo : MonoBehaviour
     {
         for (int i = 0; i < comboCounters.Length; i++)
         {
-            comboCounters[i].OnAddingPoints += OnAddingPoints;
+            comboCounters[i].OnAddingPoints -= OnAddingPoints;
         }
 
         if (uiNumber != null)
