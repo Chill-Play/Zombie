@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerResources : MonoBehaviour
+public class PlayerResources : UnitInteracting
 {
-    [SerializeField] UnitMovement unitMovement;
-    [SerializeField] InteractivePointDetection interactivePointDetection;
     [SerializeField] float useSpotRadius = 2f;
     [SerializeField] float useRate = 0.5f;
     [SerializeField] LayerMask resourceSpotsMask;
@@ -19,9 +17,7 @@ public class PlayerResources : MonoBehaviour
     bool interacting;
     UnitAnimation animation;
     SquadBackpack squadBackpack;
-   InteractivePoint.WorkingPoint target;  
 
-    public bool CanMoveToResources { get; set; } = true;
     public float UseRate { get; set; }
 
     // Start is called before the first frame update
@@ -34,7 +30,6 @@ public class PlayerResources : MonoBehaviour
             axeModel.SetActive(false);
             weaponModel.SetActive(true);
         }
-
         
         if(inCamp)
         {
@@ -48,46 +43,11 @@ public class PlayerResources : MonoBehaviour
     {
         UseRate += useRate;
     }
-
-
-    private void OnEnable()
-    {    
-        TryToFindFreePoint();
-        interactivePointDetection.OnTargetChanged += InteractivePointDetection_OnTargetChanged;
-    }
-
-    private void InteractivePointDetection_OnTargetChanged(InteractivePoint interactivePoint, InteractivePoint newInteractivePoint)
+    
+    protected override void FixedUpdate()
     {
-        if (interactivePoint != null && target.index != -1)
-        {
-            interactivePoint.FreePoint(target);
-        }
-        target = new InteractivePoint.WorkingPoint(null, -1);
-        TryToFindFreePoint();
-    }
+        base.FixedUpdate();
 
-    void TryToFindFreePoint()
-    {
-        if (CanMoveToResources && interactivePointDetection.Target!= null)
-        {
-            target = interactivePointDetection.Target.GetFreePoint(transform.position, unitMovement);
-
-            if (target.transform != null && unitMovement.CanReachDestination(target.transform.position))
-            {               
-                interactivePointDetection.Target.TakePoint(target);
-                unitMovement.MoveTo(target.transform.position);
-            }
-            else
-            {
-               // Debug.DrawLine(transform.position + Vector3.up, target.transform.position, Color.yellow, 10f);
-                interactivePointDetection.NullTarget();
-            }
-        }
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
         if(!inCamp && squadBackpack.IsFilled)
         {
             return;
@@ -142,11 +102,6 @@ public class PlayerResources : MonoBehaviour
             }
         }
 
-        if (target.transform == null)
-        {
-            TryToFindFreePoint();
-        }
-
         if (interacting)
         {
             if (axeModel.activeSelf)
@@ -159,25 +114,16 @@ public class PlayerResources : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
-        interactivePointDetection.OnTargetChanged -= InteractivePointDetection_OnTargetChanged; 
-        if (target.index != -1)
-        {
-            if (interactivePointDetection.Target != null)
-            {
-                interactivePointDetection.Target.FreePoint(target);
-            }                    
-        }
-        target = new InteractivePoint.WorkingPoint(null, -1);
+        base.OnDisable();
         if (axeModel.activeSelf)
         {
             axeModel.SetActive(false);
             weaponModel.SetActive(true);
         }
         interacting = false;
-        animation.ResetInteraction();
-        unitMovement.StopMoving();
+        animation.ResetInteraction();       
     }    
 
 }

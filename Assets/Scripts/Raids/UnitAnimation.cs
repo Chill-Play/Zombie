@@ -80,6 +80,9 @@ public class UnitAnimation : MonoBehaviour
             case ResourceInteractionType.Swinging:
                 animator.SetBool("Swinging", play);
                 break;
+            case ResourceInteractionType.Constructing:
+                animator.SetBool("Constructing", play);
+                break;
         }
         animator.SetLayerWeight(1, 0f);
     }
