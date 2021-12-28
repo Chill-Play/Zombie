@@ -5,9 +5,10 @@ using DG.Tweening;
 
 public class TargetMarker : MonoBehaviour
 {
+    [SerializeField] Transform marker;
     public void Scale(float time)
     {
-        transform.localScale = Vector3.zero;
-        transform.DOScale(1f, time).OnComplete(() => Destroy(gameObject));
+        marker.localScale = Vector3.zero;
+        marker.DOScale(1f, time).OnComplete(() => Destroy(gameObject));
     }
 }

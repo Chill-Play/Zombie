@@ -225,7 +225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6913624835371240490
 Transform:
   m_ObjectHideFlags: 0
@@ -916,7 +916,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8951259761435444538
 Transform:
   m_ObjectHideFlags: 0
@@ -1476,7 +1476,6 @@ GameObject:
   - component: {fileID: 7544654197767954165}
   - component: {fileID: 7544654197767954162}
   - component: {fileID: 7544654197767954163}
-  - component: {fileID: 7544654197767954164}
   - component: {fileID: 8773750744869303229}
   m_Layer: 0
   m_Name: Cylinder
@@ -1553,25 +1552,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &7544654197767954164
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7544654197767954166}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0df9e6116fe93dc469ea1f1f53fef798, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &8773750744869303229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1584,7 +1564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89dafd43d919af241998d2da07637471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotation: {x: 0, y: 1, z: 0}
+  rotation: {x: 0, y: 360, z: 0}
   instantRotation: 1
 --- !u!1 &7544654197784982375
 GameObject:
