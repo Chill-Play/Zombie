@@ -29,7 +29,7 @@ public class CampaignSpecialistAI : MonoBehaviour
         level = FindObjectOfType<Level>();
         squad = FindObjectOfType<Squad>();
         unitHealth.OnDead += UnitHealth_OnDead;
-        level.OnLevelFailed += SurvivorAI_OnLevelFailed; ;
+        level.OnLevelFailed += SurvivorAI_OnLevelFailed; 
         interactivePointDetection.OnTargetChanged += InteractivePointDetection_OnTargetChanged;
     }
 

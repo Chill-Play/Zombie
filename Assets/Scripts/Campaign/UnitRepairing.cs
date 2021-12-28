@@ -17,21 +17,20 @@ public class UnitRepairing : UnitInstrument, IComboCounter
         icon = FindObjectOfType<ConstructionManager>().ConstructionIcon;
     }
 
-    protected override bool Use()
+    protected override void Use(Collider target)
     {
-        base.Use();
-        for (int i = 0; i < useSpots.Length; i++)
+        base.Use(target);
+        Repairable repairableTarget = target.GetComponent<Repairable>();
+        repairableTarget.Repair(repairValue);
+        OnAddingPoints?.Invoke(icon, (int)repairValue);
+    }
+
+    protected override bool CanUse(Collider useSpot)
+    {
+        Repairable target = useSpot.GetComponent<Repairable>();
+        if (target != null && target.CanRepair)
         {
-            if (useSpots[i] != null)
-            {
-                Repairable target = useSpots[i].GetComponent<Repairable>();
-                if (target != null && target.CanRepair)
-                {
-                    target.Repair(repairValue);
-                    OnAddingPoints?.Invoke(icon, (int)repairValue);
-                    return true;
-                }
-            }
+            return true;
         }
         return false;
     }

@@ -23,12 +23,30 @@ public class SurvivorAI : MonoBehaviour
     Squad squad;
     Level level;
 
+    Constructive constructive;
+    Repairable repairable;
+
     private void Start()
     {
         level = FindObjectOfType<Level>();
         squad = FindObjectOfType<Squad>();
         unitHealth.OnDead += UnitHealth_OnDead;
-        level.OnLevelFailed += SurvivorAI_OnLevelFailed; ;
+        level.OnLevelFailed += SurvivorAI_OnLevelFailed;
+        interactivePointDetection.OnTargetChanged += InteractivePointDetection_OnTargetChanged;
+    }
+
+    private void InteractivePointDetection_OnTargetChanged(InteractivePoint lastPoint, InteractivePoint point)
+    {
+        if (point != null)
+        {
+            constructive = point.gameObject.GetComponent<Constructive>();
+            repairable = point.gameObject.GetComponent<Repairable>();
+        }
+        else
+        {
+            constructive = null;
+            repairable = null;
+        }
     }
 
     private void SurvivorAI_OnLevelFailed()
@@ -56,7 +74,8 @@ public class SurvivorAI : MonoBehaviour
             return;
         }
 
-        if (interactivePointDetection.Target != null && !squad.IsMoving && targetDetection.Target == null)
+        if (interactivePointDetection.Target != null && !squad.IsMoving && targetDetection.Target == null
+            & ((constructive != null && constructive.CanConstruct) || (repairable != null && repairable.CanRepair)))
         {
             ToState(interactingState);
             RotateToward();
