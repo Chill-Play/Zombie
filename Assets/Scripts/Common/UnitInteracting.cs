@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class UnitInteracting : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class UnitInteracting : MonoBehaviour
     public bool CanMoveToResources { get; set; } = true;
 
     protected InteractivePoint.WorkingPoint  target;
+
+    Tween rotationTweem;
+
 
     protected virtual void OnEnable()
     {
@@ -51,6 +55,16 @@ public class UnitInteracting : MonoBehaviour
         {
             TryToFindFreePoint();
         }
+        else if(Vector3.Distance(transform.position.SetY(0f), target.transform.position.SetY(0f)) < 0.2f)
+        {
+            if (rotationTweem == null)
+            {
+                Vector3 dir = interactivePointDetection.Target.transform.position - transform.position;
+                Quaternion rot = Quaternion.LookRotation(dir.normalized, transform.up);
+                float eularDif = Mathf.DeltaAngle(transform.eulerAngles.y, rot.eulerAngles.y);
+                rotationTweem = transform.DORotate(new Vector3(0f, eularDif, 0f), Mathf.Abs(eularDif) / 180f, RotateMode.LocalAxisAdd);
+            }
+        }
     }
 
     protected virtual void OnDisable()
@@ -64,6 +78,11 @@ public class UnitInteracting : MonoBehaviour
             }
         }
         target = new InteractivePoint.WorkingPoint(null, -1);
+        if (rotationTweem != null)
+        {
+            rotationTweem.Kill(false);
+            rotationTweem = null;
+        }
         unitMovement.StopMoving();
     }
 }

@@ -71,7 +71,7 @@ public class PlayerResources : UnitInteracting
         {
             if (CanMoveToResources)
             {
-                transform.rotation = target.transform.rotation;
+                //transform.rotation = target.transform.rotation;
             }
             atTarget = true;
         }

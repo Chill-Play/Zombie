@@ -17,23 +17,23 @@ public class UnitConstructing : UnitInstrument, IComboCounter
         icon = FindObjectOfType<ConstructionManager>().ConstructionIcon;
     }
 
-    protected override bool Use()
+    protected override void Use(Collider target)
     {
-        base.Use();   
-        for (int i = 0; i < useSpots.Length; i++)
+        base.Use(target);
+        Constructive constructiveTarget = target.GetComponent<Constructive>();
+        constructiveTarget.Construct(constructValue);
+        OnAddingPoints?.Invoke(icon, (int)constructValue);       
+    }
+
+    protected override bool CanUse(Collider useSpot)
+    {
+        Constructive target = useSpot.GetComponent<Constructive>();
+        if (target != null && target.CanConstruct)
         {
-            if (useSpots[i] != null)
-            {
-                Constructive target = useSpots[i].GetComponent<Constructive>();
-                if (target != null && target.CanConstruct)
-                {
-                    target.Construct(constructValue);
-                    OnAddingPoints?.Invoke(icon, (int)constructValue);
-                    return true;
-                }
-            }
+            return true;
         }
-        return false;
+
+        return false;   
     }
 
 }

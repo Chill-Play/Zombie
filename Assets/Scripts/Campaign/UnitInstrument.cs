@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class UnitInstrument : UnitActivity
 {
@@ -14,6 +15,7 @@ public class UnitInstrument : UnitActivity
     NoiseController noiseController;
     UnitMovement unitMovement;
     UnitInventory unitInventory;
+    Tween rotationTween;
 
     protected override void Awake()
     {
@@ -31,30 +33,40 @@ public class UnitInstrument : UnitActivity
         {
             unitAnimation.SetInteraction(interactionType, true);
             unitInventory.SetActiveItem(instrument);
+            
             if (nextUse < Time.time)
             {
-                if (Use())
+                for (int i = 0; i < useSpots.Length; i++)
                 {
-
-                    noiseController.AddNoiseLevel(noisePerUse);
-                    nextUse = Time.time + useRate;
-                }
+                    if (useSpots[i] != null && CanUse(useSpots[i]))
+                    {
+                        Use(useSpots[i]);          
+                        noiseController.AddNoiseLevel(noisePerUse);
+                        nextUse = Time.time + useRate;
+                        break;
+                    }
+                }               
             }
         }
         else
-        {
+        {   
             unitAnimation.SetInteraction(interactionType, false);
             unitInventory.ResetActiveItem();
         }
     }
 
-    protected virtual bool Use()
+    protected virtual void Use(Collider useSpot)
     {
-        return false;
+        
+    }
+
+    protected virtual bool CanUse(Collider useSpot)
+    {
+        return true;
     }
 
     protected virtual void OnDisable()
-    {
+    { 
         unitAnimation.SetInteraction(interactionType, false);
         unitInventory.ResetActiveItem();
     }

@@ -112,13 +112,13 @@ public class InteractivePoint : MonoBehaviour
 
     public void ClearNulls()
     {
-        for (int i = workingPoint.Count -1; i >= 0; i--)
+        for (int i = workingPoint.Count - 1; i >= 0; i--)
         {
             if (workingPoint[i] == null)
             {
-                workingPoint.RemoveAt(i);               
+                workingPoint.RemoveAt(i);
             }
-        }       
+        }
     }
 
 }
