@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &913521748624070152
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5307577843781909294}
+  - component: {fileID: 5192025794234265028}
+  m_Layer: 0
+  m_Name: ZombieGuardSpit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5307577843781909294
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913521748624070152}
+  m_LocalRotation: {x: 0.60319644, y: 0.6905796, z: -0.36865416, w: 0.1528002}
+  m_LocalPosition: {x: 0.0018423949, y: 0.006536323, z: 0.024113046}
+  m_LocalScale: {x: 0.4476834, y: 0.44768316, z: 0.44768316}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -36.619, y: 38.67, z: -26.604}
+--- !u!114 &5192025794234265028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913521748624070152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4de1d29767b80bb499294df0022313f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletDamage: 25
+  fireRate: 4
+  spread: 2
+  uniformSpread: 0
+  bulletsPerShot: 1
+  bulletPrefab: {fileID: -2324044252007002612, guid: 61c7bc58d09201b4da6046824c5fc408, type: 3}
+  shootPoint: {fileID: 0}
+  muzzleFx: {fileID: 0}
+  shellsFx: {fileID: 0}
+  noisePerShoot: 0
+  targetMarkerPrefab: {fileID: 1558537761910616744, guid: ee3bf7af7b21cd443be8e3a0ad1d0a25, type: 3}
