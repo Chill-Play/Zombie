@@ -46,15 +46,7 @@ public class RaidFinishScreen : UIScreen
     {
         bool doubleOpportunity = false;// ZombiesLevelController.Instance.LevelsPlayed >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && ZombiesLevelController.Instance.LevelsPlayed % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
 
-        if (isCampaign)
-        {
-            survivorsLabel.text = "+" + (squad.Units.Count - campaign.SpecialistCount - 1);
-        }
-        else
-        {
-            survivorsLabel.text = "+" + (squad.Units.Count - 1);
-        }
-
+        SaveSquad();
 
         background.color = new Color(background.color.r, background.color.g, background.color.b, 0f);
         upperPanel.transform.localScale = Vector3.zero;
@@ -125,8 +117,7 @@ public class RaidFinishScreen : UIScreen
         {
             resourceController.AddResources(resources);
         }
-        resourceController.UpdateResources();
-        SaveSquad();       
+        resourceController.UpdateResources();       
     }
 
     void ToBase()
@@ -159,15 +150,13 @@ public class RaidFinishScreen : UIScreen
 
     void SaveSquad()
     {
-        int count;
-        if (isCampaign)
+        if (campaign)
         {
-            count = squad.Units.Count - campaign.SpecialistCount - 1;
+            survivorsLabel.text = "+" + (Mathf.Clamp(squad.Units.Count - FindObjectOfType<CardController>().ActiveCards.Count - 1, 0, squad.Units.Count));
         }
         else
         {
-            count = squad.Units.Count - 1;
+            survivorsLabel.text = "+" + (Mathf.Clamp(squad.Units.Count - 1, 0, squad.Units.Count));
         }
-        PlayerPrefs.SetInt("M_Survivors_Count", count);        
     }
 }

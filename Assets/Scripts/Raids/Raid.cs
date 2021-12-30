@@ -46,7 +46,7 @@ public class Raid : MonoBehaviour
         if (helicopter != null)
         {           
             helicopter.FlyAway();
-        }
+        }        
     }
 
     private void Instance_OnLevelStarted()

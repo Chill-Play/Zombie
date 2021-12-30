@@ -70,11 +70,11 @@ public class PartySelectorUI : MonoBehaviour
     void UpdateSlots()
     {
         int i = 0;
-        for (; i < cardController.CardSlots.Count; i++)
+        for (; i < cardController.DeckCards.cardSlots.Count; i++)
         {
             if (i < cardSlots.Count)
             {
-                cardSlots[i].Setup(cardController.CardSlots[i]);
+                cardSlots[i].Setup(cardController.DeckCards.cardSlots[i]);
                 cardSlots[i].Show();                
             }
             else
@@ -82,7 +82,7 @@ public class PartySelectorUI : MonoBehaviour
                 CardSlotUI cardSlotUI = Instantiate<CardSlotUI>(cardSlotUIPrefab, cardsPanel);
                 cardSlots.Add(cardSlotUI);
                 cardSlotUI.OnSlotClicked += CardSlotUI_OnSlotClicked;
-                cardSlotUI.Setup(cardController.CardSlots[i]);
+                cardSlotUI.Setup(cardController.DeckCards.cardSlots[i]);
                 cardSlotUI.Show();           
             }
         }
@@ -94,9 +94,9 @@ public class PartySelectorUI : MonoBehaviour
 
         for (int j = 0; j < specialistVisualUIs.Count; j++)
         {
-            if (j < cardController.ActiveCardSlots.Count)
+            if (j < cardController.ActiveCards.cardSlots.Count)
             {
-                specialistVisualUIs[j].Setup(cardController.ActiveCardSlots[j], cardController.CanUpgrade(cardController.ActiveCardSlots[j]));
+                specialistVisualUIs[j].Setup(cardController.ActiveCards.cardSlots[j], cardController.CanUpgrade(cardController.ActiveCards.cardSlots[j]));
                 specialistVisualUIs[j].Show();
             }
             else
