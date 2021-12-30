@@ -1,29 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SimpleJSON;
+
+[System.Serializable]
+public class CardsInfo
+{
+    public List<CardSlot> cardSlots = new List<CardSlot>();
+
+    public void AddSlot(Card card, int level)
+    {
+        cardSlots.Add(new CardSlot(card, level));
+    }
+
+    public int Count => cardSlots.Count;
+}
 
 [System.Serializable]
 public class CardSlot
 {
+    public CardSlot(Card card, int level)
+    {
+        this.card = card;
+        this.level = level;
+    }
+
     public Card card;
-    public int level;    
+    public int level = 1;    
 }
 
 public class CardController : MonoBehaviour
 {
-    [SerializeField] List<CardSlot> cardSlots = new List<CardSlot>();
-    [SerializeField] List<CardSlot> activeCardSlots = new List<CardSlot>();
+    [SerializeField, CardSerialize] public CardsInfo deckCards;
+    [CardSerialize] protected CardsInfo activeCards = new CardsInfo();
     [SerializeField] int maxActiveSlots = 4;
+    [SerializeField] List<Card> cardVariants = new List<Card>();
 
-    public List<CardSlot> CardSlots => cardSlots;
-    public List<CardSlot> ActiveCardSlots => activeCardSlots;
+    public CardsInfo DeckCards => deckCards;
+    public CardsInfo ActiveCards => activeCards;
+
+    private void Awake()
+    {
+        Load();
+    }
 
     public bool TryToActivateCard(CardSlot cardSlot)
     {
-        if (activeCardSlots.Count < maxActiveSlots)
+        if (activeCards.cardSlots.Count < maxActiveSlots)
         {
-            activeCardSlots.Add(cardSlot);
-            cardSlots.Remove(cardSlot);
+            activeCards.cardSlots.Add(cardSlot);
+            deckCards.cardSlots.Remove(cardSlot);
+            Save();
             return true;
         }
 
@@ -32,15 +59,16 @@ public class CardController : MonoBehaviour
 
     public void DeactivateCard(CardSlot cardSlot)
     {
-        cardSlots.Add(cardSlot);
-        activeCardSlots.Remove(cardSlot);
+        deckCards.cardSlots.Add(cardSlot);
+        activeCards.cardSlots.Remove(cardSlot);
+        Save();
     }
 
     public bool CanUpgrade(CardSlot cardSlot, int requireCards = 1)
     {
         int currentCount = 0;
-        if (CanUpgradeInSlots(cardSlot, cardSlots, ref currentCount, requireCards) ||
-            CanUpgradeInSlots(cardSlot, activeCardSlots, ref currentCount, requireCards))
+        if (CanUpgradeInSlots(cardSlot, deckCards.cardSlots, ref currentCount, requireCards) ||
+            CanUpgradeInSlots(cardSlot, activeCards.cardSlots, ref currentCount, requireCards))
         {
             return true;
         } 
@@ -66,10 +94,11 @@ public class CardController : MonoBehaviour
     public void UpgradeCard(CardSlot cardSlot, int requireCards = 1)
     {
         int currentCount = 0;        
-        if (UpgradeCardInSlots(cardSlot, cardSlots, ref currentCount, requireCards) ||
-            UpgradeCardInSlots(cardSlot, activeCardSlots, ref currentCount, requireCards))
+        if (UpgradeCardInSlots(cardSlot, deckCards.cardSlots, ref currentCount, requireCards) ||
+            UpgradeCardInSlots(cardSlot, activeCards.cardSlots, ref currentCount, requireCards))
         {
             cardSlot.level++;
+            Save();
         }       
     }
 
@@ -90,4 +119,29 @@ public class CardController : MonoBehaviour
         return false;
     }
 
+    public Card GetCardVariant(string id)
+    {
+        for (int i = 0; i < cardVariants.Count; i++)
+        {
+            if (cardVariants[i].Id == id)
+            {
+                return cardVariants[i];
+            }
+        }
+
+        Debug.LogError("Card variant do not exist!");
+        return null;
+    }
+
+    void Save()
+    {
+        var json = CardSerialization.SerializeCards(this);
+        PlayerPrefs.SetString("CardsInfo", json);
+    }
+
+    void Load()
+    {
+        var json = PlayerPrefs.GetString("CardsInfo", null);
+        CardSerialization.DeserializeCards(json, this);
+    }
 }
