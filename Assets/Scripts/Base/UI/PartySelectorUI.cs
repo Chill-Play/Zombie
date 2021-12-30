@@ -89,7 +89,7 @@ public class PartySelectorUI : MonoBehaviour
         {
             if (j < cardController.ActiveCardSlots.Count)
             {
-                specialistVisualUIs[j].Setup(cardController.ActiveCardSlots[j]);
+                specialistVisualUIs[j].Setup(cardController.ActiveCardSlots[j], cardController.CanUpgrade(cardController.ActiveCardSlots[j]));
                 specialistVisualUIs[j].Show();
             }
             else

@@ -10,16 +10,18 @@ public class SpecialistVisualUI : MonoBehaviour
 
     [SerializeField] TMP_Text level;
     [SerializeField] TMP_Text cardName;
+    [SerializeField] Transform upgradeButton;
     [SerializeField] Transform specialistPosition;
 
     GameObject unitVisual;
     CardSlot cardSlot;
 
-    public void Setup(CardSlot cardSlot)
+    public void Setup(CardSlot cardSlot, bool canUpgrade)
     {
         this.cardSlot = cardSlot;
         cardName.text = cardSlot.card.CardName;
         level.text = cardSlot.level.ToString();
+        upgradeButton.gameObject.SetActive(canUpgrade);
     }
 
     public void Show()
