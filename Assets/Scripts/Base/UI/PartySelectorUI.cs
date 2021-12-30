@@ -28,7 +28,14 @@ public class PartySelectorUI : MonoBehaviour
         for (int i = 0; i < specialistVisualUIs.Count; i++)
         {
             specialistVisualUIs[i].OnSlotClicked += PartySelectorUI_OnSlotClicked;
+            specialistVisualUIs[i].OnUpgradeClicked += PartySelectorUI_OnUpgradeClicked;
         }
+    }
+
+    private void PartySelectorUI_OnUpgradeClicked(CardSlot cardSlot)
+    {
+        cardController.UpgradeCard(cardSlot);
+        UpdateSlots();
     }
 
     private void PartySelectorUI_OnSlotClicked(CardSlot cardSlot)

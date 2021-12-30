@@ -7,6 +7,7 @@ using TMPro;
 public class SpecialistVisualUI : MonoBehaviour
 {
     public event System.Action<CardSlot> OnSlotClicked;
+    public event System.Action<CardSlot> OnUpgradeClicked;
 
     [SerializeField] TMP_Text level;
     [SerializeField] TMP_Text cardName;
@@ -46,5 +47,10 @@ public class SpecialistVisualUI : MonoBehaviour
     public void OnButtonClicked()
     {
         OnSlotClicked?.Invoke(cardSlot);
+    }
+
+    public void OnUpgradeButtonClicked()
+    {
+        OnUpgradeClicked?.Invoke(cardSlot);
     }
 }
