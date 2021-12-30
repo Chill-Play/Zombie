@@ -1,35 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1173806862796730099
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3664289222830506091}
-  m_Layer: 7
-  m_Name: WeaponPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3664289222830506091
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1173806862796730099}
-  m_LocalRotation: {x: -0.36465633, y: 0.5444182, z: 0.17849526, w: 0.7340123}
-  m_LocalPosition: {x: -0.10785818, y: 0.11422309, z: 0.041330393}
-  m_LocalScale: {x: 0.8333328, y: 0.83333284, z: 0.83333284}
-  m_Children: []
-  m_Father: {fileID: 3080041958984763516}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &8789719639750695095
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -188,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 721520964836797759}
   animator: {fileID: 7829489113548762359}
-  aimSpineBone: {fileID: 6966185265427502064}
+  aimSpineBone: {fileID: 2568321761877350320}
   modelPivot: {fileID: 4199538522742421133}
   shooting: {fileID: 6196003137571827192}
   unitTargetDetection: {fileID: 7358818334498872903}
@@ -362,6 +332,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiHealthBarId: {fileID: 0}
   damagable: {fileID: 1208169183721640225}
+--- !u!1 &1173806862796730099
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3664289222830506091}
+  m_Layer: 7
+  m_Name: WeaponPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3664289222830506091
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173806862796730099}
+  m_LocalRotation: {x: -0.36465633, y: 0.5444182, z: 0.17849526, w: 0.7340123}
+  m_LocalPosition: {x: -0.10785818, y: 0.11422309, z: 0.041330393}
+  m_LocalScale: {x: 0.8333328, y: 0.83333284, z: 0.83333284}
+  m_Children: []
+  m_Father: {fileID: 3080041958984763516}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &162718244519360581
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -476,7 +476,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b308606bffb95214cb630fe1f7e3c11b, type: 2}
     - target: {fileID: 2280110974304833182, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
       propertyPath: m_Name
-      value: Unit_Survivor
+      value: UnitSurvivor
       objectReference: {fileID: 0}
     - target: {fileID: 2280110974304833182, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
       propertyPath: m_Layer
@@ -547,14 +547,14 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 7189782936235357000, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
   m_PrefabInstance: {fileID: 1108118197038849983}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2568321761877350320 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3225791923679610895, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
+  m_PrefabInstance: {fileID: 1108118197038849983}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3080041958984763516 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2728709094300997571, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
-  m_PrefabInstance: {fileID: 1108118197038849983}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6966185265427502064 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8055830558715432015, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
   m_PrefabInstance: {fileID: 1108118197038849983}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4868122228429233934
