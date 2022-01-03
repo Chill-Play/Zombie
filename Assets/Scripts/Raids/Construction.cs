@@ -20,6 +20,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
     InteractivePoint interactivePoint;
     Constructive constructive;
     Repairable repairable;
+    Sprite constructionIcon;
 
 
     public bool Constructed => constructed;
@@ -51,6 +52,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
         constructive = GetComponent<Constructive>();
         repairable = GetComponent<Repairable>();
         constructionHealth.OnDamage += ConstructionHealth_OnDamage;
+        constructionIcon = FindObjectOfType<ConstructionManager>().ConstructionIcon;
     }
 
     private void ConstructionHealth_OnDamage(DamageTakenInfo obj)
@@ -105,7 +107,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
         if (!constructed && !LockConstruction)
         {
             float dH = constructionHealth.AddHealth(value, true);          
-           // uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f);
+            uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f, constructionIcon);
             return dH;
         }
         return 0f;
@@ -116,7 +118,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
         if (constructed && !LockConstruction)
         {
             float dH = constructionHealth.AddHealth(value);            
-            //uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f);
+            uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f, constructionIcon);
             return dH;
         }
         return 0f;
