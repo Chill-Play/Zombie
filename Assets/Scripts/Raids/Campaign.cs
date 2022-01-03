@@ -15,7 +15,7 @@ public class Campaign : MonoBehaviour
         for (int i = 0; i < activeCards.cardSlots.Count; i++)
         {
 
-            GameObject instance = Instantiate(activeCards.cardSlots[i].card.UnitPrefab, squad.Units[0].transform.position, squad.transform.rotation);
+            GameObject instance = Instantiate(activeCards.cardSlots[i].card.CampaignUnitPrefab, squad.Units[0].transform.position, squad.transform.rotation);
             squad.AddUnit(instance.GetComponent<Unit>());
         }
     }

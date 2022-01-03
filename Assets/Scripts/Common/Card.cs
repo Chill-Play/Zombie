@@ -9,12 +9,14 @@ public class Card : ScriptableObject, ISerializationCallbackReceiver
     [SerializeField] Sprite icon;
     [SerializeField] string cardName;
     [SerializeField] GameObject unitVisual;
-    [SerializeField]  GameObject unitPrefab;
+    [SerializeField]  GameObject campaignUnitPrefab;
+    [SerializeField] GameObject raidUnitPrefab;
 
     public Sprite Icon => icon;
     public string CardName => cardName;
     public GameObject UnitVisual => unitVisual;
-    public GameObject UnitPrefab => unitPrefab;
+    public GameObject CampaignUnitPrefab => campaignUnitPrefab;
+    public GameObject RaidUnitPrefab => raidUnitPrefab;
 
     public string Id => id;
 

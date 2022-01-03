@@ -14,6 +14,7 @@ public class PartySelectorUI : MonoBehaviour
     [SerializeField] Transform cardsPanel;
     [SerializeField] GameObject mainCharVisualPrefab;
     [SerializeField] Transform mainCharPoint;
+    [SerializeField] Transform blockInputPannel;
 
     [SerializeField] CardSlotUI cardSlotUIPrefab;
     [SerializeField] List<SpecialistVisualUI> specialistVisualUIs = new List<SpecialistVisualUI>();
@@ -46,6 +47,7 @@ public class PartySelectorUI : MonoBehaviour
 
     void ShowPanel()
     {
+        blockInputPannel.gameObject.SetActive(true);
         partySelectorButton.gameObject.SetActive(false);
         partySelectorPanel.gameObject.SetActive(true);
         partySelectorEndButton.gameObject.SetActive(true);
@@ -56,6 +58,7 @@ public class PartySelectorUI : MonoBehaviour
 
     void HidePanel()
     {
+        blockInputPannel.gameObject.SetActive(false);
         partySelectorButton.gameObject.SetActive(true);
         partySelectorPanel.gameObject.SetActive(false);
         partySelectorEndButton.gameObject.SetActive(false);

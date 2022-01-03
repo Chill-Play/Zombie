@@ -44,9 +44,21 @@ public class Raid : MonoBehaviour
     {
         helicopter = FindObjectOfType<Helicopter>();
         if (helicopter != null)
-        {           
+        {
             helicopter.FlyAway();
-        }        
+        }
+
+        if (!campaign)
+        {
+            Squad squad = FindObjectOfType<Squad>();
+            CardsInfo activeCards = FindObjectOfType<CardController>().ActiveCards;
+            for (int i = 0; i < activeCards.cardSlots.Count; i++)
+            {
+
+                GameObject instance = Instantiate(activeCards.cardSlots[i].card.RaidUnitPrefab, squad.Units[0].transform.position, squad.transform.rotation);
+                squad.AddUnit(instance.GetComponent<Unit>());
+            }
+        }
     }
 
     private void Instance_OnLevelStarted()
