@@ -19,6 +19,7 @@ public class ResourceSpot : MonoBehaviour
     int uses = 0;
     float scale = 0;
     IEnumerable<INoiseListener> noiseListeners;
+    UINumbers uiNumbers;
 
     public ResourceInteractionType InteractionType => interactionType;
 
@@ -27,7 +28,8 @@ public class ResourceSpot : MonoBehaviour
     private void Awake()
     {
         scale = transform.localScale.magnitude;
-        noiseListeners = FindObjectsOfType<MonoBehaviour>().OfType<INoiseListener>();    
+        noiseListeners = FindObjectsOfType<MonoBehaviour>().OfType<INoiseListener>();
+        uiNumbers = FindObjectOfType<UINumbers>();
     }
 
     public void UseSpot(GameObject user)
@@ -64,6 +66,7 @@ public class ResourceSpot : MonoBehaviour
             Rigidbody body = instance.GetComponent<Rigidbody>();
             body.velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(3f, 6f), Random.Range(-1f, 1f)) * resourcesVelocity;
             body.angularVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * 360f;
+            uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + COUNT_PER_USE, Vector2.zero, 15f, 10f, 0.4f, resourceType.icon);
         }
     }
 }
