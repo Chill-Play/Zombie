@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 2686923902671980472}
   - component: {fileID: 2686923902671980473}
   - component: {fileID: 2686923902671980476}
-  - component: {fileID: 2686923902671980474}
   - component: {fileID: 2686923902855824508}
   m_Layer: 7
   m_Name: SurvivorMainRaid
@@ -209,8 +208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06fa7aa98e38e994e8e63748c2e0657c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitMovement: {fileID: 2686923902671980476}
   interactivePointDetection: {fileID: 2686923902671980451}
+  unitMovement: {fileID: 2686923902671980476}
   useSpotRadius: 2
   useRate: 0.5
   resourceSpotsMask:
@@ -324,21 +323,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 2686923902671980475}
   goToDestination: 0
---- !u!114 &2686923902671980474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2686923902671980477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 378eabd7a8952294aafa60bf86dfc214, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  comboTime: 1.5
-  showingTime: 1
-  upOffset: 2
 --- !u!114 &2686923902855824508
 MonoBehaviour:
   m_ObjectHideFlags: 0

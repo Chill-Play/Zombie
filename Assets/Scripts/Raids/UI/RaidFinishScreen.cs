@@ -150,13 +150,6 @@ public class RaidFinishScreen : UIScreen
 
     void SaveSquad()
     {
-        if (campaign)
-        {
-            survivorsLabel.text = "+" + (Mathf.Clamp(squad.Units.Count - FindObjectOfType<CardController>().ActiveCards.Count - 1, 0, squad.Units.Count));
-        }
-        else
-        {
-            survivorsLabel.text = "+" + (Mathf.Clamp(squad.Units.Count - 1, 0, squad.Units.Count));
-        }
+        survivorsLabel.text = "+" + (Mathf.Clamp(squad.Units.Count - FindObjectOfType<CardController>().ActiveCards.Count - 1, 0, squad.Units.Count));
     }
 }
