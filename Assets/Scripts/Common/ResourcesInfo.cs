@@ -7,11 +7,13 @@ public class ResourceSlot
 {
     public ResourceType type;
     public int count;
+    public bool opened;
 
-    public ResourceSlot(ResourceType type, int count)
+    public ResourceSlot(ResourceType type, int count, bool opened = false)
     {
         this.type = type;
         this.count = count;
+        this.opened = opened;
     }
 }
 

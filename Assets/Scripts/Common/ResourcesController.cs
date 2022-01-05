@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using SimpleJSON;
 
 
 
@@ -13,17 +14,41 @@ public class ResourcesController : SingletonMono<ResourcesController>
     const string RESOURCE_PREFS = "M_Resource_";
 
     [SerializeField] List<ResourceType> resourceTypes;
+    [SerializeField] List<ResourceType> defaultResourceTypes;
+    [SerializeField] ResourceType defaultResourceType;
+
+    List<ResourceType> openedResources = new List<ResourceType>();
 
     ResourcesInfo resourcesCount = new ResourcesInfo();
     public List<ResourceType> Resources => resourceTypes;
     public ResourcesInfo ResourcesCount => resourcesCount;
+
+    public ResourceType DefaultResourceType => defaultResourceType;
+    public List<ResourceType> OpenedResources => openedResources;
 
     void OnEnable()
     {
         resourcesCount.Clear();
         foreach(ResourceType resourceType in resourceTypes)
         {
-            resourcesCount.AddSlot(resourceType, PlayerPrefs.GetInt(RESOURCE_PREFS + resourceType.saveId, 0));
+            var jsonObject = JSON.Parse(PlayerPrefs.GetString(RESOURCE_PREFS + resourceType.saveId, ""));
+            if (jsonObject.HasKey("count"))
+            {
+                int count = jsonObject["count"].AsInt;
+                bool opened = jsonObject["opened"].AsBool;
+                ResourceSlot resourceSlot = new ResourceSlot(resourceType, count, opened);
+                resourcesCount.AddSlot(resourceSlot);
+                if (opened)
+                {
+                    openedResources.Add(resourceType);
+                }
+            }
+            else if (defaultResourceTypes.Contains(resourceType))
+            {
+                ResourceSlot resourceSlot = new ResourceSlot(resourceType, 0, true);
+                resourcesCount.AddSlot(resourceSlot);
+                openedResources.Add(resourceType);
+            }            
         }
         UpdateResources();
     }
@@ -65,7 +90,10 @@ public class ResourcesController : SingletonMono<ResourcesController>
     {
         foreach (var slot in resourcesCount.Slots)
         {
-            PlayerPrefs.SetInt(RESOURCE_PREFS + slot.type.saveId, slot.count);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.Add("count", slot.count);
+            jsonObject.Add("opened", slot.opened);
+            PlayerPrefs.SetString(RESOURCE_PREFS + slot.type.saveId, jsonObject.ToString());
         }
     }
 }

@@ -11,6 +11,7 @@ public class ResourceSpot : MonoBehaviour
     public event System.Action<ResourceSpot> OnSpotUsed;
     [SerializeField] int maxUses = 3;
     [SerializeField] ResourceType resourceType;
+    [SerializeField] List<ResourceType> possibleResourceTypes = new List<ResourceType>();
     [SerializeField] float noisePerUse = 10f;
     [SerializeField] float resourcesVelocity = 1f;
     [SerializeField] Vector3 resourceSpawnOffset = new Vector3(0f, 1f, 0f);
@@ -28,8 +29,30 @@ public class ResourceSpot : MonoBehaviour
     private void Awake()
     {
         scale = transform.localScale.magnitude;
-        noiseListeners = FindObjectsOfType<MonoBehaviour>().OfType<INoiseListener>();
+        noiseListeners = FindObjectsOfType<MonoBehaviour>().OfType<INoiseListener>();  
         uiNumbers = FindObjectOfType<UINumbers>();
+    }
+
+    private void Start()
+    {
+        ResourcesController resourcesController = FindObjectOfType<ResourcesController>();
+        if (!resourcesController.OpenedResources.Contains(resourceType))
+        {
+            bool found = false;
+            for (int i = 0; i < possibleResourceTypes.Count; i++)
+            {
+                if (resourcesController.OpenedResources.Contains(possibleResourceTypes[i]))
+                {
+                    resourceType = possibleResourceTypes[i];
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                resourceType = resourcesController.DefaultResourceType;
+            }
+        }
     }
 
     public void UseSpot(GameObject user)
