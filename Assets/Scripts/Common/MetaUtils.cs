@@ -15,4 +15,9 @@ public static class MetaUtils
         }
         return info;
     }
+
+    public static int GetLevelCost(int level, float costMultiplier, float costPower, int baseCost)
+    {     
+            return (int)(level * costMultiplier + Mathf.Pow(costPower, level) + baseCost); 
+    }
 }

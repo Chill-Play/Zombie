@@ -33,7 +33,7 @@ public class MapController : SingletonMono<MapController>
     {
         objects = FindObjectsOfType<BaseObject>();
         foreach (var obj in objects)
-        {
+        {            
             obj.OnRequireSave += BaseObject_OnRequireSave;
         }
         NewLoad();

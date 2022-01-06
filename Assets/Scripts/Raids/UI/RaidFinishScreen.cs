@@ -150,6 +150,8 @@ public class RaidFinishScreen : UIScreen
 
     void SaveSquad()
     {
-        survivorsLabel.text = "+" + (Mathf.Clamp(squad.Units.Count - FindObjectOfType<CardController>().ActiveCards.Count - 1, 0, squad.Units.Count));
+        int count = Mathf.Clamp(squad.Units.Count - FindObjectOfType<CardController>().ActiveCards.Count - 1, 0, squad.Units.Count);
+        survivorsLabel.text = "+" + count.ToString();
+        PlayerPrefs.SetInt("M_Survivors_Count", count);
     }
 }

@@ -35,7 +35,7 @@ public static class BaseSerialization
                 parentNode.Add(v.Name, (float)v.GetValue(baseObject));
             }
             else if (type == typeof(int))
-            {
+            {               
                 parentNode.Add(v.Name, (int)v.GetValue(baseObject));
             }
             else if (type == typeof(string))
