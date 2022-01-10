@@ -80,6 +80,16 @@ public class ResourcesController : SingletonMono<ResourcesController>
         resourcesCount.Add(resources);
     }
 
+    public void AddResourceType(ResourceType resourceType)
+    {
+        if (!openedResources.Contains(resourceType))
+        {
+            ResourceSlot resourceSlot = new ResourceSlot(resourceType, 0, true);
+            resourcesCount.AddSlot(resourceSlot);
+            openedResources.Add(resourceType);
+        }
+    }
+
 
     public ResourceType GetResourceType(string saveId)
     {

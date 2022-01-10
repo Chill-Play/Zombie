@@ -7,7 +7,7 @@ public class ResourceSlot
 {
     public ResourceType type;
     public int count;
-    public bool opened;
+    [HideInInspector] public bool opened;
 
     public ResourceSlot(ResourceType type, int count, bool opened = false)
     {
