@@ -134,7 +134,7 @@ public class ZombieWaveSpawner : MonoBehaviour
     {
         if (spawnHordeCoroutine != null)
         {
-            StopAllCoroutines();
+            StopCoroutine(spawnHordeCoroutine);
         }
     }
 
