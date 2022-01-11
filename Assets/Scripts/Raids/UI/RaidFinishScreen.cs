@@ -139,6 +139,10 @@ public class RaidFinishScreen : UIScreen
     public void NoThanksClicked()
     {
         CollectResources();
+        if (campaign)
+        {
+            CollectCards();
+        }
         ToBase();
         /*
         if (ZombiesLevelController.Instance.LevelsPlayed > 1)
@@ -153,5 +157,14 @@ public class RaidFinishScreen : UIScreen
         int count = Mathf.Clamp(squad.Units.Count - FindObjectOfType<CardController>().ActiveCards.Count - 1, 0, squad.Units.Count);
         survivorsLabel.text = "+" + count.ToString();
         PlayerPrefs.SetInt("M_Survivors_Count", count);
+    }
+
+    void CollectCards()
+    {
+        CardController cardController = FindObjectOfType<CardController>();
+        for (int i = 0; i < campaign.RewardCards.Count; i++)
+        {
+            cardController.TryToActivateCard(campaign.RewardCards[i]);
+        }
     }
 }

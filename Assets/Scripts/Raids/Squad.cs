@@ -8,10 +8,6 @@ public class Squad : MonoBehaviour, IInputReceiver
     public event System.Action<Unit> OnUnitAdd;
     public event System.Action OnPlayerUnitDead;
 
-
-    [SerializeField] Bomb bombPrefab;
-    [SerializeField] Unit mainSurvivor;
-    [SerializeField] Unit pickupSurvivor;
     [SerializeField] List<UnitMovement> units;
     [SerializeField] float unitRadius;
     [SerializeField] float unitCatchingDistance = 5f;
@@ -19,6 +15,8 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     bool isMoving = false;
     bool movingToCar = false;
+
+    int specialistCount  = 0;
 
     List<InteractivePointDetection> interactivePointDetections = new List<InteractivePointDetection>();
     List<bool> caughtUpSquad = new List<bool>();
@@ -113,6 +111,13 @@ public class Squad : MonoBehaviour, IInputReceiver
         return backpack.Resources;
     }
 
+    public void AddSpecialist(Unit unit)
+    {
+        specialistCount++;
+        unit.GetComponent<UnitHealth>().OnDead += (x) => specialistCount--;
+        AddUnit(unit);
+    }
+
     public void AddUnit(Unit unit)
     {
         unit.GetComponent<UnitHealth>().OnDead += (x) => RemoveUnit(unit.GetComponent<UnitMovement>());
@@ -196,7 +201,8 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     public void Revive()
     {
-        int unitsCount = units.Count + deadUnits.Count - 1;
+        CardsInfo activeCards = FindObjectOfType<CardController>().ActiveCards;   
+        int unitsCount = units.Count + deadUnits.Count - activeCards.Count - 1;
 
         for (int i = 0; i < deadUnits.Count; i++)
         {
@@ -211,19 +217,29 @@ public class Squad : MonoBehaviour, IInputReceiver
         interactivePointDetections.Clear();
         caughtUpSquad.Clear();
 
-        Unit mainDude = Instantiate(mainSurvivor, transform.position, transform.rotation);
+        var reviveController = FindObjectOfType<ReviveController>();
+
+        Unit mainDude = Instantiate(reviveController.MainSurvivor, transform.position, transform.rotation);
         AddUnit(mainDude);
 
         for (int i = 0; i < unitsCount; i++)
         {
-            Unit instance = Instantiate(pickupSurvivor, transform.position, transform.rotation);
+            Unit instance = Instantiate(reviveController.PickupSurvivor, transform.position, transform.rotation);
             AddUnit(instance);
+        }
+
+       
+        for (int i = 0; i < activeCards.cardSlots.Count; i++)
+        {
+
+            GameObject instance = Instantiate(activeCards.cardSlots[i].card.RaidUnitPrefab, transform.position, transform.rotation);
+            AddSpecialist(instance.GetComponent<Unit>());
         }
 
         units[0].GetComponent<PlayerResources>().CanMoveToResources = false;
         units[0].GetComponent<UnitHealth>().OnDead += Squad_OnDead;
 
-        Bomb bomb = Instantiate(bombPrefab, transform.position + Vector3.up * 3f, Quaternion.identity);
+        Bomb bomb = Instantiate(reviveController.BombPrefab, transform.position + Vector3.up * 3f, Quaternion.identity);
         bomb.Detonate();
     }
 

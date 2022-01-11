@@ -5,8 +5,10 @@ using UnityEngine;
 public class Campaign : MonoBehaviour
 {
     [SerializeField] List<Unit> units = new List<Unit>();
+    [SerializeField] List<CardSlot> rewardCards = new List<CardSlot>();
 
     public int SpecialistCount => units.Count;
+    public List<CardSlot> RewardCards => rewardCards;
 
     void Start()
     {
@@ -17,7 +19,7 @@ public class Campaign : MonoBehaviour
 
             GameObject instance = Instantiate(activeCards.cardSlots[i].card.CampaignUnitPrefab, squad.Units[0].transform.position, squad.transform.rotation);
             squad.AddUnit(instance.GetComponent<Unit>());
-        }
+        }        
     }
 
    

@@ -93,6 +93,7 @@ MonoBehaviour:
     - {fileID: 2686923902671980454}
     - {fileID: 2686923902671980460}
     - {fileID: 2686923902671980476}
+    - {fileID: 2686923902671980463}
   - subjectId: {fileID: 1115681336743573062, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
     components:
     - {fileID: 2686923902671980452}
@@ -104,6 +105,7 @@ MonoBehaviour:
     - {fileID: 2686923902671980454}
     - {fileID: 2686923902671980460}
     - {fileID: 2686923902671980476}
+    - {fileID: 2686923902671980463}
   - subjectId: {fileID: 1337734200025154110, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
     components: []
   currentState:
@@ -133,7 +135,7 @@ MonoBehaviour:
   shootingState: {fileID: -4611125992726261297, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
   interactingState: {fileID: 1115681336743573062, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
   deadState: {fileID: 1337734200025154110, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
-  leaderDefeatedState: {fileID: 3443782999329704729, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
+  leaderDefeatedState: {fileID: 1337734200025154110, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
 --- !u!114 &2686923902671980448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18923db9141a9bc43894ed51ae93dc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 999
+  health: 100
   bloodVfx: {fileID: 0}
   bloodVfxScale: 0.2
 --- !u!114 &2686923902671980460
@@ -399,6 +401,10 @@ PrefabInstance:
     - target: {fileID: 1691216801881912485, guid: 42d4ee656b68f1b4f84fc2236897c34f, type: 3}
       propertyPath: bulletDamage
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007356453451554453, guid: 42d4ee656b68f1b4f84fc2236897c34f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4150979815356749791, guid: 42d4ee656b68f1b4f84fc2236897c34f, type: 3}
       propertyPath: m_Name

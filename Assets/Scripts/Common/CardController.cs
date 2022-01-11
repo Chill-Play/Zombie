@@ -32,7 +32,7 @@ public class CardSlot
 public class CardController : MonoBehaviour
 {
     [SerializeField, CardSerialize] public CardsInfo deckCards;
-    [CardSerialize] protected CardsInfo activeCards = new CardsInfo();
+    [SerializeField, CardSerialize] protected CardsInfo activeCards = new CardsInfo();
     [SerializeField] int maxActiveSlots = 4;
     [SerializeField] List<Card> cardVariants = new List<Card>();
 
@@ -49,7 +49,10 @@ public class CardController : MonoBehaviour
         if (activeCards.cardSlots.Count < maxActiveSlots)
         {
             activeCards.cardSlots.Add(cardSlot);
-            deckCards.cardSlots.Remove(cardSlot);
+            if (deckCards.cardSlots.Contains(cardSlot))
+            {
+                deckCards.cardSlots.Remove(cardSlot);
+            }
             Save();
             return true;
         }

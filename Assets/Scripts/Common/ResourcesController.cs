@@ -40,7 +40,7 @@ public class ResourcesController : SingletonMono<ResourcesController>
                 resourcesCount.AddSlot(resourceSlot);
                 if (opened)
                 {
-                    openedResources.Add(resourceType);
+                openedResources.Add(resourceType);
                 }
             }
             else if (defaultResourceTypes.Contains(resourceType))
@@ -78,6 +78,16 @@ public class ResourcesController : SingletonMono<ResourcesController>
     public void AddResources(ResourcesInfo resources)
     {
         resourcesCount.Add(resources);
+    }
+
+    public void AddResourceType(ResourceType resourceType)
+    {
+        if (!openedResources.Contains(resourceType))
+        {
+            ResourceSlot resourceSlot = new ResourceSlot(resourceType, 0, true);
+            resourcesCount.AddSlot(resourceSlot);
+            openedResources.Add(resourceType);
+        }
     }
 
 

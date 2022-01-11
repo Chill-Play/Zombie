@@ -56,7 +56,7 @@ public class Raid : MonoBehaviour
             {
 
                 GameObject instance = Instantiate(activeCards.cardSlots[i].card.RaidUnitPrefab, squad.Units[0].transform.position, squad.transform.rotation);
-                squad.AddUnit(instance.GetComponent<Unit>());
+                squad.AddSpecialist(instance.GetComponent<Unit>());
             }
         }
     }
@@ -78,6 +78,7 @@ public class Raid : MonoBehaviour
     }
     private void Instance_OnLevelEnded()
     {
+        zombieWaveSpawner.StopSpawning();
         if (spawnWavesCoroutine != null)
         {
             StopCoroutine(spawnWavesCoroutine);
@@ -151,7 +152,7 @@ public class Raid : MonoBehaviour
         if (spawnWavesCoroutine != null)
         {
             StopCoroutine(spawnWavesCoroutine);
-        }
+        }  
         mainHorde = zombieWaveSpawner.SpawnHorde(hordeSize, 0, generation);
         mainHorde.OnHordeDefeated += MainHorde_OnHordeDefeated;
     }
