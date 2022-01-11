@@ -16,7 +16,7 @@ public class HQBuilding : BaseObject
     [SerializeField] Sprite pointIcon;
     [SerializeField] int cost;
     [BaseSerialize] int currentCount;
-    [SerializeField] int rewardCount;
+    [SerializeField] int rewardCount = 2;
     private int nextChest;
     private UINumbers uiNumbers;
     public int Level => level;
