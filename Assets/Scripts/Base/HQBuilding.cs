@@ -16,7 +16,6 @@ public class HQBuilding : BaseObject
     [SerializeField] Sprite pointIcon;
     [SerializeField] int cost;
     [BaseSerialize] int currentCount;
-    int rewardCount;
     private LevelProgressionController levelProgressionController;
     int nextChest;
     UINumbers uiNumbers;
@@ -26,6 +25,7 @@ public class HQBuilding : BaseObject
     public int CurrentCount => currentCount;
 
     public int NextChest => nextChest;
+    int rewardCount => levelProgressionController.CurrentLevelProgression.Chests.Count;
 
     public int RewardCount => rewardCount;
 
@@ -35,7 +35,6 @@ public class HQBuilding : BaseObject
         uiNumbers = FindObjectOfType<UINumbers>();
         float currentValue = (float)currentCount / (float)cost;
         levelProgressionController = FindObjectOfType<LevelProgressionController>();
-        rewardCount = levelProgressionController.CurrentLevelProgression.Chests.Count;
         nextChest = Mathf.FloorToInt(currentValue / (1f / (rewardCount + 1)));
     }
 
@@ -84,7 +83,6 @@ public class HQBuilding : BaseObject
         level += 1;
         cost = MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
         RequireSave();
-        rewardCount = levelProgressionController.CurrentLevelProgression.Chests.Count;
         OnLevelUp?.Invoke();
         UnityAnalytics.Instance.OnHQLevelUp(level);
     }

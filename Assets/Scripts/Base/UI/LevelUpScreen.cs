@@ -17,9 +17,9 @@ public class LevelUpScreen : MonoBehaviour
     [SerializeField] private GameObject resourcePrefab;
     [SerializeField] private GameObject buildingPrefab;
     private LevelProgressionController levelProgressionController;
-    private int resourcesCount;
     HQBuilding hq;
-    [SerializeField] int buildingsCount;
+    private int resourcesCount => levelProgressionController.CurrentLevelProgression.UnlockResources.Count;
+    private int buildingCount => levelProgressionController.UnlockableBuildings.Count;
 
     private void Awake()
     {
@@ -31,16 +31,14 @@ public class LevelUpScreen : MonoBehaviour
     
     public void CloseScreen()
     {
-        //UnlockBuildings();
-        
         var seq = DOTween.Sequence();
         seq.Join(continueButton.transform.DOScale(Vector3.zero, .1f));
         seq.AppendInterval(0.1f);
-        for (int i = 0; i < buildingsCount; i++)
+        for (int i = 0; i < buildingCount; i++)
         {
             seq.Append(newBuildings[i].transform.DOScale(Vector3.zero, .2f).SetEase(Ease.OutCirc));
         }
-        for (int i = 0; i < levelProgressionController.CurrentLevelProgression.UnlockResources.Count; i++)
+        for (int i = 0; i < resourcesCount; i++)
         {
             seq.Append(newResources[i].transform.DOScale(Vector3.zero, .2f).SetEase(Ease.OutCirc));
         }
@@ -63,7 +61,7 @@ public class LevelUpScreen : MonoBehaviour
         continueButton.transform.localScale = Vector3.zero;
         lvlText.text = (hq.Level + 1).ToString();
         int i = 0;
-        for (; i < buildingsCount; i++)
+        for (; i < buildingCount; i++)
         {
             if (i < newBuildings.Count) 
                 newResources[i].gameObject.SetActive(true);
@@ -78,7 +76,7 @@ public class LevelUpScreen : MonoBehaviour
         for (; i < newBuildings.Count; i++)
             newResources[i].gameObject.SetActive(false);
         i = 0;
-        for (; i < levelProgressionController.CurrentLevelProgression.UnlockResources.Count; i++)
+        for (; i < resourcesCount; i++)
         {
             if (i < newResources.Count) 
                 newResources[i].gameObject.SetActive(true);
@@ -94,6 +92,8 @@ public class LevelUpScreen : MonoBehaviour
         }
         for (; i < newResources.Count; i++)
             newResources[i].gameObject.SetActive(false);
+        Debug.Log("res count" + resourcesCount);
+        Debug.Log("build count" + buildingCount);
         PlayScreenAnimation();
     }
     
@@ -106,13 +106,12 @@ public class LevelUpScreen : MonoBehaviour
 
         seq.Append(newLevelLabel.transform.DOPunchRotation(new Vector3(0, -50, -30), 1f, 5));
         seq.AppendInterval(0.1f);
-        for (int i = 0; i < buildingsCount; i++)
+        for (int i = 0; i < buildingCount; i++)
         {
             seq.Join(newBuildings[i].transform.DOScale(new Vector3(1,1,1), .2f).SetEase(Ease.OutCirc));
             seq.AppendInterval(0.1f);
         }
-        Debug.Log("resourceCount: " + resourcesCount);
-        for (int i = 0; i < levelProgressionController.CurrentLevelProgression.UnlockResources.Count; i++)
+        for (int i = 0; i < resourcesCount; i++)
         {
             seq.Join(newResources[i].transform.DOScale(new Vector3(1,1,1), .2f).SetEase(Ease.OutCirc));
             seq.AppendInterval(0.1f);
