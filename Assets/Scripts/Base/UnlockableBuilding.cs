@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public class UnlockableBuilding : MonoBehaviour
 {
@@ -33,8 +34,17 @@ public class UnlockableBuilding : MonoBehaviour
 
     public void UnlockWhithAnimation(System.Action callback = null)
     {
-        SetLock(false);
-        callback?.Invoke();
+        //Add animation unlock
+        var seq = DOTween.Sequence();
+        seq.Append(lockerInstance.transform.DOPunchScale(Vector3.one * 0.2f,1, 5, 1).OnComplete(() =>
+        {
+            lockerInstance.Unlock();
+        }));
+        seq.AppendInterval(.4f).OnComplete(() =>
+        {
+            SetLock(false);
+            callback?.Invoke();
+        });
     }
 
 

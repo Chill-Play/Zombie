@@ -84,7 +84,6 @@ public class HQBuilding : BaseObject
         level += 1;
         cost = MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
         RequireSave();
-        UpdateUnlockables();
         rewardCount = levelProgressionController.CurrentLevelProgression.Chests.Count;
         OnLevelUp?.Invoke();
         UnityAnalytics.Instance.OnHQLevelUp(level);

@@ -28,8 +28,11 @@ public class LevelUpScreen : MonoBehaviour
         hq.OnLevelUp += ShowScreen;
     }
 
+    
     public void CloseScreen()
     {
+        //UnlockBuildings();
+        
         var seq = DOTween.Sequence();
         seq.Join(continueButton.transform.DOScale(Vector3.zero, .1f));
         seq.AppendInterval(0.1f);
@@ -44,7 +47,12 @@ public class LevelUpScreen : MonoBehaviour
         seq.Append(newLevelLabel.transform.DOScale(Vector3.zero, .1f));
         seq.AppendInterval(0.1f);
         seq.Append(header.transform.DOScale(Vector3.zero, .1f));
-        seq.OnComplete(()=>{gameObject.SetActive(false);});
+        seq.OnComplete(() =>
+        {
+            gameObject.SetActive(false);
+            levelProgressionController.UnlockBuildings();
+            levelProgressionController.UnlockResourceType();
+        });
     }
 
     public void ShowScreen()
@@ -53,7 +61,7 @@ public class LevelUpScreen : MonoBehaviour
         header.transform.localScale = Vector3.zero;
         newLevelLabel.transform.localScale = Vector3.zero;
         continueButton.transform.localScale = Vector3.zero;
-        lvlText.text = hq.Level.ToString();
+        lvlText.text = (hq.Level + 1).ToString();
         int i = 0;
         for (; i < buildingsCount; i++)
         {

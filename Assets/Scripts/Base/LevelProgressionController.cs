@@ -54,17 +54,20 @@ public class LevelProgressionController : MonoBehaviour
                 unlockableBuildings.Add(unlockableBuilding);
             }
         }
-        UnlockBuildings();
-        /*
+        
+    }
+
+    public void UnlockResourceType()
+    {
         ResourcesController resourcesController = FindObjectOfType<ResourcesController>();
         List<ResourceType> unlockResources = CurrentLevelProgression.UnlockResources;
         foreach (var resourceType in unlockResources)
         {
             resourcesController.AddResourceType(resourceType);
         }
-        resourcesController.UpdateResources();*/
+        resourcesController.UpdateResources();
     }
-
+    
     public void UnlockBuildings()
     {
         StartCoroutine(UnlockBuildingsCoroutine());
