@@ -20,7 +20,6 @@ public class HQLevelUI : MonoBehaviour
     [SerializeField] TMP_Text pointCountText;
     [SerializeField] Transform pointCountTransform;
     [SerializeField] float disappearTime = 4f;
-    [SerializeField] Transform OMG;
     HQBuilding hq;
     float currentDisappearTime = 0f;
     int pointCombo;
@@ -47,7 +46,7 @@ public class HQLevelUI : MonoBehaviour
     }
 
     private void Hq_OnPointAdded(int value)
-    {      
+    {
         currentDisappearTime = disappearTime;
         if (pointCountTween != null)
         {
@@ -59,7 +58,7 @@ public class HQLevelUI : MonoBehaviour
             StartCoroutine(DisappearCoroutine());
         }
         pointCombo += value;
-        pointCountText.text = "+" + pointCombo.ToString();  
+        pointCountText.text = "+" + pointCombo.ToString();
         pointCountTween = pointCountTransform.DOPunchScale(Vector3.one * 0.1f, 0.3f, 1, 1);
         UpdateProgressBar();
     }
@@ -73,7 +72,7 @@ public class HQLevelUI : MonoBehaviour
     }
 
     IEnumerator DisappearCoroutine()
-    {       
+    {
         pointCountTransform.gameObject.SetActive(true);
         while (currentDisappearTime > 0)
         {
@@ -87,17 +86,16 @@ public class HQLevelUI : MonoBehaviour
 
     private void RewardPlacement()
     {
-        Transform levelBar = transform.GetChild(0);        
-        float width = OMG.GetComponent<RectTransform>().sizeDelta.x;
-        float segment = width / (hq.RewardCount + 1);
-        Debug.Log(width);
-        Vector3 startPos = giftsSpawnPoint.InverseTransformPoint(OMG.transform.position - new Vector3(width / 2f, 0, 0));
+        Transform levelBar = transform.GetChild(0);
+        int width = (int)levelBar.GetComponent<RectTransform>().sizeDelta.x;
+        int segment = width / (hq.RewardCount + 1);
+        Vector3 startPos = levelBar.position - new Vector3(width / 2, 0, 0);
         int nextChest = hq.NextChest;
 
         int i = 0;
         for (; i < hq.RewardCount; i++)
         {
-            if (i < chests.Count) 
+            if (i < chests.Count)
                 chests[i].gameObject.SetActive(true);
             else
             {
@@ -105,10 +103,7 @@ public class HQLevelUI : MonoBehaviour
                     Quaternion.identity, giftsSpawnPoint);
                 chests.Add(newChest);
             }
-            Debug.Log(startPos);
-            // Debug.Log(startPos + new Vector3(segment * (i + 1), 20, 0));
-            Debug.Log(startPos + new Vector3(segment * (i + 1), 20, 0));
-            chests[i].transform.localPosition = startPos + new Vector3(segment * (i + 1), 20, 0);
+            chests[i].transform.position = startPos + new Vector3(segment * (i + 1), 20, 0);
             chests[i].transform.GetChild(0).GetComponent<Image>().sprite = (i < nextChest) ? openRewardSprite : rewardSprite;
         }
         for (; i < chests.Count; i++)
@@ -126,16 +121,16 @@ public class HQLevelUI : MonoBehaviour
         rewardScreen.gameObject.SetActive(true);
         rewardScreen.OpenChest(index);
     }
-    
+
     private void Hq_OnRewardOpened(int index)
     {
         giftsSpawnPoint.GetChild(index).GetChild(0).GetComponent<Image>().sprite = openRewardSprite;
         //play open chest animation
         var seq = DOTween.Sequence();
         seq.Append(chests[index].transform.DOShakeScale(.5f, 1, 7));
-        seq.OnComplete(()=>Complete(index));
+        seq.OnComplete(() => Complete(index));
     }
-    
+
     ////////////////////////////////////////////////////////
     /*Mathematical division of the level bar into segments*/
     ////////////////////////////////////////////////////////
