@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ public class BaseUI : UIScreen
 {
     //[SerializeField] Button raidButton;
     [SerializeField] RaidEntranceUI raidEntrance;
+    [SerializeField] private LevelUpScreen levelUpScreen;
+    private HQBuilding hq;
 
     //[SerializeField] Button globalMapButton;
     //[SerializeField] LevelPackProgressBar levelBar;
@@ -18,9 +21,17 @@ public class BaseUI : UIScreen
     CampGameplayController campGameplayController;
     int raidTimer;
 
+    private void Awake()
+    {
+        hq = FindObjectOfType<HQBuilding>();
+    }
+
     private void OnEnable()
     {
-       
+        CampGameplayController campGameplayController = CampGameplayController.Instance;
+        hq.OnLevelUp += levelUpScreen.ShowScreen;
+        campGameplayController.OnRaidReadiness += OnRaidReadiness;
+        campGameplayController.OnRaidUnpreparedness += OnRaidUnpreparedness;
     }
 
    
@@ -30,14 +41,12 @@ public class BaseUI : UIScreen
         //raidButton.gameObject.SetActive(false);
         //raidButton.onClick.AddListener(() => RaidButton_OnClick());
 
-        CampGameplayController campGameplayController = CampGameplayController.Instance;
-
-        campGameplayController.OnRaidReadiness += OnRaidReadiness;
-        campGameplayController.OnRaidUnpreparedness += OnRaidUnpreparedness;
     }
 
     private void OnDisable()
     {
+        if (hq != null)
+            hq.OnLevelUp -= levelUpScreen.ShowScreen;
         if (campGameplayController != null)
         {
             campGameplayController.OnRaidReadiness -= OnRaidReadiness;           

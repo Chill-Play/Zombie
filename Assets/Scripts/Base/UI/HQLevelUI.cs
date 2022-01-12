@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -117,7 +118,6 @@ public class HQLevelUI : MonoBehaviour
 
     void Complete(int index)
     {
-        
         rewardScreen.gameObject.SetActive(true);
         rewardScreen.OpenChest(index);
     }
@@ -131,7 +131,9 @@ public class HQLevelUI : MonoBehaviour
         seq.OnComplete(()=>Complete(index));
     }
     
-    //Mathematical division of the level bar into segments
+    ////////////////////////////////////////////////////////
+    /*Mathematical division of the level bar into segments*/
+    ////////////////////////////////////////////////////////
     // private void RewardPlacement()
     // {
     //     Transform levelBar = transform.GetChild(0); 

@@ -10,7 +10,10 @@ using Vector3 = UnityEngine.Vector3;
 
 public class RewardScreen : MonoBehaviour
 {
-    [SerializeField] private Image chest;
+    [SerializeField] private GameObject chest;
+    [SerializeField] private Image chestSprite;
+    [SerializeField] private Sprite chestIcon;
+    [SerializeField] private Sprite openedChestIcon;
     [SerializeField] private GameObject rewardText;
     [SerializeField] private GameObject claimButton;
     [SerializeField] private ResourceBar resourcePrefab;
@@ -27,8 +30,8 @@ public class RewardScreen : MonoBehaviour
         rewardText.transform.localScale = Vector3.zero;
         claimButton.transform.localScale = Vector3.zero;
         levelSettings = FindObjectOfType<LevelProgressionController>().CurrentLevelProgression;
-        chest.sprite = levelSettings.Chests[i].chestInfo.Icon;
-        chest.sprite = levelSettings.Chests[i].chestInfo.OpenedIcon;
+        chestSprite.sprite = levelSettings.Chests[i].chestInfo.Icon;
+        chestSprite.sprite = levelSettings.Chests[i].chestInfo.OpenedIcon;
         resInfo = levelSettings.Chests[i].resourcesInfo;
         resourcesCount = resInfo.Slots.Count;
         
@@ -67,22 +70,30 @@ public class RewardScreen : MonoBehaviour
     public void CloseScreen()
     {
         var seq = DOTween.Sequence();
-        seq.Append(claimButton.transform.DOScale(Vector3.zero, .1f));
-        seq.AppendInterval(0.2f);
-        for (int i = 0; i < resourcesCount; i++)
-            seq.Append(resources[i].transform.DOScale(Vector3.zero, .1f).SetEase(Ease.OutCirc));
-        seq.Append(chest.transform.DOScale(Vector3.zero, .2f));
+        seq.Join(claimButton.transform.DOScale(Vector3.zero, .1f));
         seq.AppendInterval(0.1f);
-        seq.Append(rewardText.transform.DOScale(Vector3.zero, .2f));
+        for (int i = 0; i < resourcesCount; i++)
+        {
+            seq.Append(resources[i].transform.DOScale(Vector3.zero, .2f).SetEase(Ease.OutCirc));
+        }
+        seq.Append(chest.transform.DOScale(Vector3.zero, .1f));
+        seq.AppendInterval(0.1f);
+        seq.Append(rewardText.transform.DOScale(Vector3.zero, .1f));
         seq.OnComplete(CompleteCloseScreen);
     }
     
     void OpenChestAnimation()
     {
+        chestSprite.sprite = chestIcon;
         var seq = DOTween.Sequence();
         seq.Append(rewardText.transform.DOScale(new Vector3(1,1,1), .3f));
         seq.AppendInterval(0.3f);
         seq.Append(chest.transform.DOScale(new Vector3(1,1,1), .3f));
+        
+        seq.Append(chest.transform.DOPunchRotation(new Vector3(0, -50, -30), 1f, 5).SetEase(Ease.InBounce)).AppendCallback(() =>
+        {
+            chestSprite.sprite = openedChestIcon;
+        });
         seq.AppendInterval(0.1f);
         for (int i = 0; i < resourcesCount; i++)
         {

@@ -20,7 +20,6 @@ public class LevelProgressionController : MonoBehaviour
 
     private void Start()
     {
-        
         resourcesController = FindObjectOfType<ResourcesController>();
     }
 
