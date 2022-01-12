@@ -15,6 +15,8 @@ public class CameraController : SingletonMono<CameraController>
     Transform lastTarget;
     Quaternion defaultRotatiom;
     float defaultZ;
+    float reachingTime = 0.1f;
+    System.Action OnReachingCallback;
 
     private void Awake()
     {
@@ -34,17 +36,22 @@ public class CameraController : SingletonMono<CameraController>
     void Update()
     {
         if(target != null)
-        {
-            transform.position = Vector3.SmoothDamp(transform.position, target.position, ref currentVelocity, 0.1f);
+        {   
+            transform.position = Vector3.SmoothDamp(transform.position, target.position, ref currentVelocity, reachingTime);
+            if (Vector3.Distance(transform.position, target.position) < 0.2f && OnReachingCallback != null)
+            {
+                OnReachingCallback?.Invoke();
+            }
         }
     }
 
 
-    public void SetTarget(Transform target)
-    {
+    public void SetTarget(Transform target, float reachingTime = 0.1f, System.Action OnReachingCallback = null)
+    {        
         lastTarget = target;
         this.target = target;
-        transform.position = target.position;
+        this.reachingTime = reachingTime;
+        this.OnReachingCallback = () => { OnReachingCallback?.Invoke(); OnReachingCallback = null; }; /// OMG    
     }
 
     public void Zoom(float newZoomValue, float duration, System.Action OnZoomEndCallback = null)

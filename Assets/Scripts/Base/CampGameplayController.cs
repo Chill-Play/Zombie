@@ -19,7 +19,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     [SerializeField] RaidZone raidZone;
     [SerializeField] RaidZone campaignZone;
 
-    [HideInInspector] public Transform playerInstance;
+    public Transform PlayerInstance { get;private set; }
 
     bool isPlayerReturnedToRaidZone = false;
 
@@ -64,7 +64,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
         if (isPlayerReturnedToRaidZone)
         {
             OnRaidReadiness?.Invoke(timeBeforeRaid);
-            playerInstance.GetComponent<UnitMovement>().MoveTo(campaignZone.transform.position);
+            PlayerInstance.GetComponent<UnitMovement>().MoveTo(campaignZone.transform.position);
             StartCoroutine(CampaignCoroutine());
         }
     }
@@ -79,7 +79,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
         if (isPlayerReturnedToRaidZone)
         {
             OnRaidReadiness?.Invoke(timeBeforeRaid);
-            playerInstance.GetComponent<UnitMovement>().MoveTo(raidZone.transform.position);
+            PlayerInstance.GetComponent<UnitMovement>().MoveTo(raidZone.transform.position);
             StartCoroutine(RaidCoroutine());
         }
     }
@@ -116,15 +116,25 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
 
     private void Start()
     {
-         FindObjectOfType<CampSquad>().SpawnSquad(playerInstance.transform.position);
+         FindObjectOfType<CampSquad>().SpawnSquad(PlayerInstance.transform.position);
     }
 
 
 
     public void SpawnPlayer(Transform point, GameObject prefab)
     {
-        playerInstance = Instantiate(prefab, point.position, point.rotation).transform;
-        cameraController.SetTarget(playerInstance);                
-        inputPanel.Receiver = playerInstance.GetComponent<IInputReceiver>();
+        PlayerInstance = Instantiate(prefab, point.position, point.rotation).transform;
+        cameraController.SetTarget(PlayerInstance);                
+        inputPanel.Receiver = PlayerInstance.GetComponent<IInputReceiver>();
+    }
+
+    public void EnableInput()
+    {
+       
+    }
+
+    public void DisableInput()
+    {
+        
     }
 }

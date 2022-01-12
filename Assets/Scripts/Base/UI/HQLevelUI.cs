@@ -19,6 +19,7 @@ public class HQLevelUI : MonoBehaviour
     [SerializeField] TMP_Text pointCountText;
     [SerializeField] Transform pointCountTransform;
     [SerializeField] float disappearTime = 4f;
+    [SerializeField] Transform OMG;
     HQBuilding hq;
     float currentDisappearTime = 0f;
     int pointCombo;
@@ -85,10 +86,11 @@ public class HQLevelUI : MonoBehaviour
 
     private void RewardPlacement()
     {
-        Transform levelBar = transform.GetChild(0);
-        int width = (int) levelBar.GetComponent<RectTransform>().sizeDelta.x;
-        int segment = width / (hq.RewardCount + 1);
-        Vector3 startPos = levelBar.position - new Vector3(width / 2, 0, 0);
+        Transform levelBar = transform.GetChild(0);        
+        float width = OMG.GetComponent<RectTransform>().sizeDelta.x;
+        float segment = width / (hq.RewardCount + 1);
+        Debug.Log(width);
+        Vector3 startPos = giftsSpawnPoint.InverseTransformPoint(OMG.transform.position - new Vector3(width / 2f, 0, 0));
         int nextChest = hq.NextChest;
 
         int i = 0;
@@ -102,7 +104,10 @@ public class HQLevelUI : MonoBehaviour
                     Quaternion.identity, giftsSpawnPoint);
                 chests.Add(newChest);
             }
-            chests[i].transform.position = startPos + new Vector3(segment * (i + 1), 20, 0);
+            Debug.Log(startPos);
+            // Debug.Log(startPos + new Vector3(segment * (i + 1), 20, 0));
+            Debug.Log(startPos + new Vector3(segment * (i + 1), 20, 0));
+            chests[i].transform.localPosition = startPos + new Vector3(segment * (i + 1), 20, 0);
             chests[i].transform.GetChild(0).GetComponent<Image>().sprite = (i < nextChest) ? openRewardSprite : rewardSprite;
         }
         for (; i < chests.Count; i++)

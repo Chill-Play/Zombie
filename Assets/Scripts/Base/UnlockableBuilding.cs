@@ -13,6 +13,7 @@ public class UnlockableBuilding : MonoBehaviour
 
     LockerTag lockerInstance;
     Transform spot;
+    bool locked = true;
 
     private void Start()
     {
@@ -23,6 +24,17 @@ public class UnlockableBuilding : MonoBehaviour
         lockPos.y = 0.4f;
         lockerInstance = Instantiate(lockerPrefab, lockPos, Quaternion.identity, spot);
         lockerInstance.SetLevel(unlockLevel);
+    }
+
+    public bool CanUnlock(int level)
+    {
+        return level >= unlockLevel - 1 && locked;
+    }
+
+    public void UnlockWhithAnimation(System.Action callback = null)
+    {
+        SetLock(false);
+        callback?.Invoke();
     }
 
 
@@ -41,7 +53,8 @@ public class UnlockableBuilding : MonoBehaviour
 
 
     void SetLock(bool locked)
-    {
+    {    
+        this.locked = locked;
         if (obstacle != null)
         {
             obstacle.SetActive(!locked);
