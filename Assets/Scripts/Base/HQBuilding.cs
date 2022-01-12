@@ -16,9 +16,11 @@ public class HQBuilding : BaseObject
     [SerializeField] Sprite pointIcon;
     [SerializeField] int cost;
     [BaseSerialize] int currentCount;
-    [SerializeField] int rewardCount = 2;
-    private int nextChest;
-    private UINumbers uiNumbers;
+    int rewardCount;
+    private LevelProgressionController levelProgressionController;
+    int nextChest;
+    UINumbers uiNumbers;
+
     public int Level => level;
     public int Cost => cost;
     public int CurrentCount => currentCount;
@@ -32,6 +34,8 @@ public class HQBuilding : BaseObject
         cost = MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
         uiNumbers = FindObjectOfType<UINumbers>();
         float currentValue = (float)currentCount / (float)cost;
+        levelProgressionController = FindObjectOfType<LevelProgressionController>();
+        rewardCount = levelProgressionController.CurrentLevelProgression.Chests.Count;
         nextChest = Mathf.FloorToInt(currentValue / (1f / (rewardCount + 1)));
     }
 
@@ -39,8 +43,7 @@ public class HQBuilding : BaseObject
     {
         UpdateUnlockables();
     }
-
-
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -70,7 +73,6 @@ public class HQBuilding : BaseObject
             OnRewardOpened?.Invoke(nextChest);
             nextChest++;
         }
-        
         OnPointAdded?.Invoke(value);
         RequireSave();
     }
@@ -83,6 +85,7 @@ public class HQBuilding : BaseObject
         cost = MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
         RequireSave();
         UpdateUnlockables();
+        rewardCount = levelProgressionController.CurrentLevelProgression.Chests.Count;
         OnLevelUp?.Invoke();
         UnityAnalytics.Instance.OnHQLevelUp(level);
     }

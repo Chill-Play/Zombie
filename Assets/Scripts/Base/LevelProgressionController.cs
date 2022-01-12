@@ -30,8 +30,11 @@ public class LevelProgressionController : MonoBehaviour
 
     private void Start()
     {
+        
+    
         unlockableBuildingsArray = FindObjectsOfType<UnlockableBuilding>();
        
+     
     }
 
     public void AddChestResources()
