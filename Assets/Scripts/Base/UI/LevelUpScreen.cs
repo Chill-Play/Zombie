@@ -32,19 +32,19 @@ public class LevelUpScreen : MonoBehaviour
     public void CloseScreen()
     {
         var seq = DOTween.Sequence();
-        seq.Join(continueButton.transform.DOScale(Vector3.zero, .1f));
+        seq.Join(continueButton.transform.DOScale(Vector3.zero, .1f).SetEase(Ease.InBack));
         seq.AppendInterval(0.1f);
         for (int i = 0; i < buildingCount; i++)
         {
-            seq.Append(newBuildings[i].transform.DOScale(Vector3.zero, .2f).SetEase(Ease.OutCirc));
+            seq.Join(newBuildings[i].transform.DOScale(Vector3.zero, .2f + .2f *i).SetEase(Ease.InBack));
         }
         for (int i = 0; i < resourcesCount; i++)
         {
-            seq.Append(newResources[i].transform.DOScale(Vector3.zero, .2f).SetEase(Ease.OutCirc));
+            seq.Join(newResources[i].transform.DOScale(Vector3.zero, .2f + .2f *(i + buildingCount)).SetEase(Ease.InBack));
         }
-        seq.Append(newLevelLabel.transform.DOScale(Vector3.zero, .1f));
+        seq.Append(newLevelLabel.transform.DOScale(Vector3.zero, .1f).SetEase(Ease.InBack));
         seq.AppendInterval(0.1f);
-        seq.Append(header.transform.DOScale(Vector3.zero, .1f));
+        seq.Append(header.transform.DOScale(Vector3.zero, .1f).SetEase(Ease.InBack));
         seq.OnComplete(() =>
         {
             gameObject.SetActive(false);
@@ -60,8 +60,6 @@ public class LevelUpScreen : MonoBehaviour
         newLevelLabel.transform.localScale = Vector3.zero;
         continueButton.transform.localScale = Vector3.zero;
         lvlText.text = (hq.Level + 1).ToString();
-        Debug.Log("Buildings count: " + buildingCount);
-        Debug.Log("Resources count: " + resourcesCount);
         int i = 0;
         for (; i < buildingCount; i++)
         {
@@ -100,22 +98,18 @@ public class LevelUpScreen : MonoBehaviour
     void PlayScreenAnimation()
     {
         var seq = DOTween.Sequence();
-        seq.Append(header.transform.DOScale(new Vector3(1,1,1), .3f));
+        seq.Append(header.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
         seq.AppendInterval(0.3f);
-        seq.Append(newLevelLabel.transform.DOScale(new Vector3(1,1,1), .3f));
-
-        seq.Append(newLevelLabel.transform.DOPunchRotation(new Vector3(0, -50, -30), 1f, 5));
+        seq.Append(newLevelLabel.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
         seq.AppendInterval(0.1f);
         for (int i = 0; i < buildingCount; i++)
         {
-            seq.Join(newBuildings[i].transform.DOScale(new Vector3(1,1,1), .2f).SetEase(Ease.OutCirc));
-            seq.AppendInterval(0.1f);
+            seq.Join(newBuildings[i].transform.DOScale(new Vector3(1,1,1), .2f + .2f * i).SetEase(Ease.OutBack));
         }
         for (int i = 0; i < resourcesCount; i++)
         {
-            seq.Join(newResources[i].transform.DOScale(new Vector3(1,1,1), .2f).SetEase(Ease.OutCirc));
-            seq.AppendInterval(0.1f);
+            seq.Join(newResources[i].transform.DOScale(new Vector3(1,1,1), .2f + (.2f *(i + buildingCount))).SetEase(Ease.OutBack));
         }
-        seq.Append(continueButton.transform.DOScale(new Vector3(1,1,1), .4f));
+        seq.Append(continueButton.transform.DOScale(new Vector3(1,1,1), .4f).SetEase(Ease.OutBack));
     }
 }

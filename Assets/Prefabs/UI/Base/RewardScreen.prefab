@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8143282179691143501}
   m_Layer: 5
-  m_Name: Chest
+  m_Name: VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,7 +119,6 @@ RectTransform:
   m_Children:
   - {fileID: 5514841759534415753}
   - {fileID: 8808095864598513353}
-  - {fileID: 5285574042598389031}
   m_Father: {fileID: 5285574041939131260}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -293,7 +292,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5285574041939131260}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -512,6 +511,7 @@ RectTransform:
   - {fileID: 5285574041657601979}
   - {fileID: 5285574040901044880}
   - {fileID: 8143282179691143501}
+  - {fileID: 5285574042598389031}
   - {fileID: 5285574041077919095}
   - {fileID: 5285574041966556074}
   m_Father: {fileID: 0}
@@ -534,7 +534,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d645bd260664472792fafffcf0b914b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chest: {fileID: 4405583350872543926}
+  chest: {fileID: 5285574042598389030}
+  VFX: {fileID: 4405583350872543926}
   chestSprite: {fileID: 5285574042598389032}
   chestIcon: {fileID: 21300000, guid: be2f0726bafd9c84bb0fa1d219c8d1f1, type: 3}
   openedChestIcon: {fileID: 21300000, guid: 4b0f96fea79f24f49b593e406f0c68fa, type: 3}
@@ -571,7 +572,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5285574041939131260}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -633,12 +634,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 8143282179691143501}
-  m_RootOrder: 2
+  m_Father: {fileID: 5285574041939131260}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -223}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5285574042598389033

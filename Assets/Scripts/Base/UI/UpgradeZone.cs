@@ -24,7 +24,8 @@ public class UpgradeZone : MonoBehaviour
     {
         if (collider.TryGetComponent(out PlayerBuilding playerBuilding))
         {
-            var screen = (UpgradesScreen)FindObjectOfType<UIController>().ShowScreen(screenId);
+            //var screen = (UpgradesScreen)FindObjectOfType<UIController>().ShowScreen(screenId);
+            var screen = (IShowScreen)FindObjectOfType<UIController>().ShowScreen(screenId);
             var statsList = new List<(StatsType, StatInfo)>();
             foreach (var type in stats)
             {

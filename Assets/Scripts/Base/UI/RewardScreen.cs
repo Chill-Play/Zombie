@@ -11,6 +11,7 @@ using Vector3 = UnityEngine.Vector3;
 public class RewardScreen : MonoBehaviour
 {
     [SerializeField] private GameObject chest;
+    [SerializeField] private GameObject VFX;
     [SerializeField] private Image chestSprite;
     [SerializeField] private Sprite chestIcon;
     [SerializeField] private Sprite openedChestIcon;
@@ -26,6 +27,7 @@ public class RewardScreen : MonoBehaviour
 
     public void OpenChest(int i)
     {
+        VFX.transform.localScale = Vector3.zero;
         chest.transform.localScale = Vector3.zero;
         rewardText.transform.localScale = Vector3.zero;
         claimButton.transform.localScale = Vector3.zero;
@@ -70,15 +72,16 @@ public class RewardScreen : MonoBehaviour
     public void CloseScreen()
     {
         var seq = DOTween.Sequence();
-        seq.Join(claimButton.transform.DOScale(Vector3.zero, .1f));
+        seq.Append(claimButton.transform.DOScale(Vector3.zero, .2f).SetEase(Ease.InBack));
         seq.AppendInterval(0.1f);
         for (int i = 0; i < resourcesCount; i++)
         {
-            seq.Append(resources[i].transform.DOScale(Vector3.zero, .2f).SetEase(Ease.OutCirc));
+            seq.Join(resources[i].transform.DOScale(Vector3.zero,  .2f + .2f * i).SetEase(Ease.InBack));
         }
-        seq.Append(chest.transform.DOScale(Vector3.zero, .1f));
-        seq.AppendInterval(0.1f);
-        seq.Append(rewardText.transform.DOScale(Vector3.zero, .1f));
+        seq.Append(VFX.transform.DOScale(Vector3.zero, .2f).SetEase(Ease.InBack));
+        seq.Join(chest.transform.DOScale(Vector3.zero, .2f).SetEase(Ease.InBack));
+        seq.Join(rewardText.transform.DOScale(Vector3.zero, .2f).SetEase(Ease.InBack));
+        seq.AppendInterval(0.2f);
         seq.OnComplete(CompleteCloseScreen);
     }
     
@@ -86,11 +89,11 @@ public class RewardScreen : MonoBehaviour
     {
         chestSprite.sprite = chestIcon;
         var seq = DOTween.Sequence();
-        seq.Append(rewardText.transform.DOScale(new Vector3(1,1,1), .3f));
+        seq.Append(rewardText.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
         seq.AppendInterval(0.3f);
-        seq.Append(chest.transform.DOScale(new Vector3(1,1,1), .3f));
-        
-        seq.Append(chest.transform.DOPunchRotation(new Vector3(0, -50, -30), 1f, 5).SetEase(Ease.InBounce)).AppendCallback(() =>
+        seq.Join(chest.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
+        seq.Join(VFX.transform.DOScale(new Vector3(1,1,1), .4f));
+        seq.Append(chest.transform.DOPunchRotation(new Vector3(0, 0, 30), 1f, 5).SetEase(Ease.OutBack)).AppendCallback(() =>
         {
             chestSprite.sprite = openedChestIcon;
         });
@@ -98,9 +101,9 @@ public class RewardScreen : MonoBehaviour
         for (int i = 0; i < resourcesCount; i++)
         {
             int tmp = i;
-            seq.Join(resources[i].transform.DOScale(new Vector3(1,1,1), .2f).SetEase(Ease.OutCirc)).AppendCallback(()=>ResourceCallback(tmp));
-            seq.AppendInterval(0.1f);
+            
+            seq.Join(resources[i].transform.DOScale(new Vector3(1,1,1), .3f + .3f * i).OnPlay(()=>ResourceCallback(tmp)).SetEase(Ease.OutBack));
         }
-        seq.Append(claimButton.transform.DOScale(new Vector3(1,1,1), .4f));
+        seq.Append(claimButton.transform.DOScale(new Vector3(1,1,1), .4f).SetEase(Ease.OutBack));
     }
 }

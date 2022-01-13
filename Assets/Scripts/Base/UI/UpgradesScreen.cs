@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UpgradesScreen : UIScreen
+public class UpgradesScreen : UIScreen, IShowScreen
 {
     const int MINIMAL_STAT_LEVEL_TO_FREE_OPTION = 2;
 
