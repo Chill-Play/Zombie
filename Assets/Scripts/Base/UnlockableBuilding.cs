@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public class UnlockableBuilding : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class UnlockableBuilding : MonoBehaviour
 
     LockerTag lockerInstance;
     Transform spot;
+    bool locked = true;
 
     private void Start()
     {
@@ -23,6 +25,26 @@ public class UnlockableBuilding : MonoBehaviour
         lockPos.y = 0.4f;
         lockerInstance = Instantiate(lockerPrefab, lockPos, Quaternion.identity, spot);
         lockerInstance.SetLevel(unlockLevel);
+    }
+
+    public bool CanUnlock(int level)
+    {
+        return level >= unlockLevel - 1 && locked;
+    }
+
+    public void UnlockWhithAnimation(System.Action callback = null)
+    {
+        //Add animation unlock
+        var seq = DOTween.Sequence();
+        seq.Append(lockerInstance.transform.DOPunchScale(Vector3.one * 0.2f,1, 5, 1).OnComplete(() =>
+        {
+            lockerInstance.Unlock();
+        }));
+        seq.AppendInterval(.4f).OnComplete(() =>
+        {
+            SetLock(false);
+            callback?.Invoke();
+        });
     }
 
 
@@ -41,7 +63,8 @@ public class UnlockableBuilding : MonoBehaviour
 
 
     void SetLock(bool locked)
-    {
+    {    
+        this.locked = locked;
         if (obstacle != null)
         {
             obstacle.SetActive(!locked);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -45,7 +46,7 @@ public class HQLevelUI : MonoBehaviour
     }
 
     private void Hq_OnPointAdded(int value)
-    {      
+    {
         currentDisappearTime = disappearTime;
         if (pointCountTween != null)
         {
@@ -57,7 +58,7 @@ public class HQLevelUI : MonoBehaviour
             StartCoroutine(DisappearCoroutine());
         }
         pointCombo += value;
-        pointCountText.text = "+" + pointCombo.ToString();  
+        pointCountText.text = "+" + pointCombo.ToString();
         pointCountTween = pointCountTransform.DOPunchScale(Vector3.one * 0.1f, 0.3f, 1, 1);
         UpdateProgressBar();
     }
@@ -71,7 +72,7 @@ public class HQLevelUI : MonoBehaviour
     }
 
     IEnumerator DisappearCoroutine()
-    {       
+    {
         pointCountTransform.gameObject.SetActive(true);
         while (currentDisappearTime > 0)
         {
@@ -86,7 +87,7 @@ public class HQLevelUI : MonoBehaviour
     private void RewardPlacement()
     {
         Transform levelBar = transform.GetChild(0);
-        int width = (int) levelBar.GetComponent<RectTransform>().sizeDelta.x;
+        int width = (int)levelBar.GetComponent<RectTransform>().sizeDelta.x;
         int segment = width / (hq.RewardCount + 1);
         Vector3 startPos = levelBar.position - new Vector3(width / 2, 0, 0);
         int nextChest = hq.NextChest;
@@ -94,7 +95,7 @@ public class HQLevelUI : MonoBehaviour
         int i = 0;
         for (; i < hq.RewardCount; i++)
         {
-            if (i < chests.Count) 
+            if (i < chests.Count)
                 chests[i].gameObject.SetActive(true);
             else
             {
@@ -117,21 +118,22 @@ public class HQLevelUI : MonoBehaviour
 
     void Complete(int index)
     {
-        
         rewardScreen.gameObject.SetActive(true);
         rewardScreen.OpenChest(index);
     }
-    
+
     private void Hq_OnRewardOpened(int index)
     {
         giftsSpawnPoint.GetChild(index).GetChild(0).GetComponent<Image>().sprite = openRewardSprite;
         //play open chest animation
         var seq = DOTween.Sequence();
         seq.Append(chests[index].transform.DOShakeScale(.5f, 1, 7));
-        seq.OnComplete(()=>Complete(index));
+        seq.OnComplete(() => Complete(index));
     }
-    
-    //Mathematical division of the level bar into segments
+
+    ////////////////////////////////////////////////////////
+    /*Mathematical division of the level bar into segments*/
+    ////////////////////////////////////////////////////////
     // private void RewardPlacement()
     // {
     //     Transform levelBar = transform.GetChild(0); 
