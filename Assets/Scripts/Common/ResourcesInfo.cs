@@ -18,10 +18,13 @@ public class ResourceSlot
 }
 
 [System.Serializable]
-public class ResourcesInfo : ISerializationCallbackReceiver
+public class ResourcesInfo 
 {
     [SerializeField] List<ResourceSlot> slots = new List<ResourceSlot>();
-    Dictionary<string, ResourceSlot> idsByTypes = new Dictionary<string, ResourceSlot>();
+    Dictionary<ResourceType, ResourceSlot> idsByTypes = new Dictionary<ResourceType, ResourceSlot>();
+
+    bool initialized = false;
+
     public List<ResourceSlot> Slots => slots;
     
 
@@ -44,30 +47,46 @@ public class ResourcesInfo : ISerializationCallbackReceiver
 
     public int Count(ResourceType type)
     {
-        return idsByTypes[type.saveId].count;
+        if (!initialized)
+        {
+            Initialize();
+        }
+        return idsByTypes[type].count;
     }
 
 
     public void AddSlot(ResourceType type, int count)
     {
+        if (!initialized)
+        {
+            Initialize();
+        }
         ResourceSlot slot = new ResourceSlot(type, count);
-        idsByTypes.Add(type.saveId, slot);
+        idsByTypes.Add(type, slot);
         slots.Add(slot);
     }
 
 
     public void AddSlot(ResourceSlot slot)
     {
-        idsByTypes.Add(slot.type.saveId, slot);
+        if (!initialized)
+        {
+            Initialize();
+        }
+        idsByTypes.Add(slot.type, slot);
         slots.Add(slot);
     }
 
 
     public void Add(ResourcesInfo resourcesInfo)
     {
-        foreach(var slot in resourcesInfo.slots)
+        if (!initialized)
         {
-            if (idsByTypes.TryGetValue(slot.type.saveId, out var thisSlot))
+            Initialize();
+        }
+        foreach (var slot in resourcesInfo.slots)
+        {          
+            if (idsByTypes.TryGetValue(slot.type, out var thisSlot))
             {
                 thisSlot.count += slot.count;
             }
@@ -77,7 +96,11 @@ public class ResourcesInfo : ISerializationCallbackReceiver
 
     public void Add(ResourceType type, int count)
     {
-        if(idsByTypes.TryGetValue(type.saveId, out var slot))
+        if (!initialized)
+        {
+            Initialize();
+        }
+        if (idsByTypes.TryGetValue(type, out var slot))
         {
             slot.count += count;
         }
@@ -90,13 +113,17 @@ public class ResourcesInfo : ISerializationCallbackReceiver
 
     public void Spend(ResourcesInfo resourcesInfo, ResourcesInfo cost, int spendCount, System.Action<ResourceType, int, int> onSpendCallback = null)
     {
+        if (!initialized)
+        {
+            Initialize();
+        }
         int i = 0; 
         foreach (var slot in resourcesInfo.slots)
         {            
-            if (idsByTypes.TryGetValue(slot.type.saveId, out var thisSlot))
+            if (idsByTypes.TryGetValue(slot.type, out var thisSlot))
             {
                 i++;
-                int spendAmount = Mathf.Min(spendCount, slot.count, cost.idsByTypes[slot.type.saveId].count - thisSlot.count);
+                int spendAmount = Mathf.Min(spendCount, slot.count, cost.idsByTypes[slot.type].count - thisSlot.count);
                 thisSlot.count += spendAmount;
                 slot.count -= spendAmount;
                 onSpendCallback?.Invoke(slot.type, spendAmount, i);
@@ -108,9 +135,13 @@ public class ResourcesInfo : ISerializationCallbackReceiver
 
     public void Subtract(ResourcesInfo resourcesInfo)
     {
+        if (!initialized)
+        {
+            Initialize();
+        }
         foreach (var slot in resourcesInfo.slots)
         {
-            if (idsByTypes.TryGetValue(slot.type.saveId, out var thisSlot))
+            if (idsByTypes.TryGetValue(slot.type, out var thisSlot))
             {
                 thisSlot.count -= slot.count;
             }
@@ -120,7 +151,11 @@ public class ResourcesInfo : ISerializationCallbackReceiver
 
     public void Subtract(ResourceType type, int count)
     {
-        if(idsByTypes.TryGetValue(type.saveId, out var slot))
+        if (!initialized)
+        {
+            Initialize();
+        }
+        if (idsByTypes.TryGetValue(type, out var slot))
         {
             slot.count -= count;
             if(slot.count < 0)
@@ -137,10 +172,14 @@ public class ResourcesInfo : ISerializationCallbackReceiver
 
     public bool IsFilled(ResourcesInfo resourcesInfo)
     {
+        if (!initialized)
+        {
+            Initialize();
+        }
         int resourcesFilled = 0;
         foreach (var slot in resourcesInfo.slots)
         {
-            if (idsByTypes.TryGetValue(slot.type.saveId, out var thisSlot))
+            if (idsByTypes.TryGetValue(slot.type, out var thisSlot))
             {
                 if (thisSlot.count <= slot.count)
                 {
@@ -151,17 +190,14 @@ public class ResourcesInfo : ISerializationCallbackReceiver
         return resourcesFilled == slots.Count;
     }
 
-    public void OnBeforeSerialize()
-    {
-        //
-    }
 
-    public void OnAfterDeserialize()
+    public void Initialize()
     {
+        initialized = true;
         idsByTypes.Clear();
         foreach (var slot in slots)
-        {           
-            idsByTypes.Add(slot.type.saveId, slot);
+        {
+            idsByTypes.Add(slot.type, slot);
         }
     }
 }
