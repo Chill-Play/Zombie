@@ -36,4 +36,9 @@ public class UnitConstructing : UnitInstrument, IComboCounter
         return false;   
     }
 
+    public void AddConstructingPower(float value)
+    {
+        constructValue += value;
+    }
+
 }

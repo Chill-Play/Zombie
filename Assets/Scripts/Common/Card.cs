@@ -5,18 +5,27 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ZombieSim/Card")]
 public class Card : ScriptableObject, ISerializationCallbackReceiver
 {
+    [System.Serializable]
+    public class CardStats
+    {
+        public StatsType statsType;
+        public float statsCountPreLevel;
+    }
+
     [SerializeField] protected string id;
     [SerializeField] Sprite icon;
     [SerializeField] string cardName;
     [SerializeField] GameObject unitVisual;
-    [SerializeField]  GameObject campaignUnitPrefab;
+    [SerializeField] GameObject campaignUnitPrefab;
     [SerializeField] GameObject raidUnitPrefab;
+    [SerializeField] List<CardStats> cardStats = new List<CardStats>();
 
     public Sprite Icon => icon;
     public string CardName => cardName;
     public GameObject UnitVisual => unitVisual;
     public GameObject CampaignUnitPrefab => campaignUnitPrefab;
     public GameObject RaidUnitPrefab => raidUnitPrefab;
+    public List<CardStats> CardStatsSettings => cardStats;
 
     public string Id => id;
 

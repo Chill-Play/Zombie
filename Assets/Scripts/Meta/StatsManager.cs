@@ -6,7 +6,6 @@ using UnityEngine;
 public class StatInfo
 {
     public int level;
-
 }
 
 public class StatsManager : SingletonMono<StatsManager>

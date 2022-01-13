@@ -34,4 +34,9 @@ public class UnitRepairing : UnitInstrument, IComboCounter
         }
         return false;
     }
+
+    public void AddRepairingPower(float value)
+    {
+        repairValue += value;
+    }
 }
