@@ -60,11 +60,13 @@ public class LevelUpScreen : MonoBehaviour
         newLevelLabel.transform.localScale = Vector3.zero;
         continueButton.transform.localScale = Vector3.zero;
         lvlText.text = (hq.Level + 1).ToString();
+        Debug.Log("Buildings count: " + buildingCount);
+        Debug.Log("Resources count: " + resourcesCount);
         int i = 0;
         for (; i < buildingCount; i++)
         {
             if (i < newBuildings.Count) 
-                newResources[i].gameObject.SetActive(true);
+                newBuildings[i].gameObject.SetActive(true);
             else
             {
                 GameObject building = Instantiate(buildingPrefab, Vector3.zero,
@@ -74,7 +76,7 @@ public class LevelUpScreen : MonoBehaviour
             newBuildings[i].transform.localScale = Vector3.zero;
         }
         for (; i < newBuildings.Count; i++)
-            newResources[i].gameObject.SetActive(false);
+            newBuildings[i].gameObject.SetActive(false);
         i = 0;
         for (; i < resourcesCount; i++)
         {
@@ -92,8 +94,6 @@ public class LevelUpScreen : MonoBehaviour
         }
         for (; i < newResources.Count; i++)
             newResources[i].gameObject.SetActive(false);
-        Debug.Log("res count" + resourcesCount);
-        Debug.Log("build count" + buildingCount);
         PlayScreenAnimation();
     }
     
