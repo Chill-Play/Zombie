@@ -29,19 +29,73 @@ public class CardSlot
     public int level = 1;    
 }
 
+[System.Serializable]
+public class CardStatsSlot
+{
+    public Card card;
+    public Dictionary<StatsType, int> statsInfo;
+
+    public CardStatsSlot(Card card, Dictionary<StatsType, int> statsInfo)
+    {
+        this.card = card;
+        this.statsInfo = statsInfo;
+    }
+}
+
+[System.Serializable]
+public class CardsStatsInfo
+{
+    public List<CardStatsSlot> cardSlots = new List<CardStatsSlot>();
+
+    public CardsStatsInfo(List<Card> cardVariants)
+    {
+        foreach (var cardVariant in cardVariants)
+        {
+            Dictionary<StatsType, int> statsInfo = new Dictionary<StatsType, int>();
+            foreach (var stat in cardVariant.CardStatsSettings)
+            {
+                statsInfo.Add(stat.statsType, 0);
+            }
+            cardSlots.Add(new CardStatsSlot(cardVariant, statsInfo));
+        }
+    }
+
+    public CardStatsSlot GetCardStats(Card card)
+    {        
+        foreach (var slots in cardSlots)
+        {
+            if (slots.card == card)
+            {
+                return slots;
+            }
+        }
+        return null;
+    }
+}
+
 public class CardController : MonoBehaviour
 {
-    [SerializeField, CardSerialize] public CardsInfo deckCards;
+    [SerializeField, CardSerialize] protected CardsInfo deckCards;
     [SerializeField, CardSerialize] protected CardsInfo activeCards = new CardsInfo();
     [SerializeField] int maxActiveSlots = 4;
     [SerializeField] List<Card> cardVariants = new List<Card>();
+    [SerializeField] StatsType dStatsType;
+    [HideInInspector, CardSerialize] public CardsStatsInfo cardsStatsInfo;
 
     public CardsInfo DeckCards => deckCards;
     public CardsInfo ActiveCards => activeCards;
+    public List<Card> CardVariants => cardVariants;
+    public CardStatsSlot CardStats(Card card) => cardsStatsInfo.GetCardStats(card);
+
+
+    ResourcesController resourcesController;
 
     private void Awake()
-    {
+    {      
         Load();
+        if (cardsStatsInfo == null)        
+            cardsStatsInfo = new CardsStatsInfo(cardVariants);        
+        resourcesController = FindObjectOfType<ResourcesController>();      
     }
 
     public bool TryToActivateCard(CardSlot cardSlot)
@@ -121,6 +175,34 @@ public class CardController : MonoBehaviour
         }
         return false;
     }
+
+    public void UpgradeCardStats(Card card, StatsType statType, bool free = false, int value = 1)
+    {        
+        CardStatsSlot cardStats = CardStats(card);
+        if (cardStats.statsInfo.ContainsKey(statType))
+        {
+            if (!free)
+            {
+                resourcesController.ResourcesCount.Subtract(statType.GetLevelCost(cardStats.statsInfo[statType]));
+                resourcesController.UpdateResources();
+            }
+            cardStats.statsInfo[statType] += value;
+            Save();
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            UpgradeCardStats(activeCards.cardSlots[0].card, dStatsType, true);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Debug.Log(CardStats(activeCards.cardSlots[0].card).statsInfo[dStatsType]);
+        }
+    }
+
 
     public Card GetCardVariant(string id)
     {
