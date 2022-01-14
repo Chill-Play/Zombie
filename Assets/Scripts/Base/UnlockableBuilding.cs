@@ -42,8 +42,7 @@ public class UnlockableBuilding : MonoBehaviour
         }));
         seq.AppendInterval(.4f).OnComplete(() =>
         {
-            SetLock(false);
-            callback?.Invoke();
+            UnlockRuinAnimation(callback);            
         });
     }
 
@@ -61,9 +60,18 @@ public class UnlockableBuilding : MonoBehaviour
         }
     }
 
+    void UnlockRuinAnimation(System.Action callback = null)
+    {
+        if (spot.TryGetComponent<Ruins>(out var ruins))
+        {
+            ruins.ShowWhithAnimation(callback);
+        }
+        SetLock(false);
+    }
+
 
     void SetLock(bool locked)
-    {    
+    {
         this.locked = locked;
         if (obstacle != null)
         {
@@ -74,7 +82,7 @@ public class UnlockableBuilding : MonoBehaviour
             ruins.Show(!locked);
         }
         var obstacles = GetComponentsInChildren<NavMeshObstacle>();
-        foreach(var obstacle in obstacles)
+        foreach (var obstacle in obstacles)
         {
             obstacle.enabled = !locked;
         }

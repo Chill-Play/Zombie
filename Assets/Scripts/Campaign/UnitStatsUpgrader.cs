@@ -21,7 +21,7 @@ public class UnitStatsUpgrader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      /*  var manager = FindObjectOfType<StatsManager>();
+        var manager = FindObjectOfType<StatsManager>();
         health.AddMaxHealth(healthPerLevel * manager.GetStatInfo(healthStat).level);
         shooting.AddDamage(damagePerLevel * manager.GetStatInfo(damageStat).level);      
         if (resources != null)
@@ -35,6 +35,6 @@ public class UnitStatsUpgrader : MonoBehaviour
         if (unitRepairing != null)
         {
             unitRepairing.AddRepairingPower(interactingSpeedPerLevel * manager.GetStatInfo(interactingSpeed).level);
-        }*/
+        }
     }
 }
