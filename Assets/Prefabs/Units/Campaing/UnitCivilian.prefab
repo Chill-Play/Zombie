@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8db76b038ded06b419967ba13f24d971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 3777289674419281909}
+  animator: {fileID: 774282467610719607}
   danceAnimationCount: 4
 --- !u!114 &5107418059216763278
 MonoBehaviour:
@@ -124,6 +124,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5033206973346556854, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1e2300bca62a33e408b118d344b69ba3, type: 2}
     - target: {fileID: 5708902493789982003, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -168,6 +172,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6706511046523607498, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: df552d9b808aac946862a6f662d98020, type: 2}
     - target: {fileID: 6768341585133639072, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -183,8 +191,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2280110974304833182, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
   m_PrefabInstance: {fileID: 6317597614531030205}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &3777289674419281909 stripped
+--- !u!95 &774282467610719607 stripped
 Animator:
-  m_CorrespondingSourceObject: {fileID: 7189782936235357000, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6706511046523607498, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
   m_PrefabInstance: {fileID: 6317597614531030205}
   m_PrefabAsset: {fileID: 0}
