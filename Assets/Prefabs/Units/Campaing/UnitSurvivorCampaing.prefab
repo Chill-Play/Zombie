@@ -13,6 +13,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxZombies: 3
+--- !u!114 &7040665767169353758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400580595201750325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 378eabd7a8952294aafa60bf86dfc214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comboTime: 0.7
+  showingTime: 1
+  upOffset: 2
 --- !u!1001 &264476362797179924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31,7 +46,7 @@ PrefabInstance:
     - target: {fileID: 3345083421274088883, guid: 23d57428598627e46b36d7ed46ffbf21, type: 3}
       propertyPath: states.Array.data[0].components.Array.data[9]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7040665767169353758}
     - target: {fileID: 3345083421274088883, guid: 23d57428598627e46b36d7ed46ffbf21, type: 3}
       propertyPath: states.Array.data[1].components.Array.data[0]
       value: 
@@ -67,7 +82,7 @@ PrefabInstance:
     - target: {fileID: 3345083421274088883, guid: 23d57428598627e46b36d7ed46ffbf21, type: 3}
       propertyPath: states.Array.data[1].components.Array.data[8]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7040665767169353758}
     - target: {fileID: 4637242186773303948, guid: 23d57428598627e46b36d7ed46ffbf21, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -148,7 +148,7 @@ MonoBehaviour:
   shooting: {fileID: 6196003137571827192}
   unitTargetDetection: {fileID: 7358818334498872903}
   unitHealth: {fileID: 8085634801116711461}
-  spineAngleOffset: {x: 0, y: 0, z: 0}
+  spineAngleOffset: {x: 0, y: 38, z: -90}
 --- !u!114 &3345083421274088883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,29 +219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 031a0ee9f7b1b9349b52cb771cf760f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6117707719057368995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208169183721640225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b6e0af1a452b0b40bc837870537273c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageStat: {fileID: 11400000, guid: ed87de71232677a41a62c445c90cc8b0, type: 2}
-  attackSpeedStat: {fileID: 11400000, guid: 160947be482853c42859af221a9026be, type: 2}
-  healthStat: {fileID: 11400000, guid: eb09f3a9b7e333e49b322d1365709214, type: 2}
-  miningSpeedStat: {fileID: 11400000, guid: 802bddb52f205e640b722ced356dbd56, type: 2}
-  health: {fileID: 8085634801116711461}
-  shooting: {fileID: 6196003137571827192}
-  resources: {fileID: 1651711496718131858}
-  damagePerLevel: 5
-  healthPerLevel: 5
-  attackRatePerLevel: -0.01
-  miningUseRatePerLevel: -0.01
 --- !u!114 &6196003137571827192
 MonoBehaviour:
   m_ObjectHideFlags: 0
