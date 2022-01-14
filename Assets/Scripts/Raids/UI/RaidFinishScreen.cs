@@ -21,6 +21,16 @@ public class RaidFinishScreen : UIScreen
     [SerializeField] Transform doubleButton;
     [SerializeField] Transform continueButton;
     [SerializeField] Transform alternativeContinueButton;
+    [SerializeField] private GameObject resourceBar;
+    [SerializeField] private TextMeshProUGUI stars;
+    [SerializeField] private Image specialistImage;
+    [SerializeField] private TextMeshProUGUI specialistName;
+    
+    //replace this on Card
+    [SerializeField] private Sprite testSprite;
+    [SerializeField] private string testName;
+    //where to get a card
+    private Card card;
 
     Squad squad;
     bool tutorialMode = false;
@@ -48,6 +58,11 @@ public class RaidFinishScreen : UIScreen
 
         SaveSquad();
 
+        //replace this on card.Icon and CardName
+        specialistImage.sprite = testSprite;
+        specialistName.text = testName;
+        stars.text = resourceBar.transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
+        
         background.color = new Color(background.color.r, background.color.g, background.color.b, 0f);
         upperPanel.transform.localScale = Vector3.zero;
         collectedPanel.transform.localScale = Vector3.zero; 
