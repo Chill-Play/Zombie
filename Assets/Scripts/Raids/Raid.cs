@@ -56,6 +56,10 @@ public class Raid : MonoBehaviour
             {
 
                 GameObject instance = Instantiate(activeCards.cardSlots[i].card.RaidUnitPrefab, squad.Units[0].transform.position, squad.transform.rotation);
+                if (instance.TryGetComponent<SpecialistStatsUpgrader>(out var specialistStatsUpgrader))
+                {
+                    specialistStatsUpgrader.UpdateStats(activeCards.cardSlots[i].card);
+                }
                 squad.AddSpecialist(instance.GetComponent<Unit>());
             }
         }
