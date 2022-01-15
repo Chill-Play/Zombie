@@ -80,18 +80,19 @@ public class CardController : MonoBehaviour
     [SerializeField] int maxActiveSlots = 4;
     [SerializeField] List<Card> cardVariants = new List<Card>();
     [SerializeField] StatsType dStatsType;
-    [HideInInspector, CardSerialize] public CardsStatsInfo cardsStatsInfo;
+    [CardSerialize] CardsStatsInfo cardsStatsInfo;
 
     public CardsInfo DeckCards => deckCards;
     public CardsInfo ActiveCards => activeCards;
     public List<Card> CardVariants => cardVariants;
     public CardStatsSlot CardStats(Card card) => cardsStatsInfo.GetCardStats(card);
+    public CardsStatsInfo CardsStats { get => cardsStatsInfo; set { cardsStatsInfo = value; } } 
 
 
     ResourcesController resourcesController;
 
     private void Awake()
-    {      
+    {
         Load();
         if (cardsStatsInfo == null)        
             cardsStatsInfo = new CardsStatsInfo(cardVariants);        

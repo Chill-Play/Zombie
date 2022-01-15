@@ -4,9 +4,7 @@ using UnityEngine;
 
 public interface IBuildable
 {
-    event System.Action<List<CostInfo>> OnInitialized;
-    event System.Action<Dictionary<ResourceType, int>> OnUpdated;
+    bool CanBuild { get; }
 
-
-    BuildingReport TryUseResources(List<ResourceType> playerResources, int count);
+    void SpendResources(ResourcesInfo info, int count);
 }

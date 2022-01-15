@@ -9,6 +9,7 @@ public class Card : ScriptableObject, ISerializationCallbackReceiver
     public class CardStats
     {
         public StatsType statsType;
+        public float baseValue;
         public float statsCountPreLevel;
     }
 
@@ -29,6 +30,17 @@ public class Card : ScriptableObject, ISerializationCallbackReceiver
 
     public string Id => id;
 
+    public float GetStatValue(StatsType statType, int level)
+    {
+       foreach(var stat in cardStats)
+       {
+         if(stat.statsType == statType)
+         {
+           return stat.baseValue + level * stat.statsCountPreLevel;
+         }
+       }
+       return 0f;
+    }
 
     public void OnAfterDeserialize()
     {

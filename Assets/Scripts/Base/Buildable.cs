@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 
 
-public class Buildable : BaseObject
+public class Buildable : BaseObject, IBuildable
 {
     public event System.Action OnEnabled;
     public event System.Action OnUpdate;
@@ -22,6 +22,7 @@ public class Buildable : BaseObject
     bool initialized;
     public bool Built => built;
 
+    public bool CanBuild => enabled && !built;
 
     public void Awake()
     {

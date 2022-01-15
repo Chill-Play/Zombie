@@ -34,7 +34,7 @@ public class PlayerBuilder : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    /*void FixedUpdate()
     {
         if (!unitMovement.InputActive)
         {
@@ -68,7 +68,7 @@ public class PlayerBuilder : MonoBehaviour
                 uses = 0;
             }
         }
-    }
+    }*/
 
 
     private void OnDisable()

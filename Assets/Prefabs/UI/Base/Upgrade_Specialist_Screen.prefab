@@ -184,7 +184,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 43.6161, y: -14.679138}
+  m_AnchoredPosition: {x: 43.6161, y: -14.680174}
   m_SizeDelta: {x: -73.6328, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8278687952300416264
@@ -294,9 +294,9 @@ MonoBehaviour:
   id: {fileID: -8742117056491476373, guid: 61a263ddb1595264789101e5313dc438, type: 2}
   canvasGroup: {fileID: 5968262376573635746}
   label: {fileID: 8905475636465664395}
-  cardPrefab: {fileID: 9106394440523829813, guid: 0e852841ea9f69f4f87e5218125389b0, type: 3}
   panel: {fileID: 5916944094712130875}
   cardsSpawnPoint: {fileID: 324250576948244049}
+  specialitsUpgradeCardPrefab: {fileID: 5909112034689690726, guid: 0e852841ea9f69f4f87e5218125389b0, type: 3}
 --- !u!1 &2271813114831297240
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,9 +871,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UpgradesScreen, Zombies.Base.UI
-        m_MethodName: Close
+      - m_Target: {fileID: 7593097559479049417}
+        m_TargetAssemblyTypeName: UpgradesSpecialistsScreen, Zombies.Base.UI
+        m_MethodName: Hide
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

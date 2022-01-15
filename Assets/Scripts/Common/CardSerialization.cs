@@ -86,26 +86,26 @@ public class CardSerialization : MonoBehaviour
                 }
                 if (type == typeof(CardsStatsInfo))
                 {
-                    cardController.cardsStatsInfo = new CardsStatsInfo(cardController.CardVariants);                 
+                    cardController.CardsStats = new CardsStatsInfo(cardController.CardVariants);
                     foreach (var card in cardController.CardVariants)
                     {
                         foreach (var n in node)
                         {
-                            Card cardVariant = cardController.GetCardVariant(n.Key);                                                
+                            Card cardVariant = cardController.GetCardVariant(n.Key);
                             if (cardVariant != null)
                             {
-                                CardStatsSlot cardStats = cardController.cardsStatsInfo.GetCardStats(cardVariant);                       
+                                CardStatsSlot cardStats = cardController.CardsStats.GetCardStats(cardVariant);
                                 foreach (var stats in cardVariant.CardStatsSettings)
                                 {
                                     if (n.Value.HasKey(stats.statsType.saveId))
-                                    {                                        
+                                    {
                                         cardStats.statsInfo[stats.statsType] = n.Value[stats.statsType.saveId].AsInt;
                                     }
                                 }
                             }
-                        }       
-                    }               
-                } 
+                        }
+                    }
+                }
             }
         }
     }

@@ -11,7 +11,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     [SerializeField] protected float workTime = 300f;
     [SerializeField] protected float productionTime = 300f;
     [SerializeField] protected int resourcesLimit = 500;
-
+   
     [BaseSerialize] protected int currentResourcesCount;
     [BaseSerialize] protected string lastResourcesUpdate;
     float nextResourceTime;
@@ -22,7 +22,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     public int CurrentCount => currentResourcesCount;
 
     protected virtual void Start()
-    {
+    {        
         if (!string.IsNullOrEmpty(lastResourcesUpdate))
         {
             DateTime dateTime = DateTime.FromBinary(Convert.ToInt64(lastResourcesUpdate));
@@ -88,4 +88,6 @@ public class ResourceFactory : BaseObject, IUnloadingResources
         }
         lastResourcesUpdate = DateTime.UtcNow.ToBinary().ToString();
     }
+
+    //public virtual void Show
 }

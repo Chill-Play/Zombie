@@ -73,7 +73,7 @@ public class ResourcesInfo
 
 
     public void AddSlot(ResourceSlot slot)
-    {
+    {     
         IdsByTypes.Add(slot.type, slot);
         slots.Add(slot);
     }

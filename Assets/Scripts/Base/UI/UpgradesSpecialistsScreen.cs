@@ -9,26 +9,23 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
 {
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] TMP_Text label;
-    private CardController cardController;
-    [SerializeField] private GameObject cardPrefab;
-    private List<GameObject> cards = new List<GameObject>();
     [SerializeField] Transform panel;
     [SerializeField] private Transform cardsSpawnPoint;
+    [SerializeField] private SpecialistUpgradeCardUI specialitsUpgradeCardPrefab;
 
+    private CardController cardController;
+    private List<SpecialistUpgradeCardUI> cards = new List<SpecialistUpgradeCardUI>();
     List<(StatsType, StatInfo)> stats = new List<(StatsType, StatInfo)>();
     ResourcesInfo availableResources;
     System.Action onClose;
+    ResourcesController resourcesController;
     private CardsInfo activeCards => cardController.ActiveCards;
-    
+
+
     private void Awake()
     {
         cardController = FindObjectOfType<CardController>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-            UpdateCards();
+        resourcesController = FindObjectOfType<ResourcesController>();
     }
 
     public void Show(UpgradeZone zone, string name, List<(StatsType, StatInfo)> stats, ResourcesInfo availableResources, Action onClose = null)
@@ -37,29 +34,35 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
         label.text = name;
         this.stats = stats;
         this.availableResources = availableResources;
-        UpdateCards();
+        UpdateCards(stats[0].Item1);
     }
 
-    void UpdateCards()
+    void UpdateCards(StatsType statType)
     {
+
         int i = 0;
         for (; i < activeCards.Count; i++)
         {
             if (i < cards.Count)
-                cards[i].SetActive(true);
+                cards[i].gameObject.SetActive(true);
             else
-                cards.Add(Instantiate(cardPrefab, cardsSpawnPoint));
-            CardSlot cardSlot = activeCards.cardSlots[i];
-            // CardStatsSlot stats = cardController.CardStats(activeCards.cardSlots[i].card);
-            // var values =  stats.statsInfo.Values;
-            // var keys =  stats.statsInfo.Keys;
-            // Debug.Log();
-            // cards[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stats.statsInfo[cardSlot.card.CardStatsSettings[i]]; 
-            cards[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "lvl " + cardSlot.level.ToString(); 
-            cards[i].transform.GetChild(2).GetComponent<Image>().sprite = cardSlot.card.Icon;
+                cards.Add(Instantiate(specialitsUpgradeCardPrefab, cardsSpawnPoint));
+            Card card = activeCards.cardSlots[i].card;
+            cards[i].Setup(card, statType,resourcesController.ResourcesCount, () => UpgradeCardStat(card, statType));
         }
 
         for (; i < cards.Count; i++)
-            cards[i].SetActive(false);
+            cards[i].gameObject.SetActive(false);
+    }
+
+    void UpgradeCardStat(Card card, StatsType statType)
+    {
+        cardController.UpgradeCardStats(card, statType);
+        UpdateCards(statType);
+    }
+
+    public void Hide()
+    {
+        onClose?.Invoke();
     }
 }
