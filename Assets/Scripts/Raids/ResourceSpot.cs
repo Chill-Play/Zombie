@@ -89,7 +89,7 @@ public class ResourceSpot : MonoBehaviour
             Rigidbody body = instance.GetComponent<Rigidbody>();
             body.velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(3f, 6f), Random.Range(-1f, 1f)) * resourcesVelocity;
             body.angularVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * 360f;
-            uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + COUNT_PER_USE, Vector2.zero, 15f, 10f, 0.4f, resourceType.icon);
+            uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + COUNT_PER_USE, Vector2.zero, 15f, 10f, 0.6f, resourceType.icon);
         }
     }
 }

@@ -35,6 +35,29 @@ MonoBehaviour:
   interactionType: 2
   unitAnimation: {fileID: 4909889398147353363}
   repairValue: 5
+--- !u!114 &8117404810084862685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8579261715870608622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec8d1708f98fa84f93bd9ef400e7290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageStat: {fileID: 11400000, guid: 0a9bdcad225403a44a1d6db1ed87bb5a, type: 2}
+  healthStat: {fileID: 11400000, guid: a18467e467b45e842a4c12b32f358d7d, type: 2}
+  interactingSpeed: {fileID: 11400000, guid: 51a0eb2836366a347be1cbbcfd3216ef, type: 2}
+  health: {fileID: 1728850543344302058}
+  shooting: {fileID: 3618447056948072503}
+  resources: {fileID: 8153732702140243805}
+  unitConstructing: {fileID: 8148433057630718257}
+  unitRepairing: {fileID: 7855982636548122303}
+  damagePerLevel: 5
+  healthPerLevel: 5
+  interactingSpeedPerLevel: 0
 --- !u!114 &8148433057630718257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,29 +105,6 @@ MonoBehaviour:
   interactingState: {fileID: 1115681336743573062, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
   deadState: {fileID: 1337734200025154110, guid: e52eb6d5bbfb10c4b8115791a7495d36, type: 2}
   leaderDefeatedState: {fileID: 3443782999329704729, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
---- !u!114 &8117404810084862685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8579261715870608622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ec8d1708f98fa84f93bd9ef400e7290, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageStat: {fileID: 11400000, guid: 0a9bdcad225403a44a1d6db1ed87bb5a, type: 2}
-  healthStat: {fileID: 11400000, guid: a18467e467b45e842a4c12b32f358d7d, type: 2}
-  interactingSpeed: {fileID: 11400000, guid: 51a0eb2836366a347be1cbbcfd3216ef, type: 2}
-  health: {fileID: 1728850543344302058}
-  shooting: {fileID: 3618447056948072503}
-  resources: {fileID: 8153732702140243805}
-  unitConstructing: {fileID: 8148433057630718257}
-  unitRepairing: {fileID: 7855982636548122303}
-  damagePerLevel: 5
-  healthPerLevel: 5
-  interactingSpeedPerLevel: 0
 --- !u!1001 &671331525641007297
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -193,6 +193,10 @@ PrefabInstance:
     - target: {fileID: 187213269975459464, guid: 23d57428598627e46b36d7ed46ffbf21, type: 3}
       propertyPath: interactivePointMask.m_Bits
       value: 65536
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173806862796730099, guid: 23d57428598627e46b36d7ed46ffbf21, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1208169183721640225, guid: 23d57428598627e46b36d7ed46ffbf21, type: 3}
       propertyPath: m_Name
@@ -322,6 +326,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4110b1ec4f0b12c44b8ce31961ef96d5, type: 2}
+    - target: {fileID: 5940955868058109557, guid: 23d57428598627e46b36d7ed46ffbf21, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 42cf74df40c41324aac14eb810d03fd1, type: 2}
     - target: {fileID: 5948456238265174559, guid: 23d57428598627e46b36d7ed46ffbf21, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
