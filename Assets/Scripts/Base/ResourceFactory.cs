@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using DG.Tweening;
 
 public class ResourceFactory : BaseObject, IUnloadingResources
 {
@@ -13,6 +14,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     [SerializeField] protected float fullProductionTime = 300f;
     [SerializeField] protected int baseResourcesLimit = 30;
     [SerializeField] protected int resourcesLimitPerLevel = 10;
+    [SerializeField] private Transform counter;
 
     [BaseSerialize] protected int currentResourcesCount;
     [BaseSerialize] protected string lastResourcesUpdate;
@@ -34,7 +36,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     protected virtual void Start()
     {
         resourcesLimit = baseResourcesLimit + resourcesLimitPerLevel * upgradable.Level;
-        productionTime = resourcesLimit / fullProductionTime;
+        productionTime = fullProductionTime / resourcesLimit;
         if (!string.IsNullOrEmpty(lastResourcesUpdate))
         {
             DateTime dateTime = DateTime.FromBinary(Convert.ToInt64(lastResourcesUpdate));
@@ -57,7 +59,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     private void Upgradable_OnLevelUp()
     {
         resourcesLimit = baseResourcesLimit + resourcesLimitPerLevel * upgradable.Level;
-        productionTime = resourcesLimit / fullProductionTime;
+        productionTime = fullProductionTime / resourcesLimit;
         nextResourceTime = Time.time + productionTime;
         UpdateCountText();
         if (currentResourcesCount < resourcesLimit)
@@ -68,6 +70,8 @@ public class ResourceFactory : BaseObject, IUnloadingResources
         {
             StopWork();
         }
+
+        counter.DOPunchScale(new Vector3(1,1,1),1, 4, 1);
     }
 
     protected virtual void Update()
