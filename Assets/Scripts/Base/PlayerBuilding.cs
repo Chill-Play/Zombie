@@ -12,7 +12,7 @@ public class PlayerBuilding : MonoBehaviour
     [SerializeField] float rateIncrease = 0.01f;
 
 
-    Collider[] buildablesBuffer = new Collider[1];
+    Collider[] buildablesBuffer = new Collider[4];
     float nextUse;
     int uses;
 
@@ -26,8 +26,8 @@ public class PlayerBuilding : MonoBehaviour
         if (count > 0)
         {
             if (nextUse < Time.time)
-            {
-                IBuildable buildable = buildablesBuffer[0].GetComponent<IBuildable>();
+            {            
+                IBuildable buildable = buildablesBuffer[0].GetComponent<IBuildable>();            
                 if (buildable != null && buildable.CanBuild)
                 {
                     var controller = ResourcesController.Instance;

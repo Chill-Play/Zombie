@@ -44,6 +44,14 @@ public class ResourcesInfo
         IdsByTypes.Clear();
     }
 
+    public void EmptySlots()
+    {
+        foreach (var slot in slots)
+        {
+            slot.count = 0;
+        }
+    }
+
 
     public void ApplyTypes(ResourcesInfo resourcesInfo)
     {

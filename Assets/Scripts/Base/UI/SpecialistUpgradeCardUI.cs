@@ -17,7 +17,7 @@ public class SpecialistUpgradeCardUI : MonoBehaviour
     [SerializeField] TMP_Text specialistStatValue;
     [SerializeField] Transform resourcesPanel;
     [SerializeField] UIResourceSlot resourceSlotUIPrefab;
-
+    public Animator anim;
      List<UIResourceSlot> resourceSlots = new  List<UIResourceSlot>();
     protected bool unlocked;
     CardController cardController;
@@ -27,6 +27,10 @@ public class SpecialistUpgradeCardUI : MonoBehaviour
         cardController = FindObjectOfType<CardController>();
     }
 
+    public void AnimUpgrade()
+    {
+        if (anim) anim.SetTrigger("PressButton");
+    }
 
     public virtual void Setup(Card card, StatsType statType, ResourcesInfo resources, System.Action onClick)
     {
@@ -70,6 +74,7 @@ public class SpecialistUpgradeCardUI : MonoBehaviour
       button.interactable = unlocked;
       button.onClick.RemoveAllListeners();
       button.onClick.AddListener(() => onClick?.Invoke());
+      button.onClick.AddListener(() => AnimUpgrade());
     }
 
 }

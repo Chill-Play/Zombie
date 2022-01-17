@@ -7,22 +7,34 @@ using System;
 public class ResourceFactory : BaseObject, IUnloadingResources
 {
     [SerializeField] TMP_Text countText;
+    [SerializeField] Upgradable upgradable;
     [SerializeField] ResourceType resourceType;
     [SerializeField] protected float workTime = 300f;
-    [SerializeField] protected float productionTime = 300f;
-    [SerializeField] protected int resourcesLimit = 500;
-   
+    [SerializeField] protected float fullProductionTime = 300f;
+    [SerializeField] protected int baseResourcesLimit = 30;
+    [SerializeField] protected int resourcesLimitPerLevel = 10;
+
     [BaseSerialize] protected int currentResourcesCount;
     [BaseSerialize] protected string lastResourcesUpdate;
     float nextResourceTime;
     bool working = false;
+    protected float productionTime;
+    protected int resourcesLimit;
 
     public ResourceType ResourcesType => resourceType;
 
     public int CurrentCount => currentResourcesCount;
 
+    private void Awake()
+    {
+        upgradable.OnLevelUp += Upgradable_OnLevelUp;
+    }
+
+
     protected virtual void Start()
-    {        
+    {
+        resourcesLimit = baseResourcesLimit + resourcesLimitPerLevel * upgradable.Level;
+        productionTime = resourcesLimit / fullProductionTime;
         if (!string.IsNullOrEmpty(lastResourcesUpdate))
         {
             DateTime dateTime = DateTime.FromBinary(Convert.ToInt64(lastResourcesUpdate));
@@ -30,6 +42,22 @@ public class ResourceFactory : BaseObject, IUnloadingResources
             int deltaCount = (int)(delta.TotalSeconds / productionTime);
             AddResource(deltaCount);
         }
+        nextResourceTime = Time.time + productionTime;
+        UpdateCountText();
+        if (currentResourcesCount < resourcesLimit)
+        {
+            StartWork();
+        }
+        else
+        {
+            StopWork();
+        }
+    }
+
+    private void Upgradable_OnLevelUp()
+    {
+        resourcesLimit = baseResourcesLimit + resourcesLimitPerLevel * upgradable.Level;
+        productionTime = resourcesLimit / fullProductionTime;
         nextResourceTime = Time.time + productionTime;
         UpdateCountText();
         if (currentResourcesCount < resourcesLimit)
