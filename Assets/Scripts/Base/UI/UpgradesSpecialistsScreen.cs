@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using TMPro;
 using UnityEngine.PlayerLoop;
@@ -39,8 +40,11 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
 
     void UpdateCards(StatsType statType)
     {
-
+        var seq = DOTween.Sequence();
+        panel.localScale = Vector3.zero;
         int i = 0;
+        seq.Append(panel.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutBack));
+        seq.AppendInterval(.4f);
         for (; i < activeCards.Count; i++)
         {
             if (i < cards.Count)
@@ -48,9 +52,10 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
             else
                 cards.Add(Instantiate(specialitsUpgradeCardPrefab, cardsSpawnPoint));
             Card card = activeCards.cardSlots[i].card;
+            cards[i].transform.localScale = Vector3.zero;
             cards[i].Setup(card, statType,resourcesController.ResourcesCount, () => UpgradeCardStat(card, statType));
+            seq.Join(cards[i].gameObject.transform.DOScale(new Vector3(1, 1, 1), .4f + i * .4f).SetEase(Ease.OutBack));
         }
-
         for (; i < cards.Count; i++)
             cards[i].gameObject.SetActive(false);
     }
@@ -63,6 +68,17 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
 
     public void Hide()
     {
-        onClose?.Invoke();
+        var seq = DOTween.Sequence();
+        for (int i = activeCards.Count - 1; i >= 0; i--)
+        {
+            seq.Join(cards[i].transform.DOScale(Vector3.zero, .3f + (activeCards.Count - i - 1) * .3f).SetEase(Ease.InBack).OnComplete(() =>
+            {
+                cards[i].gameObject.SetActive(false);
+            }));
+        }
+        seq.Append(panel.DOScale(Vector3.zero, .3f).SetEase(Ease.InBack).OnComplete(() =>
+        {
+            onClose?.Invoke();
+        }));
     }
 }
