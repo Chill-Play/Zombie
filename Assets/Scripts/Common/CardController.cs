@@ -75,6 +75,8 @@ public class CardsStatsInfo
 
 public class CardController : MonoBehaviour
 {
+    public event System.Action<Card, StatsType> OnCardUpgraded;
+
     [SerializeField, CardSerialize] protected CardsInfo deckCards;
     [SerializeField, CardSerialize] protected CardsInfo activeCards = new CardsInfo();
     [SerializeField] int maxActiveSlots = 4;
@@ -188,7 +190,8 @@ public class CardController : MonoBehaviour
                 resourcesController.UpdateResources();
             }
             cardStats.statsInfo[statType] += value;
-            Save();
+            OnCardUpgraded?.Invoke(card, statType);
+            Save();           
         }
     }
 

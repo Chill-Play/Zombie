@@ -96,6 +96,7 @@ public class Upgradable : BaseObject, IBuildable
 
     private void UpgradeZoneCollider_OnTriggerEnterEvent(Collider obj)
     {
+        
         if (obj.TryGetComponent<PlayerBuilding>(out var playerBuilding))
         {
             inZone = true;
