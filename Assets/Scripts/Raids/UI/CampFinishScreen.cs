@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 
-public class RaidFinishScreen : UIScreen
+public class CampFinishScreen : UIScreen
 {
     const int OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL = 2;
     const int OPPORTUNITY_TO_DOUBLE_PERIODICITY = 2;
@@ -21,7 +21,16 @@ public class RaidFinishScreen : UIScreen
     [SerializeField] Transform doubleButton;
     [SerializeField] Transform continueButton;
     [SerializeField] Transform alternativeContinueButton;
+    [SerializeField] private Image specialistImage;
+    [SerializeField] private TextMeshProUGUI specialistName;
+    [SerializeField] private GameObject specialist;
     
+    //replace this on Card
+    [SerializeField] private Sprite testSprite;
+    [SerializeField] private string testName;
+    //where to get a card
+    private Card card;
+
     Squad squad;
     bool tutorialMode = false;
     bool isCampaign = false; // temp
@@ -48,6 +57,12 @@ public class RaidFinishScreen : UIScreen
 
         SaveSquad();
 
+        //replace this on card.Icon and CardName
+        specialistImage.sprite = testSprite;
+        specialistName.text = testName;
+        
+        ResourceBar bar = Instantiate(resourceBarPrefab, colletctedContent);
+        bar.transform.localScale = Vector3.zero;
         background.color = new Color(background.color.r, background.color.g, background.color.b, 0f);
         upperPanel.transform.localScale = Vector3.zero;
         collectedPanel.transform.localScale = Vector3.zero; 
@@ -55,45 +70,30 @@ public class RaidFinishScreen : UIScreen
         doubleButton.transform.localScale = Vector3.zero;
         continueButton.transform.localScale = Vector3.zero;
         alternativeContinueButton.transform.localScale = Vector3.zero;
+        specialist.transform.localScale = Vector3.zero;
 
         Sequence sequence = DOTween.Sequence();
         
-        sequence.Append((background as Graphic) .DOFade(0.6f, 0.2f));
+        sequence.Append((background as Graphic).DOFade(0.6f, 0.2f));
         sequence.AppendInterval(0.1f);
         sequence.Append(upperPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         sequence.AppendInterval(0.1f);
         sequence.Append(collectedPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
-        sequence.AppendCallback(() => StartCoroutine(ShowCollectedResources(resources)));
-        sequence.AppendInterval(resources.Slots.Count * 0.5f + 0.5f);
-        sequence.Append(survivorsPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+        sequence.Append(specialist.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.1f, .3f));
+        sequence.Append(bar.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.1f, .3f).OnComplete(() =>
+        {
+            bar.Setup(resources.Slots[0].type, 0);
+            bar.UpdateValue(resources.Slots[0].count);
+        }));
+        // sequence.AppendInterval(resources.Slots.Count * 0.5f + 0.5f);
+        // sequence.Append(survivorsPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
 
         continueButton.gameObject.SetActive(!doubleOpportunity);
         doubleButton.gameObject.SetActive(doubleOpportunity);
         alternativeContinueButton.gameObject.SetActive(doubleOpportunity);
 
-        /*if (doubleOpportunity)
-        {
-            sequence.Append(doubleButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
-            sequence.Append(alternativeContinueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
-        }
-        else
-        {          
-           
-        }*/
         sequence.Append(continueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         tutorialMode = FindObjectOfType<Tutorial>() != null;
-    }
-
-
-    IEnumerator ShowCollectedResources(ResourcesInfo resources)
-    {
-        foreach (ResourceSlot slot in resources.Slots)
-        {
-            ResourceBar bar = Instantiate(resourceBarPrefab, colletctedContent);
-            bar.Setup(slot.type, 0);
-            bar.UpdateValue(slot.count);
-            yield return new WaitForSeconds(0.5f);
-        }
     }
 
 
