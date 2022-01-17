@@ -35,7 +35,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     protected virtual void Start()
     {
         resourcesLimit = baseResourcesLimit + resourcesLimitPerLevel * upgradable.Level;
-        productionTime = resourcesLimit / fullProductionTime;
+        productionTime = fullProductionTime / resourcesLimit;
         if (!string.IsNullOrEmpty(lastResourcesUpdate))
         {
             DateTime dateTime = DateTime.FromBinary(Convert.ToInt64(lastResourcesUpdate));
@@ -58,7 +58,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     private void Upgradable_OnLevelUp()
     {
         resourcesLimit = baseResourcesLimit + resourcesLimitPerLevel * upgradable.Level;
-        productionTime = resourcesLimit / fullProductionTime;
+        productionTime = fullProductionTime / resourcesLimit;
         nextResourceTime = Time.time + productionTime;
         UpdateCountText();
         if (currentResourcesCount < resourcesLimit)
