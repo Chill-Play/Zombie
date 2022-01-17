@@ -43,8 +43,8 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
         var seq = DOTween.Sequence();
         panel.localScale = Vector3.zero;
         int i = 0;
-        seq.Append(panel.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutBack));
-        seq.AppendInterval(.4f);
+        // seq.AppendInterval(10f);
+        seq.Append(panel.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.3f, .7f));
         for (; i < activeCards.Count; i++)
         {
             if (i < cards.Count)
@@ -52,9 +52,15 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
             else
                 cards.Add(Instantiate(specialitsUpgradeCardPrefab, cardsSpawnPoint));
             Card card = activeCards.cardSlots[i].card;
-            cards[i].transform.localScale = Vector3.zero;
-            cards[i].Setup(card, statType,resourcesController.ResourcesCount, () => UpgradeCardStat(card, statType));
-            seq.Join(cards[i].gameObject.transform.DOScale(new Vector3(1, 1, 1), .4f + i * .4f).SetEase(Ease.OutBack));
+            SpecialistUpgradeCardUI upgradeCard = cards[i];
+            upgradeCard.transform.localScale = Vector3.zero;
+            upgradeCard.Setup(card, statType,resourcesController.ResourcesCount, () => UpgradeCardStat(card, statType));
+            
+            seq.AppendInterval(i * .1f);
+            seq.AppendCallback(() =>
+            {
+                upgradeCard.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.3f, .7f);
+            });
         }
         for (; i < cards.Count; i++)
             cards[i].gameObject.SetActive(false);
@@ -63,7 +69,9 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
     void UpgradeCardStat(Card card, StatsType statType)
     {
         cardController.UpgradeCardStats(card, statType);
-        UpdateCards(statType);
+        for(int i = 0; i < activeCards.Count; i++) 
+            cards[i].Setup(card, statType,resourcesController.ResourcesCount, () => UpgradeCardStat(card, statType));
+        //UpdateCards(statType);
     }
 
     public void Hide()
@@ -71,12 +79,20 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
         var seq = DOTween.Sequence();
         for (int i = activeCards.Count - 1; i >= 0; i--)
         {
-            seq.Join(cards[i].transform.DOScale(Vector3.zero, .3f + (activeCards.Count - i - 1) * .3f).SetEase(Ease.InBack).OnComplete(() =>
+            SpecialistUpgradeCardUI upgradeCard = cards[i];
+            seq.AppendInterval((activeCards.Count - i -1) * .1f);
+            seq.AppendCallback(() =>
             {
-                cards[i].gameObject.SetActive(false);
-            }));
+                upgradeCard.transform.DOScale(Vector3.zero, .4f).SetEase(Ease.InElastic, 1.3f, .7f).OnComplete(() =>
+                {
+                    upgradeCard.gameObject.SetActive(false);
+                });
+                // upgradeCard.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.3f, .7f);
+            });
         }
-        seq.Append(panel.DOScale(Vector3.zero, .3f).SetEase(Ease.InBack).OnComplete(() =>
+
+        seq.AppendInterval(activeCards.Count * .1f);
+        seq.Append(panel.DOScale(Vector3.zero, .4f).SetEase(Ease.InElastic,1.3f, .7f).OnComplete(() =>
         {
             onClose?.Invoke();
         }));

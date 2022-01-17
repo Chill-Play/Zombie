@@ -79,14 +79,14 @@ public class CampFinishScreen : UIScreen
         sequence.Append(upperPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         sequence.AppendInterval(0.1f);
         sequence.Append(collectedPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
-        sequence.Append(specialist.transform.DOScale(new Vector3(1, 1, 1), .5f).SetEase(Ease.OutElastic));
-        sequence.Append(bar.transform.DOScale(new Vector3(1, 1, 1), 1).SetEase(Ease.OutElastic).OnComplete(() =>
+        sequence.Append(specialist.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.1f, .3f));
+        sequence.Append(bar.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.1f, .3f).OnComplete(() =>
         {
             bar.Setup(resources.Slots[0].type, 0);
             bar.UpdateValue(resources.Slots[0].count);
         }));
-        sequence.AppendInterval(resources.Slots.Count * 0.5f + 0.5f);
-        sequence.Append(survivorsPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+        // sequence.AppendInterval(resources.Slots.Count * 0.5f + 0.5f);
+        // sequence.Append(survivorsPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
 
         continueButton.gameObject.SetActive(!doubleOpportunity);
         doubleButton.gameObject.SetActive(doubleOpportunity);
