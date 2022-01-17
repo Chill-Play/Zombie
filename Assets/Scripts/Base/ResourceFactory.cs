@@ -14,6 +14,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     [SerializeField] protected float fullProductionTime = 300f;
     [SerializeField] protected int baseResourcesLimit = 30;
     [SerializeField] protected int resourcesLimitPerLevel = 10;
+    [SerializeField] private Transform counter;
 
     [BaseSerialize] protected int currentResourcesCount;
     [BaseSerialize] protected string lastResourcesUpdate;
@@ -70,7 +71,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
             StopWork();
         }
 
-        transform.DOPunchScale(new Vector3(1,1,1),1);
+        counter.DOPunchScale(new Vector3(1,1,1),1, 4, 1);
     }
 
     protected virtual void Update()
