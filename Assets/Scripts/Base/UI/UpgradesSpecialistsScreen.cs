@@ -69,8 +69,12 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
     void UpgradeCardStat(Card card, StatsType statType)
     {
         cardController.UpgradeCardStats(card, statType);
-        for(int i = 0; i < activeCards.Count; i++) 
-            cards[i].Setup(card, statType,resourcesController.ResourcesCount, () => UpgradeCardStat(card, statType));
+        for(int i = 0; i < activeCards.Count; i++)
+        {
+            Card newCard = activeCards.cardSlots[i].card;
+            cards[i].Setup(newCard, statType, resourcesController.ResourcesCount,
+                () => UpgradeCardStat(newCard, statType));
+        }
         //UpdateCards(statType);
     }
 
