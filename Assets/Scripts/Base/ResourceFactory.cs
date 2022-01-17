@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using DG.Tweening;
 
 public class ResourceFactory : BaseObject, IUnloadingResources
 {
@@ -68,6 +69,8 @@ public class ResourceFactory : BaseObject, IUnloadingResources
         {
             StopWork();
         }
+
+        transform.DOPunchScale(new Vector3(1,1,1),1);
     }
 
     protected virtual void Update()

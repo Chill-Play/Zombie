@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
+using Vector3 = UnityEngine.Vector3;
 
 public class UpgradableInfoUI : MonoBehaviour
 {
@@ -38,6 +41,7 @@ public class UpgradableInfoUI : MonoBehaviour
 
         for (; i < resourceBars.Count; i++)
             resourceBars[i].gameObject.SetActive(false);
+        transform.DOScale(Vector3.one,.4f).SetEase(Ease.OutElastic, 1.1f, .3f);
     }
 
     private void Upgradable_OnLevelUp()
@@ -69,6 +73,6 @@ public class UpgradableInfoUI : MonoBehaviour
     {
         upgradable.OnUpdateResourcesSpend -= UpdateResourcesInfo;
         upgradable.OnLevelUp -= Upgradable_OnLevelUp;
-        gameObject.SetActive(false);
+        transform.DOScale(Vector3.zero,.1f).SetEase(Ease.InElastic, 1.1f, .3f).OnComplete(() => { gameObject.SetActive(false); });
     }
 }
