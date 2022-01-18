@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class UIShopScreenView : MonoBehaviour
 {
-    [SerializeField] private Transform shop;
+    [SerializeField] private Buildable shop;
     [SerializeField] private Transform buttons;
     [SerializeField] private Vector3 alignment;
     [SerializeField] private GetResourceButton[] getResourceButtons;
@@ -17,14 +17,18 @@ public class UIShopScreenView : MonoBehaviour
     private void Awake()
     {
         resources = FindObjectOfType<ResourcesController>().OpenedResources;
-        UpdateSellButtons();
-        UpdateGetResourceButtons();
+        shop.OnBuilt += (b =>
+        {
+            UpdateSellButtons();
+            UpdateGetResourceButtons();
+        });
     }
 
     void UpdateSellButtons()
     {
         foreach (var button in sellResourceButtons)
         {
+            button.gameObject.SetActive(true);
             ResourceType resourceType = resources[Random.Range(1, resources.Count)];
             var playerResources = ResourcesController.Instance.ResourcesCount;
             int count = Mathf.Max(minSellCount, playerResources.Count(resourceType) * sellPercent/ 100);
@@ -46,6 +50,7 @@ public class UIShopScreenView : MonoBehaviour
     {
         foreach (var button in getResourceButtons)
         {
+            button.gameObject.SetActive(true);
             ResourceType resourceType = resources[Random.Range(0, resources.Count)];
             var playerResources = ResourcesController.Instance.ResourcesCount;
             int count = Mathf.Max(minSellCount, playerResources.Count(resourceType) * ADSPercent/ 100);
