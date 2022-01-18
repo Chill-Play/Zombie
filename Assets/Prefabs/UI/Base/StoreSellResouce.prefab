@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 3127646513932090058}
   - component: {fileID: 8347232358139332246}
   - component: {fileID: 163683130743351668}
+  - component: {fileID: 581324444296489274}
   m_Layer: 5
-  m_Name: StoreGetResouce 1
+  m_Name: StoreSellResouce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,7 +123,35 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8347232358139332246}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581324444296489274}
+        m_TargetAssemblyTypeName: SellResourceButton, Zombies.Base.UI
+        m_MethodName: Buy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &581324444296489274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2990699368435435451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806974e940974cc4a5f1eae31bcdd291, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priceText: {fileID: 7984396152189870231}
+  countText: {fileID: 1988799242905343468}
+  money: {fileID: 5521264812193404623}
+  resource: {fileID: 958983245863229683}
 --- !u!1 &5192113456979583333
 GameObject:
   m_ObjectHideFlags: 0
