@@ -10,6 +10,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     [SerializeField] TMP_Text countText;
     [SerializeField] Upgradable upgradable;
     [SerializeField] ResourceType resourceType;
+    [SerializeField] Buildable buildable;
     [SerializeField] protected float workTime = 300f;
     [SerializeField] protected float fullProductionTime = 300f;
     [SerializeField] protected int baseResourcesLimit = 30;
@@ -30,22 +31,29 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     private void Awake()
     {
         upgradable.OnLevelUp += Upgradable_OnLevelUp;
+        buildable.OnBuilt += Buildable_OnBuilt;       
     }
 
+    private void Start()
+    {
+        if (buildable.Built)
+        {
+            Setup();
+        }
+    }
 
-    protected virtual void Start()
+    protected virtual void Setup()
     {
         resourcesLimit = baseResourcesLimit + resourcesLimitPerLevel * upgradable.Level;
         productionTime = fullProductionTime / resourcesLimit;
         if (!string.IsNullOrEmpty(lastResourcesUpdate))
-        {
+        {         
             DateTime dateTime = DateTime.FromBinary(Convert.ToInt64(lastResourcesUpdate));
             TimeSpan delta = DateTime.UtcNow - dateTime;
             int deltaCount = (int)(delta.TotalSeconds / productionTime);
             AddResource(deltaCount);
         }
-        nextResourceTime = Time.time + productionTime;
-        UpdateCountText();
+
         if (currentResourcesCount < resourcesLimit)
         {
             StartWork();
@@ -54,6 +62,13 @@ public class ResourceFactory : BaseObject, IUnloadingResources
         {
             StopWork();
         }
+        nextResourceTime = Time.time + productionTime;
+        UpdateCountText();          
+    }
+
+    private void Buildable_OnBuilt(bool obj)
+    {     
+        Setup();
     }
 
     private void Upgradable_OnLevelUp()
@@ -76,7 +91,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
 
     protected virtual void Update()
     {
-        if (nextResourceTime < Time.time && currentResourcesCount < resourcesLimit)
+        if (working && nextResourceTime < Time.time && currentResourcesCount < resourcesLimit)
         {
             AddResource();
             nextResourceTime = Time.time + productionTime;          

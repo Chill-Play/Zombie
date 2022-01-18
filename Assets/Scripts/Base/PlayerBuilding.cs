@@ -27,18 +27,22 @@ public class PlayerBuilding : MonoBehaviour
         {
             if (nextUse < Time.time)
             {            
-                IBuildable buildable = buildablesBuffer[0].GetComponent<IBuildable>();            
-                if (buildable != null && buildable.CanBuild)
+                IBuildable[] buildables = buildablesBuffer[0].GetComponents<IBuildable>();
+                foreach (var buildable in buildables)
                 {
-                    var controller = ResourcesController.Instance;
-                    buildable.SpendResources(controller.ResourcesCount, countPerUse);
-                    controller.UpdateResources();
-                    uses++;
-                    nextUse = Time.time + baseRate - (rateIncrease * uses);
-                }
-                else
-                {
-                    uses = 0;
+                    if (buildable != null && buildable.CanBuild)
+                    {
+                        var controller = ResourcesController.Instance;
+                        buildable.SpendResources(controller.ResourcesCount, countPerUse);
+                        controller.UpdateResources();
+                        uses++;
+                        nextUse = Time.time + baseRate - (rateIncrease * uses);
+                        break;
+                    }
+                    else
+                    {
+                        uses = 0;
+                    }
                 }
             }
         }

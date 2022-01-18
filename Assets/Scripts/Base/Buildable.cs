@@ -81,7 +81,7 @@ public class Buildable : BaseObject, IBuildable
        
 
     private void FinishBuilding(bool afterDeserialization)
-    {
+    {      
         built = true;
         enabled = false;
         if(!afterDeserialization && zombiesLevelController.RaidIsPlayed > 1)

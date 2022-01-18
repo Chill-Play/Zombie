@@ -16,9 +16,10 @@ public class ScrewFactory : ResourceFactory
     List<GameObject> screws = new List<GameObject>();
     Coroutine workCoroutine;
 
-    protected override void Start()
+    protected override void Setup()
     {
-        base.Start();       
+        base.Setup();
+
     }
 
     protected override void StartWork()

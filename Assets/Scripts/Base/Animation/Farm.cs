@@ -15,20 +15,20 @@ public class Farm : ResourceFactory
     bool canWork = false;
     Coroutine workCoroutine;
 
-    protected override void Start()
+    protected override void Setup()
     {
-        base.Start();
+        base.Setup();
         foreach (var item in carrots)
         {
             item.gameObject.SetActive(true);
             item.Grow();
-        }
-        //worker.GoToPosition(waitPos.position);
+        }        
     }
 
     protected override void StartWork()
     {
         base.StartWork();
+
         if (workCoroutine != null)
         {
             StopCoroutine(workCoroutine);

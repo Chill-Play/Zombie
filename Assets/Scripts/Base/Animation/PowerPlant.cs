@@ -11,20 +11,22 @@ public class PowerPlant : ResourceFactory
 
     int currentBatteryLod = -1;
 
-   protected override void Start()
+    protected override void Setup()
     {
-        base.Start();
-        plant.SetFloat("FillSpeed", batteryFillSpeed);       
+        base.Setup();
+        plant.SetFloat("FillSpeed", batteryFillSpeed);     
     }
 
     protected override void StartWork()
     {
+        base.StartWork(); 
         plant.SetBool("Work", true);
         generator.SetBool("Work", true);
     }
 
     protected override void StopWork()
     {
+        base.StopWork();
         generator.SetBool("Work", false);
         plant.SetBool("Work", false);
     }
