@@ -44,7 +44,7 @@ public class UIAvailableUpgradeInfo : MonoBehaviour
     {
         if (active)
         {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(upgradeCounter.transform.position);
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(upgradeCounter.UIPoint.position);
             screenPos.z = 0f;
             transform.position = screenPos;
         }
