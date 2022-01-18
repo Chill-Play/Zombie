@@ -16,7 +16,10 @@ public class Carrot : MonoBehaviour
 
     public void Grow()
     {
-        StartCoroutine(GrowAnimation());
+        if(gameObject.activeSelf)
+        {
+            StartCoroutine(GrowAnimation());
+        }
     }
 
     public void Pull()

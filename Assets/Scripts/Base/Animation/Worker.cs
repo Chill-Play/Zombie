@@ -14,7 +14,7 @@ public class Worker : MonoBehaviour
     {
         float remainingDistance = Vector3.Distance(transform.position, agent.destination);
 
-        while(remainingDistance >= stopDistance)
+        while (remainingDistance >= stopDistance)
         {
             remainingDistance = Vector3.Distance(transform.position, agent.destination);
             return true;
@@ -25,19 +25,23 @@ public class Worker : MonoBehaviour
 
     public void GoToPosition(Vector3 newPosition)
     {
-        agent.SetDestination(newPosition);
+        if (agent.enabled)
+        {
+            agent.SetDestination(newPosition);
+        }
     }
 
     public void Work(bool isWork)
     {
+        agent.enabled = true;
         animator.SetBool("Carring", false);
         animator.SetBool("Work", isWork);
         carrot.SetActive(false);
     }
 
     public void Waving(bool value)
-    {       
-        animator.SetBool("Waving", value);        
+    {
+        animator.SetBool("Waving", value);
     }
 
     public void Carring(bool isCarring)

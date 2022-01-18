@@ -20,9 +20,10 @@ public class Farm : ResourceFactory
         base.Start();
         foreach (var item in carrots)
         {
+            item.gameObject.SetActive(true);
             item.Grow();
         }
-        worker.GoToPosition(waitPos.position);
+        //worker.GoToPosition(waitPos.position);
     }
 
     protected override void StartWork()
@@ -60,8 +61,8 @@ public class Farm : ResourceFactory
                 yield return new WaitForEndOfFrame();
             }
 
-            worker.GoToPosition(carrots[currentCarrotIndex].transform.position);
             worker.Work(true);
+            worker.GoToPosition(carrots[currentCarrotIndex].transform.position);
 
             while (worker.IsMoving())
             {
@@ -88,13 +89,13 @@ public class Farm : ResourceFactory
         {
             StopCoroutine(workCoroutine);
         }
-        workCoroutine =  StartCoroutine(StopWorkCoroutine());
+        workCoroutine = StartCoroutine(StopWorkCoroutine());
     }
 
     IEnumerator StopWorkCoroutine()
     {
         worker.GoToPosition(waitPos.position);
-        worker.Work(true);    
+        worker.Work(true);
         while (worker.IsMoving())
         {
             yield return new WaitForEndOfFrame();

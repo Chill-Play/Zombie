@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3382802234898610768}
   - component: {fileID: 3702634012658242763}
   - component: {fileID: 6813497422083576757}
+  - component: {fileID: 5797589682065852792}
   m_Layer: 0
   m_Name: Walls (1)
   m_TagString: Untagged
@@ -81,6 +82,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &5797589682065852792
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991585186254658225}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.238, y: 0.68600005, z: 0.48200002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.12200001, y: 0, z: -0.60200006}
+  m_TimeToStationary: 0.5
 --- !u!1 &2753238619701032406
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +220,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6276943375406685890}
-  - component: {fileID: 2514872628128614611}
   - component: {fileID: 8527377229935316384}
   m_Layer: 0
   m_Name: Farm_Auto_Ruins
@@ -228,22 +244,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!208 &2514872628128614611
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6654066331432453240}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 2.1, y: 10, z: 2.1}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0.88}
-  m_TimeToStationary: 0.5
 --- !u!114 &8527377229935316384
 MonoBehaviour:
   m_ObjectHideFlags: 0
