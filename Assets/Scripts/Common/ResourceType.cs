@@ -7,5 +7,6 @@ public class ResourceType : ScriptableObject
 {
     public string saveId;
     public Sprite icon;
+    public int price;
     public Resource defaultPrefab;
 }

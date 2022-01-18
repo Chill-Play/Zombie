@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 public class UIAvailableUpgradeInfo : MonoBehaviour
 {
@@ -53,11 +54,16 @@ public class UIAvailableUpgradeInfo : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
+        transform.localScale = Vector3.zero;
+        transform.DOScale(Vector3.one,.4f).SetEase(Ease.OutElastic, 1.1f, .3f);
     }
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        transform.DOScale(Vector3.zero,.4f).SetEase(Ease.OutElastic, 1.1f, .3f).OnComplete(() =>
+        {
+            gameObject.SetActive(false);
+        });
     }
 
     private void UpgradeCounter_OnRequireUpdate()
