@@ -45,9 +45,9 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     protected virtual void Setup()
     {
         resourcesLimit = baseResourcesLimit + resourcesLimitPerLevel * upgradable.Level;
-        productionTime = fullProductionTime / resourcesLimit;
-        if (!string.IsNullOrEmpty(lastResourcesUpdate))
-        {         
+        productionTime = fullProductionTime / resourcesLimit;        
+        if (!string.IsNullOrEmpty(lastResourcesUpdate) && lastResourcesUpdate != "null")
+        {
             DateTime dateTime = DateTime.FromBinary(Convert.ToInt64(lastResourcesUpdate));
             TimeSpan delta = DateTime.UtcNow - dateTime;
             int deltaCount = (int)(delta.TotalSeconds / productionTime);

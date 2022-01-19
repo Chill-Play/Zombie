@@ -12,6 +12,17 @@ public class RaidEntranceUI : MonoBehaviour
 
     float timeBeforeRaid;
     float timerTime;
+    InputPanel inputPanel;
+
+    private void Awake()
+    {
+        inputPanel = FindObjectOfType<InputPanel>();
+    }
+
+    private void OnEnable()
+    {
+        inputPanel.DisableInput();
+    }
 
     public void RunTimer(float timeBeforeRaid)
     {
@@ -44,5 +55,10 @@ public class RaidEntranceUI : MonoBehaviour
     {
         timerTime -= Time.deltaTime;
         timerImage.fillAmount = Mathf.Clamp01(timerTime / timeBeforeRaid);
+    }
+
+    private void OnDisable()
+    {
+        inputPanel.EnableInput();
     }
 }

@@ -7,6 +7,19 @@ public class UnitPlayerInput : MonoBehaviour, IInputReceiver
 {
     [SerializeField] UnitMovement unitMovement;
 
+    InputPanel inputPanel;
+
+    private void Awake()
+    {
+        inputPanel = FindObjectOfType<InputPanel>();
+        inputPanel.OnDisableInput += InputPanel_OnDisableInput;
+    }
+
+    private void InputPanel_OnDisableInput()
+    {
+        unitMovement.Input = Vector2.zero;
+    }
+
     public void UpdateInput(Vector2 input)
     {
         input.Normalize();

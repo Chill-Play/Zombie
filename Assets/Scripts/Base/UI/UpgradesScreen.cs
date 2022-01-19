@@ -16,9 +16,16 @@ public class UpgradesScreen : UIScreen, IShowScreen
     List<(StatsType, StatInfo)> stats = new List<(StatsType, StatInfo)>();
     ResourcesInfo availableResources;
     System.Action onClose;
-    
+    InputPanel inputPanel;
+
+    private void Awake()
+    {
+        inputPanel = FindObjectOfType<InputPanel>();
+    }
+
     public void Show(UpgradeZone zone, string name, List<(StatsType, StatInfo)> stats, ResourcesInfo availableResources, System.Action onClose = null)
     {
+        inputPanel.DisableInput();
         this.onClose = onClose;
         label.text = name;
         this.stats = stats;
@@ -144,6 +151,7 @@ public class UpgradesScreen : UIScreen, IShowScreen
 
     public void Close()
     {
+        inputPanel.EnableInput();
         var sequence = DOTween.Sequence();
         sequence.Append(panel.transform.DOScale(0.3f, 0.5f).SetEase(Ease.InCirc));
         sequence.Join(DOTween.To(() => canvasGroup.alpha, (x) => canvasGroup.alpha = x, 0f, 0.25f).SetEase(Ease.InCirc)); 

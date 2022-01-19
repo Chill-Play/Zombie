@@ -24,9 +24,16 @@ public class RewardScreen : MonoBehaviour
     private int chestCount;
     private int resourcesCount;
     private ResourcesInfo resInfo;
+    InputPanel inputPanel;
+
+    private void Awake()
+    {
+        inputPanel = FindObjectOfType<InputPanel>();
+    }
 
     public void OpenChest(int i)
     {
+        inputPanel.DisableInput();
         VFX.transform.localScale = Vector3.zero;
         chest.transform.localScale = Vector3.zero;
         rewardText.transform.localScale = Vector3.zero;
@@ -66,6 +73,7 @@ public class RewardScreen : MonoBehaviour
 
     void CompleteCloseScreen()
     {
+        inputPanel.EnableInput();
         gameObject.SetActive(false);
     }
     

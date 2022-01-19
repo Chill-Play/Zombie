@@ -20,7 +20,7 @@ public class UIResourceSlot : MonoBehaviour
 
 
     public void SetSlot(ResourceSlot slot, ResourceSlot availableSlot)
-    {
+    { 
         count.text = slot.count.ToString();
         icon.sprite = slot.type.icon;
         count.color = (slot.count > availableSlot.count) ? lackingColor : defaultColor;

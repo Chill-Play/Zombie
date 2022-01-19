@@ -10,6 +10,7 @@ public class BaseUI : UIScreen
 {
     //[SerializeField] Button raidButton;
     [SerializeField] RaidEntranceUI raidEntrance;
+    [SerializeField] RaidEntranceUI campaignEntrance;
     [SerializeField] private LevelUpScreen levelUpScreen;
     private HQBuilding hq;
 
@@ -32,9 +33,22 @@ public class BaseUI : UIScreen
         hq.OnLevelUp += levelUpScreen.ShowScreen;
         campGameplayController.OnRaidReadiness += OnRaidReadiness;
         campGameplayController.OnRaidUnpreparedness += OnRaidUnpreparedness;
+        campGameplayController.OnCampaignReadiness += CampGameplayController_OnCampaignReadiness; ;
+        campGameplayController.OnCampaignUnpreparedness += CampGameplayController_OnCampaignUnpreparedness; ;
     }
 
-   
+    private void CampGameplayController_OnCampaignUnpreparedness()
+    {
+        campaignEntrance.transform.DOScale(0.5f, 0.15f).SetEase(Ease.InExpo).OnComplete(() => raidEntrance.gameObject.SetActive(false));
+    }
+
+    private void CampGameplayController_OnCampaignReadiness(float timeBeforeRaid)
+    {
+        campaignEntrance.gameObject.SetActive(true);
+        campaignEntrance.transform.localScale = Vector3.one * 0.4f;
+        campaignEntrance.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.2f, 0.3f);
+        campaignEntrance.RunTimer(timeBeforeRaid);
+    }
 
     void Start()
     {       

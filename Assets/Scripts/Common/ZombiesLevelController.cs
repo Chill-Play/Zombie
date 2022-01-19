@@ -13,12 +13,14 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
     LevelService campaignLevelService;
 
     public int RaidIsPlayed { get; private set; }
+    public int StatesIsPlayed { get; private set; }
 
     private void Awake()
     {
         raidLevelService = LevelService.Get(raidLevelCollection);
         campaignLevelService = LevelService.Get(campaignLevelCollection);        
         RaidIsPlayed = raidLevelService.CurrentSequenceInfo.levelsPlayed;
+        StatesIsPlayed = campaignLevelService.CurrentSequenceInfo.levelsPlayed;
     }
 
     public void NextRaid()
@@ -30,8 +32,7 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
 
     public void NextState()
     {
-        LevelSequenceInfo info = campaignLevelService.CurrentSequenceInfo;
-        Debug.Log("info.levelInPack " + info.levelInPack);
+        LevelSequenceInfo info = campaignLevelService.CurrentSequenceInfo;      
         SceneReference scene = (campaignLevelCollection.GetPack(info.pack) as LevelPack).GetLevel(info.levelInPack);
         SceneManager.LoadScene(scene);
     }

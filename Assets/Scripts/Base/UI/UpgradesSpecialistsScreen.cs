@@ -20,17 +20,20 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
     ResourcesInfo availableResources;
     System.Action onClose;
     ResourcesController resourcesController;
+    InputPanel inputPanel;
     private CardsInfo activeCards => cardController.ActiveCards;
 
 
     private void Awake()
     {
+        inputPanel = FindObjectOfType<InputPanel>();
         cardController = FindObjectOfType<CardController>();
         resourcesController = FindObjectOfType<ResourcesController>();
     }
 
     public void Show(UpgradeZone zone, string name, List<(StatsType, StatInfo)> stats, ResourcesInfo availableResources, Action onClose = null)
     {
+        inputPanel.DisableInput();
         this.onClose = onClose;
         label.text = name;
         this.stats = stats;
@@ -80,6 +83,7 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
 
     public void Hide()
     {
+        inputPanel.EnableInput();
         var seq = DOTween.Sequence();
         for (int i = activeCards.Count - 1; i >= 0; i--)
         {

@@ -18,11 +18,14 @@ public class LevelUpScreen : MonoBehaviour
     [SerializeField] private GameObject buildingPrefab;
     private LevelProgressionController levelProgressionController;
     HQBuilding hq;
+    InputPanel inputPanel;  
     private int resourcesCount => levelProgressionController.CurrentLevelProgression.UnlockResources.Count;
     private int buildingCount => levelProgressionController.UnlockableBuildings.Count;
 
+    
     private void Awake()
     {
+        inputPanel = FindObjectOfType<InputPanel>();
         levelProgressionController = FindObjectOfType<LevelProgressionController>();
         hq = FindObjectOfType<HQBuilding>();
         hq.OnLevelUp += ShowScreen;
@@ -31,6 +34,7 @@ public class LevelUpScreen : MonoBehaviour
     
     public void CloseScreen()
     {
+        inputPanel.EnableInput();
         var seq = DOTween.Sequence();
         seq.Join(continueButton.transform.DOScale(Vector3.zero, .1f).SetEase(Ease.InBack));
         seq.AppendInterval(0.1f);
@@ -54,8 +58,9 @@ public class LevelUpScreen : MonoBehaviour
     }
 
     public void ShowScreen()
-    {
+    {        
         gameObject.SetActive(true);
+        inputPanel.DisableInput();
         header.transform.localScale = Vector3.zero;
         newLevelLabel.transform.localScale = Vector3.zero;
         continueButton.transform.localScale = Vector3.zero;
