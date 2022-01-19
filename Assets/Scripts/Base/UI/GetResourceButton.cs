@@ -10,10 +10,12 @@ public class GetResourceButton : ShopButton
     [SerializeField] private TextMeshProUGUI countText;
     [SerializeField] private Image resource;
     private System.Action onAdsShowed;
+    public bool adsShowed;
     
 
     public void Setup(ResourceType resourceType, int count, System.Action click)
     {
+        transform.localScale = Vector3.zero;
         onAdsShowed += click;
         resource.sprite = resourceType.icon;
         countText.text = count.ToString();
@@ -21,10 +23,13 @@ public class GetResourceButton : ShopButton
 
     public void ShowADS()
     {
-        //show add
         //maybe add ads callback
         //if ads 
         onAdsShowed?.Invoke();
-        Hide();
+        transform.DOScale(Vector3.zero,.1f).SetEase(Ease.InElastic, 1.1f, .3f).OnComplete(() =>
+        {
+            adsShowed = true;
+            gameObject.SetActive(false);
+        });
     }
 }

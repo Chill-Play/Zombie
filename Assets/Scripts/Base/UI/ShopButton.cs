@@ -12,6 +12,6 @@ public class ShopButton : MonoBehaviour
 
     public void Hide()
     {
-        transform.DOScale(Vector3.zero,.1f).SetEase(Ease.InElastic, 1.1f, .3f).OnComplete(() => { gameObject.SetActive(false); });
+        transform.DOScale(Vector3.zero,.1f).SetEase(Ease.InElastic, 1.1f, .3f).OnComplete(()=>{gameObject.SetActive(false);});
     }
 }
