@@ -1719,6 +1719,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1629159543525195712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7575349229089091872}
+  m_Layer: 13
+  m_Name: GetResourcesButtonPointRLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7575349229089091872
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629159543525195712}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.12, y: 0, z: -1.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6257278441444196586}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1655178162344683573
 GameObject:
   m_ObjectHideFlags: 0
@@ -3573,6 +3603,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3535256197066647762
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5459909498066036614}
+  m_Layer: 13
+  m_Name: SellButtonPointRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5459909498066036614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3535256197066647762}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.12, y: 0, z: 1.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6257278441444196586}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3587142450777687206
 GameObject:
   m_ObjectHideFlags: 0
@@ -4398,6 +4458,40 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4644594258157044621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6257278441444196586}
+  m_Layer: 13
+  m_Name: ButtonsPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6257278441444196586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4644594258157044621}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2226916657066817333}
+  - {fileID: 5459909498066036614}
+  - {fileID: 3723903158761731812}
+  - {fileID: 7575349229089091872}
+  m_Father: {fileID: 7076825599627922361}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4682154981068304760
 GameObject:
   m_ObjectHideFlags: 0
@@ -5462,6 +5556,7 @@ GameObject:
   - component: {fileID: 5486982952361883239}
   - component: {fileID: 5486982952361883238}
   - component: {fileID: 5486982952361883233}
+  - component: {fileID: 3597720890914588520}
   m_Layer: 13
   m_Name: SellStore_ADS
   m_TagString: Untagged
@@ -5486,6 +5581,7 @@ Transform:
   - {fileID: 8046194938858262144}
   - {fileID: 4211168973453770982}
   - {fileID: 2441886424305569892}
+  - {fileID: 6257278441444196586}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5561,6 +5657,28 @@ MonoBehaviour:
   unlockLevel: 2
   lockerPrefab: {fileID: 2563888096326735177, guid: ccd7bef72f93a4a42b562f66d9a2fd6a, type: 3}
   obstacle: {fileID: 0}
+--- !u!114 &3597720890914588520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5486982952361883232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a49cd0a15ca462596ed3a062035d254, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 58c5d6d6-1f0d-4763-b4dc-9e1a01f4c839
+  buttonPos:
+  - {fileID: 7575349229089091872}
+  - {fileID: 3723903158761731812}
+  - {fileID: 2226916657066817333}
+  - {fileID: 5459909498066036614}
+  sellPercent: 20
+  ADSvalue: 5
+  minCount: 5
+  showButtonsCollider: {fileID: 3861341706301399851}
 --- !u!1 &5616954575609825468
 GameObject:
   m_ObjectHideFlags: 0
@@ -6814,6 +6932,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6490314152126120377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3723903158761731812}
+  m_Layer: 13
+  m_Name: GetResourcesButtonPointRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3723903158761731812
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6490314152126120377}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.12, y: 0, z: -1.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6257278441444196586}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6490608848787023562
 GameObject:
   m_ObjectHideFlags: 0
@@ -6979,6 +7127,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6697512433762367367
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2226916657066817333}
+  m_Layer: 13
+  m_Name: SellButtonPointLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2226916657066817333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6697512433762367367}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.12, y: 0, z: 1.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6257278441444196586}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6966390015820644413
 GameObject:
   m_ObjectHideFlags: 0
@@ -7822,8 +8000,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8046194938858262144}
-  - component: {fileID: 8046194938858262150}
   - component: {fileID: 8046194938858262145}
+  - component: {fileID: 3861341706301399851}
   m_Layer: 12
   m_Name: ShopTrigger
   m_TagString: Untagged
@@ -7845,19 +8023,6 @@ Transform:
   m_Father: {fileID: 7076825599627922361}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8046194938858262150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8046194938858262147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bad6c293d55c4ea45a439da7039e88a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  go: {fileID: 0}
 --- !u!65 &8046194938858262145
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7871,6 +8036,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3861341706301399851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8046194938858262147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2001aa11c661ae4d8bf1b17d14ed91d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8046194939213623171
 GameObject:
   m_ObjectHideFlags: 0
