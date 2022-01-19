@@ -5,34 +5,40 @@ using Random = UnityEngine.Random;
 
 public class UIShopScreenView : MonoBehaviour
 {
-    [SerializeField] private Buildable shop;
-    [SerializeField] private Transform buttons;
     [SerializeField] private Vector3 alignment;
     [SerializeField] private GetResourceButton[] getResourceButtons;
     [SerializeField] private SellResourceButton[] sellResourceButtons;
-    [SerializeField] private int sellPercent;
-    [SerializeField] private int ADSPercent;
-    [SerializeField] private int minSellCount;
     private List<ResourceType> resources = new List<ResourceType>();
+    private Shop shop;
     private void Awake()
     {
         resources = FindObjectOfType<ResourcesController>().OpenedResources;
-        shop.OnBuilt += (b =>
-        {
-            UpdateSellButtons();
-            UpdateGetResourceButtons();
-        });
+        shop = FindObjectOfType<Shop>();
     }
 
-    void UpdateSellButtons()
+    public void ShowButtons()
+    {
+        foreach (var button in getResourceButtons)
+            button.Show();
+        foreach (var button in sellResourceButtons)
+            button.Show();
+    }
+
+    public void HideButtons()
+    {
+        foreach (var button in getResourceButtons)
+            button.Hide();
+        foreach (var button in sellResourceButtons)
+            button.Hide();
+    }
+
+    public void UpdateSellButtons(int minCount, int sellPercent)
     {
         foreach (var button in sellResourceButtons)
         {
-            button.gameObject.SetActive(true);
             ResourceType resourceType = resources[Random.Range(1, resources.Count)];
             var playerResources = ResourcesController.Instance.ResourcesCount;
-            int count = Mathf.Max(minSellCount, playerResources.Count(resourceType) * sellPercent/ 100);
-            //int count =playerResources.Count(resourceType) * sellPercent / 100;
+            int count = Mathf.Max(minCount, playerResources.Count(resourceType) * sellPercent/ 100);
             int price = count * resourceType.price;
             button.Setup(resourceType, count, price, () =>
             {
@@ -46,14 +52,13 @@ public class UIShopScreenView : MonoBehaviour
         }
     }
 
-    void UpdateGetResourceButtons()
+    public void UpdateGetResourceButtons(int ADScoefficient, int adsCount)
     {
         foreach (var button in getResourceButtons)
         {
-            button.gameObject.SetActive(true);
             ResourceType resourceType = resources[Random.Range(0, resources.Count)];
             var playerResources = ResourcesController.Instance.ResourcesCount;
-            int count = Mathf.Max(minSellCount, playerResources.Count(resourceType) * ADSPercent/ 100);
+            int count = ADScoefficient * (resourceType.price + adsCount);
             button.Setup(resourceType, count, () =>
             {
                 playerResources.Add(resourceType, count);
@@ -61,14 +66,27 @@ public class UIShopScreenView : MonoBehaviour
             });
         }
     }
+
+    void SetButtonsPosition()
+    {
+        int i = 0;
+        for (; i < shop.buttonPos.Length/2; i++)
+        {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(shop.buttonPos[i].transform.position);
+            screenPos.z = 0f;
+            getResourceButtons[i].transform.position = screenPos;
+        }
+
+        for (; i < shop.buttonPos.Length; i++)
+        {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(shop.buttonPos[i].transform.position);
+            screenPos.z = 0f;
+            sellResourceButtons[i - shop.buttonPos.Length/2].transform.position = screenPos;
+        }
+    }
     
     void LateUpdate()
     {
-        if (shop)
-        {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(shop.transform.position);
-            screenPos.z = 0f;
-            buttons.position = screenPos + alignment;
-        }
+        SetButtonsPosition();
     }
 }
