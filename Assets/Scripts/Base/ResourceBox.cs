@@ -1,25 +1,59 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
+[Serializable]
+struct ResourceData
+{
+    public GameObject gameObject;
+    public ResourceType resourceType;
+}
 
 public class ResourceBox : MonoBehaviour
 {
-    [SerializeField] private GameObject[] resources;
+    [SerializeField] private ResourceData[] resources;
+    [SerializeField] private float resourcesVelocity;
+    private Transform user;
     
-    public void ShowResource(int index)
+    GameObject FindResource(ResourceType resourceType)
     {
-        resources[index].SetActive(true);
+        foreach (var resource in resources)
+        {
+            if (resource.resourceType == resourceType)
+                return resource.gameObject;
+        }
+        return null;
+    }
+    
+    public void ShowResource(ResourceType resourceType)
+    {
+        FindResource(resourceType).SetActive(true);
     }
 
-    public void HideResource(int index)
+    public void HideResource(ResourceType resourceType)
     {
-        resources[index].SetActive(false);
+        FindResource(resourceType).SetActive(false);
     }
 
     public void HideAllResources()
     {
         foreach (var resource in resources)
         {
-            resource.SetActive(false);
+            resource.gameObject.SetActive(false);
         }
+    }
+    public void SetUserTransform(Transform otherTransform)
+    {
+        user = otherTransform;
+    }
+
+    public void SpawnResources(ResourceType resourceType)
+    {
+        Resource instance = Instantiate(resourceType.defaultPrefab, transform.position, Quaternion.identity);
+        instance.Pickup(user);
+        Rigidbody body = instance.GetComponent<Rigidbody>();
+        body.velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(3f, 6f), Random.Range(-1f, 1f)) * resourcesVelocity;
+        body.angularVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * 360f;
+        HideAllResources();
     }
 }

@@ -13,6 +13,10 @@ public class UIShopScreenView : MonoBehaviour
     {
         resources = ResourcesController.Instance.OpenedResources;
         shop = FindObjectOfType<Shop>();
+        shop.OnShopOpened += ShowButtons;
+        shop.OnShopClosed += HideButtons;
+        shop.OnUpdateSellButton += UpdateSellButton;
+        shop.OnUpdateGetResourceButton += UpdateGetResourceButton;
     }
 
     public void ShowButtons()
@@ -34,7 +38,6 @@ public class UIShopScreenView : MonoBehaviour
 
     public void UpdateSellButton(int index, ResourceType resourceType, int count, int price)
     {
-        Debug.Log("sell button index: " + index);
         var button = sellResourceButtons[index];
         var playerResources = ResourcesController.Instance.ResourcesCount;
         button.Setup(resourceType, count, price, () =>
@@ -52,66 +55,17 @@ public class UIShopScreenView : MonoBehaviour
         });
     }
 
-    public void UpdateSellButtons(int minCount, int sellPercent)
-    {
-        int tmp = 1;
-        int i = 1;
-        foreach (var button in sellResourceButtons)
-        {
-            while (i == tmp && resources.Count - 1 > 1)
-                i = Random.Range(1, resources.Count);
-            tmp = i;
-            ResourceType resourceType = resources[i];
-            var playerResources = ResourcesController.Instance.ResourcesCount;
-            int count = Mathf.Max(minCount, playerResources.Count(resourceType) * sellPercent/ 100);
-            int price = count * resourceType.price;
-            button.Setup(resourceType, count, price, () =>
-            {
-                if (playerResources.Count(resourceType) >= count)
-                {
-                    playerResources.Subtract(resourceType, count);
-                    playerResources.Add(resources[0], price);
-                    ResourcesController.Instance.UpdateResources();
-                }
-                else
-                {
-                    button.BuyFailed();
-                }
-            });
-        }
-    }
-
     public void UpdateGetResourceButton(int index, ResourceType resourceType, int count)
     {
-        Debug.Log("get button index: " + index);
         var playerResources = ResourcesController.Instance.ResourcesCount;
         var button = getResourceButtons[index];
         button.Setup(resourceType, count, () =>
         {
+            shop.ResourcesBoxes[index].SpawnResources(resourceType);
             playerResources.Add(resourceType, count);
             shop.IncerementAdsCount();
             ResourcesController.Instance.UpdateResources();
         });
-    }
-    public void UpdateGetResourceButtons(int ADScoefficient, int adsCount)
-    {
-        int tmp = 1;
-        int i = 1;
-        foreach (var button in getResourceButtons)
-        {
-            while (i == tmp && resources.Count > 1)
-                i = Random.Range(0, resources.Count);
-            tmp = i;
-            ResourceType resourceType = resources[i];
-            var playerResources = ResourcesController.Instance.ResourcesCount;
-            int count = ADScoefficient * (resourceType.price + adsCount);
-            button.Setup(resourceType, count, () =>
-            {
-                playerResources.Add(resourceType, count);
-                shop.IncerementAdsCount();
-                ResourcesController.Instance.UpdateResources();
-            });
-        }
     }
 
     void SetButtonsPosition()
