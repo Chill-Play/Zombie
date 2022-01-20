@@ -75,7 +75,7 @@ public class Buildable : BaseObject, IBuildable
             }
             Resource instance = Instantiate(type.defaultPrefab, player.transform.position, Quaternion.LookRotation(UnityEngine.Random.insideUnitSphere));
             instance.GetComponent<Rigidbody>().isKinematic = true;
-            instance.transform.DOJump(transform.position, 1f, 1, 0.3f).OnComplete(() => Destroy(instance)).SetDelay((float)order * 0.1f);  
+            instance.transform.DOJump(transform.position, 1f, 1, 0.3f).OnComplete(() => Destroy(instance.gameObject)).SetDelay((float)order * 0.1f);  
         }
      }
        

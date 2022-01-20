@@ -106,8 +106,10 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
     {
         if (!constructed && !LockConstruction)
         {
-            float dH = constructionHealth.AddHealth(value, true);          
-            uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f, constructionIcon);
+            float dH = constructionHealth.AddHealth(value, true);  
+            UINumber number = uiNumbers.GetNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 0f, 0f, true);
+            uiNumbers.AttachImage(number, constructionIcon);
+            uiNumbers.MoveUpNumber(number, 40f, 0.8f, () => uiNumbers.End(number));
             return dH;
         }
         return 0f;
@@ -117,8 +119,10 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
     {
         if (constructed && !LockConstruction)
         {
-            float dH = constructionHealth.AddHealth(value);            
-            uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 15f, 10f, 0.4f, constructionIcon);
+            float dH = constructionHealth.AddHealth(value);
+            UINumber number = uiNumbers.GetNumber(transform.position + Vector3.up * 2f, "+" + dH, Vector2.zero, 0f, 0f, true);
+            uiNumbers.AttachImage(number, constructionIcon);
+            uiNumbers.MoveUpNumber(number, 40f, 0.8f, () => uiNumbers.End(number));
             return dH;
         }
         return 0f;
