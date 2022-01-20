@@ -1,25 +1,42 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+[Serializable]
+public struct Resources
+{
+    public GameObject gameObject;
+    public ResourceType resourceType;
+}
 
 public class ResourceBox : MonoBehaviour
 {
-    [SerializeField] private GameObject[] resources;
-    
-    public void ShowResource(int index)
+    [SerializeField] private Resources[] resources;
+
+    GameObject FindResource(ResourceType resourceType)
     {
-        resources[index].SetActive(true);
+        foreach (var resource in resources)
+        {
+            if (resource.resourceType == resourceType)
+                return resource.gameObject;
+        }
+        return null;
+    }
+    
+    public void ShowResource(ResourceType resourceType)
+    {
+        FindResource(resourceType).SetActive(true);
     }
 
-    public void HideResource(int index)
+    public void HideResource(ResourceType resourceType)
     {
-        resources[index].SetActive(false);
+        FindResource(resourceType).SetActive(false);
     }
 
     public void HideAllResources()
     {
         foreach (var resource in resources)
         {
-            resource.SetActive(false);
+            resource.gameObject.SetActive(false);
         }
     }
 }

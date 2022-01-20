@@ -25,7 +25,6 @@ public class Shop : BaseObject
         showButtonsCollider.OnTriggerEnterEvent += Shop_OnTriggerEnterEvent;
         showButtonsCollider.OnTriggerExitEvent += Shop_OnTriggerExitEvent;
         UpdateShop();
-        //UpdateButtons();
     }
 
     public void IncerementAdsCount()
@@ -54,11 +53,10 @@ public class Shop : BaseObject
             while (i == tmp && resources.Count - 1 > 1)
                 i = Random.Range(1, resources.Count);
             tmp = i;
-            ResourceType resourceType = resources[i];
             var playerResources = ResourcesController.Instance.ResourcesCount;
-            int count = Mathf.Max(minCount, playerResources.Count(resourceType) * sellPercent/ 100);
-            int price = count * resourceType.price;
-            uiShopScreenView.UpdateSellButton(j, resourceType, count, price);
+            int count = Mathf.Max(minCount, playerResources.Count(resources[i]) * sellPercent/ 100);
+            int price = count * resources[i].price;
+            uiShopScreenView.UpdateSellButton(j, resources[i], count, price);
         }
         tmp = 1;
         i = 1;
@@ -67,16 +65,10 @@ public class Shop : BaseObject
             while (i == tmp && resources.Count > 1)
                 i = Random.Range(0, resources.Count);
             tmp = i;
-            resourcesBoxes[j].ShowResource(i);
+            resourcesBoxes[j].ShowResource(resources[i]);
             ResourceType resourceType = resources[i];
             int count = ADScoefficient * (resourceType.price + adsCount);
             uiShopScreenView.UpdateGetResourceButton(j, resourceType, count);
         }
-    }
-    
-    public void UpdateButtons()
-    {
-        uiShopScreenView.UpdateSellButtons(minCount, sellPercent);
-        uiShopScreenView.UpdateGetResourceButtons(ADScoefficient, adsCount);
     }
 }
