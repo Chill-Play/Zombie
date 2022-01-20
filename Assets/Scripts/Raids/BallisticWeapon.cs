@@ -8,8 +8,7 @@ public class BallisticWeapon : Weapon
 
     protected override void ShootBullet(Transform target)
     {
-        base.ShootBullet(target);       
-        Debug.Log(shootPoint.position);
+        base.ShootBullet(target);   
         Bullet bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
         Vector2 rInCircle = Random.insideUnitCircle;
         Vector3 spreadPosition = target.position + new Vector3(rInCircle.x * spread, 0f, rInCircle.y * spread);

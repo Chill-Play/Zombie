@@ -57,8 +57,10 @@ public class HQBuilding : BaseObject
     }
 
     public void AddPoint(int value = 1)
-    {
-        uiNumbers.SpawnNumber(transform.position + Vector3.up * 2f, "+" + 1, Vector2.zero, 15f, 10f, 0.4f, pointIcon);
+    {        
+        UINumber number = uiNumbers.GetNumber(transform.position + Vector3.up * 2f, "+1", Vector2.zero, 0f, 0f, true);
+        uiNumbers.AttachImage(number, pointIcon);
+        uiNumbers.MoveUpNumber(number, 40f, 0.8f, () => uiNumbers.End(number));
         currentCount += value;
         if (currentCount >= cost)
         {

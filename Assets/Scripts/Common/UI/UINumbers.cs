@@ -133,10 +133,21 @@ public class UINumbers : MonoBehaviour
         scaleTween = uINumber.text.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InCirc).OnComplete(() => { uINumber.End(); Destroy(uINumber.text.gameObject); });
     }
 
+    public void End(UINumber uINumber)
+    {
+        uINumber.End();
+        Destroy(uINumber.text.gameObject);
+    }
+
     public void AttachImage(UINumber uINumber, Sprite sprite)
     {
         Image image =  Instantiate<Image>(imagePrefab, uINumber.text.transform);
         image.sprite = sprite;
+    }
+
+    public void MoveUpNumber(UINumber uINumber, float upValue, float duration, System.Action callback)
+    {
+        DOTween.To(() => uINumber.offset.y, x => uINumber.offset.y = x, upValue, duration).OnComplete(() => callback?.Invoke());      
     }
 
 }
