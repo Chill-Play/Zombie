@@ -24,6 +24,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
     protected float productionTime;
     protected int resourcesLimit;
 
+    public int MaxCount => resourcesLimit;
     public ResourceType ResourcesType => resourceType;
 
     public int CurrentCount => currentResourcesCount;
