@@ -10,6 +10,7 @@ public class UIAvailableUpgradeInfo : MonoBehaviour
 
     UpgradeCounter upgradeCounter;
     bool active = false;
+    
 
     public void Setup(UpgradeCounter upgradeCounter)
     {
@@ -55,7 +56,10 @@ public class UIAvailableUpgradeInfo : MonoBehaviour
     {
         gameObject.SetActive(true);
         transform.localScale = Vector3.zero;
-        transform.DOScale(Vector3.one,.4f).SetEase(Ease.OutElastic, 1.1f, .3f);
+        transform.DOScale(Vector3.one,.4f).SetEase(Ease.OutElastic, 1.1f, .3f).OnComplete(() =>
+        {
+            transform.DOPunchScale(new Vector2(.25f, .25f), 1.5f, 2,.3f).SetLoops(-1);
+        });
     }
 
     public void Hide()

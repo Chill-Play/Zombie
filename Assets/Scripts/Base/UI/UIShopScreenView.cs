@@ -9,13 +9,17 @@ public class UIShopScreenView : MonoBehaviour
     [SerializeField] private SellResourceButton[] sellResourceButtons;
     private List<ResourceType> resources = new List<ResourceType>();
     private Shop shop;
+    [SerializeField] private bool ohShitHereWeGoAgain;
     private void Awake()
     {
         resources = ResourcesController.Instance.OpenedResources;
         shop = FindObjectOfType<Shop>();
         shop.OnShopOpened += ShowButtons;
         shop.OnShopClosed += HideButtons;
-        shop.OnUpdateSellButton += UpdateSellButton;
+        if(ohShitHereWeGoAgain)
+        {
+            shop.OnUpdateSellButton += UpdateSellButton;
+        }
         shop.OnUpdateGetResourceButton += UpdateGetResourceButton;
     }
 
@@ -24,16 +28,22 @@ public class UIShopScreenView : MonoBehaviour
         foreach (var button in getResourceButtons)
             if (!button.adsShowed)
                 button.Show();
-        foreach (var button in sellResourceButtons)
-            button.Show();
+        if (ohShitHereWeGoAgain)
+        {
+            foreach (var button in sellResourceButtons)
+                button.Show();
+        }
     }
 
     public void HideButtons()
     {
         foreach (var button in getResourceButtons)
             button.Hide();
-        foreach (var button in sellResourceButtons)
-            button.Hide();
+        if (ohShitHereWeGoAgain)
+        {
+            foreach (var button in sellResourceButtons)
+                button.Hide();
+        }
     }
 
     public void UpdateSellButton(int index, ResourceType resourceType, int count, int price)
@@ -77,12 +87,14 @@ public class UIShopScreenView : MonoBehaviour
             screenPos.z = 0f;
             getResourceButtons[i].transform.position = screenPos;
         }
-
-        for (; i < shop.buttonPos.Length; i++)
+        if (ohShitHereWeGoAgain)
         {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(shop.buttonPos[i].transform.position);
-            screenPos.z = 0f;
-            sellResourceButtons[i - shop.buttonPos.Length/2].transform.position = screenPos;
+            for (; i < shop.buttonPos.Length; i++)
+            {
+                Vector3 screenPos = Camera.main.WorldToScreenPoint(shop.buttonPos[i].transform.position);
+                screenPos.z = 0f;
+                sellResourceButtons[i - shop.buttonPos.Length / 2].transform.position = screenPos;
+            }
         }
     }
     
