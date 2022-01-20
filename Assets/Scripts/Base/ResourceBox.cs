@@ -28,12 +28,20 @@ public class ResourceBox : MonoBehaviour
     
     public void ShowResource(ResourceType resourceType)
     {
-        FindResource(resourceType).SetActive(true);
+        GameObject go = FindResource(resourceType);
+        if (go != null)
+        {
+            go.SetActive(true);
+        }
     }
 
     public void HideResource(ResourceType resourceType)
     {
-        FindResource(resourceType).SetActive(false);
+        GameObject go = FindResource(resourceType);
+        if (go != null)
+        {
+            go.SetActive(false);
+        }
     }
 
     public void HideAllResources()

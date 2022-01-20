@@ -99,14 +99,14 @@ public class CampFinishScreen : UIScreen
 
     public void DoubleClicked()
     {
-        AdvertisementManager.Instance.ShowRewardedVideo((result) =>
+        /*AdvertisementManager.Instance.ShowRewardedVideo((result) =>
         {
             if (result)
             {
                 CollectResources(2);
                 ToBase();
             }
-        }, "raid_end_double_reward"); 
+        }, "raid_end_double_reward"); */
     }
 
     public void CollectResources(int multiplier = 1) 

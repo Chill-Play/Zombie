@@ -67,6 +67,7 @@ public class UIShopScreenView : MonoBehaviour
 
     public void UpdateGetResourceButton(int index, ResourceType resourceType, int count)
     {
+        Debug.Log("UpdateGetResourceButton");
         var playerResources = ResourcesController.Instance.ResourcesCount;
         var button = getResourceButtons[index];
         button.Setup(resourceType, count, () =>

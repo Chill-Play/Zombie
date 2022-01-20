@@ -51,7 +51,7 @@ public class UpgradesScreen : UIScreen, IShowScreen
 
             cards[i].Setup(info, type, availableResources, i == freeSlot, (free) =>
             {
-                if (free)
+                /*if (free)
                 {
                     AdvertisementManager.Instance.ShowRewardedVideo((result) =>
                     {
@@ -62,7 +62,8 @@ public class UpgradesScreen : UIScreen, IShowScreen
                 else
                 {
                     UpgradeStat(zone, info, type, free);
-                }
+                }*/
+                UpgradeStat(zone, info, type, free);
             });
         }
     }
@@ -99,7 +100,7 @@ public class UpgradesScreen : UIScreen, IShowScreen
             }
         }
 
-        if (!zone.FreeUpgradeAvailable || upgradesAvailable || maxlevel < MINIMAL_STAT_LEVEL_TO_FREE_OPTION || !AdvertisementManager.Instance.RewardedAvailable)
+        if (!zone.FreeUpgradeAvailable || upgradesAvailable || maxlevel < MINIMAL_STAT_LEVEL_TO_FREE_OPTION) //|| !AdvertisementManager.Instance.RewardedAvailable
         {
             return -1;
         }
