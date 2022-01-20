@@ -69,8 +69,8 @@ public class Shop : BaseObject
         i = 1;
         for (int j = 0; j < 2; j++)
         {
-            while (i == tmp && resources.Count > 1)
-                i = Random.Range(0, resources.Count);
+            while (i == tmp && resources.Count - 1> 1)
+                i = Random.Range(1, resources.Count);
             tmp = i;
             resourcesBoxes[j].ShowResource(resources[i]);
             ResourceType resourceType = resources[i];

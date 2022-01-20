@@ -61,8 +61,8 @@ public class UIShopScreenView : MonoBehaviour
         var button = getResourceButtons[index];
         button.Setup(resourceType, count, () =>
         {
-            shop.ResourcesBoxes[index].SpawnResources(resourceType);
-            playerResources.Add(resourceType, count);
+            shop.ResourcesBoxes[index].SpawnResources(resourceType, count);
+            //playerResources.Add(resourceType, count);
             shop.IncerementAdsCount();
             ResourcesController.Instance.UpdateResources();
         });

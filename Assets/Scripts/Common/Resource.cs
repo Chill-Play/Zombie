@@ -20,6 +20,10 @@ public class Resource : MonoBehaviour
         StartCoroutine(PickUpCoroutine(picker));
     }
 
+    public void SetCount(int newCount)
+    {
+        count = newCount;
+    }
 
     IEnumerator PickUpCoroutine(Transform picker)
     {

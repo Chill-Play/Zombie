@@ -13,6 +13,7 @@ public class ResourceBox : MonoBehaviour
 {
     [SerializeField] private ResourceData[] resources;
     [SerializeField] private float resourcesVelocity;
+    [SerializeField] private int spawnLimit = 20;
     private Transform user;
     
     GameObject FindResource(ResourceType resourceType)
@@ -47,13 +48,26 @@ public class ResourceBox : MonoBehaviour
         user = otherTransform;
     }
 
-    public void SpawnResources(ResourceType resourceType)
+    void SpawnResource(ResourceType resourceType, int count)
     {
         Resource instance = Instantiate(resourceType.defaultPrefab, transform.position, Quaternion.identity);
+        instance.SetCount(count);
         instance.Pickup(user);
         Rigidbody body = instance.GetComponent<Rigidbody>();
-        body.velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(3f, 6f), Random.Range(-1f, 1f)) * resourcesVelocity;
-        body.angularVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * 360f;
+        body.velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(3f, 6f), Random.Range(-1f, 1f)) *
+                        resourcesVelocity;
+        body.angularVelocity =
+            new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * 360f;
+    }
+    
+    public void SpawnResources(ResourceType resourceType, int resourceValue)
+    {
+        int spawnCount = Mathf.Min(resourceValue, spawnLimit);
+        int resCount = resourceValue / spawnCount;
+        for (int i = 0; i < spawnCount - 1; i++)
+            SpawnResource(resourceType, resCount);
+        SpawnResource(resourceType, resourceValue - resCount * (spawnCount - 1));
         HideAllResources();
+        
     }
 }
