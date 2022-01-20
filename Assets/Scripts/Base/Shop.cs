@@ -20,6 +20,8 @@ public class Shop : BaseObject
     public event System.Action OnShopClosed;
     public event System.Action<int, ResourceType, int, int> OnUpdateSellButton;
     public event System.Action<int, ResourceType, int> OnUpdateGetResourceButton;
+
+    [SerializeField] private bool ohShitHereWeGoAgain;
     
     private void Awake()
     {
@@ -55,18 +57,22 @@ public class Shop : BaseObject
     {
         int tmp = 1;
         int i = 1;
-        for (int j = 0; j < 2; j++)
+        if (ohShitHereWeGoAgain)
         {
-            while (i == tmp && resources.Count - 1 > 1)
-                i = Random.Range(1, resources.Count);
-            tmp = i;
-            var playerResources = ResourcesController.Instance.ResourcesCount;
-            int count = Mathf.Max(minCount, playerResources.Count(resources[i]) * sellPercent/ 100);
-            int price = count * resources[i].price;
-            OnUpdateSellButton?.Invoke(j, resources[i], count, price);
+            for (int j = 0; j < 2; j++)
+            {
+                while (i == tmp && resources.Count - 1 > 1)
+                    i = Random.Range(1, resources.Count);
+                tmp = i;
+                var playerResources = ResourcesController.Instance.ResourcesCount;
+                int count = Mathf.Max(minCount, playerResources.Count(resources[i]) * sellPercent / 100);
+                int price = count * resources[i].price;
+                OnUpdateSellButton?.Invoke(j, resources[i], count, price);
+            }
+
+            tmp = 1;
+            i = 1;
         }
-        tmp = 1;
-        i = 1;
         for (int j = 0; j < 2; j++)
         {
             while (i == tmp && resources.Count - 1> 1)
