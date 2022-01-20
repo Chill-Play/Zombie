@@ -19,7 +19,7 @@ public class UnloadingArea : MonoBehaviour
 
     private void Awake()
     {
-        unloadingResources = unloadingTarget.GetComponent<IUnloadingResources>();
+        unloadingResources = unloadingTarget.GetComponent<IUnloadingResources>(); //refactor
     }
 
     private void Update()
