@@ -14,9 +14,9 @@ public class GetResourceButton : ShopButton
     
 
     public void Setup(ResourceType resourceType, int count, System.Action click)
-    {
+    {       
         transform.localScale = Vector3.zero;
-        onAdsShowed += click;
+        onAdsShowed = click;
         resource.sprite = resourceType.icon;
         countText.text = count.ToString();
     }
@@ -24,7 +24,7 @@ public class GetResourceButton : ShopButton
     public void ShowADS()
     {
         //maybe add ads callback
-        //if ads 
+        //if ads
         onAdsShowed?.Invoke();
         transform.DOScale(Vector3.zero,.1f).SetEase(Ease.InElastic, 1.1f, .3f).OnComplete(() =>
         {

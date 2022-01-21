@@ -11,7 +11,7 @@ public class UIShopScreenView : MonoBehaviour
     private Shop shop;
     [SerializeField] private bool ohShitHereWeGoAgain;
     private void Awake()
-    {
+    {       
         resources = ResourcesController.Instance.OpenedResources;
         shop = FindObjectOfType<Shop>();
         shop.OnShopOpened += ShowButtons;
@@ -67,7 +67,6 @@ public class UIShopScreenView : MonoBehaviour
 
     public void UpdateGetResourceButton(int index, ResourceType resourceType, int count)
     {
-        Debug.Log("UpdateGetResourceButton");
         var playerResources = ResourcesController.Instance.ResourcesCount;
         var button = getResourceButtons[index];
         button.Setup(resourceType, count, () =>
@@ -81,7 +80,7 @@ public class UIShopScreenView : MonoBehaviour
 
     void SetButtonsPosition()
     {
-        int i = 0;
+        int i = 0;      
         for (; i < shop.buttonPos.Length/2; i++)
         {
             Vector3 screenPos = Camera.main.WorldToScreenPoint(shop.buttonPos[i].transform.position);
