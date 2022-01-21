@@ -17,7 +17,7 @@ public class UpgradesScreen : UIScreen, IShowScreen
     ResourcesInfo availableResources;
     System.Action onClose;
     InputPanel inputPanel;
-    private Sequence seq;
+    private Tween scaleTween;
 
     private void Awake()
     {
@@ -66,14 +66,14 @@ public class UpgradesScreen : UIScreen, IShowScreen
                 }*/
                 
                 UpgradeStat(zone, info, type, free);
+                
                 cards[tmp].transform.localScale = Vector3.one;
-                seq.Complete();
-                seq.Kill();
-                seq = DOTween.Sequence();
-                seq.Append(cards[tmp].transform.DOPunchScale(new Vector2(.15f, .15f), .3f, 10, 1).OnComplete(() =>
+                if (scaleTween != null)
+                    scaleTween.Kill(true);
+                scaleTween = cards[tmp].transform.DOPunchScale(new Vector2(.1f, .1f), .3f, 7, 1).OnComplete(() =>
                 {
                     cards[tmp].transform.localScale = Vector3.one;
-                }));
+                });
             });
         }
     }

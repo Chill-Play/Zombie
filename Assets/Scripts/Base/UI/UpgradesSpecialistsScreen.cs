@@ -23,7 +23,7 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
     InputPanel inputPanel;
     private CardsInfo activeCards => cardController.ActiveCards;
 
-    private Sequence seq;
+    private Tween scaleTween;
 
 
     private void Awake()
@@ -43,7 +43,7 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
         UpdateCards(stats[0].Item1);
     }
 
-    void UpdateCards(StatsType statType)
+    void UpdateCards(StatsType statType) //refactor pls
     {
         var seq = DOTween.Sequence();
         panel.localScale = Vector3.zero;
@@ -62,14 +62,14 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
             int tmp = i;
             upgradeCard.Setup(card, statType,resourcesController.ResourcesCount, () =>
             {
-                UpgradeCardStat(card, statType);cards[tmp].transform.localScale = Vector3.one;
-                seq.Complete();
-                seq.Kill();
-                seq = DOTween.Sequence();
-                seq.Append(cards[tmp].transform.DOPunchScale(new Vector2(.15f, .15f), .3f, 10, 1).OnComplete(() =>
+                UpgradeCardStat(card, statType);
+                cards[tmp].transform.localScale = Vector3.one;
+                if (scaleTween != null)
+                    scaleTween.Kill(true);
+                scaleTween = cards[tmp].transform.DOPunchScale(new Vector2(.1f, .1f), .3f, 7, 1).OnComplete(() =>
                 {
                     cards[tmp].transform.localScale = Vector3.one;
-                }));
+                });
             });
             
             seq.AppendInterval(i * .1f);
@@ -82,7 +82,7 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
             cards[i].gameObject.SetActive(false);
     }
 
-    void UpgradeCardStat(Card card, StatsType statType)
+    void UpgradeCardStat(Card card, StatsType statType) //refactor pls
     {
         cardController.UpgradeCardStats(card, statType);
         for(int i = 0; i < activeCards.Count; i++)
@@ -94,13 +94,12 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
                 {
                     UpgradeCardStat(newCard, statType);
                     cards[tmp].transform.localScale = Vector3.one;
-                    seq.Complete();
-                    seq.Kill();
-                    seq = DOTween.Sequence();
-                    seq.Append(cards[tmp].transform.DOPunchScale(new Vector2(.15f, .15f), .3f, 10, 1).OnComplete(() =>
+                    if (scaleTween != null)
+                        scaleTween.Kill(true);
+                    scaleTween = cards[tmp].transform.DOPunchScale(new Vector2(.1f, .1f), .3f, 7, 1).OnComplete(() =>
                     {
                         cards[tmp].transform.localScale = Vector3.one;
-                    }));
+                    });
                 });
         }
         //UpdateCards(statType);
