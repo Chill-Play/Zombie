@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class Shop : BaseObject
 {
+    [SerializeField] private List<ResourceType> rightResources = new List<ResourceType>();
     [BaseSerialize] protected int adsCount;
     [SerializeField] public Transform[] buttonPos;
     [SerializeField] private int sellPercent;
@@ -59,6 +60,14 @@ public class Shop : BaseObject
         }
     }
 
+    bool ItsRightResource(ResourceType resource)
+    {
+        foreach (var rightResource in rightResources)
+            if (resource == rightResource)
+                return true;
+        return false;
+    }
+    
     public void UpdateShop()
     {        
         int tmp = 1;
@@ -84,8 +93,13 @@ public class Shop : BaseObject
             while (i == tmp && resources.Count - 1> 1)
                 i = Random.Range(1, resources.Count);
             tmp = i;
-            resourcesBoxes[j].ShowResource(resources[i]);
             ResourceType resourceType = resources[i];
+            if (!ItsRightResource(resourceType))
+            {
+                j--;
+                continue;
+            }
+            resourcesBoxes[j].ShowResource(resourceType);
             int count = ADScoefficient * (resourceType.price + adsCount);          
             OnUpdateGetResourceButton?.Invoke(j, resourceType, count);
         }
