@@ -19,22 +19,21 @@ public class HQBuilding : BaseObject
     private LevelProgressionController levelProgressionController;
     int nextChest;
     UINumbers uiNumbers;
+    int rewardCount;
 
     public int Level => level;
     public int Cost => cost;
     public int CurrentCount => currentCount;
-
     public int NextChest => nextChest;
-    int rewardCount => levelProgressionController.CurrentLevelProgression.Chests.Count;
 
-    public int RewardCount => rewardCount;
 
     private void Awake()
-    {
+    {       
         cost = MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
         uiNumbers = FindObjectOfType<UINumbers>();
         float currentValue = (float)currentCount / (float)cost;
         levelProgressionController = FindObjectOfType<LevelProgressionController>();
+        rewardCount = levelProgressionController.CurrentLevelProgression.Chests.Count;
         nextChest = Mathf.FloorToInt(currentValue / (1f / (rewardCount + 1)));
     }
 

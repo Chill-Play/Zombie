@@ -13,8 +13,6 @@ public class RewardScreen : MonoBehaviour
     [SerializeField] private GameObject chest;
     [SerializeField] private GameObject VFX;
     [SerializeField] private Image chestSprite;
-    [SerializeField] private Sprite chestIcon;
-    [SerializeField] private Sprite openedChestIcon;
     [SerializeField] private GameObject rewardText;
     [SerializeField] private GameObject claimButton;
     [SerializeField] private ResourceBar resourcePrefab;
@@ -25,6 +23,7 @@ public class RewardScreen : MonoBehaviour
     private int resourcesCount;
     private ResourcesInfo resInfo;
     InputPanel inputPanel;
+    ChestInfo chestInfo;
 
     private void Awake()
     {
@@ -39,8 +38,7 @@ public class RewardScreen : MonoBehaviour
         rewardText.transform.localScale = Vector3.zero;
         claimButton.transform.localScale = Vector3.zero;
         levelSettings = FindObjectOfType<LevelProgressionController>().CurrentLevelProgression;
-        chestSprite.sprite = levelSettings.Chests[i].chestInfo.Icon;
-        chestSprite.sprite = levelSettings.Chests[i].chestInfo.OpenedIcon;
+        chestInfo = levelSettings.Chests[i].chestInfo;
         resInfo = levelSettings.Chests[i].resourcesInfo;
         resourcesCount = resInfo.Slots.Count;
         
@@ -94,8 +92,8 @@ public class RewardScreen : MonoBehaviour
     }
     
     void OpenChestAnimation()
-    {
-        chestSprite.sprite = chestIcon;
+    {     
+        chestSprite.sprite = chestInfo.Icon; 
         var seq = DOTween.Sequence();
         seq.Append(rewardText.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
         seq.AppendInterval(0.3f);
@@ -103,7 +101,7 @@ public class RewardScreen : MonoBehaviour
         seq.Join(VFX.transform.DOScale(new Vector3(1,1,1), .4f));
         seq.Append(chest.transform.DOPunchRotation(new Vector3(0, 0, 30), 1f, 5).SetEase(Ease.OutBack)).AppendCallback(() =>
         {
-            chestSprite.sprite = openedChestIcon;
+            chestSprite.sprite = chestInfo.OpenedIcon; 
         });
         seq.AppendInterval(0.1f);
         for (int i = 0; i < resourcesCount; i++)
