@@ -17,6 +17,7 @@ public class UpgradesScreen : UIScreen, IShowScreen
     ResourcesInfo availableResources;
     System.Action onClose;
     InputPanel inputPanel;
+    private Sequence seq;
 
     private void Awake()
     {
@@ -48,7 +49,7 @@ public class UpgradesScreen : UIScreen, IShowScreen
         {
             var type = stats[i].Item1;
             var info = stats[i].Item2;
-
+            int tmp = i;
             cards[i].Setup(info, type, availableResources, i == freeSlot, (free) =>
             {
                 /*if (free)
@@ -63,7 +64,16 @@ public class UpgradesScreen : UIScreen, IShowScreen
                 {
                     UpgradeStat(zone, info, type, free);
                 }*/
+                
                 UpgradeStat(zone, info, type, free);
+                cards[tmp].transform.localScale = Vector3.one;
+                seq.Complete();
+                seq.Kill();
+                seq = DOTween.Sequence();
+                seq.Append(cards[tmp].transform.DOPunchScale(new Vector2(.15f, .15f), .3f, 10, 1).OnComplete(() =>
+                {
+                    cards[tmp].transform.localScale = Vector3.one;
+                }));
             });
         }
     }

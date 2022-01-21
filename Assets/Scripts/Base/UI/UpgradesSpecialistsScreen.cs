@@ -23,6 +23,8 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
     InputPanel inputPanel;
     private CardsInfo activeCards => cardController.ActiveCards;
 
+    private Sequence seq;
+
 
     private void Awake()
     {
@@ -57,7 +59,18 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
             Card card = activeCards.cardSlots[i].card;
             SpecialistUpgradeCardUI upgradeCard = cards[i];
             upgradeCard.transform.localScale = Vector3.zero;
-            upgradeCard.Setup(card, statType,resourcesController.ResourcesCount, () => UpgradeCardStat(card, statType));
+            int tmp = i;
+            upgradeCard.Setup(card, statType,resourcesController.ResourcesCount, () =>
+            {
+                UpgradeCardStat(card, statType);cards[tmp].transform.localScale = Vector3.one;
+                seq.Complete();
+                seq.Kill();
+                seq = DOTween.Sequence();
+                seq.Append(cards[tmp].transform.DOPunchScale(new Vector2(.15f, .15f), .3f, 10, 1).OnComplete(() =>
+                {
+                    cards[tmp].transform.localScale = Vector3.one;
+                }));
+            });
             
             seq.AppendInterval(i * .1f);
             seq.AppendCallback(() =>
@@ -75,8 +88,20 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
         for(int i = 0; i < activeCards.Count; i++)
         {
             Card newCard = activeCards.cardSlots[i].card;
+            int tmp = i;
             cards[i].Setup(newCard, statType, resourcesController.ResourcesCount,
-                () => UpgradeCardStat(newCard, statType));
+                () =>
+                {
+                    UpgradeCardStat(newCard, statType);
+                    cards[tmp].transform.localScale = Vector3.one;
+                    seq.Complete();
+                    seq.Kill();
+                    seq = DOTween.Sequence();
+                    seq.Append(cards[tmp].transform.DOPunchScale(new Vector2(.15f, .15f), .3f, 10, 1).OnComplete(() =>
+                    {
+                        cards[tmp].transform.localScale = Vector3.one;
+                    }));
+                });
         }
         //UpdateCards(statType);
     }
