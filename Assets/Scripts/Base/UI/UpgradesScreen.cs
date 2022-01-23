@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UpgradesScreen : UIScreen, IShowScreen
+public class UpgradesScreen : UIScreen, IShowScreen /// Refactor this class
 {
     const int MINIMAL_STAT_LEVEL_TO_FREE_OPTION = 2;
 
@@ -12,9 +12,12 @@ public class UpgradesScreen : UIScreen, IShowScreen
     [SerializeField] TMP_Text label;
     [SerializeField] List<StatUpgradeCard> cards;
     [SerializeField] Transform panel;
+    [SerializeField] FreeResourcesButtonUI freeResourcesButton;
 
     List<(StatsType, StatInfo)> stats = new List<(StatsType, StatInfo)>();
     ResourcesInfo availableResources;
+    ResourcesController resourcesController;
+    RewardController rewardController;
     System.Action onClose;
     InputPanel inputPanel;
     private Tween scaleTween;
@@ -22,6 +25,8 @@ public class UpgradesScreen : UIScreen, IShowScreen
     private void Awake()
     {
         inputPanel = FindObjectOfType<InputPanel>();
+        resourcesController = ResourcesController.Instance;
+        rewardController = RewardController.Instance;
     }
 
     public void Show(UpgradeZone zone, string name, List<(StatsType, StatInfo)> stats, ResourcesInfo availableResources, System.Action onClose = null)
@@ -43,13 +48,22 @@ public class UpgradesScreen : UIScreen, IShowScreen
 
     void UpdateButtons(UpgradeZone zone)
     {
-        int freeSlot = GetFreeSlotId(zone);
+        int freeSlot = -1;// GetFreeSlotId(zone);
+        bool freeResourcesOption = false;
 
         for (int i = 0; i < cards.Count; i++)
         {
             var type = stats[i].Item1;
             var info = stats[i].Item2;
+            var cost = type.GetLevelCost(info.level);
             int tmp = i;
+
+            if (!freeResourcesOption && cost.TryGetMissingResource(availableResources, out var missingResourceType))
+            {
+                freeResourcesButton.Show(missingResourceType, rewardController.GetResourcesRewardCount(missingResourceType), (x, y) => AddFreeResourcesClicked(zone, x, y));
+                freeResourcesOption = true;
+            }
+
             cards[i].Setup(info, type, availableResources, i == freeSlot, (free) =>
             {
                 /*if (free)
@@ -76,6 +90,19 @@ public class UpgradesScreen : UIScreen, IShowScreen
                 });
             });
         }
+
+        if (!freeResourcesOption)
+        {
+            freeResourcesButton.Hide();
+        }
+    }
+
+    void AddFreeResourcesClicked(UpgradeZone zone, ResourceType resourceType, int count)
+    {
+        rewardController.AddResourceRewardLevel(resourceType);
+        resourcesController.AddResources(resourceType, count);
+        resourcesController.UpdateResources();
+        UpdateButtons(zone);
     }
 
     int GetFreeSlotId(UpgradeZone zone)

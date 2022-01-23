@@ -13,6 +13,7 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
     [SerializeField] Transform panel;
     [SerializeField] private Transform cardsSpawnPoint;
     [SerializeField] private SpecialistUpgradeCardUI specialitsUpgradeCardPrefab;
+    [SerializeField] FreeResourcesButtonUI freeResourcesButton;
 
     private CardController cardController;
     private List<SpecialistUpgradeCardUI> cards = new List<SpecialistUpgradeCardUI>();
@@ -21,9 +22,9 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
     System.Action onClose;
     ResourcesController resourcesController;
     InputPanel inputPanel;
-    private CardsInfo activeCards => cardController.ActiveCards;
+    RewardController rewardController;
 
-    private Tween scaleTween;
+    private CardsInfo activeCards => cardController.ActiveCards;
 
 
     private void Awake()
@@ -31,6 +32,7 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
         inputPanel = FindObjectOfType<InputPanel>();
         cardController = FindObjectOfType<CardController>();
         resourcesController = FindObjectOfType<ResourcesController>();
+        rewardController = RewardController.Instance;
     }
 
     public void Show(UpgradeZone zone, string name, List<(StatsType, StatInfo)> stats, ResourcesInfo availableResources, Action onClose = null)
@@ -40,69 +42,80 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
         label.text = name;
         this.stats = stats;
         this.availableResources = availableResources;
+        ShowCards();
         UpdateCards(stats[0].Item1);
     }
 
-    void UpdateCards(StatsType statType) //refactor pls
+    void ShowCards()
     {
         var seq = DOTween.Sequence();
         panel.localScale = Vector3.zero;
         int i = 0;
-        // seq.AppendInterval(10f);
+    
         seq.Append(panel.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.3f, .7f));
+
         for (; i < activeCards.Count; i++)
         {
             if (i < cards.Count)
                 cards[i].gameObject.SetActive(true);
             else
-                cards.Add(Instantiate(specialitsUpgradeCardPrefab, cardsSpawnPoint));
-            Card card = activeCards.cardSlots[i].card;
-            SpecialistUpgradeCardUI upgradeCard = cards[i];
-            upgradeCard.transform.localScale = Vector3.zero;
-            int tmp = i;
-            upgradeCard.Setup(card, statType,resourcesController.ResourcesCount, () =>
-            {
-                UpgradeCardStat(card, statType);
-                cards[tmp].transform.localScale = Vector3.one;
-                if (scaleTween != null)
-                    scaleTween.Kill(true);
-                scaleTween = cards[tmp].transform.DOPunchScale(new Vector2(.1f, .1f), .3f, 7, 1).OnComplete(() =>
-                {
-                    cards[tmp].transform.localScale = Vector3.one;
-                });
-            });
+                cards.Add(Instantiate(specialitsUpgradeCardPrefab, cardsSpawnPoint));      
             
+            SpecialistUpgradeCardUI upgradeCard = cards[i];
+            upgradeCard.transform.localScale = Vector3.zero;       
+
             seq.AppendInterval(i * .1f);
             seq.AppendCallback(() =>
             {
                 upgradeCard.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.3f, .7f);
             });
         }
+
         for (; i < cards.Count; i++)
+        {
             cards[i].gameObject.SetActive(false);
+        } 
+    }
+
+    void UpdateCards(StatsType statType) //refactor pls
+    {
+        bool freeResourcesOption = false;
+
+        for (int i = 0; i < activeCards.Count; i++)
+        {
+             Card card = activeCards.cardSlots[i].card;
+             SpecialistUpgradeCardUI upgradeCard = cards[i];
+             var cardStats = cardController.CardStats(card);
+             int lvl = cardStats.statsInfo[statType];
+             var cost = statType.GetLevelCost(lvl);
+
+            if (!freeResourcesOption && cost.TryGetMissingResource(availableResources, out var missingResourceType))
+            {
+                freeResourcesButton.Show(missingResourceType, rewardController.GetResourcesRewardCount(missingResourceType), (x, y) => AddFreeResourcesClicked(statType, x, y));
+                freeResourcesOption = true;
+            }    
+
+            upgradeCard.Setup(card, statType, resourcesController.ResourcesCount, () => UpgradeCardStat(card, statType));
+        }
+
+        if (!freeResourcesOption)
+        {
+            freeResourcesButton.Hide();
+        }
+    }
+
+    void AddFreeResourcesClicked(StatsType statType, ResourceType resourceType, int count)
+    {
+        rewardController.AddResourceRewardLevel(resourceType);
+        resourcesController.AddResources(resourceType, count);
+        resourcesController.UpdateResources();
+        UpdateCards(statType);
     }
 
     void UpgradeCardStat(Card card, StatsType statType) //refactor pls
     {
         cardController.UpgradeCardStats(card, statType);
-        for(int i = 0; i < activeCards.Count; i++)
-        {
-            Card newCard = activeCards.cardSlots[i].card;
-            int tmp = i;
-            cards[i].Setup(newCard, statType, resourcesController.ResourcesCount,
-                () =>
-                {
-                    UpgradeCardStat(newCard, statType);
-                    cards[tmp].transform.localScale = Vector3.one;
-                    if (scaleTween != null)
-                        scaleTween.Kill(true);
-                    scaleTween = cards[tmp].transform.DOPunchScale(new Vector2(.1f, .1f), .3f, 7, 1).OnComplete(() =>
-                    {
-                        cards[tmp].transform.localScale = Vector3.one;
-                    });
-                });
-        }
-        //UpdateCards(statType);
+        UpdateCards(statType);
     }
 
     public void Hide()

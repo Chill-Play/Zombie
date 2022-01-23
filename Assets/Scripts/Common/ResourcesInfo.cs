@@ -183,6 +183,23 @@ public class ResourcesInfo
         return resourcesFilled == slots.Count;
     }
 
+    public bool TryGetMissingResource(ResourcesInfo resourcesInfo, out ResourceType resourceType)
+    {
+        resourceType = null;
+        foreach (var slot in resourcesInfo.slots)
+        {
+            if (IdsByTypes.TryGetValue(slot.type, out var thisSlot))
+            {
+                if (thisSlot.count > slot.count)
+                {
+                    resourceType = slot.type;
+                    return true;
+                }
+            }
+        }      
+        return false;
+    }
+
 
     public void Initialize()
     {      

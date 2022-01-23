@@ -80,6 +80,11 @@ public class ResourcesController : SingletonMono<ResourcesController>
         resourcesCount.Add(resources);
     }
 
+    public void AddResources(ResourceType resourceType, int count)
+    {
+        resourcesCount.Add(resourceType, count);
+    }
+
     public void AddResourceType(ResourceType resourceType)
     {
         if (!openedResources.Contains(resourceType))

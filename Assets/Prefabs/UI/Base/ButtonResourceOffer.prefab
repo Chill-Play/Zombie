@@ -333,6 +333,7 @@ GameObject:
   - component: {fileID: 988492761490556283}
   - component: {fileID: 988492761490556282}
   - component: {fileID: 988492761490556281}
+  - component: {fileID: 6504858350524563468}
   m_Layer: 5
   m_Name: ButtonResourceOffer
   m_TagString: Untagged
@@ -443,6 +444,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6504858350524563468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988492761490556167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb4e781dcb99564fa51c2297cb99ad5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 988492761490556281}
+  icon: {fileID: 988492761357239537}
+  countText: {fileID: 988492760639941876}
 --- !u!1 &988492761494774852
 GameObject:
   m_ObjectHideFlags: 0

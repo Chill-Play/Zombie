@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class SpecialistUpgradeCardUI : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class SpecialistUpgradeCardUI : MonoBehaviour
      List<UIResourceSlot> resourceSlots = new  List<UIResourceSlot>();
     protected bool unlocked;
     CardController cardController;
+    Tween scaleTween;
 
     private void Awake()
     {
@@ -73,8 +75,21 @@ public class SpecialistUpgradeCardUI : MonoBehaviour
 
       button.interactable = unlocked;
       button.onClick.RemoveAllListeners();
-      button.onClick.AddListener(() => onClick?.Invoke());
-      button.onClick.AddListener(() => AnimUpgrade());
+      button.onClick.AddListener(() => OnClicked(onClick));
+    } 
+
+    void OnClicked(System.Action onClick)
+    {
+        transform.localScale = Vector3.one;
+
+        if (scaleTween != null)
+        {
+            scaleTween.Kill(true);
+        }
+
+        scaleTween = transform.DOPunchScale(new Vector2(.1f, .1f), .3f, 7, 1);
+        AnimUpgrade();
+        onClick?.Invoke();
     }
 
 }
