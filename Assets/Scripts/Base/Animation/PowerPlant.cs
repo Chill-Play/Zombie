@@ -63,7 +63,10 @@ public class PowerPlant : ResourceFactory
         {
             batteryBoxLod[currentBatteryLod].SetActive(false);
         }
-        batteryBoxLod[screwLod].SetActive(true);
-        currentBatteryLod = screwLod;
+        if (currentResourcesCount > 0)
+        {
+            batteryBoxLod[screwLod].SetActive(true);
+            currentBatteryLod = screwLod;
+        }
     }
 }

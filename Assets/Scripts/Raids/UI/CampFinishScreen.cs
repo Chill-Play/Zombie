@@ -62,6 +62,7 @@ public class CampFinishScreen : UIScreen
         specialistName.text = testName;
         
         ResourceBar bar = Instantiate(resourceBarPrefab, colletctedContent);
+        bar.Setup(resources.Slots[0].type, 0);
         bar.transform.localScale = Vector3.zero;
         background.color = new Color(background.color.r, background.color.g, background.color.b, 0f);
         upperPanel.transform.localScale = Vector3.zero;
@@ -81,8 +82,7 @@ public class CampFinishScreen : UIScreen
         sequence.Append(collectedPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         sequence.Append(specialist.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.1f, .3f));
         sequence.Append(bar.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.1f, .3f).OnComplete(() =>
-        {
-            bar.Setup(resources.Slots[0].type, 0);
+        {            
             bar.UpdateValue(resources.Slots[0].count);
         }));
         // sequence.AppendInterval(resources.Slots.Count * 0.5f + 0.5f);

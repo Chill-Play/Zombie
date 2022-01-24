@@ -9,7 +9,14 @@ public class RaidsUIEvents : MonoBehaviour
     [SerializeField] SubjectId failedScreenId;
     [SerializeField] SubjectId reviveScreenId;
     [SerializeField] UIController uiController;
-    
+
+    bool campaign = false;
+
+    private void Awake()
+    {
+        campaign = FindObjectOfType<Campaign>() != null;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,8 +47,15 @@ public class RaidsUIEvents : MonoBehaviour
          {
              uiController.ShowScreen(failedScreenId);
          }*/
-        var screen = (ReviveScreen)uiController.ShowScreen(reviveScreenId);
-        screen.OnTimerEnd += () => uiController.ShowScreen(failedScreenId);
+        if (!campaign)
+        {
+            var screen = (ReviveScreen)uiController.ShowScreen(reviveScreenId);
+            screen.OnTimerEnd += () => uiController.ShowScreen(failedScreenId);
+        }
+        else
+        {
+            uiController.ShowScreen(failedScreenId);
+        }
     }
 
     private void Level_OnLevelEnded()

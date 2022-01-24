@@ -11,9 +11,23 @@ public class RaidZone : MonoBehaviour
 
     public Transform SpawnPoint => spawnPoint;
 
+    bool lockTrigger = true;
+
+    private void OnEnable()
+    {
+        lockTrigger = true;
+        StartCoroutine(LockTimer());
+    }
+
+    IEnumerator LockTimer()
+    {
+        yield return new WaitForSeconds(1f);
+        lockTrigger = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out PlayerBuilding playerBuilding))
+        if (!lockTrigger && other.TryGetComponent(out PlayerBuilding playerBuilding))
         {
            OnEnterZone?.Invoke();
         }
@@ -22,7 +36,7 @@ public class RaidZone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out PlayerBuilding playerBuilding))
+        if (!lockTrigger && other.TryGetComponent(out PlayerBuilding playerBuilding))
         {
            OnExitZone?.Invoke();
         }

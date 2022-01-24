@@ -93,8 +93,11 @@ public class ScrewFactory : ResourceFactory
         {
             screwBoxLod[currentScrewLod].SetActive(false);
         }
-        screwBoxLod[screwLod].SetActive(true);
-        currentScrewLod = screwLod;
+        if (currentResourcesCount > 0)
+        {
+            screwBoxLod[screwLod].SetActive(true);
+            currentScrewLod = screwLod;
+        }
     }
 
     IEnumerator StopWorkAnimation()

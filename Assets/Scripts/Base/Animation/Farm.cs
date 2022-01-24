@@ -128,8 +128,11 @@ public class Farm : ResourceFactory
         {
             carrotBoxLod[currentCarrotLod].SetActive(false);
         }
-        carrotBoxLod[screwLod].SetActive(true);
-        currentCarrotLod = screwLod;
+        if (currentResourcesCount > 0)
+        {
+            carrotBoxLod[screwLod].SetActive(true);
+            currentCarrotLod = screwLod;
+        }
     }
 
 }
