@@ -389,10 +389,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LevelUpScreen, Zombies.Base.UI
-        m_MethodName: CloseScreen
-        m_Mode: 1
+      - m_Target: {fileID: 8463704947382215309}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2322,6 +2322,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 150611759545566490}
+  - component: {fileID: 2049717067}
   m_Layer: 5
   m_Name: SpecialistJoin
   m_TagString: Untagged
@@ -2353,6 +2354,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2049717067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8463704947382215309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc6e5a4621f14ec685a995c4fa20d1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: {fileID: 1109520296510427009}
+  specialist: {fileID: 5145305100909160105}
+  specialistSprite: {fileID: 1877639003741874971}
+  button: {fileID: 435748573537858622}
+  newSpecialistIcon: {fileID: 21300000, guid: 62556603cf0927143b0a57513347a94e, type: 3}
 --- !u!1 &8538940912517583778
 GameObject:
   m_ObjectHideFlags: 0
