@@ -87,7 +87,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
             StopWork();
         }
 
-        counter.DOPunchScale(new Vector3(1,1,1),1, 4, 1);
+        counter.DOPunchScale(new Vector3(.3f,.3f,.3f),.5f, 8, 1);
     }
 
     protected virtual void Update()
