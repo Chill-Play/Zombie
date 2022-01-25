@@ -42,7 +42,6 @@ public class StatsManager : SingletonMono<StatsManager>
             var key = GetStatSaveId(statsType);
             PlayerPrefs.SetInt(key, info.level);
             OnStatLevelUp?.Invoke((statsType, info.level + 1));
-            UnityAnalytics.Instance.OnStatLevelUp(statsType.saveId.ToSnakeCase(), info.level);
             return info.level;
         }
         Debug.LogError("No such stat : " + statsType.name); 

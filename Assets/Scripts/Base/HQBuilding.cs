@@ -85,7 +85,6 @@ public class HQBuilding : BaseObject
         cost = MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
         RequireSave();
         OnLevelUp?.Invoke();
-        UnityAnalytics.Instance.OnHQLevelUp(level);
     }
 
 

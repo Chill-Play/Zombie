@@ -24,11 +24,11 @@ public class UIController : SingletonMono<UIController>
             if (activeScreen != null)
             {
                 HideScreen(activeScreen);
-                UnityAnalytics.Instance.OnScreenSwitched(activeScreen.name);
+                //UnityAnalytics.Instance.OnScreenSwitched(activeScreen.name);
             }
             else
             {
-                UnityAnalytics.Instance.OnScreenSwitched(screenId.name);
+               // UnityAnalytics.Instance.OnScreenSwitched(screenId.name);
             }
             screen.gameObject.SetActive(true);
             activeScreen = screen.Id;
