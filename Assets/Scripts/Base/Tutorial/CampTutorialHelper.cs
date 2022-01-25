@@ -5,6 +5,7 @@ using UnityEngine;
 public class CampTutorialHelper : MonoBehaviour
 {
     [SerializeField] ConditionTrigger enableRaids;
+    [SerializeField] private RaidZone raidZone;
 
     private void Awake()
     {
@@ -13,7 +14,6 @@ public class CampTutorialHelper : MonoBehaviour
 
     private void EnableRaids_OnTrigger()
     {
-        RaidZone raidZone = FindObjectOfType<RaidZone>(true);
         raidZone.gameObject.SetActive(true);
         FindObjectOfType<CampGameplayController>().SetPlayerReturnedToRaidZone(true);
     }

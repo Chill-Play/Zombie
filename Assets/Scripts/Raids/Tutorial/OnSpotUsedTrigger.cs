@@ -6,7 +6,7 @@ using UnityEngine;
 public class OnSpotUsedTrigger : ConditionTrigger
 {
     [SerializeField] List<ResourceSpot> resourceSpots = new List<ResourceSpot>();
-    [SerializeField] private Collider collider;
+    [SerializeField] private Collider[] colliders;
 
     int resourceSpotsCount = 0;
 
@@ -17,12 +17,14 @@ public class OnSpotUsedTrigger : ConditionTrigger
             resourceSpots[i].OnSpotUsed += OnSpotUsedTrigger_OnSpotUsed; 
         }
         resourceSpotsCount = resourceSpots.Count;
+        foreach (var collider in colliders)
+            collider.enabled = false;
     }
 
     private void OnSpotUsedTrigger_OnSpotUsed(ResourceSpot obj)
     {
-
-        collider.enabled = false;
+        foreach (var collider in colliders)
+            collider.enabled = true;
         resourceSpotsCount--;
         if (resourceSpotsCount == 0)
         {
