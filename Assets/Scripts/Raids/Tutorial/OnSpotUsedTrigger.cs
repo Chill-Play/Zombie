@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using GooglePlayServices;
 using UnityEngine;
 
 public class OnSpotUsedTrigger : ConditionTrigger
 {
     [SerializeField] List<ResourceSpot> resourceSpots = new List<ResourceSpot>();
+    [SerializeField] private Collider collider;
 
     int resourceSpotsCount = 0;
 
@@ -19,6 +21,8 @@ public class OnSpotUsedTrigger : ConditionTrigger
 
     private void OnSpotUsedTrigger_OnSpotUsed(ResourceSpot obj)
     {
+
+        collider.enabled = false;
         resourceSpotsCount--;
         if (resourceSpotsCount == 0)
         {
