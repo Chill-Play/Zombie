@@ -15,7 +15,7 @@ public class SpecialistUpgradeCounter : UpgradeCounter
         cardController.OnCardUpgraded += CardController_OnCardUpgraded;
     }
 
-    private void CardController_OnCardUpgraded(Card card, StatsType statType)
+    private void CardController_OnCardUpgraded(Card card, StatsType statType, int level)
     {
         if (this.statType == statType)
         {

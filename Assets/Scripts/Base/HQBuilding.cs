@@ -5,7 +5,7 @@ using UnityEngine;
 public class HQBuilding : BaseObject
 {
     public event System.Action<int> OnPointAdded;
-    public event System.Action OnLevelUp;
+    public event System.Action<int> OnLevelUp;
     public event System.Action<int> OnRewardOpened;
 
     [BaseSerialize] int level;
@@ -84,7 +84,7 @@ public class HQBuilding : BaseObject
         level += 1;
         cost = MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
         RequireSave();
-        OnLevelUp?.Invoke();
+        OnLevelUp?.Invoke(level);
     }
 
 

@@ -57,7 +57,7 @@ public class LevelUpScreen : MonoBehaviour
         });
     }
 
-    public void ShowScreen()
+    public void ShowScreen(int level)
     {        
         gameObject.SetActive(true);
         inputPanel.DisableInput();

@@ -113,7 +113,7 @@ public class HQLevelUI : MonoBehaviour
             chests[i].gameObject.SetActive(false);
     }
 
-    private void Hq_OnLevelUp()
+    private void Hq_OnLevelUp(int level)
     {
         RewardPlacement();
     }

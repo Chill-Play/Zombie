@@ -13,6 +13,7 @@ public class Campaign : MonoBehaviour
     void Start()
     {
         Squad squad = FindObjectOfType<Squad>();
+        FindObjectOfType<CardController>().TryToActivateCard(rewardCards[0]);
         CardsInfo activeCards = FindObjectOfType<CardController>().ActiveCards;
         for (int i = 0; i < activeCards.cardSlots.Count; i++)
         {

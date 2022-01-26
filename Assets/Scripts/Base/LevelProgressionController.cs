@@ -40,7 +40,7 @@ public class LevelProgressionController : MonoBehaviour
         resourcesController.UpdateResources();
     }
 
-    private void Hq_OnLevelUp()
+    private void Hq_OnLevelUp(int level)
     {       
         unlockableBuildings.Clear();
         foreach (var unlockableBuilding in unlockableBuildingsArray)

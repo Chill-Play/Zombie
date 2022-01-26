@@ -23,7 +23,7 @@ public class HQBanner : MonoBehaviour
         levelText.text = "lvl " + (hqBuilding.Level + 1).ToString();
     }
 
-    private void HqBuilding_OnLevelUp()
+    private void HqBuilding_OnLevelUp(int level)
     {
         levelText.text = "lvl " + (hqBuilding.Level + 1).ToString();
         transform.DOKill(true);
