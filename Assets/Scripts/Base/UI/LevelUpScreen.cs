@@ -43,11 +43,21 @@ public class LevelUpScreen : MonoBehaviour
         seq.AppendInterval(0.1f);
         for (int i = 0; i < buildingCount; i++)
         {
-            seq.Join(newBuildings[i].transform.DOScale(Vector3.zero, .2f + .2f *i).SetEase(Ease.InBack));
+            int tmp = i;
+            seq.AppendInterval(i * .1f);
+            seq.AppendCallback(() =>
+            {
+                newBuildings[tmp].transform.DOScale(Vector3.zero, .2f + .2f * i).SetEase(Ease.InBack);
+            });
         }
         for (int i = 0; i < resourcesCount; i++)
         {
-            seq.Join(newResources[i].transform.DOScale(Vector3.zero, .2f + .2f *(i + buildingCount)).SetEase(Ease.InBack));
+            int tmp = i;
+            seq.AppendInterval((i+buildingCount) * .1f);
+            seq.AppendCallback(() =>
+            {
+                newResources[tmp].transform.DOScale(Vector3.zero, .2f).SetEase(Ease.InBack);
+            });
         }
         seq.Append(newLevelLabel.transform.DOScale(Vector3.zero, .1f).SetEase(Ease.InBack));
         seq.AppendInterval(0.1f);
@@ -113,15 +123,28 @@ public class LevelUpScreen : MonoBehaviour
         seq.Append(header.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
         seq.AppendInterval(0.3f);
         seq.Append(newLevelLabel.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
-        seq.AppendInterval(0.1f);
+        seq.AppendInterval(0.5f);
         for (int i = 0; i < buildingCount; i++)
         {
-            seq.Join(newBuildings[i].transform.DOScale(new Vector3(1,1,1), .2f + .2f * i).SetEase(Ease.OutBack));
+            int tmp = i;
+            seq.AppendInterval(i * .1f);
+            seq.AppendCallback(() =>
+            {
+                newBuildings[tmp].transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutBack);
+            });
+            //seq.Join(newBuildings[i].transform.DOScale(new Vector3(1,1,1), .4f + .4f * i).SetEase(Ease.OutBack));
         }
         for (int i = 0; i < resourcesCount; i++)
         {
-            seq.Join(newResources[i].transform.DOScale(new Vector3(1,1,1), .2f + (.2f *(i + buildingCount))).SetEase(Ease.OutBack));
+            int tmp = i;
+            seq.AppendInterval((i+buildingCount) * .1f);
+            seq.AppendCallback(() =>
+            {
+                newResources[tmp].transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutBack);
+            });
         }
+
+        seq.AppendInterval(.75f);
         seq.Append(continueButton.transform.DOScale(new Vector3(1,1,1), .4f).SetEase(Ease.OutBack));
     }
 }
