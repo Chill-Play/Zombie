@@ -22,9 +22,13 @@ public class UISpecialistJoinScreen : MonoBehaviour
         header.transform.localScale = Vector3.zero;
         specialist.transform.localScale = Vector3.zero;
         button.transform.localScale = Vector3.zero;
-        hideSpecialistSprite.sprite = campaign.RewardCards[0].card.HideNewSpecialistIcon;
         float a = background.color.a;
         background.color = new Color(0, 0, 0, 0);
+        header.SetActive(true);
+        background.gameObject.SetActive(true);
+        specialist.gameObject.SetActive(true);
+        button.gameObject.SetActive(true);
+        hideSpecialistSprite.sprite = campaign.RewardCards[0].card.HideNewSpecialistIcon;
         var seq = DOTween.Sequence();
         seq.AppendInterval(1f);
         seq.Append(DOTween.ToAlpha(() => background.color, x => background.color = x, a, .25f));
