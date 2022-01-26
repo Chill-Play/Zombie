@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Squad : MonoBehaviour, IInputReceiver
+public class Squad : SingletonMono<Squad>, IInputReceiver
 {
     public event System.Action<Unit> OnUnitAdd;
     public event System.Action OnPlayerUnitDead;
@@ -39,7 +39,7 @@ public class Squad : MonoBehaviour, IInputReceiver
         }
         units[0].GetComponent<PlayerResources>().CanMoveToResources = false;
         units[0].GetComponent<UnitHealth>().OnDead += Squad_OnDead;
-        reviveController = FindObjectOfType<ReviveController>();
+        reviveController = ReviveController.Instance;
         reviveController.OnRevive += Revive;
     }
 
@@ -107,7 +107,7 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     public ResourcesInfo CollectResources()
     {        
-        var backpack = FindObjectOfType<SquadBackpack>();
+        var backpack = SquadBackpack.Instance;
         return backpack.Resources;
     }
 
@@ -201,7 +201,7 @@ public class Squad : MonoBehaviour, IInputReceiver
 
     public void Revive()
     {
-        CardsInfo activeCards = FindObjectOfType<CardController>().ActiveCards;   
+        CardsInfo activeCards = CardController.Instance.ActiveCards;   
         int unitsCount = units.Count + deadUnits.Count - activeCards.Count - 1;
 
         for (int i = 0; i < deadUnits.Count; i++)
@@ -217,7 +217,7 @@ public class Squad : MonoBehaviour, IInputReceiver
         interactivePointDetections.Clear();
         caughtUpSquad.Clear();
 
-        var reviveController = FindObjectOfType<ReviveController>();
+        var reviveController = ReviveController.Instance;
 
         Unit mainDude = Instantiate(reviveController.MainSurvivor, transform.position, transform.rotation);
         AddUnit(mainDude);

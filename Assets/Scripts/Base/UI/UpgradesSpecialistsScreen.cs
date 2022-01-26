@@ -29,9 +29,9 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
 
     private void Awake()
     {
-        inputPanel = FindObjectOfType<InputPanel>();
-        cardController = FindObjectOfType<CardController>();
-        resourcesController = FindObjectOfType<ResourcesController>();
+        inputPanel = InputPanel.Instance;
+        cardController = CardController.Instance;
+        resourcesController = ResourcesController.Instance;
         rewardController = RewardController.Instance;
     }
 

@@ -39,7 +39,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
         content.gameObject.SetActive(constructed);
         ruins.gameObject.SetActive(!constructed);
 
-        uiNumbers = FindObjectOfType<UINumbers>();        
+        uiNumbers = UINumbers.Instance;        
         constructionHealth = content.GetComponent<ConstructionHealth>();
         if (constructed)
         {
@@ -52,7 +52,7 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
         constructive = GetComponent<Constructive>();
         repairable = GetComponent<Repairable>();
         constructionHealth.OnDamage += ConstructionHealth_OnDamage;
-        constructionIcon = FindObjectOfType<ConstructionManager>().ConstructionIcon;
+        constructionIcon = ConstructionManager.Instance.ConstructionIcon;
     }
 
     private void ConstructionHealth_OnDamage(DamageTakenInfo obj)
@@ -91,8 +91,8 @@ public class Construction : MonoBehaviour , IZombiesLevelPhases
         });
         sequence.Append(content.transform.DOLocalMoveY(0f, 0.3f).SetEase(Ease.OutCirc)).OnComplete(() =>
         {
-            ConstructionManager constructionManager = FindObjectOfType<ConstructionManager>();
-            Squad squad = FindObjectOfType<Squad>();
+            ConstructionManager constructionManager = ConstructionManager.Instance;
+            Squad squad = Squad.Instance;
             for (int i = 0; i < starsCount; i++)
             {
                 PickupableResource star = Instantiate<PickupableResource>(constructionManager.RewardStarPrefab, transform.position + Vector3.up * (content.Bounds.max.y + 1f), transform.rotation);

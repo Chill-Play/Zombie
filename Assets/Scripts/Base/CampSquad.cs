@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 
 
-public class CampSquad : MonoBehaviour
+public class CampSquad : SingletonMono<CampSquad>
 {
     [SerializeField] GameObject campSurvivorPrefab;
     [SerializeField] float radius = 2f;   

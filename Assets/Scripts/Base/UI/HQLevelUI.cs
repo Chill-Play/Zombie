@@ -40,7 +40,7 @@ public class HQLevelUI : MonoBehaviour
         hq.OnPointAdded += Hq_OnPointAdded;
         hq.OnLevelUp += Hq_OnLevelUp;
         hq.OnRewardOpened += Hq_OnRewardOpened;
-        levelProgressionController = FindObjectOfType<LevelProgressionController>();
+        levelProgressionController = LevelProgressionController.Instance;
         pointCountTransform.localScale = Vector3.zero;
         UpdateProgressBar();
         RewardPlacement();

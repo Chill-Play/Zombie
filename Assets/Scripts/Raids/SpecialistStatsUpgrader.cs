@@ -20,7 +20,7 @@ public class SpecialistStatsUpgrader : MonoBehaviour
 
     public void UpdateStats(Card card)
     {
-        CardController cardController = FindObjectOfType<CardController>();
+        CardController cardController = CardController.Instance;
         CardStatsSlot cardStatsSlot = cardController.CardStats(card);
         health.AddMaxHealth(healthPerLevel * cardStatsSlot.statsInfo[healthStat]);
         shooting.AddDamage(damagePerLevel * cardStatsSlot.statsInfo[damageStat]);

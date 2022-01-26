@@ -21,7 +21,7 @@ public class ZombieBreaksthroughToPlayer : MonoBehaviour
 
     private void Start()
     {
-        squad = FindObjectOfType<Squad>();
+        squad = Squad.Instance;
     }
 
     private void Update()

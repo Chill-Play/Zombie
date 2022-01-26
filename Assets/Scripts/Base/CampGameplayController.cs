@@ -36,7 +36,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     {
         hq = FindObjectOfType<HQBuilding>();
         hq.OnLevelUp += Hq_OnLevelUp;
-        zombiesLevelController = FindObjectOfType<ZombiesLevelController>();
+        zombiesLevelController = ZombiesLevelController.Instance;
         raidZone.OnEnterZone += RaidZone_OnEnterZone; 
         raidZone.OnExitZone += RaidZone_OnExitZone;
         campaignZone.OnEnterZone += CampaignZone_OnEnterZone;
@@ -142,7 +142,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
 
     private void Start()
     {
-         FindObjectOfType<CampSquad>().SpawnSquad(PlayerInstance.transform.position);
+         CampSquad.Instance.SpawnSquad(PlayerInstance.transform.position);
          SetCampaignZoneStatus();
     }
 

@@ -24,7 +24,7 @@ public class UpgradesScreen : UIScreen, IShowScreen /// Refactor this class
 
     private void Awake()
     {
-        inputPanel = FindObjectOfType<InputPanel>();
+        inputPanel = InputPanel.Instance;
         resourcesController = ResourcesController.Instance;
         rewardController = RewardController.Instance;
     }
@@ -160,10 +160,10 @@ public class UpgradesScreen : UIScreen, IShowScreen /// Refactor this class
         {
             var cost = type.GetLevelCost(info.level);
             availableResources.Subtract(cost);
-            FindObjectOfType<ResourcesController>().UpdateResources();
+            ResourcesController.Instance.UpdateResources();
         }
         
-        FindObjectOfType<StatsManager>().AddStatLevel(type, free);        
+        StatsManager.Instance.AddStatLevel(type, free);        
         UpdateButtons(zone);
     }
 

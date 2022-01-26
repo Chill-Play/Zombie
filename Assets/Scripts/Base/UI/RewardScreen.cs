@@ -12,7 +12,10 @@ public class RewardScreen : MonoBehaviour
 {
     [SerializeField] private GameObject chest;
     [SerializeField] private GameObject VFX;
+    [SerializeField] private Image background;
+    [SerializeField] private Animator ChestAnim;
     [SerializeField] private Image chestSprite;
+    [SerializeField] private Image openChestSprite;
     [SerializeField] private GameObject rewardText;
     [SerializeField] private GameObject claimButton;
     [SerializeField] private ResourceBar resourcePrefab;
@@ -24,10 +27,12 @@ public class RewardScreen : MonoBehaviour
     private ResourcesInfo resInfo;
     InputPanel inputPanel;
     ChestInfo chestInfo;
+    private float a;
 
     private void Awake()
     {
-        inputPanel = FindObjectOfType<InputPanel>();
+        inputPanel = InputPanel.Instance;
+        a = background.color.a;
     }
 
     public void OpenChest(int i)
@@ -37,11 +42,11 @@ public class RewardScreen : MonoBehaviour
         chest.transform.localScale = Vector3.zero;
         rewardText.transform.localScale = Vector3.zero;
         claimButton.transform.localScale = Vector3.zero;
-        levelSettings = FindObjectOfType<LevelProgressionController>().CurrentLevelProgression;
+        levelSettings = LevelProgressionController.Instance.CurrentLevelProgression;
         chestInfo = levelSettings.Chests[i].chestInfo;
         resInfo = levelSettings.Chests[i].resourcesInfo;
         resourcesCount = resInfo.Slots.Count;
-        
+
         int j = 0;
         for (; j < resourcesCount; j++)
         {
@@ -52,6 +57,7 @@ public class RewardScreen : MonoBehaviour
                 ResourceBar newResourceIcon = Instantiate(resourcePrefab, resourcesSpawnPoint);
                 resources.Add(newResourceIcon);
             }
+
             resources[j].Setup(resInfo.Slots[j].type, 0);
             resources[j].transform.localScale = Vector3.zero;
             resources[j].transform.GetChild(0).GetComponent<Image>().sprite = resInfo.Slots[j].type.icon;
@@ -62,7 +68,7 @@ public class RewardScreen : MonoBehaviour
             resources[j].gameObject.SetActive(false);
         OpenChestAnimation();
     }
-    
+
     void ResourceCallback(int i)
     {
         ResourceBar resourceBar = resources[i].GetComponent<ResourceBar>();
@@ -74,7 +80,7 @@ public class RewardScreen : MonoBehaviour
         inputPanel.EnableInput();
         gameObject.SetActive(false);
     }
-    
+
     public void CloseScreen()
     {
         var seq = DOTween.Sequence();
@@ -82,34 +88,49 @@ public class RewardScreen : MonoBehaviour
         seq.AppendInterval(0.1f);
         for (int i = 0; i < resourcesCount; i++)
         {
-            seq.Join(resources[i].transform.DOScale(Vector3.zero,  .2f + .2f * i).SetEase(Ease.InBack));
+            int tmp = i;
+            seq.AppendInterval(i * .1f);
+            seq.AppendCallback(() => { resources[tmp].transform.DOScale(Vector3.zero, .2f).SetEase(Ease.InBack); });
         }
+
         seq.Append(VFX.transform.DOScale(Vector3.zero, .2f).SetEase(Ease.InBack));
         seq.Join(chest.transform.DOScale(Vector3.zero, .2f).SetEase(Ease.InBack));
         seq.Join(rewardText.transform.DOScale(Vector3.zero, .2f).SetEase(Ease.InBack));
         seq.AppendInterval(0.2f);
+        seq.Append(DOTween.ToAlpha(() => background.color, x => background.color = x, 0, .25f));
         seq.OnComplete(CompleteCloseScreen);
     }
-    
+
     void OpenChestAnimation()
-    {     
-        chestSprite.sprite = chestInfo.Icon; 
+    {
+        chestSprite.sprite = chestInfo.Icon;
+        openChestSprite.sprite = chestInfo.OpenedIcon;
+        background.color = new Color(0, 0, 0, 0);
         var seq = DOTween.Sequence();
-        seq.Append(rewardText.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
+        seq.Append(DOTween.ToAlpha(() => background.color, x => background.color = x, a, .25f));
+        seq.AppendInterval(0.5f);
+        seq.Append(rewardText.transform.DOScale(new Vector3(1, 1, 1), .3f).SetEase(Ease.OutBack));
         seq.AppendInterval(0.3f);
-        seq.Join(chest.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
-        seq.Join(VFX.transform.DOScale(new Vector3(1,1,1), .4f));
-        seq.Append(chest.transform.DOPunchRotation(new Vector3(0, 0, 30), 1f, 5).SetEase(Ease.OutBack)).AppendCallback(() =>
+        seq.Append(VFX.transform.DOScale(new Vector3(1, 1, 1), .4f));
+        seq.Join(chest.transform.DOScale(new Vector3(1, 1, 1), .3f).SetEase(Ease.OutBack).OnComplete(() =>
         {
-            chestSprite.sprite = chestInfo.OpenedIcon; 
-        });
-        seq.AppendInterval(0.1f);
+            ChestAnim.SetTrigger("Open");
+        }));
+
+        seq.AppendInterval(.8f);
         for (int i = 0; i < resourcesCount; i++)
         {
             int tmp = i;
-            
-            seq.Join(resources[i].transform.DOScale(new Vector3(1,1,1), .3f + .3f * i).OnPlay(()=>ResourceCallback(tmp)).SetEase(Ease.OutBack));
+            seq.AppendInterval(i * .1f);
+            seq.AppendCallback(() =>
+            {
+                resources[tmp].transform.DOScale(new Vector3(1, 1, 1), .4f)
+                    .OnPlay(() => ResourceCallback(tmp)).SetEase(Ease.OutBack);
+            });
         }
-        seq.Append(claimButton.transform.DOScale(new Vector3(1,1,1), .4f).SetEase(Ease.OutBack));
+
+
+        seq.AppendInterval(.75f);
+        seq.Append(claimButton.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutBack));
     }
 }

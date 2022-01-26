@@ -14,14 +14,14 @@ public class RaidsUIEvents : MonoBehaviour
 
     private void Awake()
     {
-        campaign = FindObjectOfType<Campaign>() != null;
+        campaign = Campaign.Instance != null;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Level level = FindObjectOfType<Level>();
-        ReviveController reviveController = FindObjectOfType<ReviveController>();
+        Level level = Level.Instance;
+        ReviveController reviveController = ReviveController.Instance;
         level.OnLevelEnded += Level_OnLevelEnded;
         level.OnLevelFailed += Level_OnLevelFailed;
         if (reviveController != null)

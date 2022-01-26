@@ -25,7 +25,7 @@ public class PartySelectorUI : MonoBehaviour
 
     private void Awake()
     {
-        cardController = FindObjectOfType<CardController>();
+        cardController = CardController.Instance;
         for (int i = 0; i < specialistVisualUIs.Count; i++)
         {
             specialistVisualUIs[i].OnSlotClicked += PartySelectorUI_OnSlotClicked;

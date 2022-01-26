@@ -15,6 +15,8 @@ public class Card : ScriptableObject, ISerializationCallbackReceiver
 
     [SerializeField] protected string id;
     [SerializeField] Sprite icon;
+    [SerializeField] Sprite newSpecialistIcon;
+    [SerializeField] Sprite hideNewSpecialistIcon;
     [SerializeField] string cardName;
     [SerializeField] GameObject unitVisual;
     [SerializeField] GameObject campaignUnitPrefab;
@@ -22,6 +24,8 @@ public class Card : ScriptableObject, ISerializationCallbackReceiver
     [SerializeField] List<CardStats> cardStats = new List<CardStats>();
 
     public Sprite Icon => icon;
+    public Sprite NewSpecialistIcon => newSpecialistIcon;
+    public Sprite HideNewSpecialistIcon => hideNewSpecialistIcon;
     public string CardName => cardName;
     public GameObject UnitVisual => unitVisual;
     public GameObject CampaignUnitPrefab => campaignUnitPrefab;

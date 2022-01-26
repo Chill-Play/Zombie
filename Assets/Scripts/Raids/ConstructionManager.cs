@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConstructionManager : MonoBehaviour
+public class ConstructionManager : SingletonMono<ConstructionManager>
 {
     [SerializeField] Sprite constructionIcon;
     [SerializeField] Sprite repairIcon;

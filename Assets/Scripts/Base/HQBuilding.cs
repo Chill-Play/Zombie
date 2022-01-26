@@ -30,9 +30,9 @@ public class HQBuilding : BaseObject
     private void Awake()
     {       
         cost = MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
-        uiNumbers = FindObjectOfType<UINumbers>();
+        uiNumbers = UINumbers.Instance;
         float currentValue = (float)currentCount / (float)cost;
-        levelProgressionController = FindObjectOfType<LevelProgressionController>();
+        levelProgressionController =LevelProgressionController.Instance;
         rewardCount = levelProgressionController.CurrentLevelProgression.Chests.Count;
         nextChest = Mathf.FloorToInt(currentValue / (1f / (rewardCount + 1)));
     }

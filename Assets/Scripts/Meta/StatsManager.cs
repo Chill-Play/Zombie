@@ -19,7 +19,7 @@ public class StatsManager : SingletonMono<StatsManager>
 
     private void Awake()
     {
-        zombiesLevelController = FindObjectOfType<ZombiesLevelController>();
+        zombiesLevelController = ZombiesLevelController.Instance;
         for (int i = 0; i < stats.Count; i++)
         {
             var info = new StatInfo();

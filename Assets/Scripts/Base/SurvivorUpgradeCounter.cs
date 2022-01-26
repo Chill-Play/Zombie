@@ -11,7 +11,7 @@ public class SurvivorUpgradeCounter : UpgradeCounter
     protected override void Awake()
     {
         base.Awake();
-        statsManager = FindObjectOfType<StatsManager>();
+        statsManager = StatsManager.Instance;
         statsManager.OnStatLevelUp += StatsManager_OnStatLevelUp;
     }
 

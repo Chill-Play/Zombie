@@ -18,7 +18,7 @@ public class GameplayController : SingletonMono<GameplayController>
 
     private void Awake()
     {
-        spawnPoint = FindObjectOfType<SpawnPoint>();
+        spawnPoint = SpawnPoint.Instance;
         Vector3 spawnPos = Vector3.zero;
         if (spawnPoint != null)
         {
@@ -26,10 +26,10 @@ public class GameplayController : SingletonMono<GameplayController>
         }
         SpawnPlayer(spawnPos, playerPrefab);
 
-        Level level = FindObjectOfType<Level>();
+        Level level = Level.Instance;
         spawnPoint.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
         level.OnLevelFailed += OnLevelFailed;
-        reviveController = FindObjectOfType<ReviveController>();
+        reviveController = ReviveController.Instance;
         reviveController.OnRevive += Level_OnRevive;
         SquadInstance.OnPlayerUnitDead += SquadInstance_OnPlayerUnitDead;
     }
@@ -59,7 +59,7 @@ public class GameplayController : SingletonMono<GameplayController>
 
     public void SpawnPlayer(Vector3 point, GameObject prefab)
     {      
-        Squad squad = FindObjectOfType<Squad>();
+        Squad squad = Squad.Instance;
         if (squad != null)
         {
             cameraController.SetTarget(squad.transform);

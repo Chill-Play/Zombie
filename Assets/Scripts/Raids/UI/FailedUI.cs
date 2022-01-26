@@ -28,8 +28,8 @@ public class FailedUI : UIScreen
         sequence.AppendInterval(0.1f);
         sequence.Append(toBaseButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
 
-        tutorialMode = FindObjectOfType<Tutorial>() != null;
-        campaign = FindObjectOfType<Campaign>() != null;
+        tutorialMode = Tutorial.Instance != null;
+        campaign = Campaign.Instance != null;
     }
 
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoiseController : MonoBehaviour, INoiseListener
+public class NoiseController : SingletonMono<NoiseController>, INoiseListener
 {
     public event System.Action<float> OnNoiseLevelChanged;
     public event System.Action OnNoiseLevelExceeded;
