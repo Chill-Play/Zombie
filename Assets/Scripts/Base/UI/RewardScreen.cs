@@ -31,7 +31,7 @@ public class RewardScreen : MonoBehaviour
 
     private void Awake()
     {
-        inputPanel = FindObjectOfType<InputPanel>();
+        inputPanel = InputPanel.Instance;
         a = background.color.a;
     }
 
@@ -42,7 +42,7 @@ public class RewardScreen : MonoBehaviour
         chest.transform.localScale = Vector3.zero;
         rewardText.transform.localScale = Vector3.zero;
         claimButton.transform.localScale = Vector3.zero;
-        levelSettings = FindObjectOfType<LevelProgressionController>().CurrentLevelProgression;
+        levelSettings = LevelProgressionController.Instance.CurrentLevelProgression;
         chestInfo = levelSettings.Chests[i].chestInfo;
         resInfo = levelSettings.Chests[i].resourcesInfo;
         resourcesCount = resInfo.Slots.Count;
@@ -111,13 +111,13 @@ public class RewardScreen : MonoBehaviour
         seq.AppendInterval(0.5f);
         seq.Append(rewardText.transform.DOScale(new Vector3(1, 1, 1), .3f).SetEase(Ease.OutBack));
         seq.AppendInterval(0.3f);
-        seq.Join(VFX.transform.DOScale(new Vector3(1, 1, 1), .4f));
+        seq.Append(VFX.transform.DOScale(new Vector3(1, 1, 1), .4f));
         seq.Join(chest.transform.DOScale(new Vector3(1, 1, 1), .3f).SetEase(Ease.OutBack).OnComplete(() =>
         {
             ChestAnim.SetTrigger("Open");
         }));
 
-        seq.AppendInterval(.5f);
+        seq.AppendInterval(.8f);
         for (int i = 0; i < resourcesCount; i++)
         {
             int tmp = i;

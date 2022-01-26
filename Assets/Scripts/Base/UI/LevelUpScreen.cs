@@ -27,8 +27,8 @@ public class LevelUpScreen : MonoBehaviour
     
     private void Awake()
     {
-        inputPanel = FindObjectOfType<InputPanel>();
-        levelProgressionController = FindObjectOfType<LevelProgressionController>();
+        inputPanel = InputPanel.Instance;
+        levelProgressionController = LevelProgressionController.Instance;
         hq = FindObjectOfType<HQBuilding>();
         a = background.color.a;
         hq.OnLevelUp += ShowScreen;
@@ -119,11 +119,11 @@ public class LevelUpScreen : MonoBehaviour
         background.color = new Color(0,0,0,0);
         var seq = DOTween.Sequence();
         seq.Append(DOTween.ToAlpha(() => background.color, x => background.color = x, a, .25f));
-        seq.AppendInterval(0.5f);
+        seq.AppendInterval(0.35f);
         seq.Append(header.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
-        seq.AppendInterval(0.3f);
+        seq.AppendInterval(0.2f);
         seq.Append(newLevelLabel.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
-        seq.AppendInterval(0.5f);
+        seq.AppendInterval(0.35f);
         for (int i = 0; i < buildingCount; i++)
         {
             int tmp = i;
