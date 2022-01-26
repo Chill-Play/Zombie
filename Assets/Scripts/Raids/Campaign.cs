@@ -9,10 +9,12 @@ public class Campaign : MonoBehaviour
 
     public int SpecialistCount => units.Count;
     public List<CardSlot> RewardCards => rewardCards;
+    [SerializeField] private CardController cardController;
 
     void Start()
     {
         Squad squad = FindObjectOfType<Squad>();
+        cardController.TryToActivateCard(rewardCards[0]);
         CardsInfo activeCards = FindObjectOfType<CardController>().ActiveCards;
         for (int i = 0; i < activeCards.cardSlots.Count; i++)
         {
