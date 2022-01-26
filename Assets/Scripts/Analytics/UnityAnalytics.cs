@@ -50,10 +50,17 @@ public class UnityAnalytics : SingletonMono<UnityAnalytics>
         var raiseTutorialsStage = FindObjectsOfType<RaiseTutorialStageEvent>();
         foreach (var raiseTutorialStage in raiseTutorialsStage)
         {
-            //raiseTutorialStage.OnRaiseTutorialStage += 
+            raiseTutorialStage.OnRaiseTutorialStage += RaiseTutorialStage_OnRaiseTutorialStage;
         }
         var advertisementManager = AdvertisementManager.Instance;
         advertisementManager.OnReportAnalytics += AdvertisementManager_OnReportAnalytics;
+    }
+
+    private void RaiseTutorialStage_OnRaiseTutorialStage(string text)
+    {
+        var args = new Dictionary<string, object>();
+        args.Add("step_name", text);     
+        SendEvent("raise_tutorial_stage", args);
     }
 
     private void Upgradable_OnLevelUp(Upgradable upgradable)

@@ -13,7 +13,7 @@ public class BaseLoader : MonoBehaviour
     void Start()
     {
         DOTween.Init();
-        int levelNumber = 1;
+        int levelNumber = ZombiesLevelController.Instance.RaidIsComplited;
         if (levelNumber == 0)
         {
             SceneManager.LoadScene(tutorialLevel);

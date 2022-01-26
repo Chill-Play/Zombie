@@ -48,7 +48,7 @@ public class UpgradesScreen : UIScreen, IShowScreen /// Refactor this class
 
     void UpdateButtons(UpgradeZone zone)
     {
-        int freeSlot = -1;// GetFreeSlotId(zone);
+        int freeSlot = -1;
         bool freeResourcesOption = false;
 
         for (int i = 0; i < cards.Count; i++)
@@ -66,19 +66,7 @@ public class UpgradesScreen : UIScreen, IShowScreen /// Refactor this class
 
             cards[i].Setup(info, type, availableResources, i == freeSlot, (free) =>
             {
-                /*if (free)
-                {
-                    AdvertisementManager.Instance.ShowRewardedVideo((result) =>
-                    {
-                        zone.FreeUpgradeAvailable = false;
-                        if (result) UpgradeStat(zone, info, type, free);
-                    }, "base_shop_free_stat");
-                }
-                else
-                {
-                    UpgradeStat(zone, info, type, free);
-                }*/
-                
+
                 UpgradeStat(zone, info, type, free);
                 
                 cards[tmp].transform.localScale = Vector3.one;
@@ -99,10 +87,17 @@ public class UpgradesScreen : UIScreen, IShowScreen /// Refactor this class
 
     void AddFreeResourcesClicked(UpgradeZone zone, ResourceType resourceType, int count)
     {
-        rewardController.AddResourceRewardLevel(resourceType);
-        resourcesController.AddResources(resourceType, count);
-        resourcesController.UpdateResources();
-        UpdateButtons(zone);
+        AdvertisementManager.Instance.ShowRewardedVideo((result) =>
+        {
+            if (result)
+            {
+                rewardController.AddResourceRewardLevel(resourceType);
+                resourcesController.AddResources(resourceType, count);
+                resourcesController.UpdateResources();
+                UpdateButtons(zone);
+            }
+        }, "upgrade_free_resources");
+       
     }
 
     int GetFreeSlotId(UpgradeZone zone)

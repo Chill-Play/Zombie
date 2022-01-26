@@ -106,10 +106,17 @@ public class UpgradesSpecialistsScreen : UIScreen, IShowScreen
 
     void AddFreeResourcesClicked(StatsType statType, ResourceType resourceType, int count)
     {
-        rewardController.AddResourceRewardLevel(resourceType);
-        resourcesController.AddResources(resourceType, count);
-        resourcesController.UpdateResources();
-        UpdateCards(statType);
+        AdvertisementManager.Instance.ShowRewardedVideo((result) =>
+        {
+            if (result)
+            {
+                rewardController.AddResourceRewardLevel(resourceType);
+                resourcesController.AddResources(resourceType, count);
+                resourcesController.UpdateResources();
+                UpdateCards(statType);
+            }
+        }, "upgrade_free_resources");
+       
     }
 
     void UpgradeCardStat(Card card, StatsType statType) //refactor pls

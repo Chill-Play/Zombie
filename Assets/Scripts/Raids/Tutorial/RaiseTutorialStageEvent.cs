@@ -16,5 +16,6 @@ public class RaiseTutorialStageEvent : MonoBehaviour
     private void RaiseTutorialStageEvent_OnTrigger()
     {
         OnRaiseTutorialStage?.Invoke(stage);
+        AnalyticsService.Instance.SendTutorialEvent(stage);
     }
 }
