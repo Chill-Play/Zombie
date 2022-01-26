@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &785331424669787610
 RectTransform:
   m_ObjectHideFlags: 0
@@ -389,10 +389,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8463704947382215309}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2049717067}
+        m_TargetAssemblyTypeName: UISpecialistJoinScreen, Zombies.Raids.UI
+        m_MethodName: Close
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -640,7 +640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1372518506250496959
 RectTransform:
   m_ObjectHideFlags: 0
@@ -771,7 +771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2213056655515100146
 RectTransform:
   m_ObjectHideFlags: 0
@@ -902,7 +902,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7531980183470929590
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1108,7 +1108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2586513239805086777
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1327,7 +1327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4254149557221470696
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1422,7 +1422,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1569795838048756142
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1553,7 +1553,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4493653637420695475
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1714,6 +1714,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1404741408281036173}
+  - component: {fileID: 1820583488}
   m_Layer: 5
   m_Name: VFXStars
   m_TagString: Untagged
@@ -1752,6 +1753,35 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1820583488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5219797049336034728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87c4a303e4874450ab967ad7c1e5f4a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stars:
+  - {fileID: 8684560845823448063}
+  - {fileID: 5621475923226042002}
+  - {fileID: 1216452244340058232}
+  - {fileID: 5377696867843824690}
+  - {fileID: 114121897372893921}
+  - {fileID: 3194126525306511626}
+  - {fileID: 3807541926202221258}
+  - {fileID: 6747651766634356553}
+  - {fileID: 3144321247490467332}
+  - {fileID: 1832834823110431605}
+  - {fileID: 5837750721322416373}
+  - {fileID: 1753586373759262510}
+  duration: 0.2
+  count: 3
+  timer: 0
+  currentStar: 0
 --- !u!1 &5372802063588851926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1941,7 +1971,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &176330058681715142
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2389,7 +2419,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5704860704142676225
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2745,7 +2775,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4804453576424632694
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2876,7 +2906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &466921454879841011
 RectTransform:
   m_ObjectHideFlags: 0
