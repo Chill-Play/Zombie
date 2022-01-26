@@ -15,7 +15,7 @@ public class TutorialText : MonoBehaviour
 
     Vector3 scale;
 
-    private void Start()
+    public void Setup()
     {
         if (content == null)
         {
@@ -28,6 +28,10 @@ public class TutorialText : MonoBehaviour
         {
             gameObject.SetActive(false);
             showConditionTrigger.OnTrigger += ShowConditionTrigger_OnTrigger;
+        }
+        else
+        {
+            gameObject.SetActive(true);
         }
 
         if (hideTrigger != null)

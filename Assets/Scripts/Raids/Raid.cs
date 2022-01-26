@@ -45,7 +45,7 @@ public class Raid : MonoBehaviour
         helicopter = FindObjectOfType<Helicopter>();
         if (helicopter != null)
         {
-            helicopter.FlyAway();
+            // helicopter.FlyAway();
         }
 
         if (!campaign)
