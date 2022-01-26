@@ -88,7 +88,9 @@ public class RewardScreen : MonoBehaviour
         seq.AppendInterval(0.1f);
         for (int i = 0; i < resourcesCount; i++)
         {
-            seq.Join(resources[i].transform.DOScale(Vector3.zero, .2f + .2f * i).SetEase(Ease.InBack));
+            int tmp = i;
+            seq.AppendInterval(i * .1f);
+            seq.AppendCallback(() => { resources[tmp].transform.DOScale(Vector3.zero, .2f).SetEase(Ease.InBack); });
         }
 
         seq.Append(VFX.transform.DOScale(Vector3.zero, .2f).SetEase(Ease.InBack));
@@ -114,16 +116,21 @@ public class RewardScreen : MonoBehaviour
         {
             ChestAnim.SetTrigger("Open");
         }));
-        seq.AppendInterval(.35f).AppendCallback(() =>
+
+        seq.AppendInterval(.5f);
+        for (int i = 0; i < resourcesCount; i++)
         {
-            for (int i = 0; i < resourcesCount; i++)
+            int tmp = i;
+            seq.AppendInterval(i * .1f);
+            seq.AppendCallback(() =>
             {
-                int tmp = i;
-                seq.Join(resources[i].transform.DOScale(new Vector3(1, 1, 1), .3f + .3f * i)
-                    .OnPlay(() => ResourceCallback(tmp)).SetEase(Ease.OutBack));
-            }
-        });
-        seq.AppendInterval(1f);
+                resources[tmp].transform.DOScale(new Vector3(1, 1, 1), .4f)
+                    .OnPlay(() => ResourceCallback(tmp)).SetEase(Ease.OutBack);
+            });
+        }
+
+
+        seq.AppendInterval(.75f);
         seq.Append(claimButton.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutBack));
     }
 }
