@@ -10,6 +10,7 @@ public class LevelUpScreen : MonoBehaviour
     [SerializeField] private GameObject header;
     [SerializeField] private TextMeshProUGUI lvlText;
     [SerializeField] private GameObject newLevelLabel;
+    [SerializeField] private Image background;
     private List<GameObject> newResources = new List<GameObject>();
     private List<GameObject> newBuildings = new List<GameObject>();
     [SerializeField] private GameObject continueButton;
@@ -18,7 +19,8 @@ public class LevelUpScreen : MonoBehaviour
     [SerializeField] private GameObject buildingPrefab;
     private LevelProgressionController levelProgressionController;
     HQBuilding hq;
-    InputPanel inputPanel;  
+    InputPanel inputPanel;
+    private float a;
     private int resourcesCount => levelProgressionController.CurrentLevelProgression.UnlockResources.Count;
     private int buildingCount => levelProgressionController.UnlockableBuildings.Count;
 
@@ -28,6 +30,7 @@ public class LevelUpScreen : MonoBehaviour
         inputPanel = FindObjectOfType<InputPanel>();
         levelProgressionController = FindObjectOfType<LevelProgressionController>();
         hq = FindObjectOfType<HQBuilding>();
+        a = background.color.a;
         hq.OnLevelUp += ShowScreen;
     }
 
@@ -49,6 +52,7 @@ public class LevelUpScreen : MonoBehaviour
         seq.Append(newLevelLabel.transform.DOScale(Vector3.zero, .1f).SetEase(Ease.InBack));
         seq.AppendInterval(0.1f);
         seq.Append(header.transform.DOScale(Vector3.zero, .1f).SetEase(Ease.InBack));
+        seq.Append(DOTween.ToAlpha(() => background.color, x => background.color = x, 0, .25f));
         seq.OnComplete(() =>
         {
             gameObject.SetActive(false);
@@ -102,7 +106,10 @@ public class LevelUpScreen : MonoBehaviour
     
     void PlayScreenAnimation()
     {
+        background.color = new Color(0,0,0,0);
         var seq = DOTween.Sequence();
+        seq.Append(DOTween.ToAlpha(() => background.color, x => background.color = x, a, .25f));
+        seq.AppendInterval(0.5f);
         seq.Append(header.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
         seq.AppendInterval(0.3f);
         seq.Append(newLevelLabel.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
