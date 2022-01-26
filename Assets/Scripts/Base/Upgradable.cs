@@ -70,7 +70,7 @@ public class Upgradable : BaseObject, IBuildable
         {
             if (player == null)
             {
-                player = FindObjectOfType<PlayerBuilding>();
+                player = PlayerBuilding.Instance;
             }
             Resource instance = Instantiate(type.defaultPrefab, player.transform.position, Quaternion.LookRotation(UnityEngine.Random.insideUnitSphere));
             instance.GetComponent<Rigidbody>().isKinematic = true;

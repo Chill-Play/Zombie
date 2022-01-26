@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIUnitHealthBars : MonoBehaviour
+public class UIUnitHealthBars : SingletonMono<UIUnitHealthBars>
 {
     [System.Serializable]
     struct UIUnitHealthBarSettings

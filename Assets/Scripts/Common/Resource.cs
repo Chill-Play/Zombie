@@ -49,8 +49,8 @@ public class Resource : MonoBehaviour
                 ResourcesInfo resourcesInfo = new ResourcesInfo();
                 resourcesInfo.AddSlot(type, count);
                 //picker.GetComponent<IResourceStore>().OnPickupResource(type, 0, count);
-                FindObjectOfType<ResourcesController>().AddResources(resourcesInfo);
-                FindObjectOfType<ResourcesController>().UpdateResources();
+                ResourcesController.Instance.AddResources(resourcesInfo);
+                ResourcesController.Instance.UpdateResources();
             }
             picked = true;
             Destroy(gameObject);

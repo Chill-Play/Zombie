@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class SpawnPoint : MonoBehaviour
+public class SpawnPoint : SingletonMono<SpawnPoint>
 {
     public event System.Action OnReturnedToBase;
 

@@ -73,7 +73,7 @@ public class CardsStatsInfo
     }
 }
 
-public class CardController : MonoBehaviour
+public class CardController : SingletonMono<CardController>
 {
     public event System.Action<Card, StatsType> OnCardUpgraded;
 
@@ -98,7 +98,7 @@ public class CardController : MonoBehaviour
         Load();
         if (cardsStatsInfo == null)        
             cardsStatsInfo = new CardsStatsInfo(cardVariants);        
-        resourcesController = FindObjectOfType<ResourcesController>();      
+        resourcesController = ResourcesController.Instance;      
     }
 
     public bool TryToActivateCard(CardSlot cardSlot)

@@ -16,7 +16,7 @@ public class RaidEntranceUI : MonoBehaviour
 
     private void Awake()
     {
-        inputPanel = FindObjectOfType<InputPanel>();
+        inputPanel = InputPanel.Instance;
     }
 
     private void OnEnable()

@@ -20,7 +20,7 @@ public class ReviveScreen : UIScreen
 
     private void Awake()
     {
-        reviveController = FindObjectOfType<ReviveController>();
+        reviveController = ReviveController.Instance;
     }
 
     void OnEnable()

@@ -12,7 +12,7 @@ public class TextOnDamage : MonoBehaviour
 
     private void Awake()
     {
-        uiNumbers = FindObjectOfType<UINumbers>();
+        uiNumbers = UINumbers.Instance;
     }
 
     void OnEnable()

@@ -6,7 +6,7 @@ public class LevelFinishedTrigger : ConditionTrigger
 {
     private void Awake()
     {
-        FindObjectOfType<Level>().OnLevelEnded += Level_OnLevelEnded;
+        Level.Instance.OnLevelEnded += Level_OnLevelEnded;
     }
 
     private void Level_OnLevelEnded()

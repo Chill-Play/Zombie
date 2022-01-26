@@ -12,13 +12,13 @@ public class UnitHealthBar : MonoBehaviour
 
     void OnEnable()
     {
-        FindObjectOfType<UIUnitHealthBars>().CreateHealthBar(this);
+        UIUnitHealthBars.Instance.CreateHealthBar(this);
     }
 
     
     void OnDisable()
     {
-        UIUnitHealthBars bars = FindObjectOfType<UIUnitHealthBars>();
+        UIUnitHealthBars bars = UIUnitHealthBars.Instance;
         if (bars != null)
         {
             bars.RemoveHealthBar(this);

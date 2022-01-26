@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBuilding : MonoBehaviour
+public class PlayerBuilding : SingletonMono<PlayerBuilding>
 {
     [SerializeField] LayerMask buildablesMask;
     [SerializeField] float radius;

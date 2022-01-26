@@ -14,7 +14,7 @@ public class UpgradeCounter : MonoBehaviour
 
     protected virtual void Awake()
     {
-        resourcesController = FindObjectOfType<ResourcesController>();
+        resourcesController = ResourcesController.Instance;
         resourcesController.OnResourcesUpdated += ResourcesController_OnResourcesUpdated;
     }
 

@@ -13,9 +13,9 @@ public class Campaign : SingletonMono<Campaign>
 
     void Start()
     {
-        Squad squad = FindObjectOfType<Squad>();
+        Squad squad = Squad.Instance;
         cardController.TryToActivateCard(rewardCards[0]);
-        CardsInfo activeCards = FindObjectOfType<CardController>().ActiveCards;
+        CardsInfo activeCards = CardController.Instance.ActiveCards;
         for (int i = 0; i < activeCards.cardSlots.Count; i++)
         {
 

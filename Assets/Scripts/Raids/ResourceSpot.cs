@@ -30,12 +30,12 @@ public class ResourceSpot : MonoBehaviour
     {
         scale = transform.localScale.magnitude;
         noiseListeners = FindObjectsOfType<MonoBehaviour>().OfType<INoiseListener>();  
-        uiNumbers = FindObjectOfType<UINumbers>();
+        uiNumbers = UINumbers.Instance;
     }
 
     private void Start()
     {
-        ResourcesController resourcesController = FindObjectOfType<ResourcesController>();
+        ResourcesController resourcesController = ResourcesController.Instance;
         if (!resourcesController.OpenedResources.Contains(resourceType))
         {
             bool found = false;

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBackpack : MonoBehaviour, IComboCounter
+public class PlayerBackpack : SingletonMono<PlayerBackpack>, IComboCounter
 {
     public event System.Action<ResourceType, int, int> OnPickupResource;
 

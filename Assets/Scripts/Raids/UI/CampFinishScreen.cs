@@ -43,7 +43,7 @@ public class CampFinishScreen : UIScreen
     {
         campaign = Campaign.Instance;
         isCampaign = campaign != null;
-        squad = FindObjectOfType<Squad>();
+        squad = Squad.Instance;
     }
 
     void OnEnable()
@@ -94,7 +94,7 @@ public class CampFinishScreen : UIScreen
         alternativeContinueButton.gameObject.SetActive(doubleOpportunity);
 
         sequence.Append(continueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
-        tutorialMode = FindObjectOfType<Tutorial>() != null;
+        tutorialMode = Tutorial.Instance != null;
     }
 
 
@@ -151,7 +151,7 @@ public class CampFinishScreen : UIScreen
 
     void SaveSquad()
     {
-        int count = Mathf.Clamp(squad.Units.Count - FindObjectOfType<CardController>().ActiveCards.Count - 1, 0, squad.Units.Count);
+        int count = Mathf.Clamp(squad.Units.Count - CardController.Instance.ActiveCards.Count - 1, 0, squad.Units.Count);
         survivorsLabel.text = "+" + count.ToString();
         PlayerPrefs.SetInt("M_Survivors_Count", count);
     }

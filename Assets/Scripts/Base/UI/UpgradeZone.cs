@@ -25,14 +25,14 @@ public class UpgradeZone : MonoBehaviour
         if (collider.TryGetComponent(out PlayerBuilding playerBuilding))
         {
             //var screen = (UpgradesScreen)FindObjectOfType<UIController>().ShowScreen(screenId);
-            var screen = (IShowScreen)FindObjectOfType<UIController>().ShowScreen(screenId);
+            var screen = (IShowScreen)UIController.Instance.ShowScreen(screenId);
             var statsList = new List<(StatsType, StatInfo)>();
             foreach (var type in stats)
             {
-                var info = FindObjectOfType<StatsManager>().GetStatInfo(type);
+                var info = StatsManager.Instance.GetStatInfo(type);
                 statsList.Add((type, info));
             }
-            screen.Show(this, label, statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => { FindObjectOfType<UIController>().ReturnToDefaultScreen(); OnEndUpgrading?.Invoke(); });
+            screen.Show(this, label, statsList, ResourcesController.Instance.ResourcesCount, () => { UIController.Instance.ReturnToDefaultScreen(); OnEndUpgrading?.Invoke(); });
         }
     }
 }

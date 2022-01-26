@@ -39,7 +39,7 @@ public class CampTutorialContent : MonoBehaviour
     {
         if (!completed)
         {
-            ResourcesController resourcesController = FindObjectOfType<ResourcesController>();
+            ResourcesController resourcesController = ResourcesController.Instance;
             resourcesController.AddResources(startResources);
             resourcesController.UpdateResources();   
         }

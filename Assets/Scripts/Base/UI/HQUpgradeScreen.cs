@@ -40,7 +40,7 @@ public class HQUpgradeScreen : UIScreen
     void LevelUp(HQBuilding hq, ResourcesInfo cost)
     {
         availableResources.Subtract(cost);
-        FindObjectOfType<ResourcesController>().UpdateResources();
+        ResourcesController.Instance.UpdateResources();
         hq.LevelUp();
         UpdateButton();
     }

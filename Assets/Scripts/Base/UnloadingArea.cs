@@ -20,7 +20,7 @@ public class UnloadingArea : MonoBehaviour
     private void Awake()
     {
         unloadingResources = unloadingTarget.GetComponent<IUnloadingResources>(); //refactor
-        uiNumbers = FindObjectOfType<UINumbers>();
+        uiNumbers = UINumbers.Instance;
     }
 
     private void Update()

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelProgressionController : MonoBehaviour
+public class LevelProgressionController : SingletonMono<LevelProgressionController>
 {
     [SerializeField] List<LevelProgressionSettings> levelProgressionSettings = new List<LevelProgressionSettings>();
 
@@ -22,10 +22,10 @@ public class LevelProgressionController : MonoBehaviour
     {
         hq = FindObjectOfType<HQBuilding>();
         hq.OnLevelUp += Hq_OnLevelUp;
-        cameraController = FindObjectOfType<CameraController>();
-        resourcesController = FindObjectOfType<ResourcesController>();
-        campGameplayController = FindObjectOfType<CampGameplayController>();
-        inputPanel = FindObjectOfType<InputPanel>();
+        cameraController = CameraController.Instance;
+        resourcesController = ResourcesController.Instance;
+        campGameplayController = CampGameplayController.Instance;
+        inputPanel = InputPanel.Instance;
     }
 
     private void Start()
@@ -35,7 +35,7 @@ public class LevelProgressionController : MonoBehaviour
 
     public void AddChestResources()
     {
-        ResourcesInfo resInfo = FindObjectOfType<LevelProgressionController>().CurrentLevelProgression.Chests[hq.NextChest - 1].resourcesInfo;
+        ResourcesInfo resInfo = LevelProgressionController.Instance.CurrentLevelProgression.Chests[hq.NextChest - 1].resourcesInfo;
         resourcesController.AddResources(resInfo);
         resourcesController.UpdateResources();
     }
@@ -55,7 +55,7 @@ public class LevelProgressionController : MonoBehaviour
 
     public void UnlockResourceType()
     {
-        ResourcesController resourcesController = FindObjectOfType<ResourcesController>();
+        ResourcesController resourcesController = ResourcesController.Instance;
         List<ResourceType> unlockResources = CurrentLevelProgression.UnlockResources;
         foreach (var resourceType in unlockResources)
         {

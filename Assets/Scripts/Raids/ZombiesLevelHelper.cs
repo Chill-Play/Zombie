@@ -9,12 +9,12 @@ public class ZombiesLevelHelper : MonoBehaviour
 
     private void Awake()
     {
-        Level level = FindObjectOfType<Level>();
+        Level level = Level.Instance;
         level.OnLevelStarted += Level_OnLevelStarted;
         level.OnLevelEnded += Level_OnLevelEnded;
         level.OnLevelFailed += Level_OnLevelFailed;
 
-        Raid raid = FindObjectOfType<Raid>();
+        Raid raid = Raid.Instance;
         raid.OnHordeDefeated += Raid_OnHordeDefeated;
 
         zombiesLevelPhases = FindObjectsOfType<MonoBehaviour>().OfType<IZombiesLevelPhases>();

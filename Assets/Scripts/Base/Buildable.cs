@@ -26,7 +26,7 @@ public class Buildable : BaseObject, IBuildable
 
     public void Awake()
     {
-        zombiesLevelController = FindObjectOfType<ZombiesLevelController>();
+        zombiesLevelController = ZombiesLevelController.Instance;
         if (resourcesSpent.Slots.Count < cost.Slots.Count)
         {
             resourcesSpent.ApplyTypes(cost);
@@ -71,7 +71,7 @@ public class Buildable : BaseObject, IBuildable
         {
             if (player == null)
             {
-                player = FindObjectOfType<PlayerBuilding>();
+                player = PlayerBuilding.Instance;
             }
             Resource instance = Instantiate(type.defaultPrefab, player.transform.position, Quaternion.LookRotation(UnityEngine.Random.insideUnitSphere));
             instance.GetComponent<Rigidbody>().isKinematic = true;

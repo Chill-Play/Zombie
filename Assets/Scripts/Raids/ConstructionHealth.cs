@@ -18,7 +18,7 @@ public class ConstructionHealth : MonoBehaviour, IDamagable
 
     private void Awake()
     {       
-        uiNumbers = FindObjectOfType<UINumbers>();
+        uiNumbers = UINumbers.Instance;
     }
 
     public void SetHealth(float value)
