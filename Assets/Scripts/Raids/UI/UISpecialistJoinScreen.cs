@@ -23,13 +23,15 @@ public class UISpecialistJoinScreen : MonoBehaviour
         specialist.transform.localScale = Vector3.zero;
         button.transform.localScale = Vector3.zero;
         hideSpecialistSprite.sprite = campaign.RewardCards[0].card.HideNewSpecialistIcon;
+        float a = background.color.a;
         background.color = new Color(0, 0, 0, 0);
         var seq = DOTween.Sequence();
         seq.AppendInterval(1f);
-        seq.Append(DOTween.ToAlpha(() => background.color, x => background.color = x, .25f, .25f));
+        seq.Append(DOTween.ToAlpha(() => background.color, x => background.color = x, a, .25f));
+        seq.AppendInterval(0.5f);
         seq.Append(header.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
-        seq.AppendInterval(0.3f);
-        seq.Join(specialist.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack)).AppendCallback(() =>
+        seq.AppendInterval(0.25f);
+        seq.Append(specialist.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack)).AppendCallback(() =>
         {
             specialistSprite.sprite = campaign.RewardCards[0].card.NewSpecialistIcon;
             specialist.SetBool("Show", true);
