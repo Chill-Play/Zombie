@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Helicopter : MonoBehaviour
+public class Helicopter : SingletonMono<Helicopter>
 {
     public event System.Action OnArrived;
 

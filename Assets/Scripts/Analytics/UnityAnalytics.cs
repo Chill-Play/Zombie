@@ -8,24 +8,26 @@ public class UnityAnalytics : SingletonMono<UnityAnalytics>
 {
     static float screenOpenTime = 0f;
     static string currentScreenId;
-
     float raidStart;
-
-    LevelService levelService;
 
     private void Awake()
     {
         raidStart = Time.realtimeSinceStartup;
     }
 
+    public void Setup(LevelService levelService)
+    {
+        levelService.OnLevelFinished += OnLevelCompleted;
+        levelService.OnLevelFailed += OnLevelFailed;
+        levelService.OnLevelStarted += OnLevelStarted;
+    }
+
     void Start()
     {
-        if (levelService != null)
-        {
-            //levelService.OnLevelFinished += LevelController_OnLevelCompleted;
-           // levelService.OnLevelFailed += LevelController_OnLevelFailed;
-           // levelService.OnLevelStarted += LevelController_OnLevelStarted;
-        }
+        var zombiesLevelController = ZombiesLevelController.Instance;
+        Setup(zombiesLevelController.RaidLevelService);
+        Setup(zombiesLevelController.CampaignLevelService);
+
         if (MapController.Instance != null)
         {
             var buildables = FindObjectsOfType<Buildable>();
@@ -34,20 +36,50 @@ public class UnityAnalytics : SingletonMono<UnityAnalytics>
                 buildable.OnBuilt += (x) => { if (!x) { OnBuildableBuilt(buildable); } };
             }
             var hq = FindObjectOfType<HQBuilding>();
-          //  hq.OnLevelUp += Hq_OnLevelUp;
+            hq.OnLevelUp += OnHQLevelUp;
             var statsManager = StatsManager.Instance;
             statsManager.OnStatLevelUp += StatsManager_OnStatLevelUp;
+            var cardController = FindObjectOfType<CardController>();
+            cardController.OnCardUpgraded += CardController_OnCardUpgraded;
+            var upgradables = FindObjectsOfType<Upgradable>();
+            foreach (var upgradable in upgradables)
+            {
+                upgradable.OnLevelUp += () => Upgradable_OnLevelUp(upgradable);
+            }             
         }
+        var raiseTutorialsStage = FindObjectsOfType<RaiseTutorialStageEvent>();
+        foreach (var raiseTutorialStage in raiseTutorialsStage)
+        {
+            raiseTutorialStage.OnRaiseTutorialStage += RaiseTutorialStage_OnRaiseTutorialStage;
+        }
+        var advertisementManager = AdvertisementManager.Instance;
+        advertisementManager.OnReportAnalytics += AdvertisementManager_OnReportAnalytics;
     }
 
-    private void StatsManager_OnStatLevelUp((StatsType, int) obj)
+    private void RaiseTutorialStage_OnRaiseTutorialStage(string text)
     {
         var args = new Dictionary<string, object>();
-        args.Add("stat", obj.Item1.saveId);
-        args.Add("level", obj.Item2);
-        SendEvent("stat_level_up", args);
+        args.Add("step_name", text);     
+        SendEvent("raise_tutorial_stage", args);
     }
 
+    private void Upgradable_OnLevelUp(Upgradable upgradable)
+    {
+        var args = new Dictionary<string, object>();
+        args.Add("upgradable", upgradable.gameObject.name);
+        args.Add("level", upgradable.Level + 1);
+        SendEvent("building_upgrade", args);
+    }
+
+    private void AdvertisementManager_OnReportAnalytics(AdvertisementManager.AnalyticsReport report)
+    {
+        var args = new Dictionary<string, object>();
+        args.Add("ad_type", report.adType);
+        args.Add("placement", report.placement);
+        args.Add("result", report.result);
+        args.Add("connection", report.connection);
+        SendEvent(report.eventType, args);
+    }
 
     void OnBuildableBuilt(Buildable buildable)
     {
@@ -57,25 +89,25 @@ public class UnityAnalytics : SingletonMono<UnityAnalytics>
     }
 
 
-    public void OnLevelCompleted(LevelInfo info, int tries)
+    public void OnLevelCompleted(LevelInfo info)
     {
         var args = new Dictionary<string, object>();
-        RaidAddArgs(info, tries, args);
+        RaidAddArgs(info,args);
         SendEvent("raid_completed", args);
     }
 
-    private void RaidAddArgs(LevelInfo info, int tries, Dictionary<string, object> args)
+    private void RaidAddArgs(LevelInfo info, Dictionary<string, object> args)
     {
         args.Add("level", info.levelNumber);
-        args.Add("time", (int)(Time.realtimeSinceStartup - raidStart));
-        args.Add("tries", tries);
+        args.Add("game_mode", info.gameMode);
+        args.Add("time", (int)(Time.realtimeSinceStartup - raidStart));    
         args.Add("connection", Application.internetReachability != NetworkReachability.NotReachable ? 1 : 0);
     }
 
-    public void OnLevelFailed(LevelInfo info, int tries)
+    public void OnLevelFailed(LevelInfo info)
     {
         var args = new Dictionary<string, object>();
-        RaidAddArgs(info, tries, args);
+        RaidAddArgs(info, args);
         SendEvent("raid_completed", args);
     }
 
@@ -83,24 +115,33 @@ public class UnityAnalytics : SingletonMono<UnityAnalytics>
     public void OnLevelStarted(LevelInfo info)
     {
         var args = new Dictionary<string, object>();
-        RaidAddArgs(info, 0, args);
+        RaidAddArgs(info, args);
         SendEvent("raid_started", args);
     }
 
 
-    public void OnHQLevelUp(int lvl)
+    public void OnHQLevelUp(int level)
     {
         var args = new Dictionary<string, object>();
-        args.Add("level", lvl + 1);
+        args.Add("level", level + 1);
         SendEvent("hq_level_up", args);
     }
 
-
-    public void OnStatLevelUp(string stat, int lvl)
+    private void CardController_OnCardUpgraded(Card card, StatsType statType, int level)
     {
         var args = new Dictionary<string, object>();
-        args.Add("level", lvl + 1);
-        args.Add("stat", stat);
+        args.Add("character", card.CardName);
+        args.Add("stat", statType.name);
+        args.Add("level", level + 1);
+        SendEvent("stat_level_up", args);
+    }
+
+    private void StatsManager_OnStatLevelUp((StatsType, int) obj)
+    {
+        var args = new Dictionary<string, object>();
+        args.Add("character", "main_survivor");
+        args.Add("stat", obj.Item1.saveId);
+        args.Add("level", obj.Item2);
         SendEvent("stat_level_up", args);
     }
 
@@ -119,21 +160,27 @@ public class UnityAnalytics : SingletonMono<UnityAnalytics>
         currentScreenId = id;
     }
 
-
-    public void AdsEvent(string eventType, string adType, string placement, string result, int connection)
-    {
-        var args = new Dictionary<string, object>();
-        args.Add("ad_type", adType);
-        args.Add("placement", placement);
-        args.Add("result", result);
-        args.Add("connection", connection);
-        SendEvent(eventType, args);
-    }
-
-
     void SendEvent(string e, Dictionary<string, object> args)
     {
-        Debug.Log("Send Unity Event : " + e + " : " + string.Join(Environment.NewLine, args));
+        Debug.Log("Send Unity Event : " + e + " : " + Environment.NewLine + string.Join(Environment.NewLine, args));
         AnalyticsEvent.Custom(e, args);
     }
+
+    public void Unsubscribe(LevelService levelService)
+    {
+        levelService.OnLevelFinished -= OnLevelCompleted;
+        levelService.OnLevelFailed -= OnLevelFailed;
+        levelService.OnLevelStarted -= OnLevelStarted;
+    }
+
+    private void OnDisable()
+    {
+        var zombiesLevelController = ZombiesLevelController.Instance;
+        if (zombiesLevelController != null)
+        {
+            Unsubscribe(zombiesLevelController.RaidLevelService);
+            Unsubscribe(zombiesLevelController.CampaignLevelService);
+        }
+    }
 }
+

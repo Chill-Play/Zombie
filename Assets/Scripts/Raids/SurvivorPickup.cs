@@ -13,7 +13,7 @@ public class SurvivorPickup : MonoBehaviour
 
     void Awake()
     {
-        squad = FindObjectOfType<Squad>();
+        squad = Squad.Instance;
     }
 
 

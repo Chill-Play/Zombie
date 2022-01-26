@@ -14,7 +14,7 @@ public class UnitRepairing : UnitInstrument, IComboCounter
     protected override void Awake()
     {
         base.Awake();      
-        icon = FindObjectOfType<ConstructionManager>().ConstructionIcon;
+        icon = ConstructionManager.Instance.ConstructionIcon;
     }
 
     protected override void Use(Collider target)

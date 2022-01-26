@@ -31,9 +31,9 @@ public class RaidFinishScreen : UIScreen
 
     private void Awake()
     {
-        campaign = FindObjectOfType<Campaign>();
+        campaign = Campaign.Instance;
         isCampaign = campaign != null;
-        squad = FindObjectOfType<Squad>();
+        squad = Squad.Instance;
     }
 
     void OnEnable()
@@ -44,7 +44,7 @@ public class RaidFinishScreen : UIScreen
 
     public void Show(ResourcesInfo resources)
     {
-        bool doubleOpportunity = false;// ZombiesLevelController.Instance.LevelsPlayed >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && ZombiesLevelController.Instance.LevelsPlayed % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
+        bool doubleOpportunity =  ZombiesLevelController.Instance.RaidIsComplited >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && ZombiesLevelController.Instance.RaidIsComplited % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
 
         SaveSquad();
 
@@ -71,17 +71,14 @@ public class RaidFinishScreen : UIScreen
         doubleButton.gameObject.SetActive(doubleOpportunity);
         alternativeContinueButton.gameObject.SetActive(doubleOpportunity);
 
-        /*if (doubleOpportunity)
+        if (doubleOpportunity)
         {
             sequence.Append(doubleButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
             sequence.Append(alternativeContinueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         }
-        else
-        {          
-           
-        }*/
+  
         sequence.Append(continueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
-        tutorialMode = FindObjectOfType<Tutorial>() != null;
+        tutorialMode = Tutorial.Instance != null;
     }
 
 
@@ -99,14 +96,14 @@ public class RaidFinishScreen : UIScreen
 
     public void DoubleClicked()
     {
-        /*AdvertisementManager.Instance.ShowRewardedVideo((result) =>
+        AdvertisementManager.Instance.ShowRewardedVideo((result) =>
         {
             if (result)
             {
                 CollectResources(2);
                 ToBase();
             }
-        }, "raid_end_double_reward"); */
+        }, "raid_end_double_reward"); 
     }
 
     public void CollectResources(int multiplier = 1) 
@@ -138,33 +135,18 @@ public class RaidFinishScreen : UIScreen
 
     public void NoThanksClicked()
     {
-        CollectResources();
-        if (campaign)
-        {
-            CollectCards();
-        }
-        ToBase();
-        /*
-        if (ZombiesLevelController.Instance.LevelsPlayed > 1)
+        if (ZombiesLevelController.Instance.RaidIsComplited > 1)
         {
             AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
         }
-        ToBase();*/
+        CollectResources();
+        ToBase();
     }
 
     void SaveSquad()
     {
-        int count = Mathf.Clamp(squad.Units.Count - FindObjectOfType<CardController>().ActiveCards.Count - 1, 0, squad.Units.Count);
+        int count = Mathf.Clamp(squad.Units.Count - CardController.Instance.ActiveCards.Count - 1, 0, squad.Units.Count);
         survivorsLabel.text = "+" + count.ToString();
         PlayerPrefs.SetInt("M_Survivors_Count", count);
-    }
-
-    void CollectCards()
-    {
-        CardController cardController = FindObjectOfType<CardController>();
-        for (int i = 0; i < campaign.RewardCards.Count; i++)
-        {
-            cardController.TryToActivateCard(campaign.RewardCards[i]);
-        }
     }
 }

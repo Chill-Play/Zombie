@@ -10,7 +10,7 @@ namespace Raids.Tutorial
         private void Awake()
         {
             construction.OnBuild += ConstructionBuilded;
-            noiseController = FindObjectOfType<NoiseController>();
+            noiseController = NoiseController.Instance;
         }
 
         void ConstructionBuilded()

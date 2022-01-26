@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+    
 public class ZombieDetectConstructions : MonoBehaviour
 {
     [SerializeField] float detectionRadius = 10f;

@@ -24,7 +24,7 @@ public class UINumber
 }
 
 
-public class UINumbers : MonoBehaviour
+public class UINumbers : SingletonMono<UINumbers>
 {
     [SerializeField] TMP_Text textPrefab;
     [SerializeField] Image imagePrefab;

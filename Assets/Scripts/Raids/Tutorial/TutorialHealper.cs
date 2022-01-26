@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialHealper : MonoBehaviour
+public class TutorialHealper : SingletonMono<TutorialHealper>
 {
     public event System.Action OnEscapeTrigger;
 
@@ -19,7 +19,7 @@ public class TutorialHealper : MonoBehaviour
 
     private void EscapeTrigger_OnTrigger()
     {
-        FindObjectOfType<SpawnPoint>().IsReturningToBase = true;
+        SpawnPoint.Instance.IsReturningToBase = true;
         OnEscapeTrigger?.Invoke();
     }
 }

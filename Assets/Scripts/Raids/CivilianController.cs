@@ -10,7 +10,7 @@ public class CivilianController : MonoBehaviour
 
     private void Awake()
     {
-        raid = FindObjectOfType<Raid>();
+        raid = Raid.Instance;
         raid.OnHordeBegin += CivilianController_OnHordeBegin;
         raid.OnHordeDefeated += Raid_OnHordeDefeated;
         civilians = FindObjectsOfType<Civilian>();

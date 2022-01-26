@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class HordeController : MonoBehaviour
+public class HordeController : SingletonMono<HordeController>
 {
     [System.Serializable]
     public struct HordeMovementSettings

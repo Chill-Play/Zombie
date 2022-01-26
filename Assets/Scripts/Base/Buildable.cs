@@ -26,7 +26,7 @@ public class Buildable : BaseObject, IBuildable
 
     public void Awake()
     {
-        zombiesLevelController = FindObjectOfType<ZombiesLevelController>();
+        zombiesLevelController = ZombiesLevelController.Instance;
         if (resourcesSpent.Slots.Count < cost.Slots.Count)
         {
             resourcesSpent.ApplyTypes(cost);
@@ -71,7 +71,7 @@ public class Buildable : BaseObject, IBuildable
         {
             if (player == null)
             {
-                player = FindObjectOfType<PlayerBuilding>();
+                player = PlayerBuilding.Instance;
             }
             Resource instance = Instantiate(type.defaultPrefab, player.transform.position, Quaternion.LookRotation(UnityEngine.Random.insideUnitSphere));
             instance.GetComponent<Rigidbody>().isKinematic = true;
@@ -84,10 +84,10 @@ public class Buildable : BaseObject, IBuildable
     {      
         built = true;
         enabled = false;
-        /*if(!afterDeserialization && zombiesLevelController.RaidIsPlayed > 1)
+        if(!afterDeserialization && zombiesLevelController.RaidIsComplited > 1)
         {
             AdvertisementManager.Instance.TryShowInterstitial("base_finished_building");
-        }*/
+        }
         OnBuilt?.Invoke(afterDeserialization);
     }
 

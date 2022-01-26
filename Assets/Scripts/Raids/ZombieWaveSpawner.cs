@@ -32,7 +32,7 @@ public class Horde
     }
 }
 
-public class ZombieWaveSpawner : MonoBehaviour
+public class ZombieWaveSpawner : SingletonMono<ZombieWaveSpawner>
 {
     public event System.Action<int> OnEnemySpawned;
     public event System.Action<int> OnEnemyDead;
@@ -46,14 +46,14 @@ public class ZombieWaveSpawner : MonoBehaviour
     private void Awake()
     {
         zombiesSpawnPoints = FindObjectsOfType<ZombiesSpawnPoint>();
-        hordeController = FindObjectOfType<HordeController>();
+        hordeController = HordeController.Instance;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            FindObjectOfType<NoiseController>().AddNoiseLevel(99999f);
+            NoiseController.Instance.AddNoiseLevel(99999f);
         }
     }
 
@@ -88,7 +88,7 @@ public class ZombieWaveSpawner : MonoBehaviour
         while (spawned < hordeSize)
         {
             var spawnCount = Mathf.Min(spawnGroup, hordeSize - spawned);
-            var squad = FindObjectOfType<Squad>();
+            var squad = Squad.Instance;
             spawnPoints.AddRange(zombiesSpawnPoints);
             spawnPoints.Shuffle();
             var points = spawnPoints;

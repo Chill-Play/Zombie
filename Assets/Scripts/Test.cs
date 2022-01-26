@@ -18,11 +18,11 @@ public class Test : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            var screen = (UpgradesScreen)FindObjectOfType<UIController>().ShowScreen(screenId);
+            var screen = (UpgradesScreen)UIController.Instance.ShowScreen(screenId);
             var statsList = new List<(StatsType, StatInfo)>();
             foreach (var type in stats)
             {
-                var info = FindObjectOfType<StatsManager>().GetStatInfo(type);
+                var info = StatsManager.Instance.GetStatInfo(type);
                 statsList.Add((type, info));
             }
            // screen.Show("TEST", statsList, FindObjectOfType<ResourcesController>().ResourcesCount, () => FindObjectOfType<UIController>().ShowScreen(baseScreenId));

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReviveController : MonoBehaviour
+public class ReviveController : SingletonMono<ReviveController>
 {
     public event System.Action OnRevive;
 

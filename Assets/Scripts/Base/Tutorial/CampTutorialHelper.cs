@@ -15,6 +15,6 @@ public class CampTutorialHelper : MonoBehaviour
     private void EnableRaids_OnTrigger()
     {
         raidZone.gameObject.SetActive(true);
-        FindObjectOfType<CampGameplayController>().SetPlayerReturnedToRaidZone(true);
+        CampGameplayController.Instance.SetPlayerReturnedToRaidZone(true);
     }
 }

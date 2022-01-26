@@ -19,7 +19,7 @@ public class StatsManager : SingletonMono<StatsManager>
 
     private void Awake()
     {
-        zombiesLevelController = FindObjectOfType<ZombiesLevelController>();
+        zombiesLevelController = ZombiesLevelController.Instance;
         for (int i = 0; i < stats.Count; i++)
         {
             var info = new StatInfo();
@@ -33,10 +33,10 @@ public class StatsManager : SingletonMono<StatsManager>
     {
         if (statsInfo.ContainsKey(statsType))
         {
-            /*if (zombiesLevelController.RaidIsPlayed > 1 && !free)
+            if (zombiesLevelController.RaidIsComplited > 1)
             {
                 AdvertisementManager.Instance.TryShowInterstitial("shop_bought_stat");
-            }*/
+            }
             var info = statsInfo[statsType];
             info.level += value;
             var key = GetStatSaveId(statsType);

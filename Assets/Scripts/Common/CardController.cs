@@ -73,9 +73,9 @@ public class CardsStatsInfo
     }
 }
 
-public class CardController : MonoBehaviour
+public class CardController : SingletonMono<CardController>
 {
-    public event System.Action<Card, StatsType> OnCardUpgraded;
+    public event System.Action<Card, StatsType, int> OnCardUpgraded;
 
     [SerializeField, CardSerialize] protected CardsInfo deckCards;
     [SerializeField, CardSerialize] protected CardsInfo activeCards = new CardsInfo();
@@ -92,13 +92,17 @@ public class CardController : MonoBehaviour
 
 
     ResourcesController resourcesController;
+    ZombiesLevelController zombiesLevelController;
 
     private void Awake()
     {
         Load();
         if (cardsStatsInfo == null)        
             cardsStatsInfo = new CardsStatsInfo(cardVariants);        
-        resourcesController = FindObjectOfType<ResourcesController>();      
+    
+        zombiesLevelController = ZombiesLevelController.Instance;
+        resourcesController = ResourcesController.Instance;      
+
     }
 
     public bool TryToActivateCard(CardSlot cardSlot)
@@ -186,11 +190,15 @@ public class CardController : MonoBehaviour
         {
             if (!free)
             {
+                if (zombiesLevelController.RaidIsComplited > 1)
+                {
+                    AdvertisementManager.Instance.TryShowInterstitial("shop_bought_stat");
+                }
                 resourcesController.ResourcesCount.Subtract(statType.GetLevelCost(cardStats.statsInfo[statType]));
                 resourcesController.UpdateResources();
             }
             cardStats.statsInfo[statType] += value;
-            OnCardUpgraded?.Invoke(card, statType);
+            OnCardUpgraded?.Invoke(card, statType, cardStats.statsInfo[statType]);
             Save();           
         }
     }

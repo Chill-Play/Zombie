@@ -20,7 +20,7 @@ public class UnitInstrument : UnitActivity
     protected override void Awake()
     {
         base.Awake();
-        noiseController = FindObjectOfType<NoiseController>();
+        noiseController = NoiseController.Instance;
         unitMovement = GetComponent<UnitMovement>();
         unitInventory = GetComponent<UnitInventory>();
     }

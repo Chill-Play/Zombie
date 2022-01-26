@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Raid : MonoBehaviour
+public class Raid : SingletonMono<Raid>
 {
     public event System.Action OnHordeDefeated;
     public event System.Action OnHordeBegin;
@@ -34,15 +34,15 @@ public class Raid : MonoBehaviour
         Level.Instance.OnLevelStarted += Instance_OnLevelStarted;
         Level.Instance.OnLevelEnded += Instance_OnLevelEnded;
         Level.Instance.OnLevelFailed += Instance_OnLevelEnded;
-        reviveController = FindObjectOfType<ReviveController>();
+        reviveController = ReviveController.Instance;
         reviveController.OnRevive += ReviveController_OnRevive;
-        starsChest = FindObjectOfType<StarsChest>(true);
-        campaign = FindObjectOfType<Campaign>() != null;
+        starsChest = StarsChest.Instance;
+        campaign = Campaign.Instance != null;
     }
 
     private void Start()
     {
-        helicopter = FindObjectOfType<Helicopter>();
+        helicopter = Helicopter.Instance;
         if (helicopter != null)
         {
             // helicopter.FlyAway();
@@ -50,8 +50,8 @@ public class Raid : MonoBehaviour
 
         if (!campaign)
         {
-            Squad squad = FindObjectOfType<Squad>();
-            CardsInfo activeCards = FindObjectOfType<CardController>().ActiveCards;
+            Squad squad = Squad.Instance;
+            CardsInfo activeCards = CardController.Instance.ActiveCards;
             for (int i = 0; i < activeCards.cardSlots.Count; i++)
             {
 
@@ -75,10 +75,10 @@ public class Raid : MonoBehaviour
         {
             ZombiesLevelController.Instance.RaidStarted();
         }
-        noiseController = FindObjectOfType<NoiseController>();
+        noiseController = NoiseController.Instance;
         noiseController.OnNoiseLevelExceeded += NoiseController_OnNoiseLevelExceeded;
         
-        zombieWaveSpawner = FindObjectOfType<ZombieWaveSpawner>();
+        zombieWaveSpawner = ZombieWaveSpawner.Instance;
     }
     private void Instance_OnLevelEnded()
     {
@@ -121,7 +121,7 @@ public class Raid : MonoBehaviour
         }
         else
         {
-            SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
+            SpawnPoint spawnPoint = SpawnPoint.Instance;
             spawnPoint.IsReturningToBase = true;
             spawnWavesCoroutine = StartCoroutine(SpawningFinalWaves());
         }
@@ -131,9 +131,9 @@ public class Raid : MonoBehaviour
 
     private void Helicopter_OnArrived()
     {
-        Squad squad = FindObjectOfType<Squad>();        
+        Squad squad = Squad.Instance;        
         starsChest.PickupAll(squad.Units[0].transform);
-        SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
+        SpawnPoint spawnPoint = SpawnPoint.Instance;
         spawnPoint.IsReturningToBase = true;
         spawnWavesCoroutine = StartCoroutine(SpawningFinalWaves());
     }

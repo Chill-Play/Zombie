@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class RaiseTutorialStageEvent : MonoBehaviour
 {
+    public event System.Action<string> OnRaiseTutorialStage;
+
     [SerializeField] string stage;
-    // Start is called before the first frame update
+   
     void Start()
     {
         GetComponent<ConditionTrigger>().OnTrigger += RaiseTutorialStageEvent_OnTrigger;   
@@ -13,12 +15,7 @@ public class RaiseTutorialStageEvent : MonoBehaviour
 
     private void RaiseTutorialStageEvent_OnTrigger()
     {
-        //AnalyticsManager.Instance.SendTutorialEvent(stage);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        OnRaiseTutorialStage?.Invoke(stage);
+        AnalyticsService.Instance.SendTutorialEvent(stage);
     }
 }

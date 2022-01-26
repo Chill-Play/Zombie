@@ -30,20 +30,20 @@ public class InGameUI : UIScreen
     // Start is called before the first frame update
     void Start()
     {
-        noiseController = FindObjectOfType<NoiseController>();
+        noiseController = NoiseController.Instance;
         if (noiseController != null)
         {
             noiseController.OnNoiseLevelChanged += Level_OnNoiseLevelChanged;
             noiseController.OnNoiseLevelExceeded += Level_OnNoiseLevelExceeded;
         }
 
-        raid = FindObjectOfType<Raid>();
+        raid = Raid.Instance;
         if (raid != null)
         {
             raid.OnHordeDefeated += Level_OnHordeDefeated;
         }
 
-        ZombieWaveSpawner zombieWaveSpawner = FindObjectOfType<ZombieWaveSpawner>();
+        ZombieWaveSpawner zombieWaveSpawner = ZombieWaveSpawner.Instance;
         if (zombieWaveSpawner != null)
         {
             if (zombieCountUI != null)
@@ -63,11 +63,11 @@ public class InGameUI : UIScreen
             noiseBar.gameObject.SetActive(false);
         }
 
-        FindObjectOfType<SquadBackpack>().OnPickupResource += Backpack_OnPickupResource;
+        SquadBackpack.Instance.OnPickupResource += Backpack_OnPickupResource;
 
         if (tutorialMode)
         {
-            FindObjectOfType<TutorialHealper>().OnEscapeTrigger += Tutorial_OnEscapeTrigger;
+            TutorialHealper.Instance.OnEscapeTrigger += Tutorial_OnEscapeTrigger;
         }
     }
 

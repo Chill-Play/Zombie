@@ -11,11 +11,11 @@ public class SpecialistUpgradeCounter : UpgradeCounter
     protected override void Awake()
     {
         base.Awake();
-        cardController = FindObjectOfType<CardController>();
+        cardController = CardController.Instance;
         cardController.OnCardUpgraded += CardController_OnCardUpgraded;
     }
 
-    private void CardController_OnCardUpgraded(Card card, StatsType statType)
+    private void CardController_OnCardUpgraded(Card card, StatsType statType, int level)
     {
         if (this.statType == statType)
         {

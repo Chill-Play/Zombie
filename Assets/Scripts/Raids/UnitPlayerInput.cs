@@ -11,7 +11,7 @@ public class UnitPlayerInput : MonoBehaviour, IInputReceiver
 
     private void Awake()
     {
-        inputPanel = FindObjectOfType<InputPanel>();
+        inputPanel = InputPanel.Instance;
         inputPanel.OnDisableInput += InputPanel_OnDisableInput;
     }
 

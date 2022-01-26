@@ -7,11 +7,14 @@ using UnityEngine;
 public class LevelCollection : ScriptableObject, ILevelCollection
 {
     [SerializeField] string id;
+    [SerializeField] string gameMode;
     [SerializeField] List<LevelPack> packs;
 
     public int PacksCount => packs.Count;
 
     public string Id => id;
+
+    public string GameMode => gameMode;
 
     public ILevelPack GetPack(int i)
     {

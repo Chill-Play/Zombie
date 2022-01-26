@@ -18,7 +18,7 @@ public class TutorialUIHand : MonoBehaviour
     private void Awake()
     {
         scale = transform.localScale;
-        squad = FindObjectOfType<Squad>();
+        squad = Squad.Instance;
         disableTrigger.OnTrigger += DisableTrigger_OnTrigger;
         content.gameObject.SetActive(false);
     }

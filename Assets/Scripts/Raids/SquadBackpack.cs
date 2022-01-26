@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SquadBackpack : MonoBehaviour
+public class SquadBackpack : SingletonMono<SquadBackpack>
 {
     public event System.Action<ResourceType, int, int> OnPickupResource;
 
@@ -23,10 +23,10 @@ public class SquadBackpack : MonoBehaviour
     private void Start()
     {
         //MaxResources = maxResources + (FindObjectOfType<StatsManager>().GetStatInfo(resourcesStat).level * resourcesPerLevel);
-        PlayerBackpack backpack = FindObjectOfType<PlayerBackpack>();
+        PlayerBackpack backpack = PlayerBackpack.Instance;
         backpack.OnPickupResource += Backpack_OnPickupResource;
 
-        Squad squad = FindObjectOfType<Squad>();
+        Squad squad = Squad.Instance;
         squad.OnUnitAdd += Squad_OnUnitAdd;    
     }
 

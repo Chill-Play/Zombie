@@ -18,7 +18,7 @@ public class PickupableResource : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody>();
-        uiNumbers = FindObjectOfType<UINumbers>();
+        uiNumbers = UINumbers.Instance;
     }
 
     private void OnTriggerEnter(Collider other)

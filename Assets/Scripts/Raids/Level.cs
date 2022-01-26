@@ -24,7 +24,7 @@ public class Level : SingletonMono<Level>
     private void Awake()
     {
         survivorPickups = FindObjectsOfType<SurvivorPickup>();        
-        reviveController = FindObjectOfType<ReviveController>();
+        reviveController = ReviveController.Instance;
         reviveController.OnRevive += ReviveController_OnRevive;
     }
 
@@ -36,7 +36,7 @@ public class Level : SingletonMono<Level>
 
     void OnEnable()
     {
-        gameplayController = FindObjectOfType<GameplayController>();
+        gameplayController = GameplayController.Instance;
         gameplayController.OnReturnedToBase += SpawnPoint_OnReturnedToBase;
         gameplayController.OnPlayerUnitDead += GameplayController_OnPlayerUnitDead;
     }

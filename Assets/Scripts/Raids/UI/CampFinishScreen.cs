@@ -43,7 +43,7 @@ public class CampFinishScreen : UIScreen
     {
         campaign = Campaign.Instance;
         isCampaign = campaign != null;
-        squad = FindObjectOfType<Squad>();
+        squad = Squad.Instance;
     }
 
     void OnEnable()
@@ -54,7 +54,7 @@ public class CampFinishScreen : UIScreen
 
     public void Show(ResourcesInfo resources)
     {
-        bool doubleOpportunity = false;// ZombiesLevelController.Instance.LevelsPlayed >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && ZombiesLevelController.Instance.LevelsPlayed % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
+        bool doubleOpportunity = true;//ZombiesLevelController.Instance.LevelsPlayed >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && ZombiesLevelController.Instance.LevelsPlayed % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
 
         SaveSquad();
 
@@ -86,28 +86,34 @@ public class CampFinishScreen : UIScreen
         {            
             bar.UpdateValue(resources.Slots[0].count);
         }));
-        // sequence.AppendInterval(resources.Slots.Count * 0.5f + 0.5f);
-        // sequence.Append(survivorsPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+
+     
 
         continueButton.gameObject.SetActive(!doubleOpportunity);
         doubleButton.gameObject.SetActive(doubleOpportunity);
         alternativeContinueButton.gameObject.SetActive(doubleOpportunity);
 
+        if (doubleOpportunity)
+        {
+            sequence.Append(doubleButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+            sequence.Append(alternativeContinueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
+        }
+
         sequence.Append(continueButton.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
-        tutorialMode = FindObjectOfType<Tutorial>() != null;
+        tutorialMode = Tutorial.Instance != null;
     }
 
 
     public void DoubleClicked()
     {
-        /*AdvertisementManager.Instance.ShowRewardedVideo((result) =>
+        AdvertisementManager.Instance.ShowRewardedVideo((result) =>
         {
             if (result)
             {
                 CollectResources(2);
                 ToBase();
             }
-        }, "raid_end_double_reward"); */
+        }, "camp_defense_end_double_reward"); 
     }
 
     public void CollectResources(int multiplier = 1) 
@@ -139,19 +145,14 @@ public class CampFinishScreen : UIScreen
 
     public void NoThanksClicked()
     {
-        CollectResources();
+        AdvertisementManager.Instance.TryShowInterstitial("camp_defense_end_no_thanks");
+        CollectResources(); 
         ToBase();
-        /*
-        if (ZombiesLevelController.Instance.LevelsPlayed > 1)
-        {
-            AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
-        }
-        ToBase();*/
     }
 
     void SaveSquad()
     {
-        int count = Mathf.Clamp(squad.Units.Count - FindObjectOfType<CardController>().ActiveCards.Count - 1, 0, squad.Units.Count);
+        int count = Mathf.Clamp(squad.Units.Count - CardController.Instance.ActiveCards.Count - 1, 0, squad.Units.Count);
         survivorsLabel.text = "+" + count.ToString();
         PlayerPrefs.SetInt("M_Survivors_Count", count);
     }

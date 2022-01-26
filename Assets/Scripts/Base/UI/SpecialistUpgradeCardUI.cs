@@ -26,7 +26,7 @@ public class SpecialistUpgradeCardUI : MonoBehaviour
 
     private void Awake()
     {
-        cardController = FindObjectOfType<CardController>();
+        cardController = CardController.Instance;
     }
 
     public void AnimUpgrade()

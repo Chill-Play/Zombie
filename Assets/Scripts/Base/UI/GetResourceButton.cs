@@ -23,13 +23,17 @@ public class GetResourceButton : ShopButton
 
     public void ShowADS()
     {
-        //maybe add ads callback
-        //if ads
-        onAdsShowed?.Invoke();
-        transform.DOScale(Vector3.zero,.1f).SetEase(Ease.InElastic, 1.1f, .3f).OnComplete(() =>
+        AdvertisementManager.Instance.ShowRewardedVideo((result) =>
         {
-            adsShowed = true;
-            gameObject.SetActive(false);
-        });
+            if (result)
+            {
+                onAdsShowed?.Invoke();
+                transform.DOScale(Vector3.zero, .1f).SetEase(Ease.InElastic, 1.1f, .3f).OnComplete(() =>
+                {
+                    adsShowed = true;
+                    gameObject.SetActive(false);
+                });
+            }
+        }, "shop_free_resources");   
     }
 }

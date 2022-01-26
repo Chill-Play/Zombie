@@ -35,7 +35,7 @@ public class PlayerResources : UnitInteracting
         {
             CanMoveToResources = false;
         }
-        squadBackpack = FindObjectOfType<SquadBackpack>();
+        squadBackpack = SquadBackpack.Instance;
     }
 
 
