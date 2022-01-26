@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Campaign : MonoBehaviour
+public class Campaign : SingletonMono<Campaign>
 {
     [SerializeField] List<Unit> units = new List<Unit>();
     [SerializeField] List<CardSlot> rewardCards = new List<CardSlot>();

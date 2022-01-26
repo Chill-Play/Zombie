@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using GooglePlayServices;
 
 public class CampFinishScreen : UIScreen
 {
@@ -40,7 +41,7 @@ public class CampFinishScreen : UIScreen
 
     private void Awake()
     {
-        campaign = FindObjectOfType<Campaign>();
+        campaign = Campaign.Instance;
         isCampaign = campaign != null;
         squad = FindObjectOfType<Squad>();
     }
@@ -139,10 +140,6 @@ public class CampFinishScreen : UIScreen
     public void NoThanksClicked()
     {
         CollectResources();
-        if (campaign)
-        {
-            CollectCards();
-        }
         ToBase();
         /*
         if (ZombiesLevelController.Instance.LevelsPlayed > 1)
@@ -157,14 +154,5 @@ public class CampFinishScreen : UIScreen
         int count = Mathf.Clamp(squad.Units.Count - FindObjectOfType<CardController>().ActiveCards.Count - 1, 0, squad.Units.Count);
         survivorsLabel.text = "+" + count.ToString();
         PlayerPrefs.SetInt("M_Survivors_Count", count);
-    }
-
-    void CollectCards()
-    {
-        CardController cardController = FindObjectOfType<CardController>();
-        for (int i = 0; i < campaign.RewardCards.Count; i++)
-        {
-            cardController.TryToActivateCard(campaign.RewardCards[i]);
-        }
     }
 }
