@@ -120,27 +120,20 @@ public class RaidFinishScreen : UIScreen
     void ToBase()
     {
         if (!tutorialMode)
-        {
-            if (isCampaign)
-            {
-                ZombiesLevelController.Instance.CampaignFinished();
-            }
-            else
-            {
-                ZombiesLevelController.Instance.RaidFinished();
-            }
+        {      
+            ZombiesLevelController.Instance.RaidFinished();
         }
         ZombiesLevelController.Instance.ToBase();
     }
 
     public void NoThanksClicked()
-    {
+    {       
+        CollectResources();
+        ToBase();
         if (ZombiesLevelController.Instance.RaidIsComplited > 1)
         {
             AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
         }
-        CollectResources();
-        ToBase();
     }
 
     void SaveSquad()
