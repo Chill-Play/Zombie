@@ -20,6 +20,7 @@ public class PowerPlant : ResourceFactory
     protected override void StartWork()
     {
         base.StartWork(); 
+        plant.enabled = true;
         plant.SetBool("Work", true);
         generator.SetBool("Work", true);
     }
