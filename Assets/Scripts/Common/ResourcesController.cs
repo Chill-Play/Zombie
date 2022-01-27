@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,6 +66,18 @@ public class ResourcesController : SingletonMono<ResourcesController>
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.T))
+        {
+            foreach(var slot in resourcesCount.Slots)
+            {
+                slot.count += 100;
+            }
+            UpdateResources();
+        }
+    }
+
+    public void OnGUI()
+    {
+        if(GUI.Button(new Rect(10,10,200,200), "Add Resources"))
         {
             foreach(var slot in resourcesCount.Slots)
             {
