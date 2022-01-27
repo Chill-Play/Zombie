@@ -24,11 +24,7 @@ public class CampFinishScreen : UIScreen
     [SerializeField] private Image specialistImage;
     [SerializeField] private TextMeshProUGUI specialistName;
     [SerializeField] private GameObject specialist;
-    
-    //replace this on Card
-    [SerializeField] private Sprite testSprite;
-    [SerializeField] private string testName;
-    //where to get a card
+
     private Card card;
 
     Squad squad;
@@ -57,16 +53,12 @@ public class CampFinishScreen : UIScreen
 
         SaveSquad();
 
-        //replace this on card.Icon and CardName
-        specialistImage.sprite = testSprite;
-        specialistName.text = testName;
-        
         ResourceBar bar = Instantiate(resourceBarPrefab, colletctedContent);
         bar.Setup(resources.Slots[0].type, 0);
         bar.transform.localScale = Vector3.zero;
         background.color = new Color(background.color.r, background.color.g, background.color.b, 0f);
         upperPanel.transform.localScale = Vector3.zero;
-        collectedPanel.transform.localScale = Vector3.zero; 
+        collectedPanel.transform.localScale = Vector3.zero;
         survivorsPanel.transform.localScale = Vector3.zero;
         doubleButton.transform.localScale = Vector3.zero;
         continueButton.transform.localScale = Vector3.zero;
@@ -74,7 +66,7 @@ public class CampFinishScreen : UIScreen
         specialist.transform.localScale = Vector3.zero;
 
         Sequence sequence = DOTween.Sequence();
-        
+
         sequence.Append((background as Graphic).DOFade(0.6f, 0.2f));
         sequence.AppendInterval(0.1f);
         sequence.Append(upperPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
@@ -82,11 +74,11 @@ public class CampFinishScreen : UIScreen
         sequence.Append(collectedPanel.DOScale(1f, 0.4f).SetEase(Ease.OutElastic, 1.1f, 0.3f));
         sequence.Append(specialist.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.1f, .3f));
         sequence.Append(bar.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutElastic, 1.1f, .3f).OnComplete(() =>
-        {            
+        {
             bar.UpdateValue(resources.Slots[0].count);
         }));
 
-     
+
 
         continueButton.gameObject.SetActive(!doubleOpportunity);
         doubleButton.gameObject.SetActive(doubleOpportunity);
@@ -109,13 +101,14 @@ public class CampFinishScreen : UIScreen
         {
             if (result)
             {
+                SaveCards();
                 CollectResources(2);
                 ToBase();
             }
-        }, "camp_defense_end_double_reward"); 
+        }, "camp_defense_end_double_reward");
     }
 
-    public void CollectResources(int multiplier = 1) 
+    public void CollectResources(int multiplier = 1)
     {
         var resources = squad.CollectResources();
         var resourceController = ResourcesController.Instance;
@@ -123,21 +116,19 @@ public class CampFinishScreen : UIScreen
         {
             resourceController.AddResources(resources);
         }
-        resourceController.UpdateResources();       
+        resourceController.UpdateResources();
     }
 
     void ToBase()
     {
-        if (!tutorialMode)
-        {
-            ZombiesLevelController.Instance.CampaignFinished();
-        }
+        ZombiesLevelController.Instance.CampaignFinished();
         ZombiesLevelController.Instance.ToBase();
     }
 
     public void NoThanksClicked()
-    {       
-        CollectResources(); 
+    {
+        CollectResources();
+        SaveCards();
         ToBase();
         AdvertisementManager.Instance.TryShowInterstitial("camp_defense_end_no_thanks");
     }
@@ -147,5 +138,10 @@ public class CampFinishScreen : UIScreen
         int count = Mathf.Clamp(squad.Units.Count - CardController.Instance.ActiveCards.Count - 1, 0, squad.Units.Count);
         survivorsLabel.text = "+" + count.ToString();
         PlayerPrefs.SetInt("M_Survivors_Count", count);
+    }
+
+    void SaveCards()
+    {
+        CardController.Instance.Save();
     }
 }

@@ -33,15 +33,15 @@ public class UISpecialistJoinScreen : MonoBehaviour
         seq.AppendInterval(1f);
         seq.Append(DOTween.ToAlpha(() => background.color, x => background.color = x, a, .25f));
         seq.AppendInterval(0.5f);
-        seq.Append(header.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack));
+        seq.Append(header.transform.DOScale(new Vector3(1, 1, 1), .3f).SetEase(Ease.OutBack));
         seq.AppendInterval(0.25f);
-        seq.Append(specialist.transform.DOScale(new Vector3(1,1,1), .3f).SetEase(Ease.OutBack)).AppendCallback(() =>
-        {
-            specialistSprite.sprite = campaign.RewardCards[0].card.NewSpecialistIcon;
-            specialist.SetBool("Show", true);
-        });
+        seq.Append(specialist.transform.DOScale(new Vector3(1, 1, 1), .3f).SetEase(Ease.OutBack)).AppendCallback(() =>
+          {
+              specialistSprite.sprite = campaign.RewardCards[0].card.NewSpecialistIcon;
+              specialist.SetBool("Show", true);
+          });
         seq.AppendInterval(3f);
-        seq.Append(button.transform.DOScale(new Vector3(1,1,1), .4f).SetEase(Ease.OutBack));
+        seq.Append(button.transform.DOScale(new Vector3(1, 1, 1), .4f).SetEase(Ease.OutBack));
     }
 
     public void Close()

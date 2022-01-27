@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
 {
@@ -30,6 +31,7 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
 
     public void NextRaid()
     {
+        DOTween.KillAll();
         LevelSequenceInfo info = raidLevelService.CurrentSequenceInfo;
         SceneReference scene = (raidLevelCollection.GetPack(info.pack) as LevelPack).GetLevel(info.levelInPack);      
         SceneManager.LoadScene(scene);
@@ -37,6 +39,7 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
 
     public void NextState()
     {
+        DOTween.KillAll();
         LevelSequenceInfo info = campaignLevelService.CurrentSequenceInfo;      
         SceneReference scene = (campaignLevelCollection.GetPack(info.pack) as LevelPack).GetLevel(info.levelInPack);
         SceneManager.LoadScene(scene);
@@ -55,6 +58,7 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
 
     public void ToBase()
     {
+        DOTween.KillAll();
         SceneManager.LoadScene(baseLevel);
     }
 

@@ -9,21 +9,13 @@ public class Campaign : SingletonMono<Campaign>
 
     public int SpecialistCount => units.Count;
     public List<CardSlot> RewardCards => rewardCards;
-    [SerializeField] private CardController cardController;
 
-    void Start()
+    private void Awake()
     {
-        Squad squad = Squad.Instance;
-        cardController.TryToActivateCard(rewardCards[0]);
-        CardsInfo activeCards = CardController.Instance.ActiveCards;
-
-        for (int i = 0; i < activeCards.cardSlots.Count; i++)
+        if (rewardCards.Count > 0)
         {
-
-            GameObject instance = Instantiate(activeCards.cardSlots[i].card.CampaignUnitPrefab, squad.Units[0].transform.position, squad.transform.rotation);
-            squad.AddUnit(instance.GetComponent<Unit>());
-        }        
+            CardController.Instance.TryToActivateCard(rewardCards[0]);
+        }
     }
 
-   
 }

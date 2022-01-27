@@ -48,21 +48,19 @@ public class Raid : SingletonMono<Raid>
             // helicopter.FlyAway();
         }
 
-        if (!campaign)
+        Squad squad = Squad.Instance;
+        CardsInfo activeCards = CardController.Instance.ActiveCards;
+        for (int i = 0; i < activeCards.cardSlots.Count; i++)
         {
-            Squad squad = Squad.Instance;
-            CardsInfo activeCards = CardController.Instance.ActiveCards;
-            for (int i = 0; i < activeCards.cardSlots.Count; i++)
-            {
 
-                GameObject instance = Instantiate(activeCards.cardSlots[i].card.RaidUnitPrefab, squad.Units[0].transform.position, squad.transform.rotation);
-                if (instance.TryGetComponent<SpecialistStatsUpgrader>(out var specialistStatsUpgrader))
-                {
-                    specialistStatsUpgrader.UpdateStats(activeCards.cardSlots[i].card);
-                }
-                squad.AddSpecialist(instance.GetComponent<Unit>());
+            GameObject instance = Instantiate(activeCards.cardSlots[i].card.RaidUnitPrefab, squad.Units[0].transform.position, squad.transform.rotation);
+            if (instance.TryGetComponent<SpecialistStatsUpgrader>(out var specialistStatsUpgrader))
+            {
+                specialistStatsUpgrader.UpdateStats(activeCards.cardSlots[i].card);
             }
+            squad.AddSpecialist(instance.GetComponent<Unit>());
         }
+
     }
 
     private void Instance_OnLevelStarted()
