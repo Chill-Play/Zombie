@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using GooglePlayServices;
 using UnityEngine;
 
 public class OnSpotUsedTrigger : ConditionTrigger
 {
+
     [SerializeField] List<ResourceSpot> resourceSpots = new List<ResourceSpot>();
     [SerializeField] private Collider[] colliders;
 

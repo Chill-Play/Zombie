@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
-using GooglePlayServices;
 
 public class CampFinishScreen : UIScreen
 {
@@ -131,23 +130,16 @@ public class CampFinishScreen : UIScreen
     {
         if (!tutorialMode)
         {
-            if (isCampaign)
-            {
-                ZombiesLevelController.Instance.CampaignFinished();
-            }
-            else
-            {
-                ZombiesLevelController.Instance.RaidFinished();
-            }
+            ZombiesLevelController.Instance.CampaignFinished();
         }
         ZombiesLevelController.Instance.ToBase();
     }
 
     public void NoThanksClicked()
-    {
-        AdvertisementManager.Instance.TryShowInterstitial("camp_defense_end_no_thanks");
+    {       
         CollectResources(); 
         ToBase();
+        AdvertisementManager.Instance.TryShowInterstitial("camp_defense_end_no_thanks");
     }
 
     void SaveSquad()
