@@ -114,7 +114,7 @@ public class CardController : SingletonMono<CardController>
             {
                 deckCards.cardSlots.Remove(cardSlot);
             }
-            Save();
+            //Save();
             return true;
         }
 
@@ -226,11 +226,11 @@ public class CardController : SingletonMono<CardController>
             }
         }
 
-        Debug.LogError("Card variant do not exist!");
+        Debug.LogError("Card variant " + id + " do not exist!");
         return null;
     }
 
-    void Save()
+    public void Save()
     {
         var json = CardSerialization.SerializeCards(this);
         PlayerPrefs.SetString("CardsInfo", json);
