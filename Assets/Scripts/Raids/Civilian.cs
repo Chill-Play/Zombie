@@ -48,7 +48,7 @@ public class Civilian : MonoBehaviour
     IEnumerator GoToPoint(Transform point, System.Action callback = null)
     {
         unitMovement.MoveTo(point.position);
-        while (Vector3.Distance(transform.position, point.position) > 0.2f)
+        while (Vector3.Distance(transform.position.SetY(0f), point.position.SetY(0f)) > 0.2f)
         {
             yield return new WaitForEndOfFrame();
         }

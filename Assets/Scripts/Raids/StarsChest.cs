@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StarsChest : SingletonMono<StarsChest>
+public class StarsChest : MonoBehaviour
 {
     public event System.Action OnStarsCollected;
 

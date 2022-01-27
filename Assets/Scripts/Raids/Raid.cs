@@ -36,7 +36,7 @@ public class Raid : SingletonMono<Raid>
         Level.Instance.OnLevelFailed += Instance_OnLevelEnded;
         reviveController = ReviveController.Instance;
         reviveController.OnRevive += ReviveController_OnRevive;
-        starsChest = StarsChest.Instance;
+        starsChest = FindObjectOfType<StarsChest>(true);
         campaign = Campaign.Instance != null;
     }
 

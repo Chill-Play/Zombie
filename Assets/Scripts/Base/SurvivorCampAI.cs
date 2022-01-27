@@ -11,6 +11,11 @@ public class SurvivorCampAI : MonoBehaviour
     [SerializeField] SubjectId movingStateId;
     [SerializeField] SubjectId interactingStateId;
 
+    private void Start()
+    {
+        unitInteracting.CanMoveToResources = false;
+    }
+
     private void Update()
     {
         if (unitMovement.InputActive)
