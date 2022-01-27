@@ -89,7 +89,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     {
         if (isPlayerReturnedToRaidZone && campaignAllowed)
         {
-            OnRaidReadiness?.Invoke(timeBeforeRaid);
+            OnCampaignReadiness?.Invoke(timeBeforeRaid);
             PlayerInstance.GetComponent<UnitMovement>().MoveTo(campaignZone.transform.position);
             StartCoroutine(CampaignCoroutine());
         }
