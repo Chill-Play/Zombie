@@ -33,7 +33,7 @@ public class StatsManager : SingletonMono<StatsManager>
     {
         if (statsInfo.ContainsKey(statsType))
         {
-            if (zombiesLevelController.RaidIsComplited > 1)
+            if (zombiesLevelController.RaidIsCompleted > 1)
             {
                 AdvertisementManager.Instance.TryShowInterstitial("shop_bought_stat");
             }

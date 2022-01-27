@@ -44,7 +44,7 @@ public class RaidFinishScreen : UIScreen
 
     public void Show(ResourcesInfo resources)
     {
-        bool doubleOpportunity =  ZombiesLevelController.Instance.RaidIsComplited >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && ZombiesLevelController.Instance.RaidIsComplited % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
+        bool doubleOpportunity =  ZombiesLevelController.Instance.RaidIsCompleted >= OPPORTUNITY_TO_DOUBLE_MINIMAL_LEVEL && ZombiesLevelController.Instance.RaidIsCompleted % OPPORTUNITY_TO_DOUBLE_PERIODICITY == 0 && AdvertisementManager.Instance.RewardedAvailable;
 
         SaveSquad();
 
@@ -130,7 +130,7 @@ public class RaidFinishScreen : UIScreen
     {       
         CollectResources();
         ToBase();
-        if (ZombiesLevelController.Instance.RaidIsComplited > 1)
+        if (ZombiesLevelController.Instance.RaidIsCompleted >= 1)
         {
             AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
         }

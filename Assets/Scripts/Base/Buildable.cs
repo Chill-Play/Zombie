@@ -84,7 +84,7 @@ public class Buildable : BaseObject, IBuildable
     {      
         built = true;
         enabled = false;
-        if(!afterDeserialization && zombiesLevelController.RaidIsComplited > 1)
+        if(!afterDeserialization && zombiesLevelController.RaidIsCompleted > 1)
         {
             AdvertisementManager.Instance.TryShowInterstitial("base_finished_building");
         }

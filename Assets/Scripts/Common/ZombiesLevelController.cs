@@ -13,7 +13,7 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
     LevelService raidLevelService;
     LevelService campaignLevelService;
 
-    public int RaidIsComplited { get; private set; }
+    public int RaidIsCompleted { get; private set; }
     public int StatesConplited { get; private set; }
     public LevelService RaidLevelService => raidLevelService;
     public LevelService CampaignLevelService => campaignLevelService;
@@ -25,7 +25,7 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
         AnalyticsService.Instance.Setup(raidLevelService);
         AnalyticsService.Instance.Setup(campaignLevelService);
         
-        RaidIsComplited = raidLevelService.CurrentSequenceInfo.id;
+        RaidIsCompleted = raidLevelService.CurrentSequenceInfo.id;
         StatesConplited = campaignLevelService.CurrentSequenceInfo.id;
     }
 
