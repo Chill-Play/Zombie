@@ -14,7 +14,7 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
     LevelService campaignLevelService;
 
     public int RaidIsCompleted { get; private set; }
-    public int StatesConplited { get; private set; }
+    public int StatesConpleted { get; private set; }
     public LevelService RaidLevelService => raidLevelService;
     public LevelService CampaignLevelService => campaignLevelService;
 
@@ -26,7 +26,7 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
         AnalyticsService.Instance.Setup(campaignLevelService);
         
         RaidIsCompleted = raidLevelService.CurrentSequenceInfo.id;
-        StatesConplited = campaignLevelService.CurrentSequenceInfo.id;
+        StatesConpleted = campaignLevelService.CurrentSequenceInfo.id;
     }
 
     public void NextRaid()
@@ -64,16 +64,18 @@ public class ZombiesLevelController : SingletonMono<ZombiesLevelController>
 
     public void RaidFinished()
     {
+        RaidIsCompleted++;
         raidLevelService.LevelFinished();
     }
 
     public void CampaignFinished()
     {
+        StatesConpleted++;
         campaignLevelService.LevelFinished();
     }
 
     public void RaidFailed()
-    {
+    {     
         raidLevelService.LevelFailed(0f);
     }
 

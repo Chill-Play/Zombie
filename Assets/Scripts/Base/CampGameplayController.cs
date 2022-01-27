@@ -63,7 +63,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
 
     void SetCampaignZoneStatus()
     {
-        int levelPlayed = zombiesLevelController.StatesConplited;
+        int levelPlayed = zombiesLevelController.StatesConpleted;
         int lvlNedded = -1;
         if (levelPlayed < campaignHQLevel.Count)
             lvlNedded = campaignHQLevel[levelPlayed];

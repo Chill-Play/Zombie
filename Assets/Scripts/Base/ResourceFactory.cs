@@ -21,8 +21,13 @@ public class ResourceFactory : BaseObject, IUnloadingResources
 
     [BaseSerialize] protected int currentResourcesCount;
     [BaseSerialize] protected string lastResourcesUpdate;
+
     float nextResourceTime;
     bool working = false;
+    bool unload = false;
+    int unloadDelta = 0;
+    float unloadTimer;
+
     protected float productionTime;
     protected int resourcesLimit;
 
@@ -94,6 +99,21 @@ public class ResourceFactory : BaseObject, IUnloadingResources
 
     protected virtual void Update()
     {
+        if (unload)
+        {
+            if (unloadDelta >= INTERSTITIONAL_UNLOAD_CONT)
+            {
+                AdvertisementManager.Instance.TryShowInterstitial("unload_resources");
+                unloadDelta = 0;
+            }
+            unloadTimer -= Time.deltaTime;
+            if (unloadTimer <= 0)
+            {
+                unload = false;
+                unloadDelta = 0;
+            }
+        }
+
         if (working && nextResourceTime < Time.time && currentResourcesCount < resourcesLimit)
         {
             AddResource();
@@ -130,11 +150,20 @@ public class ResourceFactory : BaseObject, IUnloadingResources
 
     public virtual void Unload(int count)
     {
+   
         int delta = Mathf.Clamp(count, 0, currentResourcesCount);
+
+        if (!unload)
+        {
+            unload = true;             
+        }
+        unloadTimer = 30f;
+        unloadDelta += delta;
+
         currentResourcesCount = currentResourcesCount - delta;
         if (delta >= INTERSTITIONAL_UNLOAD_CONT)
         {
-            AdvertisementManager.Instance.TryShowInterstitial("unload_resources");
+           
         }
         UpdateCountText();
         if (!working)
