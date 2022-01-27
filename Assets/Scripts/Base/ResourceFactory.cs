@@ -7,6 +7,8 @@ using DG.Tweening;
 
 public class ResourceFactory : BaseObject, IUnloadingResources
 {
+    const int INTERSTITIONAL_UNLOAD_CONT = 5;
+
     [SerializeField] TMP_Text countText;
     [SerializeField] Upgradable upgradable;
     [SerializeField] ResourceType resourceType;
@@ -128,7 +130,12 @@ public class ResourceFactory : BaseObject, IUnloadingResources
 
     public virtual void Unload(int count)
     {
-        currentResourcesCount = Mathf.Clamp(currentResourcesCount - count, 0, resourcesLimit);
+        int delta = Mathf.Clamp(count, 0, currentResourcesCount);
+        currentResourcesCount = currentResourcesCount - delta;
+        if (delta >= INTERSTITIONAL_UNLOAD_CONT)
+        {
+            AdvertisementManager.Instance.TryShowInterstitial("unload_resources");
+        }
         UpdateCountText();
         if (!working)
         {
