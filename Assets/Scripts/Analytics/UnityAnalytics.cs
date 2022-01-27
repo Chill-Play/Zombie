@@ -99,6 +99,7 @@ public class UnityAnalytics : SingletonMono<UnityAnalytics>
     private void RaidAddArgs(LevelInfo info, Dictionary<string, object> args)
     {
         args.Add("level", info.levelNumber);
+        args.Add("level_name", info.levelName);
         args.Add("game_mode", info.gameMode);
         args.Add("time", (int)(Time.realtimeSinceStartup - raidStart));    
         args.Add("connection", Application.internetReachability != NetworkReachability.NotReachable ? 1 : 0);
@@ -175,6 +176,12 @@ public class UnityAnalytics : SingletonMono<UnityAnalytics>
 
     private void OnDisable()
     {
+        var advertisementManager = AdvertisementManager.Instance;
+        if (advertisementManager != null)
+        {
+            advertisementManager.OnReportAnalytics -= AdvertisementManager_OnReportAnalytics;
+        }
+
         var zombiesLevelController = ZombiesLevelController.Instance;
         if (zombiesLevelController != null)
         {

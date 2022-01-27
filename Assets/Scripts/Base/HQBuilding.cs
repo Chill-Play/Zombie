@@ -83,7 +83,7 @@ public class HQBuilding : BaseObject
         nextChest = 0;
         level += 1;
         cost = MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
-        RequireSave();
+        RequireSave();     
         OnLevelUp?.Invoke(level);
     }
 

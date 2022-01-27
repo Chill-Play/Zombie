@@ -35,6 +35,7 @@ public class LevelProgressionController : SingletonMono<LevelProgressionControll
 
     public void AddChestResources()
     {
+        AdvertisementManager.Instance.TryShowInterstitial("claim_reward_chest");
         ResourcesInfo resInfo = LevelProgressionController.Instance.CurrentLevelProgression.Chests[hq.NextChest - 1].resourcesInfo;
         resourcesController.AddResources(resInfo);
         resourcesController.UpdateResources();
@@ -87,7 +88,8 @@ public class LevelProgressionController : SingletonMono<LevelProgressionControll
                 yield return new WaitForEndOfFrame();
             }           
         }
-        cameraController.SetTarget(campGameplayController.PlayerInstance);
+        AdvertisementManager.Instance.TryShowInterstitial("hq_level_up");
+        cameraController.SetTarget(campGameplayController.PlayerInstance);    
         inputPanel.EnableInput();
     }
 }
