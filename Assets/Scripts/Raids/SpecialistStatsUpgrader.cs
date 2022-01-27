@@ -13,28 +13,25 @@ public class SpecialistStatsUpgrader : MonoBehaviour
     [SerializeField] PlayerResources resources;
     [SerializeField] UnitConstructing unitConstructing;
     [SerializeField] UnitRepairing unitRepairing;
-
-    [SerializeField] float damagePerLevel;
-    [SerializeField] float healthPerLevel;
-    [SerializeField] float interactingSpeedPerLevel;
+ 
 
     public void UpdateStats(Card card)
     {
         CardController cardController = CardController.Instance;
         CardStatsSlot cardStatsSlot = cardController.CardStats(card);
-        health.AddMaxHealth(healthPerLevel * cardStatsSlot.statsInfo[healthStat]);
-        shooting.AddDamage(damagePerLevel * cardStatsSlot.statsInfo[damageStat]);
+        health.AddMaxHealth(card.GetStatValue(healthStat , cardStatsSlot.statsInfo[healthStat]));
+        shooting.AddDamage(card.GetStatValue(damageStat, cardStatsSlot.statsInfo[damageStat]));
         if (resources != null)
         {
-            resources.AddUseRate(interactingSpeedPerLevel * cardStatsSlot.statsInfo[interactingSpeed]);
+            resources.AddUseRate(card.GetStatValue(interactingSpeed, cardStatsSlot.statsInfo[interactingSpeed]));
         }
         if (unitConstructing != null)
         {
-            unitConstructing.AddConstructingPower(interactingSpeedPerLevel * cardStatsSlot.statsInfo[interactingSpeed]);
+            unitConstructing.AddConstructingPower(card.GetStatValue(interactingSpeed, cardStatsSlot.statsInfo[interactingSpeed]));
         }
         if (unitRepairing != null)
         {
-            unitRepairing.AddRepairingPower(interactingSpeedPerLevel * cardStatsSlot.statsInfo[interactingSpeed]);
+            unitRepairing.AddRepairingPower(card.GetStatValue(interactingSpeed, cardStatsSlot.statsInfo[interactingSpeed]));
         }
     }
 }

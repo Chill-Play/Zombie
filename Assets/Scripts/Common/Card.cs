@@ -8,8 +8,7 @@ public class Card : ScriptableObject, ISerializationCallbackReceiver
     [System.Serializable]
     public class CardStats
     {
-        public StatsType statsType;
-        public float baseValue;
+        public StatsType statsType;      
         public float statsCountPreLevel;
     }
 
@@ -40,7 +39,7 @@ public class Card : ScriptableObject, ISerializationCallbackReceiver
        {
          if(stat.statsType == statType)
          {
-           return stat.baseValue + level * stat.statsCountPreLevel;
+           return level * stat.statsCountPreLevel;
          }
        }
        return 0f;
