@@ -130,10 +130,7 @@ public class RaidFinishScreen : UIScreen
     {       
         CollectResources();
         ToBase();
-        if (ZombiesLevelController.Instance.RaidIsCompleted >= 1)
-        {
-            AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
-        }
+        AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");       
     }
 
     void SaveSquad()

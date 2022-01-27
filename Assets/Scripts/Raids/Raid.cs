@@ -53,7 +53,7 @@ public class Raid : SingletonMono<Raid>
         for (int i = 0; i < activeCards.cardSlots.Count; i++)
         {
 
-            GameObject instance = Instantiate(activeCards.cardSlots[i].card.RaidUnitPrefab, squad.Units[0].transform.position, squad.transform.rotation);
+            GameObject instance = Instantiate(campaign ? activeCards.cardSlots[i].card.CampaignUnitPrefab : activeCards.cardSlots[i].card.RaidUnitPrefab, squad.Units[0].transform.position, squad.transform.rotation);
             if (instance.TryGetComponent<SpecialistStatsUpgrader>(out var specialistStatsUpgrader))
             {
                 specialistStatsUpgrader.UpdateStats(activeCards.cardSlots[i].card);

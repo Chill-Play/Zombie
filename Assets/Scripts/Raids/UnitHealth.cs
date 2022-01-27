@@ -19,13 +19,13 @@ public class UnitHealth : MonoBehaviour, IDamagable
 
     private void Start()
     {
-        CurrentHealth += health;
+        CurrentHealth = health;
     }
 
 
     public void AddMaxHealth(float health)
     {
-        CurrentHealth += health;
+        this.health += health;       
     }
 
 
