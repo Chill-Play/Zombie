@@ -21,6 +21,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     [SerializeField] float timeBeforeCampaign = 3f;
     [SerializeField] RaidZone raidZone;
     [SerializeField] CampaignZone campaignZone;
+    [SerializeField] List<Transform> specialistIdlePoints = new List<Transform>();
 
     public Transform PlayerInstance { get;private set; }
     
@@ -50,10 +51,24 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
             case 1:
                 SpawnPlayer(campaignZone.SpawnPoint, playerPrefab);
                 break;
-        }
-        
-      
+        }   
     }
+
+    private void Start()
+    {
+        CampSquad.Instance.SpawnSquad(PlayerInstance.transform.position);
+        SetCampaignZoneStatus();
+        var activeCards = CardController.Instance.ActiveCards;
+        for (int i = 0; i < activeCards.Count; i++)
+        {
+            if (i < specialistIdlePoints.Count)
+            {
+               var go = Instantiate(activeCards.cardSlots[i].card.UnitVisual, specialistIdlePoints[i].transform.position, specialistIdlePoints[i].transform.rotation);
+            }
+        }
+    }
+
+
 
     private void Hq_OnLevelUp(int level)
     {
@@ -121,15 +136,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     private void RaidZone_OnExitZone()
     {
         OnRaidUnpreparedness?.Invoke();
-    }
-
-    private void Start()
-    {
-         CampSquad.Instance.SpawnSquad(PlayerInstance.transform.position);
-         SetCampaignZoneStatus();
-    }
-
-
+    }       
 
     public void SpawnPlayer(Transform point, GameObject prefab)
     {

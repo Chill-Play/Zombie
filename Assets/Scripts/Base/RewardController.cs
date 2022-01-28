@@ -15,6 +15,11 @@ public class RewardController : SingletonMono<RewardController>
         Load();
     }
 
+    public bool CanBeRewarded(ResourceType resourceType)
+    {
+        return resourceRewardLevel.ContainsKey(resourceType);
+    }
+
     public int GetResourcesRewardCount(ResourceType resourceType)
     {
         var value = resourceRewardLevel[resourceType];       
