@@ -39,12 +39,12 @@ public class SpecialistUpgradeCardUI : MonoBehaviour
         CardStatsSlot stats = cardController.CardStats(card);
         int statLevel = stats.statsInfo[statType];
         ResourcesInfo levelUpCost = statType.GetLevelCost(statLevel);
-        float statValue = card.GetStatValue(statType, statLevel);
+        float statValue = card.GetStatValueDisplay(statType, statLevel);
 
         icon.sprite = card.Icon;
         specialistName.text = card.CardName;
         specialistStatLevel.text = "LVL " + (statLevel + 1).ToString();
-        specialistStatValue.text = "ATK " + statValue.ToString();
+        specialistStatValue.text = statType.shortName + " " + statValue.ToString();
 
 
         if (levelUpCost.IsFilled(resources))

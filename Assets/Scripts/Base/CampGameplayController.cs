@@ -23,8 +23,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     [SerializeField] CampaignZone campaignZone;
 
     public Transform PlayerInstance { get;private set; }
-
-    bool isPlayerReturnedToRaidZone = false;
+    
     HQBuilding hq;
     ZombiesLevelController zombiesLevelController;
     bool campaignAllowed = false;
@@ -74,20 +73,14 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
     }
 
     private void CampaignZone_OnExitZone()
-    {       
-        if (!isPlayerReturnedToRaidZone)
-        {
-            isPlayerReturnedToRaidZone = true;
-        }
-        else
-        {
-            OnRaidUnpreparedness?.Invoke();
-        }
+    {      
+     
+            OnRaidUnpreparedness?.Invoke();        
     }
 
     private void CampaignZone_OnEnterZone()
     {
-        if (isPlayerReturnedToRaidZone && campaignAllowed)
+        if (campaignAllowed)
         {
             OnCampaignReadiness?.Invoke(timeBeforeRaid);
             PlayerInstance.GetComponent<UnitMovement>().MoveTo(campaignZone.transform.position);
@@ -97,17 +90,14 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
 
     public void SetPlayerReturnedToRaidZone(bool value)
     {
-        isPlayerReturnedToRaidZone = value;
+        //isPlayerReturnedToRaidZone = value;
     }
 
     private void RaidZone_OnEnterZone()
     {
-        if (isPlayerReturnedToRaidZone)
-        {
-            OnRaidReadiness?.Invoke(timeBeforeRaid);
-            PlayerInstance.GetComponent<UnitMovement>().MoveTo(raidZone.transform.position);
-            StartCoroutine(RaidCoroutine());
-        }
+        OnRaidReadiness?.Invoke(timeBeforeRaid);
+        PlayerInstance.GetComponent<UnitMovement>().MoveTo(raidZone.transform.position);
+        StartCoroutine(RaidCoroutine());
     }
 
     IEnumerator RaidCoroutine()
@@ -130,14 +120,7 @@ public class CampGameplayController : SingletonMono<CampGameplayController>
 
     private void RaidZone_OnExitZone()
     {
-        if (!isPlayerReturnedToRaidZone)
-        {
-            isPlayerReturnedToRaidZone = true;
-        }
-        else
-        {
-            OnRaidUnpreparedness?.Invoke();
-        }       
+        OnRaidUnpreparedness?.Invoke();
     }
 
     private void Start()

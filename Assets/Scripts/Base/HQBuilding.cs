@@ -28,11 +28,11 @@ public class HQBuilding : BaseObject
 
 
     private void Awake()
-    {       
-        cost = MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
+    {
+        levelProgressionController = LevelProgressionController.Instance;    
+        cost = levelProgressionController.CurrentLevelProgression.LevelUpCost;
         uiNumbers = UINumbers.Instance;
-        float currentValue = (float)currentCount / (float)cost;
-        levelProgressionController =LevelProgressionController.Instance;
+        float currentValue = (float)currentCount / (float)cost;       
         rewardCount = levelProgressionController.CurrentLevelProgression.Chests.Count;
         nextChest = Mathf.FloorToInt(currentValue / (1f / (rewardCount + 1)));
     }
