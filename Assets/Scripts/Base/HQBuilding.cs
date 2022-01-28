@@ -55,14 +55,14 @@ public class HQBuilding : BaseObject
         }
     }
 
-    public void OnGUI()
-    {
-        if(GUI.Button(new Rect(10,250,200,200), "Add Point"))
-        {
-            
-            AddPoint(1);
-        }
-    }
+    // public void OnGUI()
+    // {
+    //     if(GUI.Button(new Rect(10,250,200,200), "Add Point"))
+    //     {
+    //         
+    //         AddPoint(1);
+    //     }
+    // }
     public void AddPoint(int value = 1)
     {        
         UINumber number = uiNumbers.GetNumber(transform.position + Vector3.up * 2f, "+1", Vector2.zero, 0f, 0f, true);

@@ -75,17 +75,17 @@ public class ResourcesController : SingletonMono<ResourcesController>
         }
     }
 
-    public void OnGUI()
-    {
-        if(GUI.Button(new Rect(10,10,200,200), "Add Resources"))
-        {
-            foreach(var slot in resourcesCount.Slots)
-            {
-                slot.count += 100;
-            }
-            UpdateResources();
-        }
-    }
+    // public void OnGUI()
+    // {
+    //     if(GUI.Button(new Rect(10,10,200,200), "Add Resources"))
+    //     {
+    //         foreach(var slot in resourcesCount.Slots)
+    //         {
+    //             slot.count += 100;
+    //         }
+    //         UpdateResources();
+    //     }
+    // }
 
 
     public void AddResources(ResourcesInfo resources)
