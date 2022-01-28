@@ -35,7 +35,7 @@ public class LinearWeapon : Weapon
         bullet.Damage = Damage;
         Vector3 checkPos = shootPoint.position;
         checkPos.y = target.position.y;
-        if (Vector3.Distance(checkPos, target.position) < 2.5f)
+        if (!lockInstantHit && Vector3.Distance(checkPos, target.position) < 2.5f)
         {
             bullet.InstantHit(target);
         }

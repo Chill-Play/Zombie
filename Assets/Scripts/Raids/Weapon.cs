@@ -17,6 +17,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] ParticleSystem muzzleFx;
     [SerializeField] ParticleSystem shellsFx;
     [SerializeField] float noisePerShoot;
+    [SerializeField] protected bool lockInstantHit = false;
 
     bool firing;
     float nextFire;
