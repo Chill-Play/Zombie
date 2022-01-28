@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveId: Damage
   displayName: DAMAGE
+  shortName: ATK
   icon: {fileID: 21300000, guid: 5d0b01fe301504a448983f437ac92bc5, type: 3}
   lockedIcon: {fileID: 21300000, guid: c94fa2ea9e1580a4994e0ff2c78ba7d5, type: 3}
-  baseCost:
-    slots:
-    - type: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
-      count: 50
-      opened: 0
-    - type: {fileID: 11400000, guid: 10c543d313398c44aad2c2ec500f516f, type: 2}
-      count: 10
-      opened: 0
-  costMultiplier: 5
-  costPower: 1.5
+  resourcesCostProgression:
+  - resourceType: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
+    costMultiplier: 5
+    costPower: 1.5
+    baseCost: 45
+  - resourceType: {fileID: 11400000, guid: 10c543d313398c44aad2c2ec500f516f, type: 2}
+    costMultiplier: 5
+    costPower: 1.5
+    baseCost: 10
