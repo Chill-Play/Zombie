@@ -17,16 +17,16 @@ MonoBehaviour:
   shortName: HLTH
   icon: {fileID: 0}
   lockedIcon: {fileID: 0}
-  baseCost:
-    slots:
-    - type: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
-      count: 50
-      opened: 0
-    - type: {fileID: 11400000, guid: 1bca80fe52f782745a11e6ae4a61c7df, type: 2}
-      count: 5
-      opened: 0
-    - type: {fileID: 11400000, guid: a70fcb5467b4bb641aa25f2064873628, type: 2}
-      count: 2
-      opened: 0
-  costMultiplier: 5
-  costPower: 1.5
+  resourcesCostProgression:
+  - resourceType: {fileID: 11400000, guid: 7e814946b8c40a045bf640bc25bbdfc3, type: 2}
+    costMultiplier: 5
+    costPower: 1.5
+    baseCost: 40
+  - resourceType: {fileID: 11400000, guid: 1bca80fe52f782745a11e6ae4a61c7df, type: 2}
+    costMultiplier: 5
+    costPower: 1.5
+    baseCost: 5
+  - resourceType: {fileID: 11400000, guid: a70fcb5467b4bb641aa25f2064873628, type: 2}
+    costMultiplier: 2
+    costPower: 0
+    baseCost: 1
