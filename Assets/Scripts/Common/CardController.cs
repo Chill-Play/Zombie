@@ -234,6 +234,7 @@ public class CardController : SingletonMono<CardController>
     {
         var json = CardSerialization.SerializeCards(this);
         PlayerPrefs.SetString("CardsInfo", json);
+        PlayerPrefs.Save();
     }
 
     void Load()
