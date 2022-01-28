@@ -130,6 +130,7 @@ public class ResourceFactory : BaseObject, IUnloadingResources
             StopWork();
         }
         lastResourcesUpdate = DateTime.UtcNow.ToBinary().ToString();
+        counter.DOPunchScale(new Vector3(.25f,.25f,.25f),.5f, 7, 1);
     }
 
     void UpdateCountText()

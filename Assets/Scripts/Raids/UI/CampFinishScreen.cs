@@ -21,9 +21,7 @@ public class CampFinishScreen : UIScreen
     [SerializeField] Transform doubleButton;
     [SerializeField] Transform continueButton;
     [SerializeField] Transform alternativeContinueButton;
-    [SerializeField] private Image specialistImage;
-    [SerializeField] private TextMeshProUGUI specialistName;
-    [SerializeField] private GameObject specialist;
+    [SerializeField] private SpecialistBar specialist;
 
     private Card card;
 
@@ -53,6 +51,7 @@ public class CampFinishScreen : UIScreen
 
         SaveSquad();
 
+        specialist.Setup(campaign.RewardCards[0].card);
         ResourceBar bar = Instantiate(resourceBarPrefab, colletctedContent);
         bar.Setup(resources.Slots[0].type, 0);
         bar.transform.localScale = Vector3.zero;
