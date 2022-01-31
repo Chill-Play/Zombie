@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7237956245417129311
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5107779507794254791}
-  m_Layer: 7
-  m_Name: WeaponPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5107779507794254791
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7237956245417129311}
-  m_LocalRotation: {x: -0.43840128, y: 0.38419092, z: 0.63165075, w: 0.5110958}
-  m_LocalPosition: {x: 0.02000019, y: 0.004999839, z: 0.103999995}
-  m_LocalScale: {x: 1.3168856, y: 1.1716715, z: 1.1547391}
-  m_Children:
-  - {fileID: 4725522397440843631}
-  m_Father: {fileID: 8433636677514230083}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &8190026108998593724
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -112,7 +81,7 @@ NavMeshAgent:
   m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
-  m_AutoRepath: 1
+  m_AutoRepath: 0
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
@@ -131,6 +100,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitMovement: {fileID: 659753891237793788}
   resourceType: {fileID: 11400000, guid: b758e1e0df6e7ac4986b1988a459625f, type: 2}
+  anim: {fileID: 4455593559296031514}
+  danceAnimationCount: 3
+--- !u!1 &7237956245417129311
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5107779507794254791}
+  m_Layer: 7
+  m_Name: WeaponPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5107779507794254791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7237956245417129311}
+  m_LocalRotation: {x: -0.43840128, y: 0.38419092, z: 0.63165075, w: 0.5110958}
+  m_LocalPosition: {x: 0.02000019, y: 0.004999839, z: 0.103999995}
+  m_LocalScale: {x: 1.3168856, y: 1.1716715, z: 1.1547391}
+  m_Children:
+  - {fileID: 4725522397440843631}
+  m_Father: {fileID: 8433636677514230083}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2648464445716010036
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -141,6 +143,10 @@ PrefabInstance:
     - target: {fileID: 1360113979422829251, guid: a42ef6f2a5334d245bad4a55e0d367bb, type: 3}
       propertyPath: m_Name
       value: Pistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 1360113979422829251, guid: a42ef6f2a5334d245bad4a55e0d367bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7301832483337309019, guid: a42ef6f2a5334d245bad4a55e0d367bb, type: 3}
       propertyPath: m_RootOrder
@@ -287,7 +293,7 @@ PrefabInstance:
     - target: {fileID: 6706511046523607498, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 41d6ac5949a45374194edc12182893c4, type: 2}
+      objectReference: {fileID: 9100000, guid: e2a5d02f2a9ff514f8a8ab947fa7f755, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a200f75aa5c361540bc1ac55bc43c926, type: 3}
 --- !u!1 &9179380741328776270 stripped

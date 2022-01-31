@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 8436447733939943056}
   - component: {fileID: 8275613845901397180}
   m_Layer: 7
-  m_Name: Survivor_Base
+  m_Name: SurvivorMainBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3346936833982169915}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0207aa2e25e04a24085339f327737b4b, type: 3}
   m_Name: 
@@ -215,8 +215,10 @@ MonoBehaviour:
   stateController: {fileID: 8436447733939943056}
   unitMovement: {fileID: 645310285138116863}
   unitInteracting: {fileID: 8275613845901397180}
+  playerInput: {fileID: 3538268089468884926}
   movingStateId: {fileID: -5394108602055148265, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
   interactingStateId: {fileID: 1115681336743573062, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
+  idleStateId: {fileID: 1444274034646403786, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
 --- !u!114 &8436447733939943056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +237,9 @@ MonoBehaviour:
   - subjectId: {fileID: 1115681336743573062, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
     components:
     - {fileID: 8275613845901397180}
+    - {fileID: 5653733016416292161}
+  - subjectId: {fileID: 1444274034646403786, guid: 9eb14db9ff6360447a435d0d61213cac, type: 2}
+    components: []
   currentState:
     subjectId: {fileID: 0}
     components: []

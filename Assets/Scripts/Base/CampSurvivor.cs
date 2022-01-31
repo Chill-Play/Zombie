@@ -6,9 +6,12 @@ public class CampSurvivor : MonoBehaviour
 {
     [SerializeField] UnitMovement unitMovement;
     [SerializeField] ResourceType resourceType;
-
+    [SerializeField] private Animator anim;
+    [SerializeField] private int danceAnimationCount;
+    
     HQBuilding hq;
-
+    private Vector3 destination;
+    private bool isForcedStop = false;
 
     public event System.Action<CampSurvivor> OnReachBuilding;
 
@@ -19,16 +22,31 @@ public class CampSurvivor : MonoBehaviour
 
     void Update()
     {
-        if (unitMovement.IsReachDestination)
+        if (unitMovement.IsReachDestination && !isForcedStop)
         {
-            /* ResourcesInfo info = new ResourcesInfo();
-             info.AddSlot(resourceType, 1);
-             ResourcesController.Instance.AddResources(info);
-             ResourcesController.Instance.UpdateResources();
-             FindObjectOfType<UINumbers>().SpawnNumber(transform.position, "+1", Vector2.up * 2f, 0f, 0f, 1f);*/
             hq.AddPoint(1);
             OnReachBuilding?.Invoke(this);
             Destroy(gameObject);
         }
+    }
+
+    public void ForceToStop()
+    {
+        isForcedStop = true;
+        unitMovement.StopMoving();
+        anim.SetBool("Dance", true);
+        anim.SetInteger("DanceId", Random.Range(0, danceAnimationCount));
+    }
+
+    public void ForceToMove()
+    {
+        isForcedStop = false;
+        unitMovement.MoveTo(destination);
+        anim.SetBool("Dance", false);
+    }
+
+    public void SetDestination(Vector3 destination)
+    {
+        this.destination = destination;
     }
 }

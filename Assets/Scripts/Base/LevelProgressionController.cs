@@ -22,6 +22,7 @@ public class LevelProgressionController : SingletonMono<LevelProgressionControll
     {
         hq = FindObjectOfType<HQBuilding>();
         hq.OnLevelUp += Hq_OnLevelUp;
+        hq.OnRewardOpened += Hq_OnRewardOpened;
         cameraController = CameraController.Instance;
         resourcesController = ResourcesController.Instance;
         campGameplayController = CampGameplayController.Instance;
@@ -39,6 +40,7 @@ public class LevelProgressionController : SingletonMono<LevelProgressionControll
         ResourcesInfo resInfo = LevelProgressionController.Instance.CurrentLevelProgression.Chests[hq.NextChest - 1].resourcesInfo;
         resourcesController.AddResources(resInfo);
         resourcesController.UpdateResources();
+        CampSquad.Instance.MoveSurvivors();
     }
 
     private void Hq_OnLevelUp(int level)
@@ -51,9 +53,14 @@ public class LevelProgressionController : SingletonMono<LevelProgressionControll
                 unlockableBuildings.Add(unlockableBuilding);
             }
         }
-        
+        CampSquad.Instance.StopSurvivors();
     }
 
+    void Hq_OnRewardOpened(int i)
+    {
+        CampSquad.Instance.StopSurvivors();
+    }
+    
     public void UnlockResourceType()
     {
         ResourcesController resourcesController = ResourcesController.Instance;
@@ -91,5 +98,6 @@ public class LevelProgressionController : SingletonMono<LevelProgressionControll
         AdvertisementManager.Instance.TryShowInterstitial("hq_level_up");
         cameraController.SetTarget(campGameplayController.PlayerInstance);    
         inputPanel.EnableInput();
+        CampSquad.Instance.MoveSurvivors();
     }
 }
