@@ -90,7 +90,8 @@ public class HQBuilding : BaseObject
     {
         nextChest = 0;
         level += 1;
-        cost = MetaUtils.GetLevelCost(level, costMultiplier, costPower, baseCost);
+        cost = levelProgressionController.CurrentLevelProgression.LevelUpCost;
+        rewardCount = levelProgressionController.CurrentLevelProgression.Chests.Count;
         RequireSave();     
         OnLevelUp?.Invoke(level);
     }

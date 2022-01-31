@@ -33,8 +33,8 @@ public class BaseUI : UIScreen
         hq.OnLevelUp += levelUpScreen.ShowScreen;
         campGameplayController.OnRaidReadiness += OnRaidReadiness;
         campGameplayController.OnRaidUnpreparedness += OnRaidUnpreparedness;
-        campGameplayController.OnCampaignReadiness += CampGameplayController_OnCampaignReadiness; ;
-        campGameplayController.OnCampaignUnpreparedness += CampGameplayController_OnCampaignUnpreparedness; ;
+        campGameplayController.OnCampaignReadiness += CampGameplayController_OnCampaignReadiness;
+        campGameplayController.OnCampaignUnpreparedness += CampGameplayController_OnCampaignUnpreparedness;
     }
 
     private void CampGameplayController_OnCampaignUnpreparedness()
