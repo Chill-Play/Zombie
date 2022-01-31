@@ -7,12 +7,11 @@ using DG.Tweening;
 public class CampSquad : SingletonMono<CampSquad>
 {
     [SerializeField] GameObject campSurvivorPrefab;
-    [SerializeField] float radius = 2f;   
+    [SerializeField] float radius = 2f;
 
+    private List<CampSurvivor> survivors = new List<CampSurvivor>();
     int count;
- 
-
-   
+    
 
     public void SpawnSquad(Vector3 spawnPoint)
     {
@@ -26,13 +25,33 @@ public class CampSquad : SingletonMono<CampSquad>
             GameObject go = Instantiate(campSurvivorPrefab, newPos, Quaternion.identity);
             Vector3 dir = hq.transform.position - transform.position;
             go.GetComponent<UnitMovement>().MoveTo(hq.transform.position - dir.normalized * 2f);
-            go.GetComponent<CampSurvivor>().OnReachBuilding += CampSquad_OnReachBuilding;
+            CampSurvivor survivor = go.GetComponent<CampSurvivor>();
+            survivor.OnReachBuilding += CampSquad_OnReachBuilding;
+            survivor.SetDestination(hq.transform.position - dir.normalized * 2f);
+            survivors.Add(survivor);
         }
     }
 
     private void CampSquad_OnReachBuilding(CampSurvivor obj)
     {
         count--;      
-        PlayerPrefs.SetInt("M_Survivors_Count", count);       
+        PlayerPrefs.SetInt("M_Survivors_Count", count);
+        survivors.Remove(obj);
+    }
+
+    public void MoveSurvivors()
+    {
+        foreach (var survivor in survivors)
+        {
+            survivor.ForceToMove();
+        }
+    }
+    
+    public void StopSurvivors()
+    {
+        foreach (var survivor in survivors)
+        {
+            survivor.ForceToStop();
+        }
     }
 }
