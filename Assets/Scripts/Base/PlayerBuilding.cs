@@ -11,7 +11,6 @@ public class PlayerBuilding : SingletonMono<PlayerBuilding>
     [SerializeField] float baseRate = 0.25f;
     [SerializeField] float rateIncrease = 0.01f;
 
-
     Collider[] buildablesBuffer = new Collider[4];
     float nextUse;
     int uses;
