@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Puddle : MonoBehaviour
 {
-    [SerializeField] private int damage;
+    [SerializeField] private float damage;
     [SerializeField] private float speed;
     [SerializeField] private float lifeTime = 3;
     

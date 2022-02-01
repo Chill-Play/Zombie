@@ -1,22 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &468826859923778907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5905101644294676274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d3f11132c1640ad8dfff11c9911102d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionColor: {r: 1, g: 0, b: 0.85211515, a: 1}
-  zombie: {fileID: 832670473006201370}
-  unitTargetDetection: {fileID: 8118042301077249857}
-  explosionPrefab: {fileID: 6544802431015072310, guid: 67a80c76fd1d1114fa5ab54c0d47da76, type: 3}
-  explosionTime: 1
 --- !u!114 &2036815400570408733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb3eb69143a78a4e9e06f9336f6a2cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agroSpeed: 3
+  agroSpeed: 0.5
 --- !u!1001 &692527287855715779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -162,11 +145,11 @@ PrefabInstance:
     - target: {fileID: 920107119862360236, guid: d034245d4c81acd49b3095143b23ed8b, type: 3}
       propertyPath: states.Array.data[1].components.Array.data[8]
       value: 
-      objectReference: {fileID: 468826859923778907}
+      objectReference: {fileID: 0}
     - target: {fileID: 920107119862360236, guid: d034245d4c81acd49b3095143b23ed8b, type: 3}
       propertyPath: states.Array.data[1].components.Array.data[9]
       value: 
-      objectReference: {fileID: 468826859923778907}
+      objectReference: {fileID: 0}
     - target: {fileID: 920107119862360236, guid: d034245d4c81acd49b3095143b23ed8b, type: 3}
       propertyPath: states.Array.data[2].components.Array.data[0]
       value: 
@@ -180,16 +163,12 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6246898584159288111, guid: d034245d4c81acd49b3095143b23ed8b, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6246898584159288111, guid: d034245d4c81acd49b3095143b23ed8b, type: 3}
       propertyPath: attackMask.m_Bits
       value: 131200
       objectReference: {fileID: 0}
     - target: {fileID: 6372447574890498801, guid: d034245d4c81acd49b3095143b23ed8b, type: 3}
       propertyPath: m_Name
-      value: UnitZombieExplodingCampaing
+      value: UnitZombieDashCampaing
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4151986120659074999, guid: d034245d4c81acd49b3095143b23ed8b, type: 3}
@@ -232,8 +211,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18923db9141a9bc43894ed51ae93dc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!137 &832670473006201370 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 149292255815544793, guid: d034245d4c81acd49b3095143b23ed8b, type: 3}
-  m_PrefabInstance: {fileID: 692527287855715779}
-  m_PrefabAsset: {fileID: 0}
