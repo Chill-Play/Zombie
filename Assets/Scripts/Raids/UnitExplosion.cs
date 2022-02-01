@@ -11,24 +11,25 @@ public class UnitExplosion : UnitFighting
     [SerializeField] private GameObject explosionPrefab;
     [SerializeField] private float explosionTime = 1;
     
-    private bool explosion = true;
-    private Renderer renderer;
     private UnitHealth unitHealth;
     private Vector3 cameraPos;
-
+    private ZombieMovement movement;
+    
     private void Awake()
     {
+        movement = GetComponent<ZombieMovement>();
         unitHealth = GetComponent<UnitHealth>();
         unitHealth.OnDead += Stop;
-        renderer = GetComponent<Renderer>();
         cameraPos = Camera.main.transform.localPosition;
     }
 
     private void Update()
     {
-        if (unitTargetDetection.Target != null && explosion)
+        if (unitTargetDetection.Target != null && !Attacking)
         {
-            explosion = false;
+            Attacking = true;
+            movement.Agent.speed = 0;
+            movement.StopMoving();
             zombie.material.DOColor(explosionColor, "_MainColor", 0.5f);
             StartCoroutine(OnExplosionCoroutine());
         }
