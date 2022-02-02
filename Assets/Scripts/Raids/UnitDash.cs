@@ -10,7 +10,7 @@ public class UnitDash : UnitFighting
 {
     [SerializeField] private TrajectoryRenderer directionLine;
     [SerializeField] private float aimTime = 1;
-    [SerializeField] private float bodyHitTime = 3;
+    [SerializeField] private float cooldown = 3;
     [SerializeField] private float dashDistance;
     
     UnitTargetDetection unitTargetDetection;
@@ -61,7 +61,7 @@ public class UnitDash : UnitFighting
         //MoveTo(transform.position + (direction * dashDistance));
         Debug.DrawLine(transform.position, transform.position + direction * dashDistance, Color.red, float.MaxValue);
         Debug.Log("MoveTo");
-        yield return new WaitForSeconds(bodyHitTime);
+        yield return new WaitForSeconds(cooldown);
         movement.Agent.enabled = true;
         Attacking = false;
     }

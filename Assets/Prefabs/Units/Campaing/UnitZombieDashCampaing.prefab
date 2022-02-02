@@ -26,10 +26,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionLine: {fileID: 2979495228564502043}
-  aimTime: 1
-  dashSpeed: 10
-  bodyHitTime: 5
-  dashDistance: 10
+  aimTime: 2
+  cooldown: 3
+  dashDistance: 7
 --- !u!114 &2036815400570408733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,7 +113,7 @@ GameObject:
   - component: {fileID: 2932779760168155548}
   - component: {fileID: 2979495228564502043}
   m_Layer: 0
-  m_Name: Line
+  m_Name: TrajectoryLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -245,7 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsCount: 2
-  animationSpeed: 3
+  animationSpeed: 1.5
 --- !u!1001 &692527287855715779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -351,7 +350,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 74e93a051d9b64440804ea07666dd849, type: 2}
     - target: {fileID: 3981423887781052415, guid: d034245d4c81acd49b3095143b23ed8b, type: 3}
       propertyPath: health
-      value: 100000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5157417866247897707, guid: d034245d4c81acd49b3095143b23ed8b, type: 3}
       propertyPath: m_Speed
