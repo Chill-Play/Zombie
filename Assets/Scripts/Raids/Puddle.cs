@@ -29,7 +29,7 @@ public class Puddle : MonoBehaviour
         if (other.TryGetComponent(out IDamagable damagable))
         {
             tmpSpeed -= Time.deltaTime;
-            if (tmpSpeed > 0 || other.TryGetComponent(out Enemy enemy))
+            if (tmpSpeed > 0)
                 return;
             Hit(damagable);
             tmpSpeed = speed;

@@ -5,39 +5,52 @@ using DG.Tweening;
 public class DeadlyExplosion : MonoBehaviour
 {
     [SerializeField] private float  damage;
+    [SerializeField] LayerMask mask;
+    [SerializeField] float radius = 4f;
 
-    private Collider trigger;
     private void Start()
     {
-        trigger = GetComponent<Collider>();
+        Hit();
         Vector3 scale = transform.localScale;
 
         transform.localScale = Vector3.zero;
         var seq = DOTween.Sequence();
-        seq.Append(transform.DOScale(scale, .25f).OnComplete(() =>
-        {
-            trigger.enabled = false;
-        }));
+        seq.Append(transform.DOScale(scale, .25f));
         seq.AppendInterval(1);
         seq.Append(transform.DOScale(Vector3.zero, .5f));
         seq.OnComplete(() => Destroy(gameObject));
     }
 
-    private void OnTriggerEnter(Collider other)
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.TryGetComponent(out IDamagable damagable))
+    //     {
+    //         Hit(damagable);
+    //     }
+    // }
+
+    public void Hit()
     {
-        if (other.TryGetComponent(out IDamagable damagable))
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius, mask);
+        foreach (var hitCollider in hitColliders)
         {
-            Hit(damagable);
+            IDamagable damagable = hitCollider.GetComponent<IDamagable>();
+            if (damagable != null)
+            {
+                DamageInfo damageInfo = new DamageInfo();
+                damageInfo.damage = damage;
+                Vector3 dir = hitCollider.transform.position - transform.position;
+                dir.Normalize();
+                damageInfo.direction = dir;
+                damagable.Damage(damageInfo);
+            }
         }
     }
 
-    public void Hit(IDamagable damagable)
+    private void OnDrawGizmos()
     {
-        DamageInfo damageInfo = new DamageInfo()
-        {
-            direction = transform.forward,
-            damage = damage,
-        };
-        damagable.Damage(damageInfo);
+        Gizmos.color = Color.red;
+        Gizmos.color *= new Vector4(1, 1, 1, .5f);
+        Gizmos.DrawSphere(transform.position, radius);
     }
 }

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections;
+using System.Numerics;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.AI;
+using Vector3 = UnityEngine.Vector3;
 
 public class UnitDash : UnitFighting
 {
-    [SerializeField] private GameObject directionLine;
+    [SerializeField] private TrajectoryRenderer directionLine;
     [SerializeField] private float aimTime = 1;
-    [SerializeField] private float dashSpeed = 10;
     [SerializeField] private float bodyHitTime = 3;
     [SerializeField] private float dashDistance;
     
@@ -21,14 +22,14 @@ public class UnitDash : UnitFighting
 
     private void Awake()
     {
-        directionLine.SetActive(false);
+        directionLine.gameObject.SetActive(false);
         unitTargetDetection = GetComponent<UnitTargetDetection>();
         bodyHit = GetComponent<UnitBodyHit>();
         movement = GetComponent<ZombieMovement>();
-        normalSpeed = movement.Agent.speed;
         unitHealth = GetComponent<UnitHealth>();
         unitHealth.OnDead += Stop;
         bodyHit.enabled = false;
+        Attacking = false;
     }
 
     private void Update()
@@ -38,48 +39,38 @@ public class UnitDash : UnitFighting
             if (!Attacking)
             {
                 Debug.Log("Hello world");
-                StartCoroutine(OnDashCoroutine());
+                Vector3 direction = (unitTargetDetection.Target.position - transform.position).normalized;
+                StartCoroutine(OnDashCoroutine(direction));
                 Attacking = true;
             }
         }
-        else
-        {
-            Attacking = false;
-        }
     }
-    
-    IEnumerator OnDashCoroutine()
+
+    IEnumerator OnDashCoroutine(Vector3 direction)
     {
-        movement.StopMoving();
+        transform.LookAt(unitTargetDetection.Target);
         Debug.Log("StopMoving");
-        directionLine.SetActive(true);
+        directionLine.gameObject.SetActive(true);
+        directionLine.ShowTrajectory(transform.position, transform.position+ direction * dashDistance);
         Debug.Log("directionLine.SetActive(true);");
+        movement.Agent.enabled = false;
         yield return new WaitForSeconds(aimTime);
         bodyHit.enabled  = true;
-        directionLine.SetActive(false);
-        movement.MoveTo(transform.position + (transform.forward * dashDistance));
+        directionLine.gameObject.SetActive(false);
+        transform.DOMove(transform.position + direction * dashDistance, 1);
+        //MoveTo(transform.position + (direction * dashDistance));
+        Debug.DrawLine(transform.position, transform.position + direction * dashDistance, Color.red, float.MaxValue);
         Debug.Log("MoveTo");
-        movement.Agent.speed = dashSpeed;
-        while (!movement.IsReachDestination)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        Debug.Log("IsReachDestination");
         yield return new WaitForSeconds(bodyHitTime);
-        movement.Agent.speed = normalSpeed;
+        movement.Agent.enabled = true;
         Attacking = false;
     }
 
 
     void Stop(EventMessage<Empty> empty)
     {
-        directionLine.SetActive(false);
+        directionLine.gameObject.SetActive(false);
         StopAllCoroutines();
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.forward * dashDistance);
-    }
 }
