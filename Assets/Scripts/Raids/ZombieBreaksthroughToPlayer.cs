@@ -11,6 +11,7 @@ public class ZombieBreaksthroughToPlayer : MonoBehaviour
     float nextUpdateTime;
     Squad squad;
     ZombiesTarget zombiesTarget;
+    [SerializeField] private bool OhShitHereWeGoAgain = false; //refactor
 
     private void Awake()
     {
@@ -55,7 +56,7 @@ public class ZombieBreaksthroughToPlayer : MonoBehaviour
                 nextUpdateTime = Time.timeSinceLevelLoad + Random.Range(0.2f, 0.6f);
                 unitMovement.MoveTo(targetTransform.position);
             }
-            if (unitFighting.Attacking)
+            if (unitFighting.Attacking && !OhShitHereWeGoAgain)
             {
                 unitMovement.StopMoving();
             }

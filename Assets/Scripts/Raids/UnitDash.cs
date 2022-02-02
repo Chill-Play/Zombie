@@ -48,21 +48,24 @@ public class UnitDash : UnitFighting
 
     IEnumerator OnDashCoroutine(Vector3 direction)
     {
+        movement.StopMoving();
         transform.LookAt(unitTargetDetection.Target);
-        Debug.Log("StopMoving");
         directionLine.gameObject.SetActive(true);
         directionLine.ShowTrajectory(transform.position, transform.position+ direction * dashDistance);
-        Debug.Log("directionLine.SetActive(true);");
-        movement.Agent.enabled = false;
+        //movement.Agent.enabled = false;
         yield return new WaitForSeconds(aimTime);
         bodyHit.enabled  = true;
         directionLine.gameObject.SetActive(false);
-        transform.DOMove(transform.position + direction * dashDistance, 1);
+        transform.DOMove(transform.position + direction * dashDistance, 1).OnComplete(() =>
+        {
+            bodyHit.enabled  = false;
+            movement.StopMoving();
+        });
         //MoveTo(transform.position + (direction * dashDistance));
         Debug.DrawLine(transform.position, transform.position + direction * dashDistance, Color.red, float.MaxValue);
         Debug.Log("MoveTo");
         yield return new WaitForSeconds(cooldown);
-        movement.Agent.enabled = true;
+        // movement.Agent.enabled = true;
         Attacking = false;
     }
 
