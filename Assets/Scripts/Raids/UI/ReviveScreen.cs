@@ -45,7 +45,7 @@ public class ReviveScreen : UIScreen
     {
         if (!stopTimer)
         {
-            if (timerTime > 0.0f)
+            if (timerTime > 0.0f && !stopTimer)
             {
                 timerTime -= Time.deltaTime;
                 timerImage.fillAmount = Mathf.Clamp01(timerTime / waitTime);

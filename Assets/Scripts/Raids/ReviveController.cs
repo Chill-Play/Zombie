@@ -23,8 +23,7 @@ public class ReviveController : SingletonMono<ReviveController>
         bool adResult = available;
         AdvertisementManager.Instance.ShowRewardedVideo((result) =>
         {
-            if (result) Revive();
-            adResult = result;
+            if (result) Revive();           
         }, "raid_revive");
         return available;
     }

@@ -38,7 +38,7 @@ public class RaidsUIEvents : MonoBehaviour
 
     private void Level_OnLevelFailed()
     {
-        /* if (AdvertisementManager.Instance.RewardedAvailable)
+         if (AdvertisementManager.Instance.RewardedAvailable && ReviveController.Instance.ReviveOption && !campaign)
          {
              var screen = (ReviveScreen)uiController.ShowScreen(reviveScreenId);
              screen.OnTimerEnd += () => uiController.ShowScreen(failedScreenId);
@@ -46,16 +46,7 @@ public class RaidsUIEvents : MonoBehaviour
          else
          {
              uiController.ShowScreen(failedScreenId);
-         }*/
-        if (!campaign)
-        {
-            var screen = (ReviveScreen)uiController.ShowScreen(reviveScreenId);
-            screen.OnTimerEnd += () => uiController.ShowScreen(failedScreenId);
-        }
-        else
-        {
-            uiController.ShowScreen(failedScreenId);
-        }
+         }      
     }
 
     private void Level_OnLevelEnded()
