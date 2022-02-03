@@ -46,6 +46,7 @@ public class UISpecialistJoinScreen : MonoBehaviour
 
     public void Close()
     {
+        button.interactable = false;
         Helicopter.Instance.FlyAway();
         var seq = DOTween.Sequence();
         seq.Append(button.transform.DOScale(Vector3.zero, .4f).SetEase(Ease.InBack));

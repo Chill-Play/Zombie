@@ -19,14 +19,14 @@ public class ReviveController : SingletonMono<ReviveController>
 
     public bool ReviveClicked()
     {
-       /* var available = AdvertisementManager.Instance.RewardedAvailable;
+        var available = AdvertisementManager.Instance.RewardedAvailable;
+        bool adResult = available;
         AdvertisementManager.Instance.ShowRewardedVideo((result) =>
         {
             if (result) Revive();
+            adResult = result;
         }, "raid_revive");
-        return available;*/
-        Revive();
-        return true;
+        return adResult;
     }
 
     public void Revive()

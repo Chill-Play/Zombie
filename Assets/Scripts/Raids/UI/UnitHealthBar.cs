@@ -10,7 +10,7 @@ public class UnitHealthBar : MonoBehaviour
     public GameObject Damagable => damagable;
     public SubjectId UIHealthBarId => uiHealthBarId;
 
-    void OnEnable()
+    void Start()
     {
         UIUnitHealthBars.Instance.CreateHealthBar(this);
     }
