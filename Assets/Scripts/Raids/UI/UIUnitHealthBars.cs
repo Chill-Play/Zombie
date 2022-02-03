@@ -19,6 +19,8 @@ public class UIUnitHealthBars : SingletonMono<UIUnitHealthBars>
 
     public void CreateHealthBar(UnitHealthBar unit)
     {
+        if (healthBars.ContainsKey(unit))
+            return;
         for (int i = 0; i < healthBarSettings.Count; i++)
         {
             if (healthBarSettings[i].uiHealthBarId == unit.UIHealthBarId)
