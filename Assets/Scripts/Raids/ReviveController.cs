@@ -26,7 +26,7 @@ public class ReviveController : SingletonMono<ReviveController>
             if (result) Revive();
             adResult = result;
         }, "raid_revive");
-        return adResult;
+        return available;
     }
 
     public void Revive()

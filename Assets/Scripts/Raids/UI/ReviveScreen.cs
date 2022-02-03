@@ -43,15 +43,17 @@ public class ReviveScreen : UIScreen
 
     private void Update()
     {
-
-        if (timerTime > 0.0f && !stopTimer)
+        if (!stopTimer)
         {
-            timerTime -= Time.deltaTime;
-            timerImage.fillAmount = Mathf.Clamp01(timerTime / waitTime);
-        }
-        else
-        {
-            OnTimerEnd?.Invoke();
+            if (timerTime > 0.0f)
+            {
+                timerTime -= Time.deltaTime;
+                timerImage.fillAmount = Mathf.Clamp01(timerTime / waitTime);
+            }
+            else
+            {
+                OnTimerEnd?.Invoke();
+            }
         }
     }
 
