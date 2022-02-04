@@ -29,6 +29,9 @@ public class CampFinishScreen : UIScreen
     bool tutorialMode = false;
     bool isCampaign = false; // temp
     Campaign campaign;
+    bool lockButtons = false;
+    bool resourcesCollected = false;
+    bool analyticsSended = false;
 
     //const string SURVIVORS_COUNT_PREFS = "M_Survivors_Count";
 
@@ -96,6 +99,7 @@ public class CampFinishScreen : UIScreen
 
     public void DoubleClicked()
     {
+        lockButtons = true;
         AdvertisementManager.Instance.ShowRewardedVideo((result) =>
         {
             if (result)
@@ -104,32 +108,48 @@ public class CampFinishScreen : UIScreen
                 CollectResources(2);
                 ToBase();
             }
+            else
+            {
+                lockButtons = false;
+            }
         }, "camp_defense_end_double_reward");
     }
 
     public void CollectResources(int multiplier = 1)
     {
-        var resources = squad.CollectResources();
-        var resourceController = ResourcesController.Instance;
-        for (int i = 0; i < multiplier; i++)
+        if (!resourcesCollected)
         {
-            resourceController.AddResources(resources);
+            resourcesCollected = true;
+            var resources = squad.CollectResources();
+            var resourceController = ResourcesController.Instance;
+            for (int i = 0; i < multiplier; i++)
+            {
+                resourceController.AddResources(resources);
+            }
+            resourceController.UpdateResources();
         }
-        resourceController.UpdateResources();
     }
 
     void ToBase()
     {
-        ZombiesLevelController.Instance.CampaignFinished();
+        if (!analyticsSended)
+        {
+            analyticsSended = true;
+            ZombiesLevelController.Instance.CampaignFinished();
+        }
         ZombiesLevelController.Instance.ToBase();
     }
 
     public void NoThanksClicked()
     {
-        CollectResources();
-        SaveCards();
-        ToBase();
-        AdvertisementManager.Instance.TryShowInterstitial("camp_defense_end_no_thanks");
+        if (!lockButtons)
+        {
+            lockButtons = true;
+            CollectResources();
+            SaveCards();
+            AdvertisementManager.Instance.TryShowInterstitial("camp_defense_end_no_thanks");
+        }
+        ToBase();      
     }
 
     void SaveSquad()

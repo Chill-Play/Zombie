@@ -26,6 +26,9 @@ public class RaidFinishScreen : UIScreen
     bool tutorialMode = false;
     bool isCampaign = false; // temp
     Campaign campaign;
+    bool lockButtons = false;
+    bool resourcesCollected = false;
+    bool analyticsSended = false;
 
     //const string SURVIVORS_COUNT_PREFS = "M_Survivors_Count";
 
@@ -96,6 +99,7 @@ public class RaidFinishScreen : UIScreen
 
     public void DoubleClicked()
     {
+        lockButtons = true;
         AdvertisementManager.Instance.ShowRewardedVideo((result) =>
         {
             if (result)
@@ -103,37 +107,50 @@ public class RaidFinishScreen : UIScreen
                 CollectResources(2);
                 ToBase();
             }
+            else
+            {
+                lockButtons = false;
+            }
         }, "raid_end_double_reward"); 
     }
 
     public void CollectResources(int multiplier = 1) 
     {
-        var resources = squad.CollectResources();
-        var resourceController = ResourcesController.Instance;
-        for (int i = 0; i < multiplier; i++)
+        if (!resourcesCollected)
         {
-            resourceController.AddResources(resources);
+            resourcesCollected = true;
+            var resources = squad.CollectResources();
+            var resourceController = ResourcesController.Instance;
+            for (int i = 0; i < multiplier; i++)
+            {
+                resourceController.AddResources(resources);
+            }
+            resourceController.UpdateResources();
         }
-        resourceController.UpdateResources();       
     }
 
     void ToBase()
     {
-        if (!tutorialMode)
-        {      
+        if (!tutorialMode && !analyticsSended)
+        {
+            analyticsSended = true;
             ZombiesLevelController.Instance.RaidFinished();
         }
         ZombiesLevelController.Instance.ToBase();
     }
 
     public void NoThanksClicked()
-    {       
-        CollectResources();
-        ToBase();
-        if (ZombiesLevelController.Instance.RaidIsCompleted >= 1)
+    {
+        if (!lockButtons)
         {
-            AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
+            lockButtons = true;
+            CollectResources();
+            if (ZombiesLevelController.Instance.RaidIsCompleted >= 1)
+            {
+                AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
+            }           
         }
+        ToBase();       
     }
 
     void SaveSquad()

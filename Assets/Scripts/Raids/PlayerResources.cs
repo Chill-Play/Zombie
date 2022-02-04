@@ -117,13 +117,16 @@ public class PlayerResources : UnitInteracting
     protected override void OnDisable()
     {
         base.OnDisable();
-        if (axeModel.activeSelf)
+        if (axeModel!= null && axeModel.activeSelf)
         {
             axeModel.SetActive(false);
             weaponModel.SetActive(true);
         }
         interacting = false;
-        animation.ResetInteraction();       
+        if (animation != null)
+        {
+            animation.ResetInteraction();
+        }
     }    
 
 }

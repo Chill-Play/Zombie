@@ -69,12 +69,15 @@ public class UnitInteracting : MonoBehaviour
 
     protected virtual void OnDisable()
     {
-        interactivePointDetection.OnTargetChanged -= InteractivePointDetection_OnTargetChanged;
-        if (target.index != -1)
+        if (interactivePointDetection != null)
         {
-            if (interactivePointDetection.Target != null)
+            interactivePointDetection.OnTargetChanged -= InteractivePointDetection_OnTargetChanged;
+            if (target.index != -1)
             {
-                interactivePointDetection.Target.FreePoint(target);
+                if (interactivePointDetection.Target != null)
+                {
+                    interactivePointDetection.Target.FreePoint(target);
+                }
             }
         }
         target = new InteractivePoint.WorkingPoint(null, -1);
@@ -83,6 +86,9 @@ public class UnitInteracting : MonoBehaviour
             rotationTweem.Kill(false);
             rotationTweem = null;
         }
-        unitMovement.StopMoving();
+        if (unitMovement != null)
+        {
+            unitMovement.StopMoving();
+        }
     }
 }
