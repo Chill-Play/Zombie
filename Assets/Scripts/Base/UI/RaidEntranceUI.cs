@@ -54,8 +54,10 @@ public class RaidEntranceUI : MonoBehaviour
                 timerText.text = value.ToString();
             }
             if (scaleTween != null)
+            {
                 scaleTween.Kill(true);
-            scaleTween.OnKill(() => { timerImage.transform.localScale = tmpScale; Debug.Log("kill raid  scale tween");});
+                timerImage.transform.localScale = tmpScale;
+            }
             timerText.transform.DOPunchScale(Vector3.one * 0.5f, 0.3f);
         }
     }
