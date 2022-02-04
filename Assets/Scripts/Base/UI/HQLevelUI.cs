@@ -89,14 +89,10 @@ public class HQLevelUI : MonoBehaviour
     {
         Transform levelBar = transform.GetChild(0);
         int width = (int)levelBar.GetComponent<RectTransform>().sizeDelta.x;
-        Debug.Log("Width: " + width);
         LevelProgressionSettings levelProgression = levelProgressionController.CurrentLevelProgression;
         int rewardCount = levelProgression.Chests.Count;
         int segment = width / (rewardCount + 1);
-        Debug.Log("segment: " + segment);
         Vector3 startPos = new Vector3(-width / 2, 0, 0);
-        Debug.Log("levelBar pos: " + levelBar.position);
-        Debug.Log("start pos: " + startPos);
         int nextChest = hq.NextChest;
 
         int i = 0;
