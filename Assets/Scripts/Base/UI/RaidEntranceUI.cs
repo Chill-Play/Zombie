@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class RaidEntranceUI : MonoBehaviour
     [SerializeField] TMP_Text timerText;
     [SerializeField] Image timerImage;
 
+    private Vector3 tmpScale;
+    private Tween scaleTween;
     float timeBeforeRaid;
     float timerTime;
     InputPanel inputPanel;
@@ -17,6 +20,11 @@ public class RaidEntranceUI : MonoBehaviour
     private void Awake()
     {
         inputPanel = InputPanel.Instance;
+    }
+
+    private void Start()
+    {
+        tmpScale = timerText.transform.localScale;
     }
 
     private void OnEnable()
@@ -45,8 +53,12 @@ public class RaidEntranceUI : MonoBehaviour
             {
                 timerText.text = value.ToString();
             }
+            if (scaleTween != null)
+            {
+                scaleTween.Kill(true);
+                timerImage.transform.localScale = tmpScale;
+            }
             timerText.transform.DOPunchScale(Vector3.one * 0.5f, 0.3f);
-            
         }
     }
 

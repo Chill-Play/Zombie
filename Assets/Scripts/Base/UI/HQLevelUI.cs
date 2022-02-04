@@ -92,7 +92,7 @@ public class HQLevelUI : MonoBehaviour
         LevelProgressionSettings levelProgression = levelProgressionController.CurrentLevelProgression;
         int rewardCount = levelProgression.Chests.Count;
         int segment = width / (rewardCount + 1);
-        Vector3 startPos = levelBar.position - new Vector3(width / 2, 0, 0);
+        Vector3 startPos = new Vector3(-width / 2, 0, 0);
         int nextChest = hq.NextChest;
 
         int i = 0;
@@ -106,7 +106,7 @@ public class HQLevelUI : MonoBehaviour
                     Quaternion.identity, giftsSpawnPoint);
                 chests.Add(newChest);
             }
-            chests[i].transform.position = startPos + new Vector3(segment * (i + 1), 20, 0);
+            chests[i].GetComponent<RectTransform>().anchoredPosition = startPos + new Vector3(segment * (i + 1), -20, 0);
             chests[i].transform.GetChild(0).GetComponent<Image>().sprite = (i < nextChest) ? levelProgression.Chests[i].chestInfo.OpenedIcon : levelProgression.Chests[i].chestInfo.Icon;
         }
         for (; i < chests.Count; i++)
