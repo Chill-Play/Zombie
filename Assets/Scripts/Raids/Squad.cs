@@ -203,6 +203,10 @@ public class Squad : SingletonMono<Squad>, IInputReceiver
     IEnumerator CarMovementTimer(float endGameTime, System.Action inCarCallback)
     {
         yield return new WaitForSeconds(endGameTime);
+        foreach (var unit in units)
+        {
+            unit.gameObject.SetActive(false);
+        }
         inCarCallback?.Invoke();
         StopAllCoroutines();
     }
