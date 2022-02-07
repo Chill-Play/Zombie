@@ -13,13 +13,12 @@ public class UnitHealthBar : MonoBehaviour
 
     void Start()
     {
-        unitHealth = GetComponent<UnitHealth>();
-        UIUnitHealthBars.Instance.CreateHealthBar(this);
-        unitHealth.OnDead += OnDeath;
+        Damagable.GetComponent<IDamagable>().OnDead += Damagable_OnDeath;
+        UIUnitHealthBars.Instance.CreateHealthBar(this);       
     }
 
     
-    void OnDeath(EventMessage<Empty> empty)
+    void Damagable_OnDeath(EventMessage<Empty> empty)
     {
         UIUnitHealthBars bars = UIUnitHealthBars.Instance;
         if (bars != null)
