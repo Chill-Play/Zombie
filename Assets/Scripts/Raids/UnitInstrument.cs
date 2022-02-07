@@ -16,6 +16,7 @@ public class UnitInstrument : UnitActivity
     UnitMovement unitMovement;
     UnitInventory unitInventory;
     Tween rotationTween;
+    bool working = false;
 
     protected override void Awake()
     {
@@ -30,26 +31,38 @@ public class UnitInstrument : UnitActivity
         base.FixedUpdate();
 
         if (count > 0 && (unitMovement == null || !unitMovement.InputActive))
-        {
-            unitAnimation.SetInteraction(interactionType, true);
-            unitInventory.SetActiveItem(instrument);
-            
+        {          
             if (nextUse < Time.time)
             {
+                bool spotUsed = false;
                 for (int i = 0; i < useSpots.Length; i++)
                 {
                     if (useSpots[i] != null && CanUse(useSpots[i]))
                     {
+                        spotUsed = true;
                         Use(useSpots[i]);          
                         noiseController.AddNoiseLevel(noisePerUse);
                         nextUse = Time.time + useRate;
                         break;
                     }
-                }               
+                }
+                if (spotUsed && !working)
+                {
+                    working = true;
+                    unitAnimation.SetInteraction(interactionType, true);
+                    unitInventory.SetActiveItem(instrument);
+                }
+                else if(!spotUsed && working)
+                {
+                    working = false;
+                    unitAnimation.SetInteraction(interactionType, false);
+                    unitInventory.ResetActiveItem();
+                }
             }
         }
-        else
-        {   
+        else if(working) 
+        {           
+            working = false;
             unitAnimation.SetInteraction(interactionType, false);
             unitInventory.ResetActiveItem();
         }
