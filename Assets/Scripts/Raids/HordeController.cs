@@ -27,8 +27,9 @@ public class HordeController : SingletonMono<HordeController>
     [SerializeField] bool correctSpeed = false;
     [SerializeField] Vector3 begin;
     [SerializeField] Vector3 end;
-    [SerializeField] float step = 3f;  
-    
+    [SerializeField] float step = 3f;
+
+    private bool playerDead;
 
     List<ZombieMovement> zombieMovements = new List<ZombieMovement>();
   
@@ -38,6 +39,7 @@ public class HordeController : SingletonMono<HordeController>
 
     private void Awake()
     {
+        Squad.Instance.OnPlayerUnitDead += () => { playerDead = true; };
         sizeX = Mathf.FloorToInt((end.x - begin.x) / step) + 1;
         sizeY = Mathf.FloorToInt((end.z - begin.z) / step) + 1;       
         buckets = new List<int>[sizeX * sizeY];
@@ -64,19 +66,29 @@ public class HordeController : SingletonMono<HordeController>
 
     private void Update()
     {
-        ClearBuckets();
-        PrepareHashGrid();
-
-        for (int i = 0; i < zombieMovements.Count; i++)
+        if (!playerDead)
         {
-            Vector3 flockVel = flocking.active ? Flock(zombieMovements[i], flocking.distance, flocking.power) : Vector3.zero;
-            Vector3 alignVel = alignment.active ? Align(zombieMovements[i], alignment.distance, alignment.power) : Vector3.zero;
-            Vector3 avoidVel = avoidance.active ? Avoid(zombieMovements[i], avoidance.distance, avoidance.power) : Vector3.zero;
-            Vector3 newVel = zombieMovements[i].Agent.desiredVelocity + flockVel + alignVel + avoidVel;
-            zombieMovements[i].Agent.velocity = newVel;
-            if (correctSpeed)
+            ClearBuckets();
+            PrepareHashGrid();
+
+            for (int i = 0; i < zombieMovements.Count; i++)
             {
-                zombieMovements[i].Agent.velocity = CorrectSpeed(zombieMovements[i].Agent.speed / 2f, zombieMovements[i].Agent.speed, newVel);
+                Vector3 flockVel = flocking.active
+                    ? Flock(zombieMovements[i], flocking.distance, flocking.power)
+                    : Vector3.zero;
+                Vector3 alignVel = alignment.active
+                    ? Align(zombieMovements[i], alignment.distance, alignment.power)
+                    : Vector3.zero;
+                Vector3 avoidVel = avoidance.active
+                    ? Avoid(zombieMovements[i], avoidance.distance, avoidance.power)
+                    : Vector3.zero;
+                Vector3 newVel = zombieMovements[i].Agent.desiredVelocity + flockVel + alignVel + avoidVel;
+                zombieMovements[i].Agent.velocity = newVel;
+                if (correctSpeed)
+                {
+                    zombieMovements[i].Agent.velocity = CorrectSpeed(zombieMovements[i].Agent.speed / 2f,
+                        zombieMovements[i].Agent.speed, newVel);
+                }
             }
         }
     }
