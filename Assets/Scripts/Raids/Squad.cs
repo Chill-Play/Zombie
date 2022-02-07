@@ -167,6 +167,7 @@ public class Squad : SingletonMono<Squad>, IInputReceiver
             units[i].MoveTo(spawnPoint.EscapePoint.position);
         }
         StartCoroutine(ToCarMovement(spawnPoint, inCarCallback));
+        StartCoroutine(CarMovementTimer(7f, inCarCallback));
     }
 
     IEnumerator ToCarMovement(SpawnPoint spawnPoint, System.Action inCarCallback)
@@ -197,6 +198,13 @@ public class Squad : SingletonMono<Squad>, IInputReceiver
             yield return null;
         }
         inCarCallback?.Invoke();
+    }
+
+    IEnumerator CarMovementTimer(float endGameTime, System.Action inCarCallback)
+    {
+        yield return new WaitForSeconds(endGameTime);
+        inCarCallback?.Invoke();
+        StopAllCoroutines();
     }
 
     public void Revive()
