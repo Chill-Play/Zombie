@@ -21,7 +21,8 @@ public class ZombieSpawnResourceOnDeath : MonoBehaviour
 
     private void Health_OnDead(EventMessage<Empty> obj)
     {
-        SpawnResource();
+        if (Squad.Instance.Units.Count > 0)
+            SpawnResource();
     }
 
     private void OnDisable()
