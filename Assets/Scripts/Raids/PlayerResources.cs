@@ -88,11 +88,7 @@ public class PlayerResources : UnitInteracting
             ResourceSpot spot = resourceSpots[0].GetComponent<ResourceSpot>();
             animation.SetInteraction(spot.InteractionType, true);
             if (nextUse < Time.time)
-            {
-                if (!inCamp)
-                {
-                    squadBackpack.UseSpot(ResourceSpot.COUNT_PER_USE);
-                }
+            {    
                 spot.UseSpot(gameObject);
                 nextUse = Time.time + useRate;
             }

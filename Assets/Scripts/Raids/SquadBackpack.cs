@@ -6,30 +6,20 @@ public class SquadBackpack : SingletonMono<SquadBackpack>
 {
     public event System.Action<ResourceType, int, int> OnPickupResource;
 
-   /*[SerializeField] int maxResources = 50;
-     [SerializeField] int resourcesPerLevel = 5;
-     [SerializeField] StatsType resourcesStat;*/
-
     ResourcesInfo resources = new ResourcesInfo();
 
     public ResourcesInfo Resources => resources;
 
     public bool IsFilled { get; set; }
 
-    //public int MaxResources { get; set; }
-
     int totalResources = 0;
 
-    private void Start()
+    private void Awake()
     {
-        //MaxResources = maxResources + (FindObjectOfType<StatsManager>().GetStatInfo(resourcesStat).level * resourcesPerLevel);
-        PlayerBackpack backpack = PlayerBackpack.Instance;
-        backpack.OnPickupResource += Backpack_OnPickupResource;
-
         Squad squad = Squad.Instance;
-        squad.OnUnitAdd += Squad_OnUnitAdd;    
+        squad.Units[0].GetComponent<PlayerBackpack>().OnPickupResource += Backpack_OnPickupResource;
+        squad.OnUnitAdd += Squad_OnUnitAdd;
     }
-
 
     private void Squad_OnUnitAdd(Unit unit)
     {
@@ -41,22 +31,7 @@ public class SquadBackpack : SingletonMono<SquadBackpack>
 
     public void Backpack_OnPickupResource(ResourceType type, int totalCount, int count)
     {
-        resources.Add(type, count);
-
-        //if (totalResources > 0)
-        {
-            OnPickupResource?.Invoke(type, resources.Count(type), count);
-        }
-    }
-
-
-    public void UseSpot(int count)
-    {
-        //var takeCount = Mathf.Min(MaxResources - totalResources, count);
-        //totalResources += takeCount;
-        //if (totalResources >= MaxResources)
-        //{
-        //    IsFilled = true;
-        //}
+        resources.Add(type, count);      
+        OnPickupResource?.Invoke(type, resources.Count(type), count);        
     }
 }

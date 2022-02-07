@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Squad : SingletonMono<Squad>, IInputReceiver
 {
-    public event System.Action<Unit> OnUnitAdd;
+    public event System.Action<Unit> OnUnitAdd;   
     public event System.Action OnPlayerUnitDead;
 
     [SerializeField] List<UnitMovement> units;
@@ -228,7 +228,7 @@ public class Squad : SingletonMono<Squad>, IInputReceiver
             AddUnit(instance);
         }
 
-       
+        specialistCount = 0;
         for (int i = 0; i < activeCards.cardSlots.Count; i++)
         {
 
