@@ -99,26 +99,28 @@ public class RaidFinishScreen : UIScreen
 
     public void DoubleClicked()
     {
-        lockButtons = true;
-        AdvertisementManager.Instance.ShowRewardedVideo((result) =>
+        if (!lockButtons)
         {
-            if (result)
+            lockButtons = true;
+            AdvertisementManager.Instance.ShowRewardedVideo((result) =>
             {
-                CollectResources(2);
-                ToBase();
-            }
-            else
-            {
-                lockButtons = false;
-            }
-        }, "raid_end_double_reward"); 
+                if (result)
+                {                    
+                    CollectResources(2);
+                    ToBase();
+                }
+                else
+                {                   
+                    lockButtons = false;
+                }
+            }, "raid_end_double_reward");
+        }
     }
 
     public void CollectResources(int multiplier = 1) 
-    {
+    {       
         if (!resourcesCollected)
-        {
-            resourcesCollected = true;
+        {          
             var resources = squad.CollectResources();
             var resourceController = ResourcesController.Instance;
             for (int i = 0; i < multiplier; i++)
@@ -126,6 +128,7 @@ public class RaidFinishScreen : UIScreen
                 resourceController.AddResources(resources);
             }
             resourceController.UpdateResources();
+            resourcesCollected = true;
         }
     }
 
@@ -140,17 +143,17 @@ public class RaidFinishScreen : UIScreen
     }
 
     public void NoThanksClicked()
-    {
+    {       
         if (!lockButtons)
-        {
+        {           
             lockButtons = true;
             CollectResources();
             if (ZombiesLevelController.Instance.RaidIsCompleted >= 1)
             {
                 AdvertisementManager.Instance.TryShowInterstitial("raid_end_no_thanks");
-            }           
-        }
-        ToBase();       
+            }
+            ToBase();              
+        }          
     }
 
     void SaveSquad()

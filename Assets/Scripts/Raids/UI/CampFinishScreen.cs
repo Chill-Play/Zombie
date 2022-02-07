@@ -99,27 +99,29 @@ public class CampFinishScreen : UIScreen
 
     public void DoubleClicked()
     {
-        lockButtons = true;
-        AdvertisementManager.Instance.ShowRewardedVideo((result) =>
+        if (!lockButtons)
         {
-            if (result)
+            lockButtons = true;
+            AdvertisementManager.Instance.ShowRewardedVideo((result) =>
             {
-                SaveCards();
-                CollectResources(2);
-                ToBase();
-            }
-            else
-            {
-                lockButtons = false;
-            }
-        }, "camp_defense_end_double_reward");
+                if (result)
+                {
+                    SaveCards();
+                    CollectResources(2);
+                    ToBase();
+                }
+                else
+                {
+                    lockButtons = false;
+                }
+            }, "camp_defense_end_double_reward");
+        }
     }
 
     public void CollectResources(int multiplier = 1)
     {
         if (!resourcesCollected)
-        {
-            resourcesCollected = true;
+        {           
             var resources = squad.CollectResources();
             var resourceController = ResourcesController.Instance;
             for (int i = 0; i < multiplier; i++)
@@ -127,6 +129,7 @@ public class CampFinishScreen : UIScreen
                 resourceController.AddResources(resources);
             }
             resourceController.UpdateResources();
+            resourcesCollected = true;
         }
     }
 
@@ -148,8 +151,9 @@ public class CampFinishScreen : UIScreen
             CollectResources();
             SaveCards();
             AdvertisementManager.Instance.TryShowInterstitial("camp_defense_end_no_thanks");
+            ToBase();      
         }
-        ToBase();      
+        
     }
 
     void SaveSquad()
